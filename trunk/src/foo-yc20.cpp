@@ -106,7 +106,7 @@ YC20UI::YC20UI()
 	float pitch_x_long = 10.0;
 	float pitch_x_longest = 20.0;
 
-	float x = 5;
+	float x = 15.0;
 	float y = 15.0;
 
 	// Pitch, volume & bass volume
