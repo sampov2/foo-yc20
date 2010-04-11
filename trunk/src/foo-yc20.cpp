@@ -71,10 +71,10 @@ namespace Wdgt {
 };
 
 YC20UI::YC20UI()
-	: _hoverWdgt(NULL)
+	: ui_scale(1.0)
+	, _hoverWdgt(NULL)
 	, _dragWdgt(NULL)
 	, _buttonPressWdgt(NULL)
-	, ui_scale(1)
 {
 	memset(draggablePerCC, 0, sizeof(Wdgt::Draggable *)*127);
 	_image_background = Wdgt::load_png("background.png");
@@ -498,7 +498,6 @@ YC20UI::button_press_event(GdkEventButton *evt)
 
 	evt->x /= ui_scale;
 	evt->y /= ui_scale;
-	//std::cerr << "button press" << std::endl;
 
 	_buttonPressWdgt = _hoverWdgt;
 	Wdgt::Draggable *obj = dynamic_cast<Wdgt::Draggable *>(_buttonPressWdgt);
@@ -785,21 +784,21 @@ YC20UI::loadConfiguration()
 	while (!in.eof()) {
 		getline (in, line);
 
-		int i = line.find('=');
+		size_t i = line.find('=');
 
 		if (i == std::string::npos) {
 			continue;
 		}
 
-		int a = i-1;
+		size_t a = i-1;
 		while (a > 0 && (line[a] == ' ' || line[a] == '\t')) --a;
 		
-		if (a == -1) {
+		if (a == 0) {
 			std::cerr << "ERROR: config line '" << line << "' malformatted" << std::endl;
 			continue;
 		}
 
-		int b = i+1;
+		size_t b = i+1;
 		while (b < line.length() && (line[b] == ' ' || line[b] == '\t')) ++b;
 
 		if (b == line.length()) {
@@ -899,20 +898,20 @@ YC20Jack::process (jack_nframes_t nframes)
                         // other party aquiring this lock is always O(1) in the
                         // locked state
 
-			thisui->queueControlChange(cc, value);
+			ui->queueControlChange(cc, value);
 
 		}
 
                 if (note >= 0 && note < 61) {
-                        *thisui->yc20_keys[note] = value;
+                        *ui->yc20_keys[note] = value;
                 }
 
             }
 
         }
 
-	if (thisui->processor != NULL) {
-	        thisui->processor->compute(nframes, NULL, &output_buffer);
+	if (ui->processor != NULL) {
+	        ui->processor->compute(nframes, NULL, &output_buffer);
 	}
 
 
@@ -945,7 +944,7 @@ YC20Jack::YC20Jack(YC20UI *obj)
 	: audio_output_port(NULL)
 	, midi_input_port(NULL)
 	, jack_client(NULL)
-	, thisui(obj)
+	, ui(obj)
 {
 }
 
