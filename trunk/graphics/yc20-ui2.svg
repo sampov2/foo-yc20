@@ -439,6 +439,22 @@
          d="m 855.59921,602.92566 94.68979,1.26269 0,-11.52244 23.708,0 0,10.00722 90.1987,-0.75762 -1.5152,-16.39246 -206.07114,0 -1.01015,17.40261 z"
          id="path4870" />
     </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4874">
+      <path
+         style="fill:#fedddd;fill-opacity:1;stroke:none"
+         d="m 612.65752,587.20516 16.28871,0.25254 1.51523,-6.81853 0.56821,-1.57836 2.58852,-1.45209 7.3236,-0.75762 0.82075,-2.77792 -3.72494,-3.28299 -5.55584,0.3788 -5.42957,13.00572 -1.38896,-4.54569 -0.94701,-8.39689 -6.37659,-1.19956 -5.68211,17.17259 z"
+         id="path4876" />
+    </clipPath>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4880">
+      <path
+         style="fill:#fedddd;fill-opacity:1;stroke:none"
+         d="m 708.40104,586.92106 10.79601,-0.34724 3.81964,-9.50175 7.35517,1.19956 1.86247,-3.88278 -1.67307,-2.77792 -7.51301,0.18941 -3.25143,8.5863 -3.34613,-0.0316 -0.4735,-9.69115 -7.00794,2.08344 -0.56821,14.1737 z"
+         id="path4882" />
+    </clipPath>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -447,11 +463,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="965.28325"
-     inkscape:cy="153.86966"
+     inkscape:zoom="1.979899"
+     inkscape:cx="722.4047"
+     inkscape:cy="163.71865"
      inkscape:document-units="px"
-     inkscape:current-layer="layer10"
+     inkscape:current-layer="layer1"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -462,9 +478,9 @@
      inkscape:window-maximized="1"
      inkscape:snap-global="true"
      inkscape:snap-object-midpoints="true"
-     inkscape:snap-grids="true"
-     inkscape:snap-to-guides="true"
-     inkscape:snap-page="true">
+     inkscape:snap-grids="false"
+     inkscape:snap-to-guides="false"
+     inkscape:snap-page="false">
     <sodipodi:guide
        orientation="0,1"
        position="235.87062,181.82746"
@@ -906,7 +922,8 @@
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#c3c3c5;fill-opacity:1;stroke:none;display:inline;font-family:Impact;-inkscape-font-specification:Impact Bold"
        x="720"
        y="585.52307"
-       id="text3820-0"><tspan
+       id="text3820-0"
+       clip-path="url(#clipPath4880)"><tspan
          sodipodi:role="line"
          id="tspan3822-4"
          x="720"
@@ -916,37 +933,12 @@
        style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#c3c3c5;fill-opacity:1;stroke:none;display:inline;font-family:Impact;-inkscape-font-specification:Impact Bold"
        x="627.85712"
        y="585.52307"
-       id="text3820-0-7"><tspan
+       id="text3820-0-7"
+       clip-path="url(#clipPath4874)"><tspan
          sodipodi:role="line"
          id="tspan3822-4-0"
          x="627.85712"
          y="585.52307">2½'</tspan></text>
-  </g>
-  <g
-     inkscape:groupmode="layer"
-     id="layer9"
-     inkscape:label="FixedOverlay"
-     style="display:inline"
-     sodipodi:insensitive="true">
-    <path
-       style="fill:#e4080a;fill-opacity:1;stroke:none"
-       d="m 625.71429,581.5052 3.35821,-1.92353 1.6415,-7.93917 -5.87152,0.0631 0.87181,9.79956 z"
-       id="path3802"
-       sodipodi:nodetypes="ccccc" />
-    <path
-       style="fill:#e4080a;fill-opacity:1;stroke:none"
-       d="m 636.45924,586.60539 0.88388,-7.19734 -5.68211,-2.30441 -3.15672,9.65958 7.95495,-0.15787 0,4e-5 z"
-       id="path3804"
-       sodipodi:nodetypes="cccccc" />
-    <path
-       style="fill:#e4080a;fill-opacity:1;stroke:none;display:inline"
-       d="M 716.26298,581.30675 720,579.41479 l 1.26269,-7.97074 -5.18973,0.30484 0.19002,9.55786 z"
-       id="path3802-4"
-       sodipodi:nodetypes="ccccc" />
-    <path
-       style="fill:#e4080a;fill-opacity:1;stroke:none;display:inline"
-       d="m 727.00793,586.40694 0.88388,-7.19734 -5.2086,-2.24128 -3.59866,9.47018 7.92338,-0.0316 z"
-       id="path3804-4" />
   </g>
   <g
      inkscape:groupmode="layer"
