@@ -80,8 +80,8 @@ class YC20UI : public UI
 		mydsp *processor;
 	private:
 
-
 		float ui_scale;
+
 
 		std::string configFile;
 
@@ -154,11 +154,12 @@ class YC20Jack
 		static void process_callback(void *);
 
 		static int process_callback(jack_nframes_t, void *);
-		YC20UI *thisui;
 
 		jack_port_t   *audio_output_port;
 		jack_port_t   *midi_input_port;
 		jack_client_t *jack_client;
+
+		YC20UI *ui;
 };
 
 #endif /* _FOO_YC20_H */
