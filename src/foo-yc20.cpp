@@ -112,15 +112,17 @@ YC20UI::YC20UI()
 	// Pitch, volume & bass volume
 	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, -1.0, 1.0);
 	pitch->setName("pitch");
-	pitch->setValue(0.0);
+	draggablePerCC[50] = pitch;
 	x += 72.0 + pitch_x_longest;
 
 	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, 0.0, 1.0);
 	volume->setName("volume");
+	draggablePerCC[7] = volume;
 	x += 72.0 + pitch_x_longest;
 
 	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, 0.0, 1.0);
 	bass_v->setName("bass volume");
+	draggablePerCC[51] = bass_v;
 	x += 72.0 + pitch_x_longest + pitch_x_long;
 
 	wdgts.push_back(pitch);
@@ -353,7 +355,7 @@ YC20UI::addVerticalSlider(const char* label, float* zone, float init, float min,
                 ++i;
         }
 
-	std::cerr << "No control for '" << label << "'" << std::endl;
+	//std::cerr << "No control for '" << label << "'" << std::endl;
 }
 
 void
@@ -601,13 +603,10 @@ YC20UI::doControlChange(MidiCC *evt)
 	}
 
 
-	float newValue = ((float)evt->value)/127.0;
-	
-	// TODO: the special cases: pitch, bass manual switch, flipped sliders, lever positions
-
-	if (evt->cc >=2 && evt->cc <= 13) {
-		newValue = 1.0 - newValue;
-	}
+	float newValue =
+		 control->getMinValue() +
+		(control->getMaxValue() - control->getMinValue()) * 
+		((float)evt->value)/127.0;
 	
 	control->setValue(newValue);
 	controlChanged(control);

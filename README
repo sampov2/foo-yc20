@@ -10,6 +10,10 @@ MIDI can be used to play the emulation, but also control the parameters. Here's 
 
 CC	control
 ---------------
+50	Pitch
+7	Master volume
+51	Bass volume
+
 12	Vibrato depth
 13	Vibrato speed
 
