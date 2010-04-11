@@ -258,11 +258,11 @@ YC20UI::YC20UI()
 	wdgts.push_back(sect2_2);
 
 	// Percussion
-	Wdgt::DrawbarGreen *percussion = new Wdgt::DrawbarGreen(x, y);
-	percussion->setName("percussion");
-	draggablePerCC[22] = percussion;
+	Wdgt::DrawbarGreen *percussive = new Wdgt::DrawbarGreen(x, y);
+	percussive->setName("percussive");
+	draggablePerCC[22] = percussive;
 
-	wdgts.push_back(percussion);
+	wdgts.push_back(percussive);
 
 
 	// Make the map
