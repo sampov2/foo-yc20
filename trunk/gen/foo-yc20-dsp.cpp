@@ -1494,7 +1494,7 @@ class mydsp : public dsp{
 		interface->declare(&fslider11, "5", "");
 		interface->addVerticalSlider("2' ii", &fslider11, 1.0f, 0.0f, 1.0f, 0.25f);
 		interface->closeBox();
-		interface->addHorizontalSlider("percussion", &fslider4, 1.0f, 0.0f, 1.0f, 0.25f);
+		interface->addHorizontalSlider("percussive", &fslider4, 1.0f, 0.0f, 1.0f, 0.25f);
 		interface->addHorizontalSlider("pitch", &fslider0, 0.0f, -1.0f, 1.0f, 0.05f);
 		interface->addHorizontalSlider("volume", &fslider21, 0.1f, 0.0f, 1.0f, 0.01f);
 		interface->closeBox();
