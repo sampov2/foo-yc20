@@ -65,9 +65,23 @@ load_png(std::string file)
 class Draggable : public Wdgt::Object
 {
 	public:
+		Draggable()
+			: minValue(0.0)
+			, maxValue(1.0)
+		{
+		}
+
 		virtual bool setValue(float v) = 0;
-		virtual float getValue() const = 0;
 		virtual bool setValueFromDrag(float prevValue, float startY, float y) = 0;
+
+		float getValue() const { return value; };
+		float getMinValue() const { return minValue; };
+		float getMaxValue() const { return maxValue; };
+
+	protected:
+		float minValue;
+		float maxValue;
+		float value;
 };
 
 class Lever : public Draggable
@@ -112,11 +126,6 @@ class Lever : public Draggable
 			return true;
 		}
 
-		float getValue() const 
-		{
-			return value;
-		}
-
 		void setPosition(float posX, float posY)
 		{
 			x1 = posX;
@@ -135,8 +144,8 @@ class Lever : public Draggable
 		}
 
 	protected:
+
 		bool notched;
-		float value;
 		int imageNum;
 
 };
@@ -277,12 +286,6 @@ class Potentiometer : public Draggable
 			return true;
 		}
 
-
-		float getValue() const 
-		{
-			return value;
-		}
-
 		void setPosition(float posX, float posY)
 		{
 			x1 = posX;
@@ -291,7 +294,7 @@ class Potentiometer : public Draggable
 			y2 = y1 + 83;
 
 			origoX = x1 + 72.0/2.0;
-			origoY = y1 + 37.5;
+			origoY = y1 + 37.5 + 5.0;
 		}
 
 		bool setValueFromDrag(float prevValue, float startY, float y)
@@ -339,10 +342,6 @@ class Potentiometer : public Draggable
 		}
 
 	private:
-		float value;
-		float minValue;
-		float maxValue;
-
 		float origoX;
 		float origoY;
 
