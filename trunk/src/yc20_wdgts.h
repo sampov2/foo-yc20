@@ -24,7 +24,13 @@
 
 #include "wdgt.h"
 
+#define SHARE_DIR "/share/foo-yc20/"
 #define YC20_PNG_DIR "graphics/"
+
+#define QUOTE(name) #name
+#define STR(macro) QUOTE(macro)
+
+#define PREFIX_STR STR(PREFIX)
 
 namespace Wdgt
 {
@@ -42,12 +48,17 @@ check_cairo_png(cairo_surface_t *s)
 inline cairo_surface_t *
 load_png(std::string file)
 {       
-        file = YC20_PNG_DIR + file;
+        std::string installed_file = PREFIX_STR SHARE_DIR YC20_PNG_DIR + file;
+	std::string local_file = YC20_PNG_DIR + file;
 
-        cairo_surface_t *ret = cairo_image_surface_create_from_png (file.c_str());
+        cairo_surface_t *ret = cairo_image_surface_create_from_png (installed_file.c_str());
         if (!check_cairo_png(ret)) {
-                std::cerr << "Foo-YC20: could not open " << file << std::endl;
+        	ret = cairo_image_surface_create_from_png (local_file.c_str());
         }
+
+        if (!check_cairo_png(ret)) {
+                std::cerr << "Foo-YC20: could not open " << installed_file << " or a local copy in " << YC20_PNG_DIR << std::endl;
+	}
         return ret;
 }
 
