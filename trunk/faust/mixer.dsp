@@ -1,6 +1,6 @@
 
 balance_control    = hslider("balance", 1.0, 0.0, 1.0, 0.25);
-percussion_control = hslider("percussion", 1.0, 0.0, 1.0, 0.25);
+percussion_control = hslider("percussive", 1.0, 0.0, 1.0, 0.25);
 
 gain_transfer = _ <: 2.81 * (_^3) - 2.81 * (_^2) + _;
 
