@@ -291,7 +291,7 @@ class Potentiometer : public Draggable
 			x1 = posX;
 			y1 = posY;
 			x2 = x1 + 72;
-			y2 = y1 + 83;
+			y2 = y1 + 90;
 
 			origoX = x1 + 72.0/2.0;
 			origoY = y1 + 37.5 + 5.0;
