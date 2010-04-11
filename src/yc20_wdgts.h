@@ -158,7 +158,7 @@ class DrawbarWhite : public Lever
 			drawEmphasis(hover, cr);
 		}
 	
-	private:
+	protected:
 		static cairo_surface_t *images[];
 };
 
@@ -179,7 +179,7 @@ class DrawbarBlack : public Lever
 			drawEmphasis(hover, cr);
 		}
 	
-	private:
+	protected:
 		static cairo_surface_t *images[];
 };
 
@@ -200,7 +200,7 @@ class DrawbarGreen : public Lever
 			drawEmphasis(hover, cr);
 		}
 	
-	private:
+	protected:
 		static cairo_surface_t *images[];
 };
 
@@ -221,6 +221,26 @@ class SwitchBlack : public DrawbarBlack
 				v = 1.0;
 			}
 			return DrawbarBlack::setValue(v);
+		}
+};
+
+class DummyDrawbarBlack : public DrawbarBlack
+{
+	public:
+		DummyDrawbarBlack(float posX, float posY)
+			: DrawbarBlack(posX, posY, false)
+		{
+		}
+
+		virtual bool setValue(float v)
+		{
+			return false;
+		}
+
+		virtual void drawWidget(bool hover, cairo_t *cr) const
+		{
+			cairo_set_source_surface(cr, images[0], x1, y1);
+			cairo_paint(cr);
 		}
 };
 

@@ -128,7 +128,7 @@ YC20UI::YC20UI()
 	wdgts.push_back(bass_v);
 
 	// Vibrato
-	Wdgt::SwitchBlack *touch    = new Wdgt::SwitchBlack(x, y);
+	Wdgt::DummyDrawbarBlack *touch    = new Wdgt::DummyDrawbarBlack(x, y);
 	touch->setName("touch vibrato");
 	x += 40.0 + pitch_x;
 
