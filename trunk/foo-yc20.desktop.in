@@ -1,11 +1,13 @@
 [Desktop Entry]
+Name=Foo YC20
+GenericName=YC20
 Version=1.0
 Encoding=UTF-8
-Name=Foo YC20
 Comment=Organ synthesizer
 Exec=foo-yc20
 Icon=%PREFIX%/share/foo-yc20/graphics/icon.png
 Terminal=false
-Categories=AudioVideo;Audio;
+Type=Application
+Categories=AudioVideo;Audio
 
 
