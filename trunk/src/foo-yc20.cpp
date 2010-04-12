@@ -595,6 +595,16 @@ YC20UI::~YC20UI()
 void
 YC20UI::doControlChange(MidiCC *evt)
 {
+	if ((evt->cc == 123 || evt->cc == 120) && 
+            evt->value == 0) {
+		// panic button
+		std::cerr << "PANIC!" << std::endl;
+		for (int i = 0; i<61; ++i) {
+			*yc20_keys[i] = 0.0;
+		}
+		return;
+	}
+
 	Wdgt::Draggable *control = draggablePerCC[evt->cc];
 	
 	if (control == NULL) {
