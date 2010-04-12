@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=Foo YC20
+Comment=Organ synthesizer
+Exec=foo-yc20
+Icon=%PREFIX%/share/pixmaps/foo-yc20-icon.png
+Terminal=false
+Categories=AudioVideo;Audio;
+
+
