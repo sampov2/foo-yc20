@@ -26,7 +26,8 @@ uninstall:
 	rm $(DESTDIR)$(PREFIX)/share/applications/foo-yc20.desktop
 	rm -r $(DESTDIR)$(PREFIX)/share/foo-yc20
 
-	
+
+## Targets only for those with Faust installed
 
 generate-source:
 	faust -a minimal.cpp faust/yc20.dsp > gen/foo-yc20-dsp.cpp
