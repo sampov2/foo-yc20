@@ -1,4 +1,4 @@
-PREFIX=/usr/local
+PREFIX=/usr
 CXX=g++
 
 ifeq ($(CFLAGS),)
@@ -17,6 +17,15 @@ install: foo-yc20
 	install -Dm 755 foo-yc20 $(DESTDIR)$(PREFIX)/bin/foo-yc20
 	install -d $(DESTDIR)$(PREFIX)/share/foo-yc20/graphics
 	install -m 644 graphics/*.png $(DESTDIR)$(PREFIX)/share/foo-yc20/graphics
+	cat foo-yc20.desktop.in | sed 's!%PREFIX%!$(PREFIX)!' > foo-yc20.desktop
+	install -Dm 644 foo-yc20.desktop $(DESTDIR)$(PREFIX)/share/applications/foo-yc20.desktop
+	rm foo-yc20.desktop
+
+uninstall:
+	rm $(DESTDIR)$(PREFIX)/bin/foo-yc20
+	rm $(DESTDIR)$(PREFIX)/share/applications/foo-yc20.desktop
+	rm -r $(DESTDIR)$(PREFIX)/share/foo-yc20
+
 	
 
 generate-source:
