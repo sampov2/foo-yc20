@@ -131,7 +131,7 @@ class Lever : public Draggable
 			x1 = posX;
 			y1 = posY;
 			x2 = x1 + 40;
-			y2 = y1 + 85;
+			y2 = y1 + 90 + 5;
 		}
 
 		void drawEmphasis(bool hover, cairo_t *cr) const
