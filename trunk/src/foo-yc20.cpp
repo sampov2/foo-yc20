@@ -266,16 +266,14 @@ YC20UI::YC20UI()
 
 
 	// Make the map
-	for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i !=  wdgts.end(); ) {
+	for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i !=  wdgts.end(); ++i) {
 		Wdgt::Object *o = (*i);
 		wdgtPerLabel[o->getName()] = o;
-
-		++i;
 	}
 
 	// Create the ringbuffer and start the timeout thread
-	controlChangeRingbuffer = jack_ringbuffer_create(sizeof(MidiCC)*1000);
-	if (controlChangeRingbuffer == NULL) {
+	exposeRingbuffer = jack_ringbuffer_create(sizeof(Wdgt::Object *)*1000);
+	if (exposeRingbuffer == NULL) {
 		throw "Could not create ringbuffer";
 	}
 	idleSignalTag = g_timeout_add(10, idleTimeout, this);
@@ -333,7 +331,19 @@ YC20UI::addVerticalSlider(const char* label, float* zone, float init, float min,
 {
 	std::string name(label);
 
-	processorValuePerLabel[name] = zone;
+	Wdgt::Object *tmp = wdgtPerLabel[name];
+	if (tmp == NULL) {
+		std::cerr << "ERROR: no Wdgt::Object for DSP label " << name << std::endl;
+		return;
+	}
+
+	Wdgt::Draggable *draggable = dynamic_cast<Wdgt::Draggable *>(tmp);
+	if (draggable == NULL) {
+		std::cerr << "ERROR: Wdgt::Object for DSP label " << name << " is not a Wdgt::Draggable" << std::endl;
+		return;
+	}
+
+	draggable->setZone(zone);
 
 	for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i != wdgts.end(); ) {
                 Wdgt::Lever *lever = dynamic_cast<Wdgt::Lever *>(*i);
@@ -439,19 +449,6 @@ YC20UI::identifyWdgt(GdkEventMotion *evt)
 	return NULL;
 }
 
-void
-YC20UI::controlChanged(Wdgt::Draggable *control)
-{
-	std::map<std::string, float *>::iterator i = processorValuePerLabel.find(control->getName());
-
-	if (i == processorValuePerLabel.end()) {
-		std::cerr << "ERROR: could not find processor for control " << control->getName() << std::endl;
-		return;
-	}
-
-	*(i->second) = control->getValue();
-}
-
 bool 
 YC20UI::motion_notify_event(GdkEventMotion *evt)
 {
@@ -465,7 +462,6 @@ YC20UI::motion_notify_event(GdkEventMotion *evt)
 		if (!_dragWdgt->setValueFromDrag(_predrag_value, _dragStartY, evt->y)) {
 			return true;
 		}
-		controlChanged(_dragWdgt);
 	
 		exposeWdgt(_dragWdgt);
 		return true;
@@ -548,30 +544,29 @@ gboolean
 YC20UI::idleTimeout(gpointer data)
 {
 	YC20UI *obj = (YC20UI *)data;
-	obj->handleControlChanges();
+	obj->handleExposeEvents();
 
 	return true;
 }
 
 void
-YC20UI::handleControlChanges()
+YC20UI::handleExposeEvents()
 {
-	MidiCC evt(0,0);
+	Wdgt::Object *obj;
 
-	while ( jack_ringbuffer_read(controlChangeRingbuffer, 
-	                             (char *)&evt,
-	                             sizeof(MidiCC)) == sizeof(MidiCC)) {
+	while ( jack_ringbuffer_read(exposeRingbuffer, 
+	                             (char *)&obj,
+	                             sizeof(Wdgt::Object *)) == sizeof(Wdgt::Object *)) {
 		//std::cerr << "CC #" << evt.cc << " = " << evt.value << std::endl;
-		doControlChange(&evt);
+		exposeWdgt(obj);
 	}
 }
 
 void
-YC20UI::queueControlChange(int cc, int value)
+YC20UI::queueExpose(Wdgt::Object *obj)
 {
-	MidiCC evt(cc, value);
-	int i = jack_ringbuffer_write(controlChangeRingbuffer, (char *)&evt, sizeof(MidiCC));
-	if (i != sizeof(MidiCC)) {
+	int i = jack_ringbuffer_write(exposeRingbuffer, (char *)&obj, sizeof(Wdgt::Object *));
+	if (i != sizeof(Wdgt::Object *)) {
 		std::cerr << "Ringbuffer full!" << std::endl;
 	}
 }
@@ -580,7 +575,7 @@ YC20UI::~YC20UI()
 {
 	g_source_remove(idleSignalTag);
 
-	jack_ringbuffer_free(controlChangeRingbuffer);
+	jack_ringbuffer_free(exposeRingbuffer);
 
         for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i != wdgts.end(); ) {
                 Wdgt::Object *obj = *i;
@@ -593,10 +588,11 @@ YC20UI::~YC20UI()
 }
 
 void
-YC20UI::doControlChange(MidiCC *evt)
+YC20UI::doControlChange(int cc, int value)
 {
-	if ((evt->cc == 123 || evt->cc == 120) && 
-            evt->value == 0) {
+	// Globals
+	if ((cc == 123 || cc == 120) && 
+            value == 0) {
 		// panic button
 		std::cerr << "PANIC!" << std::endl;
 		for (int i = 0; i<61; ++i) {
@@ -605,10 +601,11 @@ YC20UI::doControlChange(MidiCC *evt)
 		return;
 	}
 
-	Wdgt::Draggable *control = draggablePerCC[evt->cc];
+	// Per control
+	Wdgt::Draggable *control = draggablePerCC[cc];
 	
 	if (control == NULL) {
-		std::cerr << "No control for CC " << evt->cc << std::endl;
+		std::cerr << "No control for CC " << cc << std::endl;
 		return;
 	}
 
@@ -616,13 +613,10 @@ YC20UI::doControlChange(MidiCC *evt)
 	float newValue =
 		 control->getMinValue() +
 		(control->getMaxValue() - control->getMinValue()) * 
-		((float)evt->value)/127.0;
-	
+		((float)value)/127.0;
+
 	control->setValue(newValue);
-	controlChanged(control);
-	exposeWdgt(control);
-
-
+	queueExpose(control);
 }
 
 bool 
@@ -833,8 +827,12 @@ YC20UI::loadConfiguration()
 
 		}
 		
+		// "assertion" to make sure configuration sets not only the Wdgt value, but
+		// also the DSP pointer
+		if (drg->getZone() == NULL) {
+			throw "Huh? DSP zone for " + drg->getName() + " not set up right??";
+		}
 		drg->setValue(value);
-		controlChanged(drg);
 	}
 
 	in.close();
@@ -872,55 +870,64 @@ YC20Jack::process (jack_nframes_t nframes)
 {
 	float * output_buffer = (float *)jack_port_get_buffer(audio_output_port, nframes);
 
-        void *midi = jack_port_get_buffer(midi_input_port, nframes);
-        jack_midi_event_t event;
-        jack_nframes_t n = jack_midi_get_event_count(midi);
+	void *midi = jack_port_get_buffer(midi_input_port, nframes);
+	jack_midi_event_t event;
+	jack_nframes_t n = jack_midi_get_event_count(midi);
 
-        if (n > 0) {
+	jack_nframes_t at_frame = 0;
+	jack_nframes_t amount;
 
-            // TODO: frame accuracy
-            // TODO: panic button
-            for (uint32_t i = 0; i < n; ++i) {
-                jack_midi_event_get(&event, midi, i);
+	for (uint32_t i = 0; i < n; ++i) {
+		jack_midi_event_get(&event, midi, i);
 
-                int note = -1;
-                float value = 0.0;
+		// Reminder: by removing this block, per frame accracy is disabled safely
+		if (ui->processor != NULL) {
+			// process up to the event
+			amount = event.time - at_frame;
 
-                if( ((*(event.buffer) & 0xf0)) == 0x90 ) {
-                        /* note on */
-                        note = *(event.buffer + 1) - 36;
-                        //value = 1.0;
+			//std::cerr << "process " << amount << " frames: " << at_frame << " .. " << (at_frame + amount -1) << std::endl;
+			//std::cerr << " .. compute(" << amount << ", NULL, " << output_buffer << std::endl;
+			ui->processor->compute(amount, NULL, &output_buffer);
+			output_buffer += amount;
+			at_frame += amount;
+		}
+
+		int note = -1;
+		float value = 0.0;
+
+		if( ((*(event.buffer) & 0xf0)) == 0x90 ) {
+			/* note on */
+			note = *(event.buffer + 1) - 36;
+			//value = 1.0;
 			if ( *(event.buffer + 2) == 0) {
 				value = 0.0;
 			} else {
 				value = 1.0;
 			}
-                } else if( ((*(event.buffer)) & 0xf0) == 0x80 ) {
-                        /* note off */
-                        note = *(event.buffer + 1) - 36;
-                        value = 0.0;
-                } else if ( ((*(event.buffer)) & 0xf0) ==  0xb0) {
-                        int cc    = *(event.buffer+1);
-                        int value = *(event.buffer+2);
+		} else if( ((*(event.buffer)) & 0xf0) == 0x80 ) {
+			/* note off */
+			note = *(event.buffer + 1) - 36;
+			value = 0.0;
+		} else if ( ((*(event.buffer)) & 0xf0) ==  0xb0) {
+			int cc    = *(event.buffer+1);
+			int value = *(event.buffer+2);
 
-                        // while one shouldn't lock inside an RT thread, the 
-                        // other party aquiring this lock is always O(1) in the
-                        // locked state
-
-			ui->queueControlChange(cc, value);
+			ui->doControlChange(cc, value);
 
 		}
 
-                if (note >= 0 && note < 61) {
-                        *ui->yc20_keys[note] = value;
-                }
+		if (note >= 0 && note < 61) {
+			*ui->yc20_keys[note] = value;
+		}
 
-            }
 
-        }
+	}
 
 	if (ui->processor != NULL) {
-	        ui->processor->compute(nframes, NULL, &output_buffer);
+		amount = nframes - at_frame;
+		//std::cerr << "process " << amount << " frames: " << at_frame << " .. " << (at_frame + amount -1) << std::endl;
+		//std::cerr << " .. compute(" << amount << ", NULL, " << output_buffer << std::endl;
+		ui->processor->compute(amount, NULL, &output_buffer);
 	}
 
 

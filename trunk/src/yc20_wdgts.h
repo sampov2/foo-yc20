@@ -68,6 +68,8 @@ class Draggable : public Wdgt::Object
 		Draggable()
 			: minValue(0.0)
 			, maxValue(1.0)
+			, value(-99.9)
+			, zone(NULL)
 		{
 		}
 
@@ -78,10 +80,22 @@ class Draggable : public Wdgt::Object
 		float getMinValue() const { return minValue; };
 		float getMaxValue() const { return maxValue; };
 
+		void setZone(float *z) { zone = z; };
+		float *getZone() const { return zone; };
+
 	protected:
+		void inline setValueForZone()
+		{
+			if (zone) {
+				*zone = value;
+			}
+		}
+
 		float minValue;
 		float maxValue;
 		float value;
+
+		float *zone;
 };
 
 class Lever : public Draggable
@@ -123,6 +137,8 @@ class Lever : public Draggable
 			}
 
 			value = newvalue;
+			setValueForZone();
+
 			return true;
 		}
 
@@ -282,6 +298,7 @@ class Potentiometer : public Draggable
 			}
 
 			value = v;
+			setValueForZone();
 
 			return true;
 		}

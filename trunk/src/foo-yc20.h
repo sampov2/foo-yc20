@@ -68,16 +68,19 @@ class YC20UI : public UI
 		void declare(float* zone, const char* key, const char* value) {};
 
 		// Other things
-		void controlChanged(Wdgt::Draggable *);
+		void doControlChange(int cc, int value);
 
-		void queueControlChange(int cc, int value);
+		void queueExpose(Wdgt::Object *);
 
 		void loadConfiguration(std::string file);
 		void loadConfiguration();
 		void saveConfiguration();
 
+
 		float *yc20_keys[61];
 		mydsp *processor;
+
+
 	private:
 
 		float ui_scale;
@@ -115,7 +118,7 @@ class YC20UI : public UI
 		std::list<Wdgt::Object *> wdgts;
 
 		std::map<std::string, Wdgt::Object *> wdgtPerLabel;
-		std::map<std::string, float *> processorValuePerLabel;
+		//std::map<std::string, float *> processorValuePerLabel;
 		Wdgt::Draggable *draggablePerCC[127];
 
 		cairo_surface_t *_image_background;
@@ -124,12 +127,11 @@ class YC20UI : public UI
 
 		// Idle-timeout redraw things
 
-		jack_ringbuffer_t *controlChangeRingbuffer;
+		jack_ringbuffer_t *exposeRingbuffer;
 		static gboolean idleTimeout(gpointer );
-		void handleControlChanges();
+		void handleExposeEvents();
 		gint idleSignalTag;
 
-		void doControlChange(MidiCC *);
 };
 
 class YC20Jack;
