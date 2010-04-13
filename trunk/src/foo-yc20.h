@@ -118,7 +118,6 @@ class YC20UI : public UI
 		std::list<Wdgt::Object *> wdgts;
 
 		std::map<std::string, Wdgt::Object *> wdgtPerLabel;
-		//std::map<std::string, float *> processorValuePerLabel;
 		Wdgt::Draggable *draggablePerCC[127];
 
 		cairo_surface_t *_image_background;
