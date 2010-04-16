@@ -17,12 +17,15 @@ off:	unrealistic mode
 3/4:	oscillator detune
 4/4:	drawbar bleed
 
+The balance and brightness controls are in fact continuous controllers even though the ui shows
+them as having four positions like the other switches.
 
 The MIDI implementation does not care about midi channels. As Jack MIDI offers flexible routing, 
 there is little need to filter messages based on midi channel. Please contact the author if this
 becomes a real problem though.
 
-MIDI can be used to play the emulation, but also control the parameters. Here's the CC map:
+MIDI can be used to play the emulation, but also control the parameters. Here are the supported
+control changes:
 
 CC	control
 ---------------
