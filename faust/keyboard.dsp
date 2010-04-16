@@ -134,7 +134,8 @@ keyboard(
     bass_bus_16
 with
 {
-	bus_bleed_filter =  passive_hp(100000.0, 0.001) : *(0.0001);
+	bus_bleed_filter = passive_hp(100000.0, 0.001) : *(0.0001);
+	apply_realism    = *( select2( realism_control >= (5.0/6.0), 0.0, 1.0) );
 
 	// ******** BUS 1
 
@@ -154,7 +155,7 @@ with
 	            + c8 + C8 + d8 + D8 + e8 + f8 + F8 + g8 + G8 + a8 + A8 + b8
 		    + c8;
 
-	bus_1_bleed = bus_1_all - bus_1 : bus_bleed_filter;
+	bus_1_bleed = bus_1_all - bus_1 : bus_bleed_filter : apply_realism;
 
 	// ******** BUS 1 3/5
 
@@ -174,7 +175,7 @@ with
 	            + e8 + f8 + F8 + g8 + G8 + a8 + A8 + b8 + c8 + C8 + d8 + D8
 		    + e8;
 	
-	bus_1_3p5_bleed = bus_1_3p5_all - bus_1_3p5 : bus_bleed_filter;
+	bus_1_3p5_bleed = bus_1_3p5_all - bus_1_3p5 : bus_bleed_filter : apply_realism;
 	
 	// ******** BUS 2
 
@@ -194,7 +195,7 @@ with
 	            + c8 + C8 + d8 + D8 + e8 + f8 + F8 + g8 + G8 + a8 + A8 + b8
 		    + c8;
 
-	bus_2_bleed = bus_2_all - bus_2 : bus_bleed_filter;
+	bus_2_bleed = bus_2_all - bus_2 : bus_bleed_filter : apply_realism;
 
 	// ******** BUS 2 2/3
 
@@ -214,7 +215,7 @@ with
 	            + g7 + G7 + a7 + A7 + b7 + c8 + C8 + d8 + D8 + e8 + f8 + F8
 		    + g8;
 
-	bus_2_2p3_bleed = bus_2_2p3_all - bus_2_2p3 : bus_bleed_filter;
+	bus_2_2p3_bleed = bus_2_2p3_all - bus_2_2p3 : bus_bleed_filter : apply_realism;
 
 	// ******** BUS 4
 
@@ -231,7 +232,7 @@ with
 	            + c7 + C7 + d7 + D7 + e7 + f7 + F7 + g7 + G7 + a7 + A7 + b7
 		    + c8;
 
-	bus_4_bleed = bus_4_all - bus_4_all : bus_bleed_filter;
+	bus_4_bleed = bus_4_all - bus_4_all : bus_bleed_filter : apply_realism;
 
 	// ******** BUS 8
 
@@ -248,7 +249,7 @@ with
 	            + c6 + C6 + d6 + D6 + e6 + f6 + F6 + g6 + G6 + a6 + A6 + b6
 		    + c7;
 
-	bus_8_bleed = bus_8_all - bus_8 : bus_bleed_filter;
+	bus_8_bleed = bus_8_all - bus_8 : bus_bleed_filter : apply_realism;
 
 	// ******** BUS 16
 
@@ -266,7 +267,7 @@ with
 	            + c5 + C5 + d5 + D5 + e5 + f5 + F5 + g5 + G5 + a5 + A5 + b5
 		    + c6 : *(1.679);
 
-	bus_16_bleed = bus_16_all - bus_16 : bus_bleed_filter;
+	bus_16_bleed = bus_16_all - bus_16 : bus_bleed_filter : apply_realism;
 
 
 	// No bleed for bass buses, as there is a low pass filter which would clean up most of the bleed anyway
