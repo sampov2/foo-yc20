@@ -464,10 +464,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="722.4047"
-     inkscape:cy="163.71865"
+     inkscape:cx="219.60127"
+     inkscape:cy="189.98262"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="layer3"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -658,7 +658,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -786,7 +786,7 @@
          sodipodi:role="line"
          id="tspan3834"
          x="186.07143"
-         y="585.52307">TOUCH VIB</tspan></text>
+         y="585.52307">REALISM</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#c3c3c5;fill-opacity:1;stroke:none;display:inline;font-family:Impact;-inkscape-font-specification:Impact Bold"
@@ -991,7 +991,8 @@
      inkscape:groupmode="layer"
      id="layer10"
      inkscape:label="NewGroupLines"
-     style="display:inline">
+     style="display:inline"
+     sodipodi:insensitive="true">
     <path
        style="fill:none;stroke:#c3c3c5;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;display:inline"
        d="m 866.07143,592.66591 c 0,0 0,3.48214 7.49957,3.48214 l 173.215,0 c 7.4997,0 7.4997,-3.48214 7.4997,-3.48214"
