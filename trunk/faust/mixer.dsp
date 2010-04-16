@@ -1,4 +1,12 @@
 
+realism_control = hslider("realism", 0.0, 0.0, 1.0, 0.25);
+/*
+	0.00	perfect			< 1/6
+	0.33	percussion bleed	< 3/6
+	0.66	oscillator detune	< 5/6
+	1.00	drawbar bleed		...
+*/
+
 balance_control    = hslider("balance", 1.0, 0.0, 1.0, 0.25);
 percussion_control = hslider("percussive", 1.0, 0.0, 1.0, 0.25);
 

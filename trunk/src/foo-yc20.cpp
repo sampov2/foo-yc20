@@ -129,10 +129,16 @@ YC20UI::YC20UI()
 	wdgts.push_back(volume);
 	wdgts.push_back(bass_v);
 
-	// Vibrato
+	// Vibrato section
+	// Instead of the touch vibrato, we have a realism switch
+	Wdgt::DrawbarBlack *realism = new Wdgt::DrawbarBlack(x, y, true);
+	realism->setName("realism");
+	x += 40.0 + pitch_x;
+	
+	/*
 	Wdgt::DummyDrawbarBlack *touch    = new Wdgt::DummyDrawbarBlack(x, y);
 	touch->setName("touch vibrato");
-	x += 40.0 + pitch_x;
+	*/
 
 	Wdgt::DrawbarBlack *vibrato = new Wdgt::DrawbarBlack(x, y, true);
 	vibrato->setName("depth");
@@ -144,7 +150,8 @@ YC20UI::YC20UI()
 	draggablePerCC[13] = v_speed;
 	x += 40.0 + pitch_x_longest;
 
-	wdgts.push_back(touch);
+	wdgts.push_back(realism);
+	//wdgts.push_back(touch);
 	wdgts.push_back(vibrato);
 	wdgts.push_back(v_speed);
 
