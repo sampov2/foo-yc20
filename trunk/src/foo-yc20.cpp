@@ -1,6 +1,6 @@
 /*
     Foo-YC20 UI
-    Copyright (C) 2009  Sampo Savolainen <v2@iki.fi>
+    Copyright (C) 2010  Sampo Savolainen <v2@iki.fi>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
