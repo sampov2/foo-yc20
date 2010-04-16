@@ -1,6 +1,22 @@
+Foo YC20
+^^^^^^^^
+
 This is a Faust implementation of a 1969 designed Yamaha combo organ, the YC-20. In addition to 
-the Faust code, there is a Gtkmm UI with Jack audio and midi support. A LV2 instrument plugin is
+the Faust code, it has a Gtkmm UI with Jack audio and midi support. A LV2 instrument plugin is
 planned but not yet executed.
+
+Original YC-20 organs have a touch vibrato control, which is vibrato induced by horizontal movement
+of the keys. As there very few (almost none) midi keyboards which produce such information, this
+feature has been left out of the emulation. Instead of the touch vibrato control, the control panel
+hosts a "realism" switch.
+
+The realism switch has four positions like the drawbars. Each position adds a "feature" to the 
+previous position. Thus all three features are enabled at the last position. The positions are:
+off:	unrealistic mode
+2/4:	percussion manual bleed
+3/4:	oscillator detune
+4/4:	drawbar bleed
+
 
 The MIDI implementation does not care about midi channels. As Jack MIDI offers flexible routing, 
 there is little need to filter messages based on midi channel. Please contact the author if this
@@ -38,4 +54,11 @@ CC	control
 21	Section II 2' drawbar (notched)
 
 22	Percussion drawbar (notched)
+
+52	Realism switch
+
+
+Comments, suggestions, whatever: contact the author:
+
+ Sampo Savolainen <v2 'you know which symbol' iki.fi>
 
