@@ -133,6 +133,7 @@ YC20UI::YC20UI()
 	// Instead of the touch vibrato, we have a realism switch
 	Wdgt::DrawbarBlack *realism = new Wdgt::DrawbarBlack(x, y, true);
 	realism->setName("realism");
+	draggablePerCC[52] = realism;
 	x += 40.0 + pitch_x;
 	
 	/*
