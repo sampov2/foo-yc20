@@ -35,7 +35,7 @@ with {
 	fix2float(x) = float(x)/(1<<20);    
 };
 
-co2db(coeff) = 20*log10(coeff);
+co2db(coeff) = 20.0*log10(coeff);
 
 
 percussion_envelope = detect : apply_envelope : apply_realism : *(4.5)
@@ -48,9 +48,9 @@ with {
 
 	measured_bleed = 0.01357;	
 
-	apply_realism = max( select2(realism_control > (1/6), 0.0, measured_bleed));
+	apply_realism = max( select2(realism_control > (1.0/6.0), 0.0, measured_bleed));
 
-	rms_detect_speed = int(max(22050,min(192000,SR)) * 0.020);
+	rms_detect_speed = int(max(22050.0,min(192000.0,SR)) * 0.020);
 
 	threshold = -75.0;
 	threshold_hyst = threshold - 30.0;
@@ -69,6 +69,6 @@ with {
 			: *(1.0/(1.0-envelope_coeff)) : min(1.0)
 			: sum_it;
 
-	//sum_it(x) = x + x'' + x''' + x'''' + x''''' + x'''''' : /(6.0);
 	sum_it(x) = x + x'' + x''' + x'''' : /(4.0);
 };
+
