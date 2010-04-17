@@ -1,3 +1,7 @@
+
+
+modone = _ <: _ - floor;
+
 tet12(note) = 440 * 2.0^(note / 12.0);
 
 saw_gain = 1.950; // +5.8dB

@@ -1,74 +1,76 @@
 // 5 octaves + one C = 61 keys
 
-// Bottom 17 keys is the switchable bass manual
-key_c0 = button("c0");
-key_C0 = button("C0");
-key_d0 = button("d0");
-key_D0 = button("D0");
-key_e0 = button("e0");
-key_f0 = button("f0");
-key_F0 = button("F0");
-key_g0 = button("g0");
-key_G0 = button("G0");
-key_a0 = button("a0");
-key_A0 = button("A0");
-key_b0 = button("b0");
+key_slowdown(x) = (x@1 + x)/2;
 
-key_c1 = button("c1");
-key_C1 = button("C1");
-key_d1 = button("d1");
-key_D1 = button("D1");
-key_e1 = button("e1");
+// Bottom 17 keys is the switchable bass manual
+key_c0 = button("c0") : key_slowdown;
+key_C0 = button("C0") : key_slowdown;
+key_d0 = button("d0") : key_slowdown;
+key_D0 = button("D0") : key_slowdown;
+key_e0 = button("e0") : key_slowdown;
+key_f0 = button("f0") : key_slowdown;
+key_F0 = button("F0") : key_slowdown;
+key_g0 = button("g0") : key_slowdown;
+key_G0 = button("G0") : key_slowdown;
+key_a0 = button("a0") : key_slowdown;
+key_A0 = button("A0") : key_slowdown;
+key_b0 = button("b0") : key_slowdown;
+
+key_c1 = button("c1") : key_slowdown;
+key_C1 = button("C1") : key_slowdown;
+key_d1 = button("d1") : key_slowdown;
+key_D1 = button("D1") : key_slowdown;
+key_e1 = button("e1") : key_slowdown;
 
 // The rest is regular manual
-key_f1 = button("f1");
-key_F1 = button("F1");
-key_g1 = button("g1");
-key_G1 = button("G1");
-key_a1 = button("a1");
-key_A1 = button("A1");
-key_b1 = button("b1");
+key_f1 = button("f1") : key_slowdown;
+key_F1 = button("F1") : key_slowdown;
+key_g1 = button("g1") : key_slowdown;
+key_G1 = button("G1") : key_slowdown;
+key_a1 = button("a1") : key_slowdown;
+key_A1 = button("A1") : key_slowdown;
+key_b1 = button("b1") : key_slowdown;
 
-key_c2 = button("c2");
-key_C2 = button("C2");
-key_d2 = button("d2");
-key_D2 = button("D2");
-key_e2 = button("e2");
-key_f2 = button("f2");
-key_F2 = button("F2");
-key_g2 = button("g2");
-key_G2 = button("G2");
-key_a2 = button("a2");
-key_A2 = button("A2");
-key_b2 = button("b2");
+key_c2 = button("c2") : key_slowdown;
+key_C2 = button("C2") : key_slowdown;
+key_d2 = button("d2") : key_slowdown;
+key_D2 = button("D2") : key_slowdown;
+key_e2 = button("e2") : key_slowdown;
+key_f2 = button("f2") : key_slowdown;
+key_F2 = button("F2") : key_slowdown;
+key_g2 = button("g2") : key_slowdown;
+key_G2 = button("G2") : key_slowdown;
+key_a2 = button("a2") : key_slowdown;
+key_A2 = button("A2") : key_slowdown;
+key_b2 = button("b2") : key_slowdown;
 
-key_c3 = button("c3");
-key_C3 = button("C3");
-key_d3 = button("d3");
-key_D3 = button("D3");
-key_e3 = button("e3");
-key_f3 = button("f3");
-key_F3 = button("F3");
-key_g3 = button("g3");
-key_G3 = button("G3");
-key_a3 = button("a3");
-key_A3 = button("A3");
-key_b3 = button("b3");
+key_c3 = button("c3") : key_slowdown;
+key_C3 = button("C3") : key_slowdown;
+key_d3 = button("d3") : key_slowdown;
+key_D3 = button("D3") : key_slowdown;
+key_e3 = button("e3") : key_slowdown;
+key_f3 = button("f3") : key_slowdown;
+key_F3 = button("F3") : key_slowdown;
+key_g3 = button("g3") : key_slowdown;
+key_G3 = button("G3") : key_slowdown;
+key_a3 = button("a3") : key_slowdown;
+key_A3 = button("A3") : key_slowdown;
+key_b3 = button("b3") : key_slowdown;
 
-key_c4 = button("c4");
-key_C4 = button("C4");
-key_d4 = button("d4");
-key_D4 = button("D4");
-key_e4 = button("e4");
-key_f4 = button("f4");
-key_F4 = button("F4");
-key_g4 = button("g4");
-key_G4 = button("G4");
-key_a4 = button("a4");
-key_A4 = button("A4");
-key_b4 = button("b4");
+key_c4 = button("c4") : key_slowdown;
+key_C4 = button("C4") : key_slowdown;
+key_d4 = button("d4") : key_slowdown;
+key_D4 = button("D4") : key_slowdown;
+key_e4 = button("e4") : key_slowdown;
+key_f4 = button("f4") : key_slowdown;
+key_F4 = button("F4") : key_slowdown;
+key_g4 = button("g4") : key_slowdown;
+key_G4 = button("G4") : key_slowdown;
+key_a4 = button("a4") : key_slowdown;
+key_A4 = button("A4") : key_slowdown;
+key_b4 = button("b4") : key_slowdown;
 
-key_c5 = button("c5");
+key_c5 = button("c5") : key_slowdown;
 
 
 // This will be needed later on
