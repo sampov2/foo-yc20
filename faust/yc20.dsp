@@ -25,10 +25,10 @@ oscillator_bias = (1 + vibrato + pitch_control * 0.03);
 
 gain = par(i, 12*8, *(0.5));
 
-process = 
-	oscillator_bias <: oscillators : 
-	dividers : 
-	wave_transformers : 
-	keyboard : 
-	mixer;
+process = oscillator_bias
+	: oscillators 
+	: dividers
+	: wave_transformers
+	: keyboard
+	: mixer;
 
