@@ -13,7 +13,9 @@ if [ "$VERSION" = "" ]; then
 	exit
 fi
 
-BUILDDIR="dist/foo-yc20-"$VERSION
+DISTDIR="dist/"
+VERSIONDIR="foo-yc20-"$VERSION
+BUILDDIR=$DISTDIR$VERSIONDIR
 
 if [ -d $BUILDDIR ]; then
 	echo $BUILDDIR: already exists
@@ -52,4 +54,9 @@ cp -n 	graphics/white_[0-3].png \
 	graphics/potentiometer.png \
 	graphics/icon.png \
 	$BUILDDIR/graphics
+
+cd $DISTDIR
+tar cjf $VERSIONDIR".tar.bz2" $VERSIONDIR
+
+echo $VERSIONDIR".tar.bz2" is ready
 
