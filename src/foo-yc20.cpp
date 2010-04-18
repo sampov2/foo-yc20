@@ -1046,6 +1046,10 @@ int main(int argc, char **argv)
 
         Gtk::Main mymain(argc, argv);
 
+	std::string version("svn-r$Revision$");
+
+	std::cerr << "Foo-YC20 version << " << version << std::endl;
+
 	Gtk::Window *main_window;
 	YC20UI      *yc20ui;
 
