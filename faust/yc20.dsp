@@ -41,8 +41,6 @@ pitch_control = hslider("pitch", 0.0, -1.0, 1.0, 0.05);
 
 oscillator_bias = (1 + vibrato + pitch_control * 0.03);
 
-gain = par(i, 12*8, *(0.5));
-
 process = oscillator_bias
 	: oscillators 
 	: dividers
