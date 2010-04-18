@@ -1,5 +1,6 @@
 PREFIX=/usr
 CXX=g++
+VERSION=
 
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
@@ -8,6 +9,8 @@ else
 CFLAGS=-O3 -march=native -mfpmath=sse -msse -msse2 -msse3 -mmmx -m3dnow -ffast-math -ftree-vectorize -Wall
 endif
 endif
+
+CFLAGS += -DVERSION=$(VERSION)
 
 foo-yc20: Makefile src/foo-yc20.cpp src/foo-yc20.h src/wdgt.h src/yc20_wdgts.h gen/foo-yc20-dsp.cpp
 	$(CXX) -Isrc/ $(CFLAGS) -DPREFIX=$(PREFIX) src/foo-yc20.cpp `pkg-config --cflags --libs gtkmm-2.4 jack` -o foo-yc20
