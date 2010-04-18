@@ -30,6 +30,7 @@
 #define STR(macro) QUOTE(macro)
 
 #define PREFIX_STR STR(PREFIX)
+#define VERSION_STR STR(VERSION)
 
 namespace Wdgt
 {
