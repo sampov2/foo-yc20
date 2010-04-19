@@ -37,7 +37,6 @@ with {
 
 co2db(coeff) = 20.0*log10(coeff);
 
-
 percussion_envelope = detect : apply_envelope : apply_realism : *(4.5)
 with {
 	rms_approx(n) = square : (sumit ~ _) : sqrt
@@ -50,16 +49,27 @@ with {
 
 	apply_realism = max( select2(realism_control > (1.0/6.0), 0.0, measured_bleed));
 
-	rms_detect_speed = int(max(22050.0,min(192000.0,SR)) * 0.020);
+	rms_detect_speed = int(max(22050.0,min(192000.0,float(SR))) * 0.020);
 
-	threshold = -75.0;
-	threshold_hyst = threshold - 30.0;
+	threshold = -45.0;
+	threshold_hyst = threshold - 10.0;
 
-	detect = *(0.1) : max(-1.0) : min(1.0) : RMS(rms_detect_speed) : co2db: detect_rise;
+	detect = +(noise*0.000001) : max(-1.0) : min(1.0) : RMS(rms_detect_speed) : co2db : impulse_detector;
 
+	impulse_detector = (hysteresis_detector ~ _) : impulsify;
+	hysteresis_detector(prev, x) = prev + detect_rise(x) - detect_fall(x) : max(0.0) : min(1.0);
+
+	impulsify(sig) =
+		select2( sig  > 0.5, 0.0,
+		select2( sig' < 0.5, 0.0, 1.0));
+	
 	detect_rise(sig) =
 		select2( sig  > threshold, 0.0,
-		select2( sig' < threshold_hyst, 0.0, 1.0));
+		select2( sig' < threshold, 0.0, 1.0));
+
+	detect_fall(sig) =
+		select2( sig' > threshold_hyst, 0.0,
+		select2( sig  < threshold_hyst, 0.0, 1.0));
 
 
 	envelope_speed = 0.05;
