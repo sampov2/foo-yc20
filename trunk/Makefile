@@ -1,4 +1,4 @@
-PREFIX=/usr
+PREFIX=/usr/local
 CXX=g++
 VERSION=
 
@@ -40,4 +40,11 @@ generate-source-vec:
 
 generate-source-sch:
 	faust -sch -vs 256 -g -a minimal.cpp faust/yc20.dsp > gen/foo-yc20-dsp.cpp
+
+## test compilation
+
+testit: faust/test.dsp faust/percussion.dsp
+	rm -rf faust/test-svg/
+	faust -svg -a jack-console.cpp faust/test.dsp > gen/test.cpp
+	$(CXX) $(CFLAGS) gen/test.cpp `pkg-config --cflags --libs jack` -o testit
 
