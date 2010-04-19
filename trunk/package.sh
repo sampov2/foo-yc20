@@ -55,6 +55,20 @@ cp -n 	graphics/white_[0-3].png \
 	graphics/icon.png \
 	$BUILDDIR/graphics
 
+cp -n	faust/biquad.dsp \
+	faust/blep.dsp \
+	faust/divider.dsp \
+	faust/keyboard.dsp \
+	faust/mixer.dsp \
+	faust/oscillator.dsp \
+	faust/percussion.dsp \
+	faust/rc_filter.dsp \
+	faust/vibrato.dsp \
+	faust/wave_transformer.dsp \
+	faust/yc20.dsp \
+	$BUILDDIR/faust
+
+
 cd $DISTDIR
 tar cjf $VERSIONDIR".tar.bz2" $VERSIONDIR
 
