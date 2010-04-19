@@ -36,7 +36,7 @@ cp -n	foo-yc20.desktop.in \
 	README \
 	$BUILDDIR/
 
-cat Makefile | sed 's/VERSION=/VERSION='$VERSION'/' > $BUILDDIR/Makefile
+cat Makefile | sed 's/^VERSION=/VERSION='$VERSION'/' > $BUILDDIR/Makefile
 
 cp -n gen/foo-yc20-dsp.cpp $BUILDDIR/gen
 
