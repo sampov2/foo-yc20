@@ -875,6 +875,8 @@ YC20UI::saveConfiguration()
 int
 YC20Jack::process (jack_nframes_t nframes)
 {
+	TURNOFFDENORMALS;
+
 	float * output_buffer = (float *)jack_port_get_buffer(audio_output_port, nframes);
 
 	void *midi = jack_port_get_buffer(midi_input_port, nframes);
@@ -1042,8 +1044,6 @@ YC20Jack::~YC20Jack()
 
 int main(int argc, char **argv)
 {
-	TURNOFFDENORMALS;
-
         Gtk::Main mymain(argc, argv);
 
 	std::string version(VERSION_STR);
