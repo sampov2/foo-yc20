@@ -13,9 +13,13 @@ hosts a "realism" switch.
 The realism switch has four positions like the drawbars. Each position adds a "feature" to the 
 previous position. Thus all three features are enabled at the last position. The positions are:
 off:	unrealistic mode
-2/4:	percussion manual bleed
-3/4:	oscillator detune
+2/4:	oscillator detune
+3/4:	percussion manual bleed
 4/4:	drawbar bleed
+
+Also, unlike the real YC-20, this synthesizer provides additional separate outputs for the bass
+section and selected main voice. The volume of these outputs is controlled with the same controls
+as the main mixed output.
 
 The balance and brightness controls are in fact continuous controllers even though the ui shows
 them as having four positions like the other switches.
