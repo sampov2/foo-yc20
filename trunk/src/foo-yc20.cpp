@@ -877,7 +877,11 @@ YC20Jack::process (jack_nframes_t nframes)
 {
 	TURNOFFDENORMALS;
 
-	float * output_buffer = (float *)jack_port_get_buffer(audio_output_port, nframes);
+	float *output_buffer[3];
+
+	output_buffer[0] = (float *)jack_port_get_buffer(audio_output_port, nframes);
+	output_buffer[1] = (float *)jack_port_get_buffer(norm_output_port, nframes);
+	output_buffer[2] = (float *)jack_port_get_buffer(bass_output_port, nframes);
 
 	void *midi = jack_port_get_buffer(midi_input_port, nframes);
 	jack_midi_event_t event;
@@ -896,8 +900,10 @@ YC20Jack::process (jack_nframes_t nframes)
 
 			//std::cerr << "process " << amount << " frames: " << at_frame << " .. " << (at_frame + amount -1) << std::endl;
 			//std::cerr << " .. compute(" << amount << ", NULL, " << output_buffer << std::endl;
-			ui->processor->compute(amount, NULL, &output_buffer);
-			output_buffer += amount;
+			ui->processor->compute(amount, NULL, output_buffer);
+			output_buffer[0] += amount;
+			output_buffer[1] += amount;
+			output_buffer[2] += amount;
 			at_frame += amount;
 		}
 
@@ -936,7 +942,7 @@ YC20Jack::process (jack_nframes_t nframes)
 		amount = nframes - at_frame;
 		//std::cerr << "process " << amount << " frames: " << at_frame << " .. " << (at_frame + amount -1) << std::endl;
 		//std::cerr << " .. compute(" << amount << ", NULL, " << output_buffer << std::endl;
-		ui->processor->compute(amount, NULL, &output_buffer);
+		ui->processor->compute(amount, NULL, output_buffer);
 	}
 
 
@@ -967,6 +973,8 @@ YC20Jack::shutdown_callback(void *arg)
 
 YC20Jack::YC20Jack(YC20UI *obj)
 	: audio_output_port(NULL)
+	, norm_output_port(NULL)
+	, bass_output_port(NULL)
 	, midi_input_port(NULL)
 	, jack_client(NULL)
 	, ui(obj)
@@ -984,6 +992,8 @@ YC20Jack::connect()
 
 		midi_input_port = NULL;
 		audio_output_port = NULL;
+		norm_output_port = NULL;
+		bass_output_port = NULL;
 		throw "jack_client_open() failed";
 	}
 
@@ -992,6 +1002,12 @@ YC20Jack::connect()
 			JACK_DEFAULT_MIDI_TYPE,
 			JackPortIsInput, 0);
 	audio_output_port = jack_port_register (jack_client, "output",
+			JACK_DEFAULT_AUDIO_TYPE,
+			JackPortIsOutput, 0);
+	norm_output_port  = jack_port_register (jack_client, "main",
+			JACK_DEFAULT_AUDIO_TYPE,
+			JackPortIsOutput, 0);
+	bass_output_port  = jack_port_register (jack_client, "bass",
 			JACK_DEFAULT_AUDIO_TYPE,
 			JackPortIsOutput, 0);
 
@@ -1013,6 +1029,8 @@ YC20Jack::activate()
 		jack_client = NULL;
 		midi_input_port = NULL;
 		audio_output_port = NULL;
+		norm_output_port = NULL;
+		bass_output_port = NULL;
 
                 throw "cannot activate client";
         }

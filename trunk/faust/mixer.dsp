@@ -61,7 +61,11 @@ manual_bass_vol = manual_bass_slider : (declick(50) ~ _);
 volume          = volume_slider : (declick(50) ~ _);
 
 // The volume slider must be declicked!
-mixer = mixer_normal + mixer_bass : *(0.001 + 0.05 * volume);
+mixer = (mixer_normal, mixer_bass) : splitter
+with {
+	splitter(norm, bass) = (norm + bass : vol ), (norm : vol), (bass : vol);
+	vol = *(0.001 + 0.05 * volume);
+};
 
 mixer_normal (bus_1, bus_1_3p5, bus_2, bus_2_2p3, bus_4, bus_8, bus_16) 
 	= balance(manual_i, manual_ii) + percussion

@@ -4,7 +4,7 @@ VERSION=
 
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
-CFLAGS=-O3 -mfpmath=sse -msse -msse2 -msse3 -mmmx -m3dnow -ffast-math -ftree-vectorize
+CFLAGS=-O3 -mfpmath=sse -msse -msse2 -msse3 -mmmx -m3dnow -ffast-math -ftree-vectorize -Wall
 else
 CFLAGS=-O3 -march=native -mfpmath=sse -msse -msse2 -msse3 -mmmx -m3dnow -ffast-math -ftree-vectorize -Wall
 endif
@@ -39,12 +39,12 @@ generate-source-vec:
 	faust -vec -a minimal.cpp faust/yc20.dsp > gen/foo-yc20-dsp.cpp
 
 generate-source-sch:
-	faust -sch -vs 256 -g -a minimal.cpp faust/yc20.dsp > gen/foo-yc20-dsp.cpp
+	faust -sch -vs 128 -g -a minimal.cpp faust/yc20.dsp > gen/foo-yc20-dsp.cpp
 
 ## test compilation
 
 testit: faust/test.dsp faust/percussion.dsp
 	rm -rf faust/test-svg/
-	faust -svg -a jack-console.cpp faust/test.dsp > gen/test.cpp
+	faust -vec -a jack-console.cpp faust/test.dsp > gen/test.cpp
 	$(CXX) $(CFLAGS) gen/test.cpp `pkg-config --cflags --libs jack` -o testit
 
