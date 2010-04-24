@@ -156,6 +156,8 @@ class YC20Jack
 		static int process_callback(jack_nframes_t, void *);
 
 		jack_port_t   *audio_output_port;
+		jack_port_t   *norm_output_port;
+		jack_port_t   *bass_output_port;
 		jack_port_t   *midi_input_port;
 		jack_client_t *jack_client;
 

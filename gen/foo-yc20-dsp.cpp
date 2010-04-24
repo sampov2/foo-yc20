@@ -4,7 +4,7 @@
 // license: "GPLv3"
 // copyright: "(c)Sampo Savolainen 2009"
 //
-// Code generated with Faust 0.9.20 (http://faust.grame.fr)
+// Code generated with Faust 0.9.21 (http://faust.grame.fr)
 //-----------------------------------------------------
 /* link with : "" */
 #include "polyblep.cpp"
@@ -832,7 +832,7 @@ class mydsp : public dsp{
 	}
 
 	virtual int getNumInputs() 	{ return 0; }
-	virtual int getNumOutputs() 	{ return 1; }
+	virtual int getNumOutputs() 	{ return 3; }
 	static void classInit(int samplingFreq) {
 	}
 	virtual void instanceInit(int samplingFreq) {
@@ -1782,6 +1782,8 @@ class mydsp : public dsp{
 		float 	fSlow120 = (1 - fSlow104);
 		float 	fSlow121 = (0.02f * fslider22);
 		FAUSTFLOAT* output0 = output[0];
+		FAUSTFLOAT* output1 = output[1];
+		FAUSTFLOAT* output2 = output[2];
 		for (int i=0; i<count; i++) {
 			fVec0[0] = fSlow2;
 			float fTemp0 = (fSlow2 + fVec0[1]);
@@ -3172,45 +3174,47 @@ class mydsp : public dsp{
 			fRec472[0] = ((fConst26 * ((int((fRec473[0] > 0.5f)))?((int((fRec473[1] < 0.5f)))?1.0f:0.0f):0.0f)) + (fConst27 * fRec472[1]));
 			float fTemp761 = min(1.0f, (fConst30 * fRec472[0]));
 			fVec150[0] = fTemp761;
+			float fTemp762 = (fSlow83 * (max(fSlow82, (0.25f * (fVec150[4] + (fVec150[3] + (fVec150[0] + fVec150[2]))))) * ((fTemp469 + (fTemp756 + (0.5f * fTemp535))) + (0.0004f * fTemp477))));
 			fRec476[0] = (fSlow84 + (0.98f * fRec476[1]));
-			float fTemp762 = ((fRec88[0] * fTemp252) + ((fRec79[0] * fTemp247) + ((fRec70[0] * fTemp242) + ((fRec61[0] * fTemp237) + ((fRec52[0] * fTemp232) + ((fRec42[0] * fTemp214) + ((fRec32[0] * fTemp196) + ((fRec22[0] * fTemp178) + ((fRec12[0] * fTemp160) + ((fRec1[0] * fTemp142) + ((fRec468[0] * fTemp124) + ((fRec464[0] * fTemp106) + ((fRec460[0] * fTemp85) + ((fRec456[0] * fTemp64) + ((fRec452[0] * fTemp43) + ((fRec448[0] * fTemp22) + (fRec444[0] * fTemp0)))))))))))))))));
-			float fTemp763 = ((fRec460[0] * fTemp252) + ((fRec456[0] * fTemp247) + ((fRec452[0] * fTemp242) + ((fRec448[0] * fTemp237) + ((fRec444[0] * fTemp232) + ((fRec440[0] * fTemp214) + ((fRec436[0] * fTemp196) + ((fRec432[0] * fTemp178) + ((fRec428[0] * fTemp160) + ((fRec424[0] * fTemp142) + ((fRec420[0] * fTemp124) + ((fRec416[0] * fTemp106) + ((fRec412[0] * fTemp85) + ((fRec408[0] * fTemp64) + ((fRec404[0] * fTemp43) + ((fRec400[0] * fTemp22) + (fRec396[0] * fTemp0)))))))))))))))));
-			fRec477[0] = (fRec477[1] + (fConst31 * ((fSlow35 * ((fSlow88 * (((0.5f * fTemp697) + (0.25f * fTemp763)) + (0.125f * fTemp762))) + (fSlow86 * ((0.5f * fTemp763) + (0.25f * fTemp762))))) - fRec477[1])));
-			float fTemp764 = (fSlow90 * fTemp756);
-			fVec151[0] = fTemp764;
+			float fTemp763 = ((fRec88[0] * fTemp252) + ((fRec79[0] * fTemp247) + ((fRec70[0] * fTemp242) + ((fRec61[0] * fTemp237) + ((fRec52[0] * fTemp232) + ((fRec42[0] * fTemp214) + ((fRec32[0] * fTemp196) + ((fRec22[0] * fTemp178) + ((fRec12[0] * fTemp160) + ((fRec1[0] * fTemp142) + ((fRec468[0] * fTemp124) + ((fRec464[0] * fTemp106) + ((fRec460[0] * fTemp85) + ((fRec456[0] * fTemp64) + ((fRec452[0] * fTemp43) + ((fRec448[0] * fTemp22) + (fRec444[0] * fTemp0)))))))))))))))));
+			float fTemp764 = ((fRec460[0] * fTemp252) + ((fRec456[0] * fTemp247) + ((fRec452[0] * fTemp242) + ((fRec448[0] * fTemp237) + ((fRec444[0] * fTemp232) + ((fRec440[0] * fTemp214) + ((fRec436[0] * fTemp196) + ((fRec432[0] * fTemp178) + ((fRec428[0] * fTemp160) + ((fRec424[0] * fTemp142) + ((fRec420[0] * fTemp124) + ((fRec416[0] * fTemp106) + ((fRec412[0] * fTemp85) + ((fRec408[0] * fTemp64) + ((fRec404[0] * fTemp43) + ((fRec400[0] * fTemp22) + (fRec396[0] * fTemp0)))))))))))))))));
+			fRec477[0] = (fRec477[1] + (fConst31 * ((fSlow35 * ((fSlow88 * (((0.5f * fTemp697) + (0.25f * fTemp764)) + (0.125f * fTemp763))) + (fSlow86 * ((0.5f * fTemp764) + (0.25f * fTemp763))))) - fRec477[1])));
+			float fTemp765 = (fRec477[0] * (0.5f + (4.5f * fRec476[0])));
+			float fTemp766 = (fSlow90 * fTemp756);
+			fVec151[0] = fTemp766;
 			fRec479[0] = (fConst32 * ((fVec151[0] - fVec151[1]) + fRec479[1]));
-			float fTemp765 = ((fSlow91 * fTemp756) + (0.5416666666666667f * fRec479[0]));
-			fVec152[0] = fTemp765;
+			float fTemp767 = ((fSlow91 * fTemp756) + (0.5416666666666667f * fRec479[0]));
+			fVec152[0] = fTemp767;
 			fRec478[0] = (fConst33 * ((fVec152[0] - fVec152[1]) + fRec478[1]));
-			float fTemp766 = (0.5f * ((fRec231[0] * fTemp465) + ((fRec227[0] * fTemp461) + ((fRec223[0] * fTemp457) + ((fRec219[0] * fTemp453) + ((fRec215[0] * fTemp449) + ((fRec211[0] * fTemp445) + ((fRec207[0] * fTemp441) + ((fRec203[0] * fTemp437) + ((fRec199[0] * fTemp432) + ((fRec195[0] * fTemp427) + ((fRec191[0] * fTemp422) + ((fRec187[0] * fTemp417) + ((fRec183[0] * fTemp412) + ((fRec179[0] * fTemp407) + ((fRec175[0] * fTemp402) + ((fRec171[0] * fTemp397) + ((fRec167[0] * fTemp392) + ((fRec163[0] * fTemp387) + ((fRec159[0] * fTemp382) + ((fRec155[0] * fTemp377) + ((fRec151[0] * fTemp372) + ((fRec147[0] * fTemp367) + ((fRec143[0] * fTemp362) + ((fRec139[0] * fTemp357) + ((fRec135[0] * fTemp352) + ((fRec131[0] * fTemp347) + ((fRec127[0] * fTemp342) + ((fRec123[0] * fTemp337) + ((fRec119[0] * fTemp332) + ((fRec115[0] * fTemp327) + ((fRec106[0] * fTemp322) + ((fRec97[0] * fTemp317) + ((fRec88[0] * fTemp312) + ((fRec79[0] * fTemp307) + ((fRec70[0] * fTemp302) + ((fRec61[0] * fTemp297) + ((fRec52[0] * fTemp292) + ((fRec42[0] * fTemp287) + ((fRec32[0] * fTemp282) + ((fRec22[0] * fTemp277) + ((fRec12[0] * fTemp272) + ((fRec1[0] * fTemp267) + ((fRec468[0] * fTemp262) + ((fRec464[0] * fTemp257) + (fSlow36 * fTemp763))))))))))))))))))))))))))))))))))))))))))))));
-			float fTemp767 = ((fSlow36 * (fRec440[0] + (fRec436[0] + (fRec432[0] + (fRec428[0] + (fRec424[0] + (fRec420[0] + (fRec416[0] + (fRec412[0] + (fRec408[0] + (fRec404[0] + (fRec400[0] + (fRec396[0] + (fRec460[0] + (fRec456[0] + (fRec452[0] + (fRec444[0] + fRec448[0]))))))))))))))))) + (fRec468[0] + (fRec464[0] + (fRec42[0] + (fRec32[0] + (fRec22[0] + (fRec12[0] + (fRec1[0] + (fRec79[0] + (fRec70[0] + (fRec61[0] + (fRec52[0] + (fRec131[0] + (fRec127[0] + (fRec123[0] + (fRec119[0] + (fRec115[0] + (fRec106[0] + (fRec97[0] + (fRec88[0] + fTemp475))))))))))))))))))));
-			fVec153[0] = (fTemp767 - fTemp766);
-			fRec482[0] = (fConst19 * ((fTemp767 - (fTemp766 + fVec153[1])) + fRec482[1]));
-			float fTemp768 = (fTemp766 + (0.0002f * (fRec482[0] * fSlow1)));
-			float fTemp769 = (fSlow93 * fTemp768);
-			fVec154[0] = fTemp769;
+			float fTemp768 = (0.5f * ((fRec231[0] * fTemp465) + ((fRec227[0] * fTemp461) + ((fRec223[0] * fTemp457) + ((fRec219[0] * fTemp453) + ((fRec215[0] * fTemp449) + ((fRec211[0] * fTemp445) + ((fRec207[0] * fTemp441) + ((fRec203[0] * fTemp437) + ((fRec199[0] * fTemp432) + ((fRec195[0] * fTemp427) + ((fRec191[0] * fTemp422) + ((fRec187[0] * fTemp417) + ((fRec183[0] * fTemp412) + ((fRec179[0] * fTemp407) + ((fRec175[0] * fTemp402) + ((fRec171[0] * fTemp397) + ((fRec167[0] * fTemp392) + ((fRec163[0] * fTemp387) + ((fRec159[0] * fTemp382) + ((fRec155[0] * fTemp377) + ((fRec151[0] * fTemp372) + ((fRec147[0] * fTemp367) + ((fRec143[0] * fTemp362) + ((fRec139[0] * fTemp357) + ((fRec135[0] * fTemp352) + ((fRec131[0] * fTemp347) + ((fRec127[0] * fTemp342) + ((fRec123[0] * fTemp337) + ((fRec119[0] * fTemp332) + ((fRec115[0] * fTemp327) + ((fRec106[0] * fTemp322) + ((fRec97[0] * fTemp317) + ((fRec88[0] * fTemp312) + ((fRec79[0] * fTemp307) + ((fRec70[0] * fTemp302) + ((fRec61[0] * fTemp297) + ((fRec52[0] * fTemp292) + ((fRec42[0] * fTemp287) + ((fRec32[0] * fTemp282) + ((fRec22[0] * fTemp277) + ((fRec12[0] * fTemp272) + ((fRec1[0] * fTemp267) + ((fRec468[0] * fTemp262) + ((fRec464[0] * fTemp257) + (fSlow36 * fTemp764))))))))))))))))))))))))))))))))))))))))))))));
+			float fTemp769 = ((fSlow36 * (fRec440[0] + (fRec436[0] + (fRec432[0] + (fRec428[0] + (fRec424[0] + (fRec420[0] + (fRec416[0] + (fRec412[0] + (fRec408[0] + (fRec404[0] + (fRec400[0] + (fRec396[0] + (fRec460[0] + (fRec456[0] + (fRec452[0] + (fRec444[0] + fRec448[0]))))))))))))))))) + (fRec468[0] + (fRec464[0] + (fRec42[0] + (fRec32[0] + (fRec22[0] + (fRec12[0] + (fRec1[0] + (fRec79[0] + (fRec70[0] + (fRec61[0] + (fRec52[0] + (fRec131[0] + (fRec127[0] + (fRec123[0] + (fRec119[0] + (fRec115[0] + (fRec106[0] + (fRec97[0] + (fRec88[0] + fTemp475))))))))))))))))))));
+			fVec153[0] = (fTemp769 - fTemp768);
+			fRec482[0] = (fConst19 * ((fTemp769 - (fTemp768 + fVec153[1])) + fRec482[1]));
+			float fTemp770 = (fTemp768 + (0.0002f * (fRec482[0] * fSlow1)));
+			float fTemp771 = (fSlow93 * fTemp770);
+			fVec154[0] = fTemp771;
 			fRec481[0] = (fConst34 * ((fVec154[0] - fVec154[1]) + fRec481[1]));
-			float fTemp770 = ((fSlow94 * fTemp768) + (0.5416666666666667f * fRec481[0]));
-			fVec155[0] = fTemp770;
+			float fTemp772 = ((fSlow94 * fTemp770) + (0.5416666666666667f * fRec481[0]));
+			fVec155[0] = fTemp772;
 			fRec480[0] = (fConst35 * ((fVec155[0] - fVec155[1]) + fRec480[1]));
 			fRec485[0] = (fConst19 * fRec485[1]);
-			float fTemp771 = ((0.0002f * (fRec485[0] * fSlow1)) + (0.5f * (fTemp502 + ((fRec275[0] * fTemp461) + ((fRec271[0] * fTemp457) + ((fRec267[0] * fTemp453) + ((fRec263[0] * fTemp449) + ((fRec259[0] * fTemp445) + ((fRec255[0] * fTemp441) + ((fRec251[0] * fTemp437) + ((fRec247[0] * fTemp432) + ((fRec243[0] * fTemp427) + ((fRec239[0] * fTemp422) + ((fRec235[0] * fTemp417) + ((fRec231[0] * fTemp412) + ((fRec227[0] * fTemp407) + ((fRec223[0] * fTemp402) + ((fRec219[0] * fTemp397) + ((fRec215[0] * fTemp392) + ((fRec211[0] * fTemp387) + ((fRec207[0] * fTemp382) + ((fRec203[0] * fTemp377) + ((fRec199[0] * fTemp372) + ((fRec195[0] * fTemp367) + ((fRec191[0] * fTemp362) + ((fRec187[0] * fTemp357) + ((fRec183[0] * fTemp352) + ((fRec179[0] * fTemp347) + ((fRec175[0] * fTemp342) + ((fRec171[0] * fTemp337) + ((fRec167[0] * fTemp332) + ((fRec163[0] * fTemp327) + ((fRec159[0] * fTemp322) + ((fRec155[0] * fTemp317) + ((fRec151[0] * fTemp312) + ((fRec147[0] * fTemp307) + ((fRec143[0] * fTemp302) + ((fRec139[0] * fTemp297) + ((fRec135[0] * fTemp292) + ((fRec131[0] * fTemp287) + ((fRec127[0] * fTemp282) + ((fRec123[0] * fTemp277) + ((fRec119[0] * fTemp272) + ((fRec115[0] * fTemp267) + ((fRec106[0] * fTemp262) + ((fRec97[0] * fTemp257) + (fSlow36 * fTemp762)))))))))))))))))))))))))))))))))))))))))))))));
-			float fTemp772 = (fSlow96 * fTemp771);
-			fVec156[0] = fTemp772;
+			float fTemp773 = ((0.0002f * (fRec485[0] * fSlow1)) + (0.5f * (fTemp502 + ((fRec275[0] * fTemp461) + ((fRec271[0] * fTemp457) + ((fRec267[0] * fTemp453) + ((fRec263[0] * fTemp449) + ((fRec259[0] * fTemp445) + ((fRec255[0] * fTemp441) + ((fRec251[0] * fTemp437) + ((fRec247[0] * fTemp432) + ((fRec243[0] * fTemp427) + ((fRec239[0] * fTemp422) + ((fRec235[0] * fTemp417) + ((fRec231[0] * fTemp412) + ((fRec227[0] * fTemp407) + ((fRec223[0] * fTemp402) + ((fRec219[0] * fTemp397) + ((fRec215[0] * fTemp392) + ((fRec211[0] * fTemp387) + ((fRec207[0] * fTemp382) + ((fRec203[0] * fTemp377) + ((fRec199[0] * fTemp372) + ((fRec195[0] * fTemp367) + ((fRec191[0] * fTemp362) + ((fRec187[0] * fTemp357) + ((fRec183[0] * fTemp352) + ((fRec179[0] * fTemp347) + ((fRec175[0] * fTemp342) + ((fRec171[0] * fTemp337) + ((fRec167[0] * fTemp332) + ((fRec163[0] * fTemp327) + ((fRec159[0] * fTemp322) + ((fRec155[0] * fTemp317) + ((fRec151[0] * fTemp312) + ((fRec147[0] * fTemp307) + ((fRec143[0] * fTemp302) + ((fRec139[0] * fTemp297) + ((fRec135[0] * fTemp292) + ((fRec131[0] * fTemp287) + ((fRec127[0] * fTemp282) + ((fRec123[0] * fTemp277) + ((fRec119[0] * fTemp272) + ((fRec115[0] * fTemp267) + ((fRec106[0] * fTemp262) + ((fRec97[0] * fTemp257) + (fSlow36 * fTemp763)))))))))))))))))))))))))))))))))))))))))))))));
+			float fTemp774 = (fSlow96 * fTemp773);
+			fVec156[0] = fTemp774;
 			fRec484[0] = (fConst36 * ((fVec156[0] - fVec156[1]) + fRec484[1]));
-			float fTemp773 = ((fSlow97 * fTemp771) + (0.5416666666666667f * fRec484[0]));
-			fVec157[0] = fTemp773;
+			float fTemp775 = ((fSlow97 * fTemp773) + (0.5416666666666667f * fRec484[0]));
+			fVec157[0] = fTemp775;
 			fRec483[0] = (fConst37 * ((fVec157[0] - fVec157[1]) + fRec483[1]));
-			float fTemp774 = (0.5f * (fTemp502 + (fTemp501 + (fTemp500 + (fTemp499 + (fTemp498 + (fTemp497 + (fTemp496 + (fTemp495 + (fTemp494 + (fTemp493 + (fTemp492 + (fTemp491 + (fTemp490 + ((fRec275[0] * fTemp407) + ((fRec271[0] * fTemp402) + ((fRec267[0] * fTemp397) + ((fRec263[0] * fTemp392) + ((fRec259[0] * fTemp387) + ((fRec255[0] * fTemp382) + ((fRec251[0] * fTemp377) + ((fRec247[0] * fTemp372) + ((fRec243[0] * fTemp367) + ((fRec239[0] * fTemp362) + ((fRec235[0] * fTemp357) + ((fRec231[0] * fTemp352) + ((fRec227[0] * fTemp347) + ((fRec223[0] * fTemp342) + ((fRec219[0] * fTemp337) + ((fRec215[0] * fTemp332) + ((fRec211[0] * fTemp327) + ((fRec207[0] * fTemp322) + ((fRec203[0] * fTemp317) + ((fRec199[0] * fTemp312) + ((fRec195[0] * fTemp307) + ((fRec191[0] * fTemp302) + ((fRec187[0] * fTemp297) + ((fRec183[0] * fTemp292) + ((fRec179[0] * fTemp287) + ((fRec175[0] * fTemp282) + ((fRec171[0] * fTemp277) + ((fRec167[0] * fTemp272) + ((fRec163[0] * fTemp267) + ((fRec159[0] * fTemp262) + ((fRec155[0] * fTemp257) + (fSlow36 * ((fRec151[0] * fTemp252) + ((fRec147[0] * fTemp247) + ((fRec143[0] * fTemp242) + ((fRec139[0] * fTemp237) + ((fRec135[0] * fTemp232) + ((fRec131[0] * fTemp214) + ((fRec127[0] * fTemp196) + ((fRec123[0] * fTemp178) + ((fRec119[0] * fTemp160) + ((fRec115[0] * fTemp142) + ((fRec106[0] * fTemp124) + ((fRec97[0] * fTemp106) + ((fRec88[0] * fTemp85) + ((fRec79[0] * fTemp64) + ((fRec70[0] * fTemp43) + ((fRec61[0] * fTemp22) + (fRec52[0] * fTemp0)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
-			float fTemp775 = ((fSlow36 * (fRec79[0] + (fRec70[0] + (fRec61[0] + (fRec52[0] + (fRec131[0] + (fRec127[0] + (fRec123[0] + (fRec119[0] + (fRec115[0] + (fRec106[0] + (fRec97[0] + (fRec88[0] + fTemp471))))))))))))) + (fRec313[0] + (fRec310[0] + (fRec307[0] + (fRec304[0] + (fRec300[0] + (fRec297[0] + (fRec294[0] + (fRec291[0] + (fRec288[0] + (fRec285[0] + (fRec282[0] + ((2 * fRec279[0]) + (fRec275[0] + (fRec271[0] + (fRec267[0] + (fRec263[0] + (fRec259[0] + (fRec255[0] + (fRec251[0] + (fRec247[0] + (fRec243[0] + (fRec239[0] + (fRec235[0] + (fRec231[0] + (fRec227[0] + (fRec223[0] + (fRec219[0] + (fRec215[0] + (fRec211[0] + (fRec207[0] + (fRec203[0] + (fRec199[0] + (fRec195[0] + (fRec191[0] + (fRec187[0] + (fRec183[0] + (fRec179[0] + (fRec175[0] + (fRec171[0] + (fRec167[0] + (fRec163[0] + (fRec155[0] + fRec159[0])))))))))))))))))))))))))))))))))))))))))));
-			fVec158[0] = (fTemp775 - fTemp774);
-			fRec488[0] = (fConst19 * ((fTemp775 - (fTemp774 + fVec158[1])) + fRec488[1]));
-			float fTemp776 = (fTemp774 + (0.0002f * (fRec488[0] * fSlow1)));
-			float fTemp777 = (fSlow99 * fTemp776);
-			fVec159[0] = fTemp777;
+			float fTemp776 = (0.5f * (fTemp502 + (fTemp501 + (fTemp500 + (fTemp499 + (fTemp498 + (fTemp497 + (fTemp496 + (fTemp495 + (fTemp494 + (fTemp493 + (fTemp492 + (fTemp491 + (fTemp490 + ((fRec275[0] * fTemp407) + ((fRec271[0] * fTemp402) + ((fRec267[0] * fTemp397) + ((fRec263[0] * fTemp392) + ((fRec259[0] * fTemp387) + ((fRec255[0] * fTemp382) + ((fRec251[0] * fTemp377) + ((fRec247[0] * fTemp372) + ((fRec243[0] * fTemp367) + ((fRec239[0] * fTemp362) + ((fRec235[0] * fTemp357) + ((fRec231[0] * fTemp352) + ((fRec227[0] * fTemp347) + ((fRec223[0] * fTemp342) + ((fRec219[0] * fTemp337) + ((fRec215[0] * fTemp332) + ((fRec211[0] * fTemp327) + ((fRec207[0] * fTemp322) + ((fRec203[0] * fTemp317) + ((fRec199[0] * fTemp312) + ((fRec195[0] * fTemp307) + ((fRec191[0] * fTemp302) + ((fRec187[0] * fTemp297) + ((fRec183[0] * fTemp292) + ((fRec179[0] * fTemp287) + ((fRec175[0] * fTemp282) + ((fRec171[0] * fTemp277) + ((fRec167[0] * fTemp272) + ((fRec163[0] * fTemp267) + ((fRec159[0] * fTemp262) + ((fRec155[0] * fTemp257) + (fSlow36 * ((fRec151[0] * fTemp252) + ((fRec147[0] * fTemp247) + ((fRec143[0] * fTemp242) + ((fRec139[0] * fTemp237) + ((fRec135[0] * fTemp232) + ((fRec131[0] * fTemp214) + ((fRec127[0] * fTemp196) + ((fRec123[0] * fTemp178) + ((fRec119[0] * fTemp160) + ((fRec115[0] * fTemp142) + ((fRec106[0] * fTemp124) + ((fRec97[0] * fTemp106) + ((fRec88[0] * fTemp85) + ((fRec79[0] * fTemp64) + ((fRec70[0] * fTemp43) + ((fRec61[0] * fTemp22) + (fRec52[0] * fTemp0)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
+			float fTemp777 = ((fSlow36 * (fRec79[0] + (fRec70[0] + (fRec61[0] + (fRec52[0] + (fRec131[0] + (fRec127[0] + (fRec123[0] + (fRec119[0] + (fRec115[0] + (fRec106[0] + (fRec97[0] + (fRec88[0] + fTemp471))))))))))))) + (fRec313[0] + (fRec310[0] + (fRec307[0] + (fRec304[0] + (fRec300[0] + (fRec297[0] + (fRec294[0] + (fRec291[0] + (fRec288[0] + (fRec285[0] + (fRec282[0] + ((2 * fRec279[0]) + (fRec275[0] + (fRec271[0] + (fRec267[0] + (fRec263[0] + (fRec259[0] + (fRec255[0] + (fRec251[0] + (fRec247[0] + (fRec243[0] + (fRec239[0] + (fRec235[0] + (fRec231[0] + (fRec227[0] + (fRec223[0] + (fRec219[0] + (fRec215[0] + (fRec211[0] + (fRec207[0] + (fRec203[0] + (fRec199[0] + (fRec195[0] + (fRec191[0] + (fRec187[0] + (fRec183[0] + (fRec179[0] + (fRec175[0] + (fRec171[0] + (fRec167[0] + (fRec163[0] + (fRec155[0] + fRec159[0])))))))))))))))))))))))))))))))))))))))))));
+			fVec158[0] = (fTemp777 - fTemp776);
+			fRec488[0] = (fConst19 * ((fTemp777 - (fTemp776 + fVec158[1])) + fRec488[1]));
+			float fTemp778 = (fTemp776 + (0.0002f * (fRec488[0] * fSlow1)));
+			float fTemp779 = (fSlow99 * fTemp778);
+			fVec159[0] = fTemp779;
 			fRec487[0] = (fConst38 * ((fVec159[0] - fVec159[1]) + fRec487[1]));
-			float fTemp778 = ((fSlow100 * fTemp776) + (0.5416666666666667f * fRec487[0]));
-			fVec160[0] = fTemp778;
+			float fTemp780 = ((fSlow100 * fTemp778) + (0.5416666666666667f * fRec487[0]));
+			fVec160[0] = fTemp780;
 			fRec486[0] = (fConst39 * ((fVec160[0] - fVec160[1]) + fRec486[1]));
 			fRec490[0] = (fRec490[1] + (fConst8 * (fVec151[0] - fRec490[1])));
 			fRec489[0] = (fRec489[1] + (fConst8 * (fRec490[0] - fRec489[1])));
@@ -3220,12 +3224,17 @@ class mydsp : public dsp{
 			fRec493[0] = (fRec493[1] + (fConst13 * (fRec494[0] - fRec493[1])));
 			fRec496[0] = (fRec496[1] + (fConst16 * (fVec159[0] - fRec496[1])));
 			fRec495[0] = (fRec495[1] + (fConst16 * (fRec496[0] - fRec495[1])));
-			float fTemp779 = (0.5f * ((fRec291[0] * fTemp465) + ((fRec288[0] * fTemp461) + ((fRec285[0] * fTemp457) + ((fRec282[0] * fTemp453) + ((fRec279[0] * fTemp449) + ((fRec313[0] * fTemp445) + ((fRec310[0] * fTemp441) + ((fRec307[0] * fTemp437) + ((fRec304[0] * fTemp432) + ((fRec300[0] * fTemp427) + ((fRec297[0] * fTemp422) + ((fRec294[0] * fTemp417) + ((fRec291[0] * fTemp412) + ((fRec288[0] * fTemp407) + ((fRec285[0] * fTemp402) + ((fRec282[0] * fTemp397) + ((fRec279[0] * fTemp392) + ((fRec275[0] * fTemp387) + ((fRec271[0] * fTemp382) + ((fRec267[0] * fTemp377) + ((fRec263[0] * fTemp372) + ((fRec259[0] * fTemp367) + ((fRec255[0] * fTemp362) + ((fRec251[0] * fTemp357) + ((fRec247[0] * fTemp352) + ((fRec243[0] * fTemp347) + ((fRec239[0] * fTemp342) + ((fRec235[0] * fTemp337) + ((fRec231[0] * fTemp332) + ((fRec227[0] * fTemp327) + ((fRec223[0] * fTemp322) + ((fRec219[0] * fTemp317) + ((fRec215[0] * fTemp312) + ((fRec211[0] * fTemp307) + ((fRec207[0] * fTemp302) + ((fRec203[0] * fTemp297) + ((fRec199[0] * fTemp292) + ((fRec195[0] * fTemp287) + ((fRec191[0] * fTemp282) + ((fRec187[0] * fTemp277) + ((fRec183[0] * fTemp272) + ((fRec179[0] * fTemp267) + ((fRec175[0] * fTemp262) + ((fRec171[0] * fTemp257) + (fSlow36 * ((fRec167[0] * fTemp252) + ((fRec163[0] * fTemp247) + ((fRec159[0] * fTemp242) + ((fRec155[0] * fTemp237) + ((fRec151[0] * fTemp232) + ((fRec147[0] * fTemp214) + ((fRec143[0] * fTemp196) + ((fRec139[0] * fTemp178) + ((fRec135[0] * fTemp160) + ((fRec131[0] * fTemp142) + ((fRec127[0] * fTemp124) + ((fRec123[0] * fTemp106) + ((fRec119[0] * fTemp85) + ((fRec115[0] * fTemp64) + ((fRec106[0] * fTemp43) + ((fRec97[0] * fTemp22) + (fRec88[0] * fTemp0)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
-			float fTemp780 = ((fRec291[0] + (fRec285[0] + fRec288[0])) + (2 * ((fTemp504 + (fTemp505 + (fTemp506 + (fTemp507 + (fTemp508 + (fTemp509 + (fTemp510 + (fTemp511 + (fTemp512 + (fTemp513 + (fRec282[0] + (fRec279[0] + (fTemp514 + (fTemp515 + (fTemp516 + (fTemp517 + (fTemp518 + (fTemp519 + (fTemp520 + (fTemp521 + (fTemp522 + (fTemp523 + (fTemp524 + (fTemp525 + (fTemp526 + (fTemp527 + (fTemp528 + (fTemp529 + (fTemp530 + (fTemp531 + (fTemp532 + ((((((((0.5f * fRec171[0]) + (0.5f * fRec175[0])) + (0.5f * fRec179[0])) + (0.5f * fRec183[0])) + (0.5f * fRec187[0])) + (0.5f * fRec191[0])) + (0.5f * fRec195[0])) + (0.5f * fRec199[0]))))))))))))))))))))))))))))))))) + (fSlow81 * (fRec131[0] + (fRec127[0] + (fRec123[0] + (fRec119[0] + (fRec115[0] + (fRec106[0] + (fRec97[0] + (fRec88[0] + fTemp472))))))))))));
-			fVec161[0] = (fTemp780 - fTemp779);
-			fRec497[0] = (fConst19 * ((fTemp780 - (fTemp779 + fVec161[1])) + fRec497[1]));
+			float fTemp781 = (fSlow105 * ((fSlow103 * (((fRec495[0] + fRec493[0]) + fRec491[0]) + fRec489[0])) + (fSlow102 * (((fRec486[0] + fRec483[0]) + fRec480[0]) + fRec478[0]))));
+			float fTemp782 = (0.5f * ((fRec291[0] * fTemp465) + ((fRec288[0] * fTemp461) + ((fRec285[0] * fTemp457) + ((fRec282[0] * fTemp453) + ((fRec279[0] * fTemp449) + ((fRec313[0] * fTemp445) + ((fRec310[0] * fTemp441) + ((fRec307[0] * fTemp437) + ((fRec304[0] * fTemp432) + ((fRec300[0] * fTemp427) + ((fRec297[0] * fTemp422) + ((fRec294[0] * fTemp417) + ((fRec291[0] * fTemp412) + ((fRec288[0] * fTemp407) + ((fRec285[0] * fTemp402) + ((fRec282[0] * fTemp397) + ((fRec279[0] * fTemp392) + ((fRec275[0] * fTemp387) + ((fRec271[0] * fTemp382) + ((fRec267[0] * fTemp377) + ((fRec263[0] * fTemp372) + ((fRec259[0] * fTemp367) + ((fRec255[0] * fTemp362) + ((fRec251[0] * fTemp357) + ((fRec247[0] * fTemp352) + ((fRec243[0] * fTemp347) + ((fRec239[0] * fTemp342) + ((fRec235[0] * fTemp337) + ((fRec231[0] * fTemp332) + ((fRec227[0] * fTemp327) + ((fRec223[0] * fTemp322) + ((fRec219[0] * fTemp317) + ((fRec215[0] * fTemp312) + ((fRec211[0] * fTemp307) + ((fRec207[0] * fTemp302) + ((fRec203[0] * fTemp297) + ((fRec199[0] * fTemp292) + ((fRec195[0] * fTemp287) + ((fRec191[0] * fTemp282) + ((fRec187[0] * fTemp277) + ((fRec183[0] * fTemp272) + ((fRec179[0] * fTemp267) + ((fRec175[0] * fTemp262) + ((fRec171[0] * fTemp257) + (fSlow36 * ((fRec167[0] * fTemp252) + ((fRec163[0] * fTemp247) + ((fRec159[0] * fTemp242) + ((fRec155[0] * fTemp237) + ((fRec151[0] * fTemp232) + ((fRec147[0] * fTemp214) + ((fRec143[0] * fTemp196) + ((fRec139[0] * fTemp178) + ((fRec135[0] * fTemp160) + ((fRec131[0] * fTemp142) + ((fRec127[0] * fTemp124) + ((fRec123[0] * fTemp106) + ((fRec119[0] * fTemp85) + ((fRec115[0] * fTemp64) + ((fRec106[0] * fTemp43) + ((fRec97[0] * fTemp22) + (fRec88[0] * fTemp0)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
+			float fTemp783 = ((fRec291[0] + (fRec285[0] + fRec288[0])) + (2 * ((fTemp504 + (fTemp505 + (fTemp506 + (fTemp507 + (fTemp508 + (fTemp509 + (fTemp510 + (fTemp511 + (fTemp512 + (fTemp513 + (fRec282[0] + (fRec279[0] + (fTemp514 + (fTemp515 + (fTemp516 + (fTemp517 + (fTemp518 + (fTemp519 + (fTemp520 + (fTemp521 + (fTemp522 + (fTemp523 + (fTemp524 + (fTemp525 + (fTemp526 + (fTemp527 + (fTemp528 + (fTemp529 + (fTemp530 + (fTemp531 + (fTemp532 + ((((((((0.5f * fRec171[0]) + (0.5f * fRec175[0])) + (0.5f * fRec179[0])) + (0.5f * fRec183[0])) + (0.5f * fRec187[0])) + (0.5f * fRec191[0])) + (0.5f * fRec195[0])) + (0.5f * fRec199[0]))))))))))))))))))))))))))))))))) + (fSlow81 * (fRec131[0] + (fRec127[0] + (fRec123[0] + (fRec119[0] + (fRec115[0] + (fRec106[0] + (fRec97[0] + (fRec88[0] + fTemp472))))))))))));
+			fVec161[0] = (fTemp783 - fTemp782);
+			fRec497[0] = (fConst19 * ((fTemp783 - (fTemp782 + fVec161[1])) + fRec497[1]));
+			float fTemp784 = (fSlow120 * ((fSlow119 * fTemp535) + ((fSlow117 * (fTemp782 + (0.0002f * (fRec497[0] * fSlow1)))) + ((fSlow115 * fTemp778) + ((fSlow113 * (fTemp470 + (0.0002f * fTemp477))) + ((fSlow111 * fTemp773) + ((fSlow109 * fTemp756) + (fSlow107 * fTemp770))))))));
 			fRec498[0] = (fSlow121 + (0.98f * fRec498[1]));
-			output0[i] = (FAUSTFLOAT)((0.001f + (0.05f * fRec498[0])) * ((fSlow120 * ((fSlow119 * fTemp535) + ((fSlow117 * (fTemp779 + (0.0002f * (fRec497[0] * fSlow1)))) + ((fSlow115 * fTemp776) + ((fSlow113 * (fTemp470 + (0.0002f * fTemp477))) + ((fSlow111 * fTemp771) + ((fSlow109 * fTemp756) + (fSlow107 * fTemp768)))))))) + ((fSlow105 * ((fSlow103 * (((fRec495[0] + fRec493[0]) + fRec491[0]) + fRec489[0])) + (fSlow102 * (((fRec486[0] + fRec483[0]) + fRec480[0]) + fRec478[0])))) + ((fRec477[0] * (0.5f + (4.5f * fRec476[0]))) + (fSlow83 * (max(fSlow82, (0.25f * (fVec150[4] + (fVec150[3] + (fVec150[0] + fVec150[2]))))) * ((fTemp469 + (fTemp756 + (0.5f * fTemp535))) + (0.0004f * fTemp477))))))));
+			float fTemp785 = (0.001f + (0.05f * fRec498[0]));
+			output0[i] = (FAUSTFLOAT)(fTemp785 * (fTemp784 + (fTemp781 + (fTemp765 + fTemp762))));
+			output1[i] = (FAUSTFLOAT)(fTemp785 * (fTemp784 + (fTemp762 + fTemp781)));
+			output2[i] = (FAUSTFLOAT)(fTemp765 * fTemp785);
 			// post processing
 			fRec498[1] = fRec498[0];
 			fRec497[1] = fRec497[0];
