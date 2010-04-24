@@ -39,7 +39,7 @@ oscillators(bias) =
 	(tet12(10 + 39) * bias * apply_realism(0.996945) : polyblep_sawtooth_master), // Bb
 	(tet12(11 + 39) * bias * apply_realism(1.003118) : polyblep_sawtooth_master)  // B
 with {
-	apply_realism(offset) = select2( realism_control >= 0.5, 1.0, offset);
+	apply_realism(offset) = select2( realism_control > (1.0/6.0), 1.0, offset);
 };
 
 
