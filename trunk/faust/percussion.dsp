@@ -51,7 +51,7 @@ with {
 
 	rms_detect_speed = int(max(22050.0,min(192000.0,float(SR))) * 0.020);
 
-	threshold = -45.0;
+	threshold = -25.0;
 	threshold_hyst = threshold - 10.0;
 
 	detect = +(noise*0.000001) : max(-1.0) : min(1.0) : RMS(rms_detect_speed) : co2db : impulse_detector;
