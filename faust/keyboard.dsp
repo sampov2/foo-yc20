@@ -154,10 +154,10 @@ keyboard(
     bass_bus_16
 with
 {
-	// measurements show -30..-40dB of overall level change, but it's way too little
+	// some measurements show -30..-40dB of overall level change, but it's way too loud,
 	// probably as to how the bleed compounds from multiple bus bars.
-	// this gain coefficient is selected as -74dB
-	bus_bleed_filter = passive_hp(100000.0, 0.001) : *(0.0002);
+	// this gain coefficient is selected as -54dB
+	bus_bleed_filter = passive_hp(100000.0, 0.001) : *(0.002);
 	apply_realism    = *( select2( realism_control >= (5.0/6.0), 0.0, 1.0) );
 
 	// ******** BUS 1
