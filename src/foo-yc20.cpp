@@ -326,7 +326,6 @@ YC20UI::addButton(const char* label, float* zone)
 
 	if (isNote) {
 		//std::cerr << "Connected key " << label << ", octave " << octave << ", note " << note << std::endl;
-		//fprintf(stderr, "Connected key %s, octave %d, note %d\n", label, octave, note);
 		yc20_keys[octave*12 + note] = zone;
 		return;
 	}
@@ -564,7 +563,6 @@ YC20UI::handleExposeEvents()
 	while ( jack_ringbuffer_read(exposeRingbuffer, 
 	                             (char *)&obj,
 	                             sizeof(Wdgt::Object *)) == sizeof(Wdgt::Object *)) {
-		//std::cerr << "CC #" << evt.cc << " = " << evt.value << std::endl;
 		exposeWdgt(obj);
 	}
 }
@@ -612,7 +610,7 @@ YC20UI::doControlChange(int cc, int value)
 	Wdgt::Draggable *control = draggablePerCC[cc];
 	
 	if (control == NULL) {
-		std::cerr << "No control for CC " << cc << std::endl;
+		//std::cerr << "No control for CC " << cc << std::endl;
 		return;
 	}
 
@@ -659,8 +657,6 @@ bool
 YC20UI::expose(GdkEventExpose *evt)
 {
 	bool clip = (evt != NULL);
-
-	//std::cerr << "expose()" << std::endl;
 
 	GdkRectangle physicalArea = evt->area;
 
