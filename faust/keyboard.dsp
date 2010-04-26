@@ -18,7 +18,7 @@
 */
 // 5 octaves + one C = 61 keys
 
-key_slowdown(x) = (x@1 + x)/2;
+key_slowdown(x) = (x@3 + x@2 + x@1 + x)/4;
 
 // Bottom 17 keys is the switchable bass manual
 key_c0 = button("c0") : key_slowdown;
