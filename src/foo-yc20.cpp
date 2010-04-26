@@ -669,6 +669,9 @@ YC20UI::expose(GdkEventExpose *evt)
 	evt->area.width  /= ui_scale;
 	evt->area.height /= ui_scale;
 
+	evt->area.width++;
+	evt->area.height++;
+
 	_ready_to_draw = true;
 
 	cairo_t *cr;
@@ -704,10 +707,8 @@ YC20UI::expose(GdkEventExpose *evt)
 
 	if (clip) {
 		cairo_rectangle(cr,
-				evt->area.x,     evt->area.y, 
-				evt->area.width, evt->area.height);
-				//physicalArea.x,     physicalArea.y, 
-				//physicalArea.width, physicalArea.height);
+				evt->area.x,       evt->area.y, 
+				evt->area.width+1, evt->area.height+1);
 		cairo_clip(cr);
 	}
 
