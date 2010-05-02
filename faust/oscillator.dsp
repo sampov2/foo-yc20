@@ -17,7 +17,7 @@
 
 */
 
-modone = _ <: _ - floor;
+modone = _ <: select2( >(1.0), _, -(1.0));
 
 tet12(note) = 440 * 2.0^(note / 12.0);
 
