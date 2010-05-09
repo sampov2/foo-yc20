@@ -15,24 +15,35 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+    RMS code by Yann Orlarey from the Faust project
 */
-// Root Mean Square of n consecutive samples
-RMS(n) = square : mean(n) : sqrt 
+
+reduce(op, n, x) = compute ~ (_,_,_) : (!,!,_)
+    with {
+        compute (acc, count, val) =
+            if(count<n, op(acc,x), x),                 // new acc
+            if(count<n, count+1, 1),             // new count
+            if(count<n, val, acc);              // new val
+        if (c, then, else) = select2(c, else, then);
+    };
+
+ 
+// the sum of the amplitudes of the input signal
+sumn(n) = reduce(+,n);
+
+// the maximum amplitude of the input signal
+maxn(n) = reduce(max,n);
+
+// the minimum amplitude of the input signal
+minn(n) = reduce(min,n);
+
+// the average amplitude of the input signal
+mean(n) = sumn(n)/n;
+
+// RMS
+RMS(n) = float : square : mean(n) : sqrt
 with {
-	// the square of a signal
-	square(x) = x * x ;
-	
-	// the mean of n consecutive samples of a signal
-	// uses fixpoint to avoid the accumulation of
-	// rounding errors 
-	mean(n) = float2fix : integrate(n) : fix2float : /(n); 
-
-	// the sliding sum of n consecutive samples of a signal
-	integrate(n,x) = x - x@n : +~_ ;
-
-	// convertion between float and fix point
-	float2fix(x) = int(x*(1<<20));      
-	fix2float(x) = float(x)/(1<<20);    
+	square(x) = x*x;
 };
 
 co2db(coeff) = 20.0*log10(coeff);
