@@ -62,7 +62,7 @@ inline float square_polyblep_fast(float ph, float ph_, float ph__, float q, floa
 	if (ph__ > ph_) {
 		mod = polyblep_it( ph_ / q );
 	} else
-	// ** mid-phase discotinuity
+	// ** mid-phase discontinuity
 	// the sample before the discontinuity
 	if (ph_ < 0.5 && 0.5 <= ph) {
 		mod = -polyblep_it( (ph_ - 0.5) / q );
