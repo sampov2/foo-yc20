@@ -96,8 +96,8 @@ bass_engaged = hgroup("bass",hslider("[3]bass manual",0.0, 0.0, 1.0, 1.0));
 
 // This implementation uses every voice and has equal number of outputs
 // when compared to the "slow" (read "correct") version
-keyboard_test
-	(c8,c7,c6,c5,c4,c3,c2,c1,
+keyboard_fast(
+	 c8,c7,c6,c5,c4,c3,c2,c1,
 	 C8,C7,C6,C5,C4,C3,C2,C1,
 	 d8,d7,d6,d5,d4,d3,d2,d1,
 	 D8,D7,D6,D5,D4,D3,D2,D1,
@@ -109,11 +109,19 @@ keyboard_test
 	 a8,a7,a6,a5,a4,a3,a2,a1,
 	 A8,A7,A6,A5,A4,A3,A2,A1,
 	 b8,b7,b6,b5,b4,b3,b2,b1
-) = bus_1, bus_1_3p5, bus_2, bus_2_2p3, bus_4, bus_8, bus_16,
-    bass_bus_4, bass_bus_8, bass_bus_16
+) = bus_1,
+    bus_1_3p5,
+    bus_2,
+    bus_2_2p3,
+    bus_4,
+    bus_8,
+    bus_16,
+    bass_bus_4, 
+    bass_bus_8, 
+    bass_bus_16
 with
 {
-	bus_1		= c1+c2+c3+c4+c5+c6+c7+c8+c8;
+	bus_1		= c1+c2+c3+c4+c5+c6+c7+c8+c8*bass_engaged;
 	bus_1_3p5	= C1+C2+C3+C4+C5+C6+C7+C8+C8;
 	bus_2		= d1+d2+d3+d4+d5+d6+d7+d8+d8
 			+ A1+A2+A3+A4+A5+A6+A7+A8+A8;
