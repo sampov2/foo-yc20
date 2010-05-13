@@ -33,7 +33,7 @@ inline float calculate_polyblep_valimaki_huovilainen(float t)
 #define polyblep_it(x) calculate_polyblep_valimaki_huovilainen((x))
 
 
-inline float saw_polyblep_fast(float ph, float ph_, float ph__, float q, float x)
+inline float saw_polyblep_fast(float ph, float ph_, float ph__, float q)
 {
 	float mod = 0.0;
 
@@ -46,10 +46,10 @@ inline float saw_polyblep_fast(float ph, float ph_, float ph__, float q, float x
 		mod = polyblep_it( ph_ / q );
 	}
 
-	return x + mod * 2.0;
+	return mod * 2.0;
 }
 
-inline float square_polyblep_fast(float ph, float ph_, float ph__, float q, float x)
+inline float square_polyblep_fast(float ph, float ph_, float ph__, float q)
 {
 	float mod = 0.0;
 
@@ -72,8 +72,22 @@ inline float square_polyblep_fast(float ph, float ph_, float ph__, float q, floa
 		mod = -polyblep_it( (ph_ - 0.5) / q );
 	}
 
-	return x + mod * 2.0;
+	return mod * 2.0;
 }
+
+inline float square_polyblep_precalc(float ph, float ph_, float ph__, float precalc)
+{
+	// ** start-of-phase discontinuity
+	if (ph__ > ph) {
+		return precalc;
+	} else
+	// ** mid-phase discontinuity
+	if (ph__ < 0.5 && 0.5 <= ph) {
+		return -precalc;
+	}
+	return 0.0;
+}
+
 
 inline float square_wave(float f)
 {

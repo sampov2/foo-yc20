@@ -21,7 +21,7 @@
 
 dividers = par(i, 12, divider);
 
-divider = _, 
+divider(antialias) = _, 
 	(divide : _, 
 	(divide : _, 
 	(divide : _,
@@ -31,7 +31,7 @@ divider = _,
 	(divide : _, !)
 	))))))
 with {
-	divide = phase_divisor <: polyblep_square_slave, _;
+	divide = phase_divisor <: polyblep_square_slave(antialias), _;
 };
 
 phase_divisor(ph) = slow_accumulator(ph) / 2.0

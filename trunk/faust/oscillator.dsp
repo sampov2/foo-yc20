@@ -43,7 +43,7 @@ with {
 };
 
 
-polyblep_sawtooth_master(f) = (phase ~ _) <: polyblep_sawtooth_slave * saw_gain, _
+polyblep_sawtooth_master(f) = (phase ~ _) <: (polyblep_sawtooth_slave), _
 with {
 	freq = f;
 
@@ -51,34 +51,27 @@ with {
 	phase = +(q) : modone;
 };
 
-polyblep_sawtooth_slave(phase) = naive_sawtooth : new_polyb_it
+polyblep_sawtooth_slave(phase) = create_polyblep_antialias <: (_, ( +(naive_sawtooth') : *(saw_gain) ) )
 with {
 
 	q = modone(phase - phase' + 1);
 
 	naive_sawtooth = (phase-0.5)*(-2);
 
-	new_polyb_it = blep_fast(phase, phase', phase'', q, _');
+	create_polyblep_antialias = blep_fast(phase, phase', phase'', q);
 
-	blep_fast = ffunction (float saw_polyblep_fast   (float, float, float, float, float), "polyblep.cpp", "");
+	blep_fast = ffunction (float saw_polyblep_fast   (float, float, float, float), "polyblep.cpp", "");
 };
 
-polyblep_square_slave(phase) = naive_square : new_polyb_it
+polyblep_square_slave(antialias,phase) = naive_square' : apply_precalc_polyblep
 with {
 
 	q = modone(phase - phase' + 1);
 
-	// 38% - when not inlined
-	naive_square = square_fast(phase);
+	naive_square = (phase < 0.5) : -(0.5) : *(2);
 
-	// This is horrible! It slows down the process by multiple percentile units!
-	//naive_square = (phase < 0.5) : -(0.5) : *(2);
-	// .. this is slow too!
-	// naive_square = select2( phase < 0.5, -1.0, 1.0);
+	apply_precalc_polyblep = +(blep_precalc(phase, phase', phase'', antialias));
 
-	new_polyb_it = blep_fast(phase, phase', phase'', q, _');
-
-	blep_fast = ffunction (float square_polyblep_fast   (float, float, float, float, float), "polyblep.cpp", "");
-	square_fast = ffunction (float square_wave (float), "polyblep.cpp", "");
+	blep_precalc = ffunction (float square_polyblep_precalc   (float, float, float, float), "polyblep.cpp", "");
 };
 
