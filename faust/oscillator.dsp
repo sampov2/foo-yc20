@@ -51,55 +51,34 @@ with {
 	phase = +(q) : modone;
 };
 
-polyblep_sawtooth_slave(phase) = naive_sawtooth(phase) : (polyb_it ~ _) : (!, _)
+polyblep_sawtooth_slave(phase) = naive_sawtooth : new_polyb_it
 with {
 
 	q = modone(phase - phase' + 1);
 
-	naive_sawtooth(ph) = ph, (ph-0.5)*(-2);
+	naive_sawtooth = (phase-0.5)*(-2);
 
-        polyblep_real(t) = select2( t > 0, 
-                                   ((t*t)/2 + t + 0.5), 
-                                   (t - (t*t)/2 - 0.5));
+	new_polyb_it = blep_fast(phase, phase', phase'', q, _');
 
-        polyblep(t) = polyblep_real( t / q);
-
-	// 0 no polyblep
-	// 1 add polyblep at ph
-	selector(ph) = select2( ph' > ph, 0, 1);
-
-	// Detects square wave discontinuities by checking whether phase has went past 0 or 0.5
-	// delays signal by one.
-	polyb_it(prev, ph, x) = 
-		selector(ph) <:
-			saw_blep_x   (_, x,    ph,  q) ,
-			saw_blep_prev(_, prev, ph', q);
-
-	saw_blep_x    = ffunction (float saw_blep_x   (int, float, float, float), "polyblep.cpp", "");
-	saw_blep_prev = ffunction (float saw_blep_prev(int, float, float, float), "polyblep.cpp", "");
+	blep_fast = ffunction (float saw_polyblep_fast   (float, float, float, float, float), "polyblep.cpp", "");
 };
 
-polyblep_square_slave(phase) = naive_square(phase) : (polyb_it ~ _) : (!, _)
+polyblep_square_slave(phase) = naive_square : new_polyb_it
 with {
 
 	q = modone(phase - phase' + 1);
 
-	naive_square(ph) = ph, select2( ph < 0.5, -1.0, 1.0);
+	// 38% - when not inlined
+	naive_square = square_fast(phase);
 
-	// 0 no polyblep
-	// 1 add polyblep at ph
-	// 2 add reverse phase polyblep at ph - 0.5
-	selector(ph) = select2( ph' > ph, 
-		       select2( modone(ph+0.5) < q, 0, 2), 1);
+	// This is horrible! It slows down the process by multiple percentile units!
+	//naive_square = (phase < 0.5) : -(0.5) : *(2);
+	// .. this is slow too!
+	// naive_square = select2( phase < 0.5, -1.0, 1.0);
 
-	// Detects square wave discontinuities by checking whether phase has went past 0 or 0.5
-	// delays signal by one.
-	polyb_it(prev, ph, x) = 
-		selector(ph) <:
-			square_blep_x   (_, x,    ph,  q) ,
-			square_blep_prev(_, prev, ph', q);
+	new_polyb_it = blep_fast(phase, phase', phase'', q, _');
 
-	square_blep_x    = ffunction (float square_blep_x   (int, float, float, float), "polyblep.cpp", "");
-	square_blep_prev = ffunction (float square_blep_prev(int, float, float, float), "polyblep.cpp", "");
+	blep_fast = ffunction (float square_polyblep_fast   (float, float, float, float, float), "polyblep.cpp", "");
+	square_fast = ffunction (float square_wave (float), "polyblep.cpp", "");
 };
 
