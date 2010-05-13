@@ -60,7 +60,7 @@ with {
 
 	apply_realism = max( select2(realism_control > (3.0/6.0), 0.0, measured_bleed));
 
-	rms_detect_speed = int(max(22050.0,min(192000.0,float(SR))) * 0.020);
+	rms_detect_speed = int(max(22050.0,min(192000.0,float(SR))) * 0.001);
 
 	threshold = -25.0;
 	threshold_hyst = threshold - 10.0;
