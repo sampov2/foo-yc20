@@ -77,6 +77,10 @@ inline float square_polyblep_fast(float ph, float ph_, float ph__, float q)
 
 inline float square_polyblep_precalc(float ph, float ph_, float ph__, float precalc)
 {
+	if (precalc == 0.0) {
+		return 0.0;
+	}
+
 	// ** start-of-phase discontinuity
 	if (ph__ > ph) {
 		return precalc;
