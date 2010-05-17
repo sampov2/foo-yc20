@@ -34,10 +34,8 @@
 #include <gtkmm/window.h>
 #include <gtkmm/drawingarea.h>
 
-
-
-#define max(x,y) (((x)>(y)) ? (x) : (y))
-#define min(x,y) (((x)<(y)) ? (x) : (y))
+#define max(x,y) fmax(x,y)
+#define min(x,y) fmin(x,y)
 
 #include "../gen/foo-yc20-dsp.cpp"
 
