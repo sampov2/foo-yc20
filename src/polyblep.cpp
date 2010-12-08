@@ -37,8 +37,7 @@ inline float calculate_polyblep_valimaki_huovilainen(float t)
 #define polyblep_it(x) calculate_polyblep_valimaki_huovilainen((x))
 
 
-//inline float saw_polyblep_fast(float ph, float ph_, float ph__, float q)
-float saw_polyblep_fast(float ph, float ph_, float ph__, float q)
+inline float saw_polyblep_fast(float ph, float ph_, float ph__, float q)
 {
 	float mod = 0.0f;
 
@@ -80,8 +79,7 @@ inline float square_polyblep_fast(float ph, float ph_, float ph__, float q)
 	return mod * 2.0f;
 }
 
-//inline float square_polyblep_precalc(float ph, float ph_, float ph__, float precalc)
-float square_polyblep_precalc(float ph, float ph_, float ph__, float precalc)
+inline float square_polyblep_precalc(float ph, float ph_, float ph__, float precalc)
 {
 	if (precalc == 0.0f) {
 		return 0.0f;
