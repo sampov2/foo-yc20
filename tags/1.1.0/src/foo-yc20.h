@@ -1,0 +1,167 @@
+/*
+    Foo-YC20 UI (header)
+    Copyright (C) 2010  Sampo Savolainen <v2@iki.fi>
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef _FOO_YC20_H
+#define _FOO_YC20_H
+
+#ifdef __SSE__
+    #include <xmmintrin.h>
+    #ifdef __SSE2__
+        #define TURNOFFDENORMALS { _mm_setcsr(_mm_getcsr() | 0x8040); }
+    #else
+        #define TURNOFFDENORMALS { _mm_setcsr(_mm_getcsr() | 0x8000); }
+    #endif
+#else
+    #define TURNOFFDENORMALS 
+#endif
+
+class MidiCC 
+{
+public:
+        MidiCC(int a, int b) { cc = a; value = b;}
+
+        int cc;
+        int value;
+};
+
+class YC20UI : public UI
+{
+	public:
+		YC20UI();
+
+		~YC20UI();
+
+		void setProcessor(mydsp *);
+
+		Gtk::Widget *getWidget() { return &drawingArea; }
+
+		// from Faust UI
+		void addButton(const char* label, float* zone);
+		void addToggleButton(const char* label, float* zone) {};
+		void addCheckButton(const char* label, float* zone) {};
+		void addVerticalSlider(const char* label, float* zone, float init, float min, float max, float step);
+		void addHorizontalSlider(const char* label, float* zone, float init, float min, float max, float step);
+		void addNumEntry(const char* label, float* zone, float init, float min, float max, float step) {};
+
+		void openFrameBox(const char* label) {};
+		void openTabBox(const char* label) {};
+		void openHorizontalBox(const char* label) {};
+		void openVerticalBox(const char* label) {};
+		void closeBox() {};
+
+		void declare(float* zone, const char* key, const char* value) {};
+
+		// Other things
+		void doControlChange(int cc, int value);
+
+		void queueExpose(Wdgt::Object *);
+
+		void loadConfiguration(std::string file);
+		void loadConfiguration();
+		void saveConfiguration();
+
+
+		float *yc20_keys[61];
+		mydsp *processor;
+
+
+	private:
+
+		float ui_scale;
+
+
+		std::string configFile;
+
+		Gtk::DrawingArea drawingArea;
+
+		// Gtk essentials
+		void size_request(Gtk::Requisition *);
+		void size_allocate(Gtk::Allocation &);
+		bool exposeWdgt(Wdgt::Object *);
+		bool expose(GdkEventExpose *);
+
+		void realize();
+
+
+		bool motion_notify_event(GdkEventMotion *);
+		bool button_press_event(GdkEventButton *);
+		bool button_release_event(GdkEventButton *);
+
+		bool draw_queue();
+
+		Wdgt::Object *identifyWdgt(GdkEventMotion *);
+
+		Wdgt::Object *_hoverWdgt;
+		Wdgt::Draggable *_dragWdgt;
+		Wdgt::Object *_buttonPressWdgt;
+
+		int _dragStartX;
+		int _dragStartY;
+		float _predrag_value;
+
+		std::list<Wdgt::Object *> wdgts;
+
+		std::map<std::string, Wdgt::Object *> wdgtPerLabel;
+		Wdgt::Draggable *draggablePerCC[127];
+
+		cairo_surface_t *_image_background;
+
+		bool _ready_to_draw;
+
+		// Idle-timeout redraw things
+
+		jack_ringbuffer_t *exposeRingbuffer;
+		static gboolean idleTimeout(gpointer );
+		void handleExposeEvents();
+		gint idleSignalTag;
+
+};
+
+class YC20Jack;
+
+class YC20Jack
+{
+	public:
+		YC20Jack(YC20UI *);
+		~YC20Jack();
+
+		void connect();
+		void activate();
+		void shutdown();
+
+		jack_nframes_t getSamplerate();		
+
+		int process(jack_nframes_t);
+
+	private:
+
+		static void shutdown_callback(void *);
+		static void process_callback(void *);
+
+		static int process_callback(jack_nframes_t, void *);
+
+		jack_port_t   *audio_output_port;
+		jack_port_t   *treb_output_port;
+		jack_port_t   *bass_output_port;
+		jack_port_t   *midi_input_port;
+		jack_client_t *jack_client;
+
+		YC20UI *ui;
+};
+
+#endif /* _FOO_YC20_H */
