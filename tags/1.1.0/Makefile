@@ -1,6 +1,6 @@
 PREFIX=/usr/local
 CXX=g++
-VERSION=
+VERSION=1.1.0
 
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
