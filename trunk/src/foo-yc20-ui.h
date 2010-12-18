@@ -30,12 +30,12 @@
 #include "wdgt.h"
 #include "yc20_wdgts.h"
 
-class YC20Jack;
+class YC20Processor;
 
 class YC20UI
 {
 	public:
-		YC20UI(YC20Jack *);
+		YC20UI(YC20Processor *);
 
 		~YC20UI();
 
@@ -48,7 +48,7 @@ class YC20UI
 		void saveConfiguration();
 
 	private:
-		YC20Jack *yc20;
+		YC20Processor *yc20;
 
 		float ui_scale;
 

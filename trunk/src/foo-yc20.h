@@ -42,7 +42,6 @@ public:
         int value;
 };
 
-class YC20Jack;
 class Control;
 
 class Control
@@ -115,34 +114,5 @@ class YC20Processor : public UI
 
 };
 
-class YC20Jack : public YC20Processor
-{
-	public:
-		YC20Jack(YC20UI *);
-		~YC20Jack();
-
-		void connect();
-		void activate();
-		void shutdown();
-
-		jack_nframes_t getSamplerate();		
-
-		int process(jack_nframes_t);
-
-
-	private:
-
-		static void shutdown_callback(void *);
-		static void process_callback(void *);
-
-		static int process_callback(jack_nframes_t, void *);
-
-		jack_port_t   *audio_output_port;
-		jack_port_t   *treb_output_port;
-		jack_port_t   *bass_output_port;
-		jack_port_t   *midi_input_port;
-		jack_client_t *jack_client;
-
-};
 
 #endif /* _FOO_YC20_H */
