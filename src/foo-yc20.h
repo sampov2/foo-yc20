@@ -1,5 +1,5 @@
 /*
-    Foo-YC20 UI (header)
+    Foo-YC20 
     Copyright (C) 2010  Sampo Savolainen <v2@iki.fi>
 
     This program is free software: you can redistribute it and/or modify
@@ -18,6 +18,9 @@
 
 #ifndef _FOO_YC20_H
 #define _FOO_YC20_H
+
+#include "faust-dsp.h"
+#include "foo-yc20-ui.h"
 
 #ifdef __SSE__
     #include <xmmintrin.h>
@@ -39,16 +42,41 @@ public:
         int value;
 };
 
-class YC20UI : public UI
+class YC20Jack;
+class Control;
+
+class Control
 {
 	public:
-		YC20UI();
 
-		~YC20UI();
+		Control(char cc, float min, float max) { 
+			controlChange = cc; minValue = min; maxValue = max; 
+		}
 
-		void setProcessor(mydsp *);
+		Control(char cc) {
+			controlChange = cc; minValue = 0.0; maxValue = 1.0;
+		}
 
-		Gtk::Widget *getWidget() { return &drawingArea; }
+		char  getCC() const { return controlChange; }
+		float getMin() const { return minValue; }
+		float getMax() const { return maxValue; }
+
+		void setValueFromCC(int value) const { *zone = minValue + (maxValue - minValue) * ((float)value)/127.0; }
+		float *getZone() const { return zone; }
+		void  setZone(float *z) { zone = z; }
+
+	private:
+		char  controlChange;
+		float minValue;
+		float maxValue;
+		float *zone;
+};
+
+
+class YC20Processor : public UI
+{
+	public:
+		YC20Processor();
 
 		// from Faust UI
 		void addButton(const char* label, float* zone);
@@ -66,75 +94,28 @@ class YC20UI : public UI
 
 		void declare(float* zone, const char* key, const char* value) {};
 
-		// Other things
+		dsp *getDSP() const { return processor; }
+		void setDSP(dsp *);
+
+		// Midi callback
 		void doControlChange(int cc, int value);
 
-		void queueExpose(Wdgt::Object *);
+		Control *getControl(std::string label) { return controlPerLabel[label]; }
 
-		void loadConfiguration(std::string file);
-		void loadConfiguration();
-		void saveConfiguration();
+	protected:
 
+		float *keys[61];
 
-		float *yc20_keys[61];
-		mydsp *processor;
+		// Controls
+		std::map<std::string, Control *> controlPerLabel;
+		Control *controlPerCC[127];
+		dsp *processor;
 
-
-	private:
-
-		float ui_scale;
-
-
-		std::string configFile;
-
-		Gtk::DrawingArea drawingArea;
-
-		// Gtk essentials
-		void size_request(Gtk::Requisition *);
-		void size_allocate(Gtk::Allocation &);
-		bool exposeWdgt(Wdgt::Object *);
-		bool expose(GdkEventExpose *);
-
-		void realize();
-
-
-		bool motion_notify_event(GdkEventMotion *);
-		bool button_press_event(GdkEventButton *);
-		bool button_release_event(GdkEventButton *);
-
-		bool draw_queue();
-
-		Wdgt::Object *identifyWdgt(GdkEventMotion *);
-
-		Wdgt::Object *_hoverWdgt;
-		Wdgt::Draggable *_dragWdgt;
-		Wdgt::Object *_buttonPressWdgt;
-
-		int _dragStartX;
-		int _dragStartY;
-		float _predrag_value;
-
-		std::list<Wdgt::Object *> wdgts;
-
-		std::map<std::string, Wdgt::Object *> wdgtPerLabel;
-		Wdgt::Draggable *draggablePerCC[127];
-
-		cairo_surface_t *_image_background;
-
-		bool _ready_to_draw;
-
-		// Idle-timeout redraw things
-
-		jack_ringbuffer_t *exposeRingbuffer;
-		static gboolean idleTimeout(gpointer );
-		void handleExposeEvents();
-		gint idleSignalTag;
+		YC20UI *ui;
 
 };
 
-class YC20Jack;
-
-class YC20Jack
+class YC20Jack : public YC20Processor
 {
 	public:
 		YC20Jack(YC20UI *);
@@ -147,6 +128,7 @@ class YC20Jack
 		jack_nframes_t getSamplerate();		
 
 		int process(jack_nframes_t);
+
 
 	private:
 
@@ -161,7 +143,6 @@ class YC20Jack
 		jack_port_t   *midi_input_port;
 		jack_client_t *jack_client;
 
-		YC20UI *ui;
 };
 
 #endif /* _FOO_YC20_H */
