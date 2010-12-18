@@ -26,14 +26,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include <gtkmm/main.h>
-#include <gtkmm/window.h>
-#include <gtkmm/drawingarea.h>
-
 #include "faust-dsp.h"
-
-#include "wdgt.h"
-#include "yc20_wdgts.h"
 
 #include "foo-yc20.h"
 

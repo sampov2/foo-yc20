@@ -20,6 +20,8 @@
 #define _FOO_YC20_H
 
 #include "faust-dsp.h"
+
+class YC20UI;
 #include "foo-yc20-ui.h"
 
 #ifdef __SSE__

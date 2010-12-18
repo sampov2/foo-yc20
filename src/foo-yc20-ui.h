@@ -29,6 +29,7 @@
 
 #include "wdgt.h"
 #include "yc20_wdgts.h"
+#include "foo-yc20.h"
 
 class YC20Processor;
 
