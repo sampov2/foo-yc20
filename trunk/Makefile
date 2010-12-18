@@ -1,6 +1,10 @@
 PREFIX=/usr/local
 CXX=g++
 VERSION=
+OBJS=src/faust-dsp.o src/foo-yc20.o src/foo-yc20-ui.o
+
+
+CFLAGS=-g
 
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
@@ -11,9 +15,14 @@ endif
 endif
 
 CFLAGS += -DVERSION=$(VERSION)
+CFLAGS += -Isrc/ -DPREFIX=$(PREFIX) `pkg-config --cflags gtkmm-2.4 jack`
+LDFLAGS = `pkg-config --libs gtkmm-2.4 jack`
 
-foo-yc20: Makefile src/foo-yc20.cpp src/foo-yc20.h src/wdgt.h src/yc20_wdgts.h gen/foo-yc20-dsp.cpp src/polyblep.cpp
-	$(CXX) -Isrc/ $(CFLAGS) -DPREFIX=$(PREFIX) src/foo-yc20.cpp `pkg-config --cflags --libs gtkmm-2.4 jack` -o foo-yc20
+.cpp.o:
+	$(CXX) $< $(CFLAGS) -c -o $@
+
+foo-yc20: $(OBJS)
+	$(CXX) $(OBJS) $(LDFLAGS) -o foo-yc20
 
 
 install: foo-yc20
@@ -56,3 +65,5 @@ testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 	faust -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
 	$(CXX) $(CFLAGS) -Isrc/ gen/test.cpp `pkg-config --cflags --libs sndfile` -o testit
 
+$(OBJS): src/*.h
+src/faust-dsp.o: gen/foo-yc20-dsp.cpp
