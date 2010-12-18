@@ -78,7 +78,7 @@ namespace Wdgt
 
 
 
-YC20UI::YC20UI(YC20Jack *parent)
+YC20UI::YC20UI(YC20Processor *parent)
 	: yc20(parent)
 	, ui_scale(1.0)
 	, _hoverWdgt(NULL)

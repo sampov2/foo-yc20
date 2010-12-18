@@ -2,6 +2,7 @@ PREFIX=/usr/local
 CXX=g++
 VERSION=
 OBJS=src/faust-dsp.o src/foo-yc20.o src/foo-yc20-ui.o
+OBJS_JACK=src/yc20-jack.o
 
 
 CFLAGS=-g
@@ -21,8 +22,8 @@ LDFLAGS = `pkg-config --libs gtkmm-2.4 jack`
 .cpp.o:
 	$(CXX) $< $(CFLAGS) -c -o $@
 
-foo-yc20: $(OBJS)
-	$(CXX) $(OBJS) $(LDFLAGS) -o foo-yc20
+foo-yc20: $(OBJS) $(OBJS_JACK)
+	$(CXX) $(OBJS) $(OBJS_JACK) $(LDFLAGS) -o foo-yc20
 
 
 install: foo-yc20
@@ -65,5 +66,5 @@ testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 	faust -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
 	$(CXX) $(CFLAGS) -Isrc/ gen/test.cpp `pkg-config --cflags --libs sndfile` -o testit
 
-$(OBJS): src/*.h
+$(OBJS) $(OBJS_JACK): src/*.h
 src/faust-dsp.o: gen/foo-yc20-dsp.cpp
