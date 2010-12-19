@@ -2,10 +2,13 @@ PREFIX=/usr/local
 CXX=g++
 VERSION=
 
-OBJS=src/foo-yc20.o src/yc20-jack.o src/configuration.o
-OBJS_GUI=src/main-gui.o src/foo-yc20-ui.o
-OBJS_CLIMAIN=src/main-cli.o
+OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/main-cli.o
+OBJS_JACK=src/yc20-jack.o 
+OBJS_GTK=src/main-gui.o src/foo-yc20-ui.o
+
 OBJS_DSP=src/faust-dsp.o
+
+CFLAGS=-g
 
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
@@ -15,10 +18,13 @@ CFLAGS=-O3 -mtune=native -mfpmath=sse -ffast-math -ftree-vectorize
 endif
 endif
 
-CFLAGS_X = $(CFLAGS) -DVERSION=$(VERSION) -Isrc/ -DPREFIX=$(PREFIX)
+CFLAGS_X = $(CFLAGS) -DVERSION=$(VERSION) -Isrc/ -Iinclude/ -DPREFIX=$(PREFIX)
 
-$(OBJS_GUI): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtkmm-2.4 jack`
-$(OBJS) $(OBJS_CLIMAIN): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags jack`
+$(OBJS_NODEPS): CFLAGS_use = $(CFLAGS_X) 
+$(OBJS_JACK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags jack`
+$(OBJS_GTK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtkmm-2.4 jack`
+$(OBJS_LV2): CFLAGS_use = $(CFLAGS_X)
+
 $(OBJS_DSP): CFLAGS_use = $(CFLAGS_X)
 
 .cpp.o:
@@ -26,11 +32,22 @@ $(OBJS_DSP): CFLAGS_use = $(CFLAGS_X)
 
 all: foo-yc20 foo-yc20-cli
 
-foo-yc20: $(OBJS) $(OBJS_GUI) $(OBJS_DSP)
-	$(CXX) $(OBJS) $(OBJS_GUI) $(OBJS_DSP) `pkg-config --libs gtkmm-2.4 jack` -o foo-yc20
+## GUI version
+OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o src/faust-dsp.o
 
-foo-yc20-cli:$(OBJS) $(OBJS_CLIMAIN) $(OBJS_DSP)
-	$(CXX) $(OBJS) $(OBJS_CLIMAIN) $(OBJS_DSP) `pkg-config --libs jack` -o foo-yc20-cli
+foo-yc20: $(OBJS_FOO_YC20)
+	$(CXX) $(OBJS_FOO_YC20) `pkg-config --libs gtkmm-2.4 jack` -o foo-yc20
+
+## CLI version
+OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o src/faust-dsp.o
+
+foo-yc20-cli: $(OBJS_FOO_YC20_CLI)
+	$(CXX) $(OBJS_FOO_YC20_CLI) `pkg-config --libs jack` -o foo-yc20-cli
+
+## LV2 version
+OBJS_LV2=src/lv2.o src/foo-yc20.o src/faust-dsp.o
+foo-yc20.so: $(OBJS_LV2)
+	$(CXX) $(OBJS_LV2) -fPIC -o src/foo-yc20.lv2/foo-yc20.so
 
 
 install: foo-yc20
@@ -73,7 +90,6 @@ testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 	faust -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
 	$(CXX) $(CFLAGS) -Isrc/ gen/test.cpp `pkg-config --cflags --libs sndfile` -o testit
 
-
-$(OBJS) $(OBJS_CLIMAIN) $(OBJS_GUI): src/*.h
+$(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTK) $(OBJS_LV2): include/*.h
 
 src/faust-dsp.o: gen/foo-yc20-dsp.cpp

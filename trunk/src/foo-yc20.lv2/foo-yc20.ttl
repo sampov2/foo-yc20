@@ -1,0 +1,44 @@
+@prefix lv2:  <http://lv2plug.in/ns/lv2core#> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix ui:   <http://lv2plug.in/ns/extensions/ui#> .
+@prefix lv2ev: <http://lv2plug.in/ns/ext/event#> .
+
+
+<http://studionumbersix.com/foo/lv2/yc20>
+	a		lv2:InstrumentPlugin;
+	doap:name	"Foo YC20 Organ";
+	doap:license	<http://usefulinc.com/doap/licenses/gpl>;
+	doap:maintainer	[ foaf:name "Sampo Savolainen" ; ] ;
+	ui:ui		<http://studionumbersix.com/foo/lv2/yc20/ui>;
+
+	lv2:port [
+		a lv2:AudioPort, lv2:OutputPort;
+		lv2:index 0;
+		lv2:symbol "output";
+		lv2:name "Output";
+	],
+	[
+		a lv2:AudioPort, lv2:OutputPort;
+		lv2:index 1;
+		lv2:symbol "treble";
+		lv2:name "Main sections";
+	],
+	[
+		a lv2:AudioPort, lv2:OutputPort;
+		lv2:index 2;
+		lv2:symbol "bass";
+		lv2:name "Bass section";
+	],
+	[
+		a lv2:InputPort, lv2ev:EventPort;
+		lv2ev:supportsEvent <http://lv2plug.in/ns/ext/midi#MidiEvent>;
+		lv2:index 3;
+		lv2:symbol "midi";
+		lv2:name "MIDI in";
+	] .
+	
+<http://studionumbersix.com/foo/lv2/yc20/ui>
+	a		ui:GtkUI;
+	ui:binary	<foo-yc20.so> .
+
