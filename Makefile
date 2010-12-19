@@ -1,10 +1,11 @@
 PREFIX=/usr/local
 CXX=g++
 VERSION=
-OBJS=src/faust-dsp.o src/foo-yc20.o
-OBJS_JACK=src/yc20-jack.o
+
+OBJS=src/foo-yc20.o src/yc20-jack.o
 OBJS_GUI=src/main-gui.o src/foo-yc20-ui.o
 OBJS_CLIMAIN=src/main-cli.o
+OBJS_DSP=src/faust-dsp.o
 
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
@@ -14,20 +15,22 @@ CFLAGS=-O3 -mtune=native -mfpmath=sse -ffast-math -ftree-vectorize
 endif
 endif
 
-CFLAGS += -DVERSION=$(VERSION)
-CFLAGS += -Isrc/ -DPREFIX=$(PREFIX) `pkg-config --cflags gtkmm-2.4 jack`
-LDFLAGS = `pkg-config --libs gtkmm-2.4 jack`
+CFLAGS += -DVERSION=$(VERSION) -Isrc/ -DPREFIX=$(PREFIX)
+
+$(OBJS_GUI): CFLAGS_use = $(CFLAGS) `pkg-config --cflags gtkmm-2.4 jack`
+$(OBJS) $(OBJS_CLIMAIN): CFLAGS_use = $(CFLAGS) `pkg-config --cflags jack`
+$(OBJS_DSP): CFLAGS_use = $(CFLAGS)
 
 .cpp.o:
-	$(CXX) $< $(CFLAGS) -c -o $@
+	$(CXX) $< $(CFLAGS_use) -c -o $@
 
 all: foo-yc20 foo-yc20-cli
 
-foo-yc20: $(OBJS) $(OBJS_GUI) $(OBJS_JACK)
-	$(CXX) $(OBJS) $(OBJS_GUI) $(OBJS_JACK) $(LDFLAGS) -o foo-yc20
+foo-yc20: $(OBJS) $(OBJS_GUI) $(OBJS_DSP)
+	$(CXX) $(OBJS) $(OBJS_GUI) $(OBJS_DSP) `pkg-config --libs gtkmm-2.4 jack` -o foo-yc20
 
-foo-yc20-cli:$(OBJS) $(OBJS_CLIMAIN) $(OBJS_JACK)
-	$(CXX) $(OBJS) $(OBJS_CLIMAIN) $(OBJS_JACK) `pkg-config --libs jack` -o foo-yc20-cli
+foo-yc20-cli:$(OBJS) $(OBJS_CLIMAIN) $(OBJS_DSP)
+	$(CXX) $(OBJS) $(OBJS_CLIMAIN) $(OBJS_DSP) `pkg-config --libs jack` -o foo-yc20-cli
 
 
 install: foo-yc20
@@ -70,5 +73,7 @@ testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 	faust -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
 	$(CXX) $(CFLAGS) -Isrc/ gen/test.cpp `pkg-config --cflags --libs sndfile` -o testit
 
-$(OBJS) $(OBJS_CLIMAIN) $(OBJS_GUI) $(OBJS_JACK): src/*.h
+
+$(OBJS) $(OBJS_CLIMAIN) $(OBJS_GUI): src/*.h
+
 src/faust-dsp.o: gen/foo-yc20-dsp.cpp
