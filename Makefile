@@ -29,7 +29,7 @@ $(OBJS_DSP): CFLAGS_use = $(CFLAGS_X)
 .cpp.o:
 	$(CXX) $< $(CFLAGS_use) -c -o $@
 
-all: foo-yc20 foo-yc20-cli
+all: foo-yc20 foo-yc20-cli foo-yc20.so
 
 ## GUI version
 OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o src/faust-dsp.o
