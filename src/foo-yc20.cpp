@@ -26,6 +26,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <math.h>
+
 #include "faust-dsp.h"
 
 #include "foo-yc20.h"
