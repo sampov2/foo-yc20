@@ -89,8 +89,6 @@ int main(int argc, char **argv)
 	processor.saveConfiguration();
 
 	delete main_window;
-	delete yc20ui;
-	delete yc20;
 
 	return 0;
 }

@@ -104,7 +104,7 @@ static void connect_port_FooYC20 (
 
 static void activate_FooYC20 (LV2_Handle instance)
 {
-	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
+	//struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
 	// TODO: Do we actually need to do anything?
 }
 
@@ -124,7 +124,7 @@ static void run_FooYC20 (LV2_Handle instance, uint32_t sample_count)
 
 static void deactivate_FooYC20 (LV2_Handle instance)
 {
-	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
+	//struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
 	// TODO: do we need to do anything else?
 }
 
@@ -132,7 +132,7 @@ static void cleanup_FooYC20 (LV2_Handle instance)
 {
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
 	
-	// TODO: delete the DSP unit
+	// TODO: delete the Processor and within it, the DSP unit and UI (if one has been created)
 	delete(handle->yc20);
 
 	delete handle;

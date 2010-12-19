@@ -224,7 +224,6 @@ YC20Jack::~YC20Jack()
 {
 	if (jack_client != NULL) {
 		jack_deactivate(jack_client);
-
 	}
 }
 
