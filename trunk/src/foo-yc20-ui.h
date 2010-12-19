@@ -44,16 +44,10 @@ class YC20UI : public YC20Exposable
 
 		virtual void queueExpose(int cc);
 
-		void loadConfiguration(std::string file);
-		void loadConfiguration();
-		void saveConfiguration();
-
 	private:
 		YC20Processor *yc20;
 
 		float ui_scale;
-
-		std::string configFile;
 
 		Gtk::DrawingArea drawingArea;
 
