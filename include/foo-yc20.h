@@ -67,15 +67,15 @@ class Control
 {
 	public:
 
-		Control(char cc, float min, float max) { 
+		Control(int cc, float min, float max) { 
 			controlChange = cc; minValue = min; maxValue = max; 
 		}
 
-		Control(char cc) {
+		Control(int cc) {
 			controlChange = cc; minValue = 0.0; maxValue = 1.0;
 		}
 
-		char  getCC() const { return controlChange; }
+		int getCC() const { return controlChange; }
 		float getMin() const { return minValue; }
 		float getMax() const { return maxValue; }
 
@@ -84,7 +84,7 @@ class Control
 		void  setZone(float *z) { zone = z; }
 
 	private:
-		char  controlChange;
+		int controlChange;
 		float minValue;
 		float maxValue;
 		float *zone;
@@ -96,6 +96,8 @@ class YC20Processor : public UI
 	public:
 		YC20Processor();
 
+		void setUI(YC20Exposable *interface) { ui = interface; }
+	
 		// from Faust UI
 		void addButton(const char* label, float* zone);
 		void addToggleButton(const char* label, float* zone) {};

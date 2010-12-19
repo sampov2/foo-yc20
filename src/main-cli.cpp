@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
 	std::cerr << "Foo-YC20 (CLI) " << version << " (c)Sampo Savolainen 2010" << std::endl;
 
-	YC20Jack processor(NULL);
+	YC20Jack processor;
 	processor.connect();
 
 	dsp *yc20 = createDSP();

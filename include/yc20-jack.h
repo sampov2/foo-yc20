@@ -30,7 +30,7 @@
 class YC20Jack : public YC20Processor
 {
 	public:
-		YC20Jack(YC20Exposable *);
+		YC20Jack();
 		~YC20Jack();
 
 		void connect();

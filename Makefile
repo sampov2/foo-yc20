@@ -8,7 +8,7 @@ OBJS_GTK=src/main-gui.o src/foo-yc20-ui.o
 
 OBJS_DSP=src/faust-dsp.o
 
-CFLAGS=-g
+CFLAGS=-g -Wall
 
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)

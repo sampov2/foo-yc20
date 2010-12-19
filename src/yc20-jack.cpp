@@ -128,14 +128,13 @@ YC20Jack::shutdown_callback(void *arg)
 	obj->shutdown();
 }
 
-YC20Jack::YC20Jack(YC20Exposable *obj)
+YC20Jack::YC20Jack()
 	: audio_output_port(NULL)
 	, treb_output_port(NULL)
 	, bass_output_port(NULL)
 	, midi_input_port(NULL)
 	, jack_client(NULL)
 {
-	ui = obj;
 }
 
 void
