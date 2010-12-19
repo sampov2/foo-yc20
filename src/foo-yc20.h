@@ -49,6 +49,7 @@ class YC20Exposable
 {
 	public:
 		virtual void queueExpose(int) = 0;
+		virtual void updateControlsFromState() = 0;
 };
 
 class MidiCC 

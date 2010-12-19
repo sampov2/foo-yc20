@@ -72,6 +72,10 @@ int main(int argc, char **argv)
 		processor.loadConfiguration();
 	}
 
+	// Set UI state as per current state
+	yc20ui->updateControlsFromState();
+
+
 	// Activate Jack & start
 	processor.activate();
 
