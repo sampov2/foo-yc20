@@ -16,6 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <iostream>
+#include <map>
+
 #include <lv2.h>
 #include <event.lv2/event.h>
 
@@ -28,6 +31,7 @@ extern "C" {
 struct YC20_Handle_t {
 	YC20Processor *yc20;
 	float *output[3];
+	std::map<Control *, float *> controlParameters;
 };
 
 static LV2_Handle instantiate_FooYC20 (
@@ -36,7 +40,7 @@ static LV2_Handle instantiate_FooYC20 (
         const char *bundle_path,
         const LV2_Feature * const *host_features)
 {
-	struct YC20_Handle_t *handle = (struct YC20_Handle_t *) malloc(sizeof(struct YC20_Handle_t));
+	struct YC20_Handle_t *handle = new struct YC20_Handle_t;
 
 	dsp *tmp = createDSP();
 	tmp->init(sample_rate);
@@ -56,9 +60,46 @@ static void connect_port_FooYC20 (
 
 	if (port >= 0 && port < 3) {
 		handle->output[port] = (float *)data_location;
+		return;
 	}
 
-	// TODO: Midi
+	if (port == 3) {
+		// TODO: Midi
+		return;
+	}
+
+	Control *c = NULL;
+
+	switch(port) {
+		case 4: c = handle->yc20->getControl("pitch"); break;
+		case 5: c = handle->yc20->getControl("volume"); break;
+		case 6: c = handle->yc20->getControl("bass volume"); break;
+		case 7: c = handle->yc20->getControl("realism"); break;
+		case 8: c = handle->yc20->getControl("depth"); break;
+		case 9: c = handle->yc20->getControl("speed"); break;
+		case 10: c = handle->yc20->getControl("16' b"); break;
+		case 11: c = handle->yc20->getControl("8' b"); break;
+		case 12: c = handle->yc20->getControl("bass manual"); break;
+		case 13: c = handle->yc20->getControl("16' i"); break;
+		case 14: c = handle->yc20->getControl("8' i"); break;
+		case 15: c = handle->yc20->getControl("4' i"); break;
+		case 16: c = handle->yc20->getControl("2 2/3' i"); break;
+		case 17: c = handle->yc20->getControl("2' i"); break;
+		case 18: c = handle->yc20->getControl("1 3/5' i"); break;
+		case 19: c = handle->yc20->getControl("1' i"); break;
+		case 20: c = handle->yc20->getControl("balance"); break;
+		case 21: c = handle->yc20->getControl("bright"); break;
+		case 22: c = handle->yc20->getControl("16' ii"); break;
+		case 23: c = handle->yc20->getControl("8' ii"); break;
+		case 24: c = handle->yc20->getControl("4' ii"); break;
+		case 25: c = handle->yc20->getControl("2' ii"); break;
+		case 26: c = handle->yc20->getControl("percussive"); break;
+		default:
+			std::cerr << "Unknown LV2 port index " << port << std::endl;
+
+	}
+
+	handle->controlParameters[c] = (float*)data_location;
 }
 
 static void activate_FooYC20 (LV2_Handle instance)
@@ -70,6 +111,11 @@ static void activate_FooYC20 (LV2_Handle instance)
 static void run_FooYC20 (LV2_Handle instance, uint32_t sample_count)
 {
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
+
+	for (std::map<Control *, float *>::iterator i = handle->controlParameters.begin(); i != handle->controlParameters.end(); ++i) {
+		Control *c = i->first;
+		*c->getZone() = *i->second;
+	}
 
 	// TODO: Midi
 	handle->yc20->getDSP()->compute(sample_count, NULL, handle->output);
@@ -89,7 +135,7 @@ static void cleanup_FooYC20 (LV2_Handle instance)
 	// TODO: delete the DSP unit
 	delete(handle->yc20);
 
-	free(handle);
+	delete handle;
 }
 
 static LV2_Descriptor yc20LV2Descriptor = {
