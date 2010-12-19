@@ -83,6 +83,8 @@ int main(int argc, char **argv)
 	// RUN!
         Gtk::Main::run(*main_window);
 
+	processor.deactivate();
+
 	// Cleanup
 	processor.saveConfiguration();
 

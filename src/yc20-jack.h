@@ -35,6 +35,7 @@ class YC20Jack : public YC20Processor
 
 		void connect();
 		void activate();
+		void deactivate();
 		void shutdown();
 
 		jack_nframes_t getSamplerate();		
