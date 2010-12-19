@@ -193,6 +193,18 @@ YC20Jack::activate()
         }
 }
 
+void
+YC20Jack::deactivate()
+{
+	jack_deactivate (jack_client);
+	jack_client_close (jack_client);
+	jack_client = NULL;
+	midi_input_port = NULL;
+	audio_output_port = NULL;
+	treb_output_port = NULL;
+	bass_output_port = NULL;
+}
+
 int
 YC20Jack::process_callback(jack_nframes_t nframes, void *ptr)
 {
