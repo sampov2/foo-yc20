@@ -17,8 +17,11 @@
 */
 
 #include <iostream>
+#include <string>
+#include <map>
 
 #include "yc20-jack.h"
+
 
 int main(int argc, char **argv)
 {
@@ -37,6 +40,7 @@ int main(int argc, char **argv)
 	processor.connect();
 
 	dsp *yc20 = createDSP();
+	yc20->init(processor.getSamplerate());
 
 	processor.setDSP(yc20);
 
@@ -47,8 +51,19 @@ int main(int argc, char **argv)
 	} else {
 		processor.loadConfiguration();
 	}
-
 	processor.activate();
+
+	/* Debug output: print control values
+	std::map<std::string, Control *> controls = processor.getControls();
+	
+	for (std::map<std::string, Control *>::iterator i = controls.begin(); i !=  controls.end(); ++i) {
+		Control *c = i->second;
+
+		std::cout << i->first << " = " << *c->getZone() << std::endl;
+
+	}
+	*/
+
 
 	// TODO: Quick'n'dirty..
 	while(1) {
