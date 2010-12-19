@@ -328,6 +328,17 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 }
 
+void
+YC20UI::updateControlsFromState()
+{
+	for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i != wdgts.end(); ++i) {
+		Wdgt::Object *o = (*i);
+		Wdgt::Draggable *draggable = dynamic_cast<Wdgt::Draggable *>(o);
+		if (draggable != NULL) {
+			draggable->setValue( *draggable->getZone() );
+		}
+	}
+}
 
 
 void

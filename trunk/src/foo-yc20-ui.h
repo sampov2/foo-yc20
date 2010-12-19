@@ -44,6 +44,8 @@ class YC20UI : public YC20Exposable
 
 		virtual void queueExpose(int cc);
 
+		virtual void updateControlsFromState();
+
 	private:
 		YC20Processor *yc20;
 
