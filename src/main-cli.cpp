@@ -33,19 +33,29 @@ int main(int argc, char **argv)
 
 	std::cerr << "Foo-YC20 (CLI) " << version << " (c)Sampo Savolainen 2010" << std::endl;
 
-	YC20Jack jack(NULL);
-	jack.connect();
+	YC20Jack processor(NULL);
+	processor.connect();
 
 	dsp *yc20 = createDSP();
 
-	jack.setDSP(yc20);
+	processor.setDSP(yc20);
 
-	jack.activate();
+	if (argc > 1) {
+		std::string conf(argv[1]);
+		std::cerr << "using configuration file '" << conf << "'" << std::endl;
+		processor.loadConfiguration(conf);
+	} else {
+		processor.loadConfiguration();
+	}
+
+	processor.activate();
 
 	// TODO: Quick'n'dirty..
 	while(1) {
 		sleep(100);
 	}
+
+	processor.saveConfiguration();
 
 	return 0;
 }

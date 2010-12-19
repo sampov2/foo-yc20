@@ -2,7 +2,7 @@ PREFIX=/usr/local
 CXX=g++
 VERSION=
 
-OBJS=src/foo-yc20.o src/yc20-jack.o
+OBJS=src/foo-yc20.o src/yc20-jack.o src/configuration.o
 OBJS_GUI=src/main-gui.o src/foo-yc20-ui.o
 OBJS_CLIMAIN=src/main-cli.o
 OBJS_DSP=src/faust-dsp.o

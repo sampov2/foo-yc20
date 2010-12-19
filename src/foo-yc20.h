@@ -24,12 +24,6 @@
 
 #include "faust-dsp.h"
 
-class YC20Exposable
-{
-	public:
-		virtual void queueExpose(int) = 0;
-};
-
 #ifdef __SSE__
     #include <xmmintrin.h>
     #ifdef __SSE2__
@@ -50,6 +44,12 @@ class YC20Exposable
 
 #define PREFIX_STR STR(PREFIX)
 #define VERSION_STR STR(VERSION)
+
+class YC20Exposable
+{
+	public:
+		virtual void queueExpose(int) = 0;
+};
 
 class MidiCC 
 {
@@ -119,16 +119,27 @@ class YC20Processor : public UI
 
 		Control *getControl(std::string label) { return controlPerLabel[label]; }
 
+		// Configuration stuff
+		void loadConfiguration(std::string file);
+		void loadConfiguration();
+		void saveConfiguration();
+
 	protected:
 
+		// Pointers to DSP key values
 		float *keys[61];
 
 		// Controls
 		std::map<std::string, Control *> controlPerLabel;
 		Control *controlPerCC[127];
+
+		// The actual DSP processor
 		dsp *processor;
 
+		// The UI if there is one
 		YC20Exposable *ui;
+
+		std::string configFile;
 
 };
 

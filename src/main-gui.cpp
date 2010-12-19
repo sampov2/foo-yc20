@@ -43,19 +43,19 @@ int main(int argc, char **argv)
 	main_window->set_title("Foo YC20");
 	main_window->set_default_size(1280, 200);
 
-	YC20Jack jack(yc20ui);
-	jack.connect();
+	YC20Jack processor(yc20ui);
+	processor.connect();
 
 /*
 	dsp yc20;	
-	yc20.init(jack.getSamplerate());
+	yc20.init(processor.getSamplerate());
 */
 
 	dsp *yc20 = createDSP();
 
-	jack.setDSP(yc20);
+	processor.setDSP(yc20);
 
-	jack.activate();
+	processor.activate();
 
 /*
 	while(1) {
@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 	}
 
 */
-	yc20ui = new YC20UI(&jack);
+	yc20ui = new YC20UI(&processor);
 
 	main_window->add(*yc20ui->getWidget());
 
@@ -76,20 +76,17 @@ int main(int argc, char **argv)
 	if (argc > 1) {
 		std::string conf(argv[1]);
 		std::cerr << "using configuration file '" << conf << "'" << std::endl;
-		yc20ui->loadConfiguration(conf);
+		processor.loadConfiguration(conf);
 	} else {
-		yc20ui->loadConfiguration();
+		processor.loadConfiguration();
 	}
 
 
 	// RUN!
         Gtk::Main::run(*main_window);
 
-	// TODO: this might be needed..
-	//jack->processor = NULL;
-
 	// Cleanup
-	yc20ui->saveConfiguration();
+	processor.saveConfiguration();
 
 	delete main_window;
 	delete yc20ui;
