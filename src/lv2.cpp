@@ -19,8 +19,12 @@
 #include <iostream>
 #include <map>
 
+#include <string.h>
+
 #include <lv2.h>
-#include <event.lv2/event.h>
+#include <lv2/http/lv2plug.in/ns/ext/event/event.h>
+#include <lv2/http/lv2plug.in/ns/ext/event/event-helpers.h>
+#include <lv2/http/lv2plug.in/ns/ext/uri-map/uri-map.h>
 
 #include <foo-yc20.h>
 
@@ -30,8 +34,14 @@ extern "C" {
 
 struct YC20_Handle_t {
 	YC20Processor *yc20;
+
+	// Registered ports
 	float *output[3];
 	std::map<Control *, float *> controlParameters;
+
+	// MIDI
+	LV2_Event_Feature *event_ref;
+	int midi_event_id;
 };
 
 static LV2_Handle instantiate_FooYC20 (
@@ -41,6 +51,28 @@ static LV2_Handle instantiate_FooYC20 (
         const LV2_Feature * const *host_features)
 {
 	struct YC20_Handle_t *handle = new struct YC20_Handle_t;
+	LV2_URI_Map_Feature *map_feature;
+
+	handle->midi_event_id = 0;
+	handle->event_ref = 0;
+	
+	for (int i = 0; host_features[i]; i++) {
+		if (strcmp(host_features[i]->URI, "http://lv2plug.in/ns/ext/uri-map") == 0) {
+			map_feature = (LV2_URI_Map_Feature *)host_features[i]->data;
+
+			handle->midi_event_id = map_feature->uri_to_id(map_feature->callback_data, "http://lv2plug.in/ns/ext/event", "http://lv2plug.in/ns/ext/midi#MidiEvent");
+		} else if (strcmp(host_features[i]->URI, "http://lv2plug.in/ns/ext/event") == 0) {
+			handle->event_ref = (LV2_Event_Feature *)host_features[i]->data;
+		}
+	}
+
+        if (handle->midi_event_id == 0 || handle->event_ref == NULL) {
+                std::cerr << "can not run YC20 LV2 in a non-MIDI host" << std::endl;
+		delete handle;
+                return NULL;
+        }
+
+
 
 	dsp *tmp = createDSP();
 	tmp->init(sample_rate);
