@@ -6,9 +6,6 @@ OBJS_JACK=src/yc20-jack.o
 OBJS_GUI=src/main-gui.o src/foo-yc20-ui.o
 OBJS_CLIMAIN=src/main-cli.o
 
-
-CFLAGS=-g
-
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
 CFLAGS=-O3 -mfpmath=sse -msse -msse2 -msse3 -mmmx -m3dnow -ffast-math -ftree-vectorize -Wall
