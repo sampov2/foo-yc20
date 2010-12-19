@@ -15,11 +15,11 @@ CFLAGS=-O3 -mtune=native -mfpmath=sse -ffast-math -ftree-vectorize
 endif
 endif
 
-CFLAGS += -DVERSION=$(VERSION) -Isrc/ -DPREFIX=$(PREFIX)
+CFLAGS_X = $(CFLAGS) -DVERSION=$(VERSION) -Isrc/ -DPREFIX=$(PREFIX)
 
-$(OBJS_GUI): CFLAGS_use = $(CFLAGS) `pkg-config --cflags gtkmm-2.4 jack`
-$(OBJS) $(OBJS_CLIMAIN): CFLAGS_use = $(CFLAGS) `pkg-config --cflags jack`
-$(OBJS_DSP): CFLAGS_use = $(CFLAGS)
+$(OBJS_GUI): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtkmm-2.4 jack`
+$(OBJS) $(OBJS_CLIMAIN): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags jack`
+$(OBJS_DSP): CFLAGS_use = $(CFLAGS_X)
 
 .cpp.o:
 	$(CXX) $< $(CFLAGS_use) -c -o $@
