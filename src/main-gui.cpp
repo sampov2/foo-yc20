@@ -43,26 +43,18 @@ int main(int argc, char **argv)
 	main_window->set_title("Foo YC20");
 	main_window->set_default_size(1280, 200);
 
+	// Connect to Jack
 	YC20Jack processor(yc20ui);
 	processor.connect();
 
-/*
-	dsp yc20;	
-	yc20.init(processor.getSamplerate());
-*/
-
+	// Create DSP (& retrieve samplerate)
 	dsp *yc20 = createDSP();
+	yc20->init(processor.getSamplerate());
 
+	// Connect DSP & processor
 	processor.setDSP(yc20);
 
-	processor.activate();
-
-/*
-	while(1) {
-		sleep(100);
-	}
-
-*/
+	// Create UI
 	yc20ui = new YC20UI(&processor);
 
 	main_window->add(*yc20ui->getWidget());
@@ -71,8 +63,7 @@ int main(int argc, char **argv)
 	yc20ui->getWidget()->show();
 
 
-
-
+	// Load configuration
 	if (argc > 1) {
 		std::string conf(argv[1]);
 		std::cerr << "using configuration file '" << conf << "'" << std::endl;
@@ -80,6 +71,9 @@ int main(int argc, char **argv)
 	} else {
 		processor.loadConfiguration();
 	}
+
+	// Activate Jack & start
+	processor.activate();
 
 
 	// RUN!

@@ -80,6 +80,7 @@ YC20Processor::addVerticalSlider(const char* label, float* zone, float init, flo
 		return;
 	}
 
+	//std::cerr << "Connected control " << label << " to CC " << (int)tmp->getCC() << std::endl;
 	tmp->setZone(zone);
 }
 

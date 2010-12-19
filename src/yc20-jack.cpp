@@ -80,6 +80,7 @@ YC20Jack::process (jack_nframes_t nframes)
 		}
 
 		if (note >= 0 && note < 61) {
+			//std::cerr << "setting note " << note << " to " << value << std::endl;
 			*(keys[note]) = value;
 		}
 
@@ -93,6 +94,14 @@ YC20Jack::process (jack_nframes_t nframes)
 		processor->compute(amount, NULL, output_buffer);
 	}
 
+	/*
+	for (int i = 0; i < nframes; i++) {
+		if (output_buffer[0][i] != 0.0) {
+			std::cerr << "there's output" << std::endl;
+			break;
+		}
+	}
+	*/
 
 	return 0;
 }
