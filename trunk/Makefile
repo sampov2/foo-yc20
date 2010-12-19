@@ -30,7 +30,7 @@ foo-yc20: $(OBJS) $(OBJS_GUI) $(OBJS_JACK)
 	$(CXX) $(OBJS) $(OBJS_GUI) $(OBJS_JACK) $(LDFLAGS) -o foo-yc20
 
 foo-yc20-cli:$(OBJS) $(OBJS_CLIMAIN) $(OBJS_JACK)
-	$(CXX) $(OBJS) $(OBJS_CLIMAIN) $(OBJS_JACK) `pkg-config --libs jack` $(LDFLAGS) -o foo-yc20-cli
+	$(CXX) $(OBJS) $(OBJS_CLIMAIN) $(OBJS_JACK) `pkg-config --libs jack` -o foo-yc20-cli
 
 
 install: foo-yc20
