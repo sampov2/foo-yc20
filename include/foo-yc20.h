@@ -95,6 +95,7 @@ class YC20Processor : public UI
 {
 	public:
 		YC20Processor();
+		virtual ~YC20Processor();
 
 		void setUI(YC20Exposable *interface) { ui = interface; }
 	

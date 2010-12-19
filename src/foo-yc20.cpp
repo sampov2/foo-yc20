@@ -158,6 +158,20 @@ YC20Processor::YC20Processor()
 	}
 }
 
+YC20Processor::~YC20Processor()
+{
+	for (std::map<std::string, Control *>::iterator i = controlPerLabel.begin(); i !=  controlPerLabel.end(); ++i) {
+		delete i->second;
+	}
+	if (ui != NULL) {
+		delete ui;
+	}
+	if (processor != NULL) {
+		delete processor;
+	}
+	
+}
+
 
 void
 YC20Processor::setDSP(dsp *dsp)
