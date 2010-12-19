@@ -17,12 +17,18 @@
 */
 
 #include <math.h>
-//#include "faust-dsp.h"
-#define max(x,y) fmax(x,y)
-#define min(x,y) fmin(x,y)
+
+inline float max(float x, float y)
+{
+	return fmaxf(x,y);
+}
+
+inline float min(float x, float y)
+{
+	return fminf(x,y);
+}
 
 #include "../gen/foo-yc20-dsp.cpp"
-
 
 dsp *createDSP()
 {
