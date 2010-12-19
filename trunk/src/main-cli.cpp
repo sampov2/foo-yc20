@@ -20,8 +20,18 @@
 #include <string>
 #include <map>
 
+#include <signal.h>
+
 #include "yc20-jack.h"
 
+
+bool run;
+
+void exit_cli(int sig)
+{
+	run = false;
+	std::cerr << "Exiting" << std::endl;
+}
 
 int main(int argc, char **argv)
 {
@@ -64,11 +74,14 @@ int main(int argc, char **argv)
 	}
 	*/
 
+	run = true;
+	signal(SIGINT, exit_cli);
 
-	// TODO: Quick'n'dirty..
-	while(1) {
-		sleep(100);
+	while(run) {
+		sleep(100); // ctrl-C interrupts sleep and runs exit_cli() which sets run to false
 	}
+
+	processor.deactivate();
 
 	processor.saveConfiguration();
 
