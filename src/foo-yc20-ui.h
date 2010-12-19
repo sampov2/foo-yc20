@@ -31,9 +31,9 @@
 #include "yc20_wdgts.h"
 #include "foo-yc20.h"
 
-class YC20Processor;
+//class YC20Processor;
 
-class YC20UI
+class YC20UI : public YC20Exposable
 {
 	public:
 		YC20UI(YC20Processor *);
@@ -42,7 +42,7 @@ class YC20UI
 
 		Gtk::Widget *getWidget() { return &drawingArea; }
 
-		void queueExpose(int cc);
+		virtual void queueExpose(int cc);
 
 		void loadConfiguration(std::string file);
 		void loadConfiguration();

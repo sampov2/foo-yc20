@@ -19,10 +19,16 @@
 #ifndef _FOO_YC20_H
 #define _FOO_YC20_H
 
+#include <map>
+#include <string>
+
 #include "faust-dsp.h"
 
-class YC20UI;
-#include "foo-yc20-ui.h"
+class YC20Exposable
+{
+	public:
+		virtual void queueExpose(int) = 0;
+};
 
 #ifdef __SSE__
     #include <xmmintrin.h>
@@ -34,6 +40,16 @@ class YC20UI;
 #else
     #define TURNOFFDENORMALS 
 #endif
+
+#define SHARE_DIR "/share/foo-yc20/"
+#define YC20_PNG_DIR "graphics/"
+
+
+#define QUOTE(name) #name
+#define STR(macro) QUOTE(macro)
+
+#define PREFIX_STR STR(PREFIX)
+#define VERSION_STR STR(VERSION)
 
 class MidiCC 
 {
@@ -112,7 +128,7 @@ class YC20Processor : public UI
 		Control *controlPerCC[127];
 		dsp *processor;
 
-		YC20UI *ui;
+		YC20Exposable *ui;
 
 };
 
