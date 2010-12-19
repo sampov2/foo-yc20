@@ -38,13 +38,12 @@ int main(int argc, char **argv)
 	Gtk::Window *main_window;
 	YC20UI      *yc20ui;
 
-
 	main_window = new Gtk::Window();
 	main_window->set_title("Foo YC20");
 	main_window->set_default_size(1280, 200);
 
 	// Connect to Jack
-	YC20Jack processor(yc20ui);
+	YC20Jack processor;
 	processor.connect();
 
 	// Create DSP (& retrieve samplerate)
@@ -56,6 +55,7 @@ int main(int argc, char **argv)
 
 	// Create UI
 	yc20ui = new YC20UI(&processor);
+	processor.setUI(yc20ui);
 
 	main_window->add(*yc20ui->getWidget());
 
