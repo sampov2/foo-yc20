@@ -131,34 +131,6 @@ YC20Processor::loadConfiguration()
 		}
 
 		*obj->getZone() = value;
-
-		if (ui != NULL) {
-			ui->queueExpose(obj->getCC());
-		}
-		
-
-		/*
-		Wdgt::Object *obj = wdgtPerLabel[label];
-		if (obj == NULL) {
-			std::cerr << "ERROR: no Wdgt for label '" << label << "' found in config file" << std::endl;
-			continue;
-		}
-
-		Wdgt::Draggable *drg = dynamic_cast<Wdgt::Draggable *>(obj);
-		if (drg == NULL) {
-			std::cerr << "ERROR: Wdgt for label '" << label << "' found in config file is not a Draggable" << std::endl;
-			continue;
-
-		}
-		
-		// "assertion" to make sure configuration sets not only the Wdgt value, but
-		// also the DSP pointer
-		if (drg->getZone() == NULL) {
-			throw "Huh? DSP zone for " + drg->getName() + " not set up right??";
-		}
-		drg->setValue(value);
-
-		*/
 	}
 
 	in.close();
