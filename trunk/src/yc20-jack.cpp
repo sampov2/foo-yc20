@@ -16,43 +16,9 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "foo-yc20.h"
+#include <iostream>
 
-#include <jack/jack.h>
-#include <jack/midiport.h>
-#include <jack/ringbuffer.h>
-
-
-class YC20Jack : public YC20Processor
-{
-	public:
-		YC20Jack(YC20UI *);
-		~YC20Jack();
-
-		void connect();
-		void activate();
-		void shutdown();
-
-		jack_nframes_t getSamplerate();		
-
-		int process(jack_nframes_t);
-
-
-	private:
-
-		static void shutdown_callback(void *);
-		static void process_callback(void *);
-
-		static int process_callback(jack_nframes_t, void *);
-
-		jack_port_t   *audio_output_port;
-		jack_port_t   *treb_output_port;
-		jack_port_t   *bass_output_port;
-		jack_port_t   *midi_input_port;
-		jack_client_t *jack_client;
-
-};
-
+#include "yc20-jack.h"
 
 int
 YC20Jack::process (jack_nframes_t nframes)
@@ -153,7 +119,7 @@ YC20Jack::shutdown_callback(void *arg)
 	obj->shutdown();
 }
 
-YC20Jack::YC20Jack(YC20UI *obj)
+YC20Jack::YC20Jack(YC20Exposable *obj)
 	: audio_output_port(NULL)
 	, treb_output_port(NULL)
 	, bass_output_port(NULL)
@@ -240,86 +206,6 @@ YC20Jack::~YC20Jack()
 		jack_deactivate(jack_client);
 
 	}
-}
-
-
-
-int main(int argc, char **argv)
-{
-        Gtk::Main mymain(argc, argv);
-
-	std::string version(VERSION_STR);
-	std::string svn_revision("$Revision: 106 $");
-
-	if (version == "") {
-		version = svn_revision.substr(11, svn_revision.find(" $", 11));
-		version = "svn-" + version;
-	}
-	
-
-	std::cerr << "Foo-YC20 " << version << " (c)Sampo Savolainen 2010" << std::endl;
-
-	Gtk::Window *main_window;
-	YC20UI      *yc20ui;
-
-
-	main_window = new Gtk::Window();
-	main_window->set_title("Foo YC20");
-	main_window->set_default_size(1280, 200);
-
-	YC20Jack jack(yc20ui);
-	jack.connect();
-
-/*
-	dsp yc20;	
-	yc20.init(jack.getSamplerate());
-*/
-
-	dsp *yc20 = createDSP();
-
-	jack.setDSP(yc20);
-
-	jack.activate();
-
-/*
-	while(1) {
-		sleep(100);
-	}
-
-*/
-	yc20ui = new YC20UI(&jack);
-
-	main_window->add(*yc20ui->getWidget());
-
-	main_window->show();
-	yc20ui->getWidget()->show();
-
-
-
-
-	if (argc > 1) {
-		std::string conf(argv[1]);
-		std::cerr << "using configuration file '" << conf << "'" << std::endl;
-		yc20ui->loadConfiguration(conf);
-	} else {
-		yc20ui->loadConfiguration();
-	}
-
-
-	// RUN!
-        Gtk::Main::run(*main_window);
-
-	// TODO: this might be needed..
-	//jack->processor = NULL;
-
-	// Cleanup
-	yc20ui->saveConfiguration();
-
-	delete main_window;
-	delete yc20ui;
-	delete yc20;
-
-	return 0;
 }
 
 
