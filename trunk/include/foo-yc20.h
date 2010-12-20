@@ -120,6 +120,7 @@ class YC20Processor : public UI
 
 		// Midi callback
 		void doControlChange(int cc, int value);
+		void setKey(int key, float value) { *keys[key] = value; }
 
 		Control *getControl(std::string label) { return controlPerLabel[label]; }
 

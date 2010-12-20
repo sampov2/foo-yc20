@@ -36,7 +36,8 @@ struct YC20_Handle_t {
 	YC20Processor *yc20;
 
 	// Registered ports
-	float *output[3];
+	float *outputPorts[3];
+	LV2_Event_Buffer *eventPort;
 	std::map<Control *, float *> controlParameters;
 
 	// MIDI
@@ -51,14 +52,13 @@ static LV2_Handle instantiate_FooYC20 (
         const LV2_Feature * const *host_features)
 {
 	struct YC20_Handle_t *handle = new struct YC20_Handle_t;
-	LV2_URI_Map_Feature *map_feature;
 
 	handle->midi_event_id = 0;
 	handle->event_ref = 0;
 	
 	for (int i = 0; host_features[i]; i++) {
 		if (strcmp(host_features[i]->URI, "http://lv2plug.in/ns/ext/uri-map") == 0) {
-			map_feature = (LV2_URI_Map_Feature *)host_features[i]->data;
+			LV2_URI_Map_Feature *map_feature = (LV2_URI_Map_Feature *)host_features[i]->data;
 
 			handle->midi_event_id = map_feature->uri_to_id(map_feature->callback_data, "http://lv2plug.in/ns/ext/event", "http://lv2plug.in/ns/ext/midi#MidiEvent");
 		} else if (strcmp(host_features[i]->URI, "http://lv2plug.in/ns/ext/event") == 0) {
@@ -71,8 +71,6 @@ static LV2_Handle instantiate_FooYC20 (
 		delete handle;
                 return NULL;
         }
-
-
 
 	dsp *tmp = createDSP();
 	tmp->init(sample_rate);
@@ -91,12 +89,12 @@ static void connect_port_FooYC20 (
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
 
 	if (port >= 0 && port < 3) {
-		handle->output[port] = (float *)data_location;
+		handle->outputPorts[port] = (float *)data_location;
 		return;
 	}
 
 	if (port == 3) {
-		// TODO: Midi
+		handle->eventPort = (LV2_Event_Buffer *)data_location;
 		return;
 	}
 
@@ -140,17 +138,59 @@ static void activate_FooYC20 (LV2_Handle instance)
 	// TODO: Do we actually need to do anything?
 }
 
-static void run_FooYC20 (LV2_Handle instance, uint32_t sample_count)
+static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 {
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
+
+	LV2_Event *ev = NULL;
+	LV2_Event_Iterator iterator;
+
+	uint32_t frame = 0;
 
 	for (std::map<Control *, float *>::iterator i = handle->controlParameters.begin(); i != handle->controlParameters.end(); ++i) {
 		Control *c = i->first;
 		*c->getZone() = *i->second;
 	}
 
-	// TODO: Midi
-	handle->yc20->getDSP()->compute(sample_count, NULL, handle->output);
+	lv2_event_begin(&iterator, handle->eventPort);
+
+	while (lv2_event_is_valid(&iterator)) {
+		ev = lv2_event_get(&iterator, NULL);
+
+		// Parse event
+		if (ev->type == 0) {
+			handle->event_ref->lv2_event_unref(handle->event_ref->callback_data, ev);
+		} else if (ev->type == handle->midi_event_id) {
+			uint8_t *data = (uint8_t *)(ev+1);
+			float value;
+			int key;
+
+			switch ( (data[0]) & 0xf0 ) {
+			case 0x90:
+				if (data[2] == 0) {
+					value = 0.0;
+				} else {
+					value = 1;
+				}
+				key = data[1] - 36;
+				break;
+			case 0x80:
+				value = 0.0;
+				key = data[1] - 36;
+				break;
+			}
+			handle->yc20->setKey(key, value);
+		}
+
+		
+		handle->yc20->getDSP()->compute(ev->frames - frame, NULL, handle->outputPorts);
+
+		frame = ev->frames;
+
+		lv2_event_increment(&iterator);
+	}
+
+	handle->yc20->getDSP()->compute(nframes - frame, NULL, handle->outputPorts);
 
 }
 
