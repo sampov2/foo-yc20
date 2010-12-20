@@ -86,5 +86,30 @@
 	
 <http://studionumbersix.com/foo/lv2/yc20/ui>
 	a		ui:GtkUI;
-	ui:binary	<foo-yc20.so> .
+	ui:binary	<foo-yc20-lv2ui.so> .
+	ui:portNotification 
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 4  ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 5  ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 6  ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 7  ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 8  ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 9  ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 10 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 11 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 12 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 13 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 14 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 15 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 16 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 17 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 18 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 19 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 20 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 21 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 22 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 23 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 24 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 25 ],
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 26 ] .
+
 
