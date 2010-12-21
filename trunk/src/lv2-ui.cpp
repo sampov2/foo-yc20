@@ -44,6 +44,11 @@ static LV2UI_Handle instantiate_FooYC20UI(
 			LV2UI_Widget*                   widget,
 			const LV2_Feature* const*       features)
 {
+	if (strcmp(plugin_uri, "http://studionumbersix.com/foo/lv2/yc20") != 0) {
+		std::cerr << "Trying to instantiate FooYC20UI for a wrong plugin" << std::endl;
+		return NULL;
+	}
+
 	struct YC20UI_Handle_t *obj = new YC20UI_Handle_t;
 
 	obj->ui = new YC20UI2();
@@ -72,6 +77,9 @@ static void port_event_FooYC20UI(
 			uint32_t     format,
 			const void*  buffer)
 {
+	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)ui;
+
+	obj->ui->setControlFromLV2(port_index, *(float *)buffer);
 }
 
 

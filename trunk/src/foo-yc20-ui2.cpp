@@ -78,14 +78,16 @@ YC20UI2::YC20UI2()
 	, _dragWdgt(NULL)
 	, _buttonPressWdgt(NULL)
 {
+	memset(draggablePerLV2Port, 0, sizeof(Wdgt::Draggable *)*27);
+
 	_image_background = Wdgt::load_png("background.png");
 
 	drawingArea.signal_size_request().connect( sigc::mem_fun(*this, &YC20UI2::size_request));
 	drawingArea.signal_size_allocate().connect( sigc::mem_fun(*this, &YC20UI2::size_allocate));
 	drawingArea.signal_expose_event().connect( sigc::mem_fun (*this, &YC20UI2::expose));
 
+	// Not good manners in LV2
 	//drawingArea.signal_realize().connect( sigc::mem_fun (*this, &YC20UI2::realize));
-
 
 	drawingArea.signal_motion_notify_event().connect ( sigc::mem_fun (*this, &YC20UI2::motion_notify_event) );
 	drawingArea.signal_button_press_event().connect  ( sigc::mem_fun (*this, &YC20UI2::button_press_event));
@@ -113,14 +115,17 @@ YC20UI2::YC20UI2()
 	// Pitch, volume & bass volume
 	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, -1.0, 1.0);
 	pitch->setName("pitch");
+	draggablePerLV2Port[4] = pitch;
 	x += 72.0 + pitch_x_longest;
 
 	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, 0.0, 1.0);
 	volume->setName("volume");
+	draggablePerLV2Port[5] = volume;
 	x += 72.0 + pitch_x_longest;
 
 	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, 0.0, 1.0);
 	bass_v->setName("bass volume");
+	draggablePerLV2Port[6] = bass_v;
 	x += 72.0 + pitch_x_longest + pitch_x_long;
 
 	wdgts.push_back(pitch);
@@ -131,37 +136,37 @@ YC20UI2::YC20UI2()
 	// Instead of the touch vibrato, we have a realism switch
 	Wdgt::DrawbarBlack *realism = new Wdgt::DrawbarBlack(x, y, true);
 	realism->setName("realism");
+	draggablePerLV2Port[7] = realism;
 	x += 40.0 + pitch_x;
 	
-	/*
-	Wdgt::DummyDrawbarBlack *touch    = new Wdgt::DummyDrawbarBlack(x, y);
-	touch->setName("touch vibrato");
-	*/
-
 	Wdgt::DrawbarBlack *vibrato = new Wdgt::DrawbarBlack(x, y, true);
 	vibrato->setName("depth");
+	draggablePerLV2Port[8] = vibrato;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarBlack *v_speed = new Wdgt::DrawbarBlack(x, y, true);
 	v_speed->setName("speed");
+	draggablePerLV2Port[9] = v_speed;
 	x += 40.0 + pitch_x_longest;
 
 	wdgts.push_back(realism);
-	//wdgts.push_back(touch);
 	wdgts.push_back(vibrato);
 	wdgts.push_back(v_speed);
 
 	// Bass
 	Wdgt::DrawbarWhite *bass_16  = new Wdgt::DrawbarWhite(x, y);
 	bass_16->setName("16' b");
+	draggablePerLV2Port[10] = bass_16;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *bass_8   = new Wdgt::DrawbarWhite(x, y);
 	bass_8->setName("8' b");
+	draggablePerLV2Port[11] = bass_8;
 	x += 40.0 + pitch_x;
 
 	Wdgt::SwitchBlack *bass_man = new Wdgt::SwitchBlack(x, y);
 	bass_man->setName("bass manual");
+	draggablePerLV2Port[12] = bass_man;
 	x += 40.0 + pitch_x_longest;
 
 	wdgts.push_back(bass_16);
@@ -171,30 +176,37 @@ YC20UI2::YC20UI2()
 	// Section I
 	Wdgt::DrawbarWhite *sect1_16    = new Wdgt::DrawbarWhite(x, y);
 	sect1_16->setName("16' i");
+	draggablePerLV2Port[13] = sect1_16;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_8     = new Wdgt::DrawbarWhite(x, y);
 	sect1_8->setName("8' i");
+	draggablePerLV2Port[14] = sect1_8;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_4     = new Wdgt::DrawbarWhite(x, y);
 	sect1_4->setName("4' i");
+	draggablePerLV2Port[15] = sect1_4;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_2_2p3 = new Wdgt::DrawbarWhite(x, y);
 	sect1_2_2p3->setName("2 2/3' i");
+	draggablePerLV2Port[16] = sect1_2_2p3;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_2     = new Wdgt::DrawbarWhite(x, y);
 	sect1_2->setName("2' i");
+	draggablePerLV2Port[17] = sect1_2;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_1_3p5 = new Wdgt::DrawbarWhite(x, y);
 	sect1_1_3p5->setName("1 3/5' i");
+	draggablePerLV2Port[18] = sect1_1_3p5;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_1     = new Wdgt::DrawbarWhite(x, y);
 	sect1_1->setName("1' i");
+	draggablePerLV2Port[19] = sect1_1;
 	x += 40.0 + pitch_x_long;
 
 	wdgts.push_back(sect1_16);
@@ -208,10 +220,12 @@ YC20UI2::YC20UI2()
 	// Balance & Brightness
 	Wdgt::DrawbarBlack *balance    = new Wdgt::DrawbarBlack(x, y, false);
 	balance->setName("balance");
+	draggablePerLV2Port[20] = balance;
 	x += 40.0 + pitch_x_long;
 
 	Wdgt::DrawbarBlack *brightness = new Wdgt::DrawbarBlack(x, y, false);
 	brightness->setName("bright");
+	draggablePerLV2Port[21] = brightness;
 	x += 40.0 + pitch_x_long;
 
 	wdgts.push_back(balance);
@@ -220,18 +234,22 @@ YC20UI2::YC20UI2()
 	// Section II
 	Wdgt::DrawbarWhite *sect2_16 = new Wdgt::DrawbarWhite(x, y);
 	sect2_16->setName("16' ii");
+	draggablePerLV2Port[22] = sect2_16;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect2_8  = new Wdgt::DrawbarWhite(x, y);
 	sect2_8->setName("8' ii");
+	draggablePerLV2Port[23] = sect2_8;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect2_4  = new Wdgt::DrawbarWhite(x, y);
 	sect2_4->setName("4' ii");
+	draggablePerLV2Port[24] = sect2_4;
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect2_2  = new Wdgt::DrawbarWhite(x, y);
 	sect2_2->setName("2' ii");
+	draggablePerLV2Port[25] = sect2_2;
 	x += 40.0 + pitch_x_long;
 
 	sect2_16->setValue(1.0);
@@ -247,6 +265,7 @@ YC20UI2::YC20UI2()
 	// Percussion
 	Wdgt::DrawbarGreen *percussive = new Wdgt::DrawbarGreen(x, y);
 	percussive->setName("percussive");
+	draggablePerLV2Port[26] = percussive;
 
 	wdgts.push_back(percussive);
 
@@ -276,6 +295,22 @@ YC20UI2::YC20UI2()
 	}
 	idleSignalTag = g_timeout_add(10, idleTimeout, this);
 	*/
+}
+void
+YC20UI2::setControlFromLV2(int port_idx, float value)
+{
+	if (port_idx < 0 || port_idx > 26) {
+		std::cerr << "LV2 port index " << port_idx << " out of range" << std::endl;
+		return;
+	}
+	Wdgt::Draggable *d = draggablePerLV2Port[port_idx];
+	if (d == NULL) {
+		std::cerr << "No control for LV2 port " << port_idx << std::endl;
+		return;
+	}
+
+	d->setValue(value);
+	exposeWdgt(d);
 }
 
 void
@@ -613,5 +648,6 @@ YC20UI2::~YC20UI2()
 
 	cairo_surface_destroy(_image_background);
 	// TODO destroy other images as well
+	// And the UI.. or is it enough that the DrawingArea goes out of scope?
 }
 
