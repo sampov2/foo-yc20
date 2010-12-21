@@ -41,7 +41,8 @@ class YC20UI2
 
 		//virtual void queueExpose(int cc);
 
-		virtual void updateControlsFromState();
+		void updateControlsFromState();
+		void setControlFromLV2(int, float);
 
 	private:
 
@@ -75,6 +76,7 @@ class YC20UI2
 		float _predrag_value;
 
 		std::list<Wdgt::Object *> wdgts;
+		Wdgt::Draggable* draggablePerLV2Port[27];
 
 		//std::map<std::string, Wdgt::Object *> wdgtPerLabel;
 		//Wdgt::Draggable *draggablePerCC[127];
