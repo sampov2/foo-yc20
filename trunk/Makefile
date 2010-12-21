@@ -1,10 +1,10 @@
-PREFIX=/usr/local
+PREFIX=/usr
 CXX=g++
 VERSION=
 
 OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/main-cli.o
 OBJS_JACK=src/yc20-jack.o 
-OBJS_GTK=src/main-gui.o src/foo-yc20-ui.o src/lv2-ui.cpp src/lv2-ui.o
+OBJS_GTK=src/main-gui.o src/foo-yc20-ui.o src/lv2-ui.cpp src/lv2-ui.o src/foo-yc20-ui2.o
 OBJS_DSP=src/faust-dsp.o
 
 CFLAGS=-g -Wall
@@ -45,7 +45,7 @@ foo-yc20-cli: $(OBJS_FOO_YC20_CLI)
 
 ## LV2 version
 OBJS_LV2=src/lv2.o src/foo-yc20.o src/faust-dsp.o
-OBJS_LV2_UI=src/lv2-ui.o
+OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
 foo-yc20.so: $(OBJS_LV2) $(OBJS_LV2_UI)
 	$(CXX) $(OBJS_LV2) -fPIC -shared -o src/foo-yc20.lv2/foo-yc20.so
 	$(CXX) $(OBJS_LV2_UI) -fPIC -shared -o src/foo-yc20.lv2/foo-yc20-lv2ui.so

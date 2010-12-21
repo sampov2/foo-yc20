@@ -20,14 +20,14 @@
 
 #include <lv2/http/lv2plug.in/ns/extensions/ui/ui.h>
 
-#include "foo-yc20-ui.h"
+#include "foo-yc20-ui2.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 struct YC20UI_Handle_t {
-	YC20UI *ui;
+	YC20UI2 *ui;
 
 	LV2UI_Write_Function write;
 	LV2UI_Controller controller;
@@ -46,14 +46,13 @@ static LV2UI_Handle instantiate_FooYC20UI(
 {
 	struct YC20UI_Handle_t *obj = new YC20UI_Handle_t;
 
-	// TODO: this might get tricky..
-	obj->ui = new YC20UI(NULL);
+	obj->ui = new YC20UI2();
 
 
 	obj->write = write_function;
 	obj->controller = controller;
 	
-	*widget = obj->ui->getWidget();
+	*widget = obj->ui->getWidget()->gobj();
 
 
 	return (LV2UI_Handle)obj;

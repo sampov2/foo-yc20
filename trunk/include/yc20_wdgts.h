@@ -21,7 +21,6 @@
 
 #include <iostream>
 
-#include "foo-yc20.h"
 #include "wdgt.h"
 
 namespace Wdgt
