@@ -268,34 +268,8 @@ YC20UI2::YC20UI2()
 	draggablePerLV2Port[26] = percussive;
 
 	wdgts.push_back(percussive);
-
-
-	// Make the map
-	/*
-	for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i !=  wdgts.end(); ++i) {
-		Wdgt::Object *o = (*i);
-		wdgtPerLabel[o->getName()] = o;
-		
-		// Connect zones (DSP memory locations for parameters)
-		Wdgt::Draggable *draggable = dynamic_cast<Wdgt::Draggable *>(o);
-		if (draggable != NULL) {
-			Control *control = yc20->getControl(o->getName());
-			draggable->setZone(control->getZone());
-		}
-		
-	}
-	*/
-
-
-	// Create the ringbuffer and start the timeout thread
-	/*
-	exposeRingbuffer = jack_ringbuffer_create(sizeof(Wdgt::Object *)*1000);
-	if (exposeRingbuffer == NULL) {
-		throw "Could not create ringbuffer";
-	}
-	idleSignalTag = g_timeout_add(10, idleTimeout, this);
-	*/
 }
+
 void
 YC20UI2::setControlFromLV2(int port_idx, float value)
 {
@@ -312,19 +286,6 @@ YC20UI2::setControlFromLV2(int port_idx, float value)
 	d->setValue(value);
 	exposeWdgt(d);
 }
-
-void
-YC20UI2::updateControlsFromState()
-{
-	for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i != wdgts.end(); ++i) {
-		Wdgt::Object *o = (*i);
-		Wdgt::Draggable *draggable = dynamic_cast<Wdgt::Draggable *>(o);
-		if (draggable != NULL) {
-			draggable->setValue( *draggable->getZone() );
-		}
-	}
-}
-
 
 void
 YC20UI2::size_request(Gtk::Requisition *req)
@@ -494,44 +455,6 @@ YC20UI2::button_release_event(GdkEventButton *evt)
 	
 }
 
-/*
-gboolean 
-YC20UI2::idleTimeout(gpointer data)
-{
-	YC20UI2 *obj = (YC20UI2 *)data;
-	obj->handleExposeEvents();
-
-	return true;
-}
-
-void
-YC20UI2::handleExposeEvents()
-{
-	Wdgt::Object *obj;
-
-	while ( jack_ringbuffer_read(exposeRingbuffer, 
-	                             (char *)&obj,
-	                             sizeof(Wdgt::Object *)) == sizeof(Wdgt::Object *)) {
-		exposeWdgt(obj);
-	}
-}
-
-void
-YC20UI2::queueExpose(int cc)
-{
-	Wdgt::Object *obj = draggablePerCC[cc];
-	if (obj == NULL) {
-		std::cerr << "Tried to queue an expose event for a non-existent control" << std::endl;
-		return;
-	}
-
-	int i = jack_ringbuffer_write(exposeRingbuffer, (char *)&obj, sizeof(Wdgt::Object *));
-	if (i != sizeof(Wdgt::Object *)) {
-		std::cerr << "Ringbuffer full!" << std::endl;
-	}
-}
-*/
-
 bool 
 YC20UI2::exposeWdgt(Wdgt::Object *obj)
 {
@@ -634,11 +557,6 @@ YC20UI2::expose(GdkEventExpose *evt)
 
 YC20UI2::~YC20UI2()
 {
-	/*
-	g_source_remove(idleSignalTag);
-
-	jack_ringbuffer_free(exposeRingbuffer);
-	*/
         for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i != wdgts.end(); ) {
                 Wdgt::Object *obj = *i;
                 delete obj;
