@@ -39,9 +39,6 @@ class YC20UI2
 
 		Gtk::Widget *getWidget() { return &drawingArea; }
 
-		//virtual void queueExpose(int cc);
-
-		void updateControlsFromState();
 		void setControlFromLV2(int, float);
 
 	private:
