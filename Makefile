@@ -1,4 +1,4 @@
-PREFIX=/usr
+PREFIX=/usr/local
 CXX=g++
 VERSION=
 
@@ -6,9 +6,6 @@ OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/main-cli.o
 OBJS_JACK=src/yc20-jack.o 
 OBJS_GTK=src/main-gui.o src/foo-yc20-ui.o src/lv2-ui.cpp src/lv2-ui.o src/foo-yc20-ui2.o
 OBJS_DSP=src/faust-dsp.o
-
-OBJS_LV2=src/lv2.o src/foo-yc20.o src/faust-dsp.o
-OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
 
 LV2_PLUGIN=src/foo-yc20.lv2/foo-yc20.so
 LV2_UI=src/foo-yc20.lv2/foo-yc20-lv2ui.so
@@ -48,11 +45,20 @@ foo-yc20-cli: $(OBJS_FOO_YC20_CLI)
 	$(CXX) $(OBJS_FOO_YC20_CLI) `pkg-config --libs jack` -o foo-yc20-cli
 
 ## LV2 version
+OBJS_LV2=src/lv2.o src/foo-yc20.o src/faust-dsp.o
+
 $(LV2_PLUGIN): $(OBJS_LV2)
 	$(CXX) $(OBJS_LV2) -fPIC -shared -o $(LV2_PLUGIN)
 
+## LV2 UI
+OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
+
 $(LV2_UI): $(OBJS_LV2_UI)
 	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtkmm-2.4` -o $(LV2_UI)
+
+clean:
+	rm -f foo-yc20 foo-yc20-cli $(LV2_PLUGIN) $(LV2_UI)
+	rm -f $(OBJS_FOO_YC20) $(OBJS_FOO_YC20_CLI) $(OBJS_LV2) $(OBJS_LV2_UI)
 
 
 install: foo-yc20
@@ -62,6 +68,10 @@ install: foo-yc20
 	cat foo-yc20.desktop.in | sed 's!%PREFIX%!$(PREFIX)!' > foo-yc20.desktop
 	install -Dm 644 foo-yc20.desktop $(DESTDIR)$(PREFIX)/share/applications/foo-yc20.desktop
 	rm foo-yc20.desktop
+	install -d $(DESTDIR)$(PREFIX)/lib/lv2/foo-yc20.lv2
+	install -m 755 src/foo-yc20.lv2/*.so $(DESTDIR)$(PREFIX)/lib/lv2/foo-yc20.lv2
+	install -m 644 src/foo-yc20.lv2/*.ttl $(DESTDIR)$(PREFIX)/lib/lv2/foo-yc20.lv2
+
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/foo-yc20
