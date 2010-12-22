@@ -52,25 +52,7 @@ namespace Wdgt
 		return ret;
 	}
 
-	cairo_surface_t *DrawbarWhite::images[] = {
-		load_png("white_0.png"), 
-		load_png("white_1.png"), 
-		load_png("white_2.png"), 
-		load_png("white_3.png") };
-
-	cairo_surface_t *DrawbarBlack::images[] = {
-		load_png("black_0.png"), 
-		load_png("black_1.png"), 
-		load_png("black_2.png"), 
-		load_png("black_3.png") };
-
-	cairo_surface_t *DrawbarGreen::images[] = {
-		load_png("green_0.png"), 
-		load_png("green_1.png"), 
-		load_png("green_2.png"), 
-		load_png("green_3.png") };
-	cairo_surface_t *Potentiometer::image =
-		load_png("potentiometer.png");
+	cairo_surface_t *Potentiometer::image = 0;
 }
 
 
@@ -84,6 +66,23 @@ YC20UI::YC20UI(YC20Processor *parent)
 {
 	memset(draggablePerCC, 0, sizeof(Wdgt::Draggable *)*127);
 	_image_background = Wdgt::load_png("background.png");
+
+	drawbarWhiteImages[0] = Wdgt::load_png("white_0.png");
+	drawbarWhiteImages[1] = Wdgt::load_png("white_1.png");
+	drawbarWhiteImages[2] = Wdgt::load_png("white_2.png");
+	drawbarWhiteImages[3] = Wdgt::load_png("white_3.png");
+
+	drawbarBlackImages[0] = Wdgt::load_png("black_0.png");
+	drawbarBlackImages[1] = Wdgt::load_png("black_1.png");
+	drawbarBlackImages[2] = Wdgt::load_png("black_2.png");
+	drawbarBlackImages[3] = Wdgt::load_png("black_3.png");
+
+	drawbarGreenImages[0] = Wdgt::load_png("green_0.png");
+	drawbarGreenImages[1] = Wdgt::load_png("green_1.png");
+	drawbarGreenImages[2] = Wdgt::load_png("green_2.png");
+	drawbarGreenImages[3] = Wdgt::load_png("green_3.png");
+
+	potentiometerImage = Wdgt::load_png("potentiometer.png");
 
 	drawingArea.signal_size_request().connect( sigc::mem_fun(*this, &YC20UI::size_request));
 	drawingArea.signal_size_allocate().connect( sigc::mem_fun(*this, &YC20UI::size_allocate));
@@ -119,19 +118,19 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 	// Pitch, volume & bass volume
 	c = yc20->getControl("pitch");
-	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, c->getMin(), c->getMax());
+	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, c->getMin(), c->getMax(), potentiometerImage);
 	pitch->setName("pitch");
 	draggablePerCC[c->getCC()] = pitch;
 	x += 72.0 + pitch_x_longest;
 
 	c = yc20->getControl("volume");
-	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, c->getMin(), c->getMax());
+	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, c->getMin(), c->getMax(), potentiometerImage);
 	volume->setName("volume");
 	draggablePerCC[c->getCC()] = volume;
 	x += 72.0 + pitch_x_longest;
 
 	c = yc20->getControl("bass volume");
-	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, c->getMin(), c->getMax());
+	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, c->getMin(), c->getMax(), potentiometerImage);
 	bass_v->setName("bass volume");
 	draggablePerCC[c->getCC()] = bass_v;
 	x += 72.0 + pitch_x_longest + pitch_x_long;
@@ -143,7 +142,7 @@ YC20UI::YC20UI(YC20Processor *parent)
 	// Vibrato section
 	// Instead of the touch vibrato, we have a realism switch
 	c = yc20->getControl("realism");
-	Wdgt::DrawbarBlack *realism = new Wdgt::DrawbarBlack(x, y, true);
+	Wdgt::Drawbar *realism = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
 	realism->setName("realism");
 	draggablePerCC[c->getCC()] = realism;
 	x += 40.0 + pitch_x;
@@ -154,13 +153,13 @@ YC20UI::YC20UI(YC20Processor *parent)
 	*/
 
 	c = yc20->getControl("depth");
-	Wdgt::DrawbarBlack *vibrato = new Wdgt::DrawbarBlack(x, y, true);
+	Wdgt::Drawbar *vibrato = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
 	vibrato->setName("depth");
 	draggablePerCC[c->getCC()] = vibrato;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("speed");
-	Wdgt::DrawbarBlack *v_speed = new Wdgt::DrawbarBlack(x, y, true);
+	Wdgt::Drawbar *v_speed = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
 	v_speed->setName("speed");
 	draggablePerCC[c->getCC()] = v_speed;
 	x += 40.0 + pitch_x_longest;
@@ -172,19 +171,19 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 	// Bass
 	c = yc20->getControl("16' b");
-	Wdgt::DrawbarWhite *bass_16  = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *bass_16  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	bass_16->setName("16' b");
 	draggablePerCC[c->getCC()] = bass_16;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("8' b");
-	Wdgt::DrawbarWhite *bass_8   = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *bass_8   = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	bass_8->setName("8' b");
 	draggablePerCC[c->getCC()] = bass_8;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("bass manual");
-	Wdgt::SwitchBlack *bass_man = new Wdgt::SwitchBlack(x, y);
+	Wdgt::Switch *bass_man = new Wdgt::Switch(x, y, drawbarBlackImages);
 	bass_man->setName("bass manual");
 	draggablePerCC[c->getCC()] = bass_man;
 	x += 40.0 + pitch_x_longest;
@@ -195,43 +194,43 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 	// Section I
 	c = yc20->getControl("16' i");
-	Wdgt::DrawbarWhite *sect1_16    = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_16    = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_16->setName("16' i");
 	draggablePerCC[c->getCC()] = sect1_16;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("8' i");
-	Wdgt::DrawbarWhite *sect1_8     = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_8     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_8->setName("8' i");
 	draggablePerCC[c->getCC()] = sect1_8;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("4' i");
-	Wdgt::DrawbarWhite *sect1_4     = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_4     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_4->setName("4' i");
 	draggablePerCC[c->getCC()] = sect1_4;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("2 2/3' i");
-	Wdgt::DrawbarWhite *sect1_2_2p3 = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_2_2p3 = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_2_2p3->setName("2 2/3' i");
 	draggablePerCC[c->getCC()] = sect1_2_2p3;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("2' i");
-	Wdgt::DrawbarWhite *sect1_2     = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_2     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_2->setName("2' i");
 	draggablePerCC[c->getCC()] = sect1_2;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("1 3/5' i");
-	Wdgt::DrawbarWhite *sect1_1_3p5 = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_1_3p5 = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_1_3p5->setName("1 3/5' i");
 	draggablePerCC[c->getCC()] = sect1_1_3p5;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("1' i");
-	Wdgt::DrawbarWhite *sect1_1     = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_1     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_1->setName("1' i");
 	draggablePerCC[c->getCC()] = sect1_1;
 	x += 40.0 + pitch_x_long;
@@ -246,13 +245,13 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 	// Balance & Brightness
 	c = yc20->getControl("balance");
-	Wdgt::DrawbarBlack *balance    = new Wdgt::DrawbarBlack(x, y, false);
+	Wdgt::Drawbar *balance    = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
 	balance->setName("balance");
 	draggablePerCC[c->getCC()] = balance;
 	x += 40.0 + pitch_x_long;
 
 	c = yc20->getControl("bright");
-	Wdgt::DrawbarBlack *brightness = new Wdgt::DrawbarBlack(x, y, false);
+	Wdgt::Drawbar *brightness = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
 	brightness->setName("bright");
 	draggablePerCC[c->getCC()] = brightness;
 	x += 40.0 + pitch_x_long;
@@ -262,25 +261,25 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 	// Section II
 	c = yc20->getControl("16' ii");
-	Wdgt::DrawbarWhite *sect2_16 = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect2_16 = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_16->setName("16' ii");
 	draggablePerCC[c->getCC()] = sect2_16;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("8' ii");
-	Wdgt::DrawbarWhite *sect2_8  = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect2_8  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_8->setName("8' ii");
 	draggablePerCC[c->getCC()] = sect2_8;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("4' ii");
-	Wdgt::DrawbarWhite *sect2_4  = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect2_4  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_4->setName("4' ii");
 	draggablePerCC[c->getCC()] = sect2_4;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("2' ii");
-	Wdgt::DrawbarWhite *sect2_2  = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect2_2  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_2->setName("2' ii");
 	draggablePerCC[c->getCC()] = sect2_2;
 	x += 40.0 + pitch_x_long;
@@ -297,7 +296,7 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 	// Percussion
 	c = yc20->getControl("percussive");
-	Wdgt::DrawbarGreen *percussive = new Wdgt::DrawbarGreen(x, y);
+	Wdgt::Drawbar *percussive = new Wdgt::Drawbar(x, y, true, drawbarGreenImages);
 	percussive->setName("percussive");
 	draggablePerCC[c->getCC()] = percussive;
 
@@ -658,5 +657,14 @@ YC20UI::~YC20UI()
         }
 
 	cairo_surface_destroy(_image_background);
+
+	for (int i = 0; i < 4; i++) {
+		cairo_surface_destroy(drawbarBlackImages[i]);
+		cairo_surface_destroy(drawbarWhiteImages[i]);
+		cairo_surface_destroy(drawbarGreenImages[i]);
+	}
+
+	cairo_surface_destroy(potentiometerImage);
+
 }
 

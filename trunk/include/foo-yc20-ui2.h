@@ -81,7 +81,6 @@ class YC20UI2
 		//std::map<std::string, Wdgt::Object *> wdgtPerLabel;
 		//Wdgt::Draggable *draggablePerCC[127];
 
-		cairo_surface_t *_image_background;
 
 		bool _ready_to_draw;
 
@@ -89,6 +88,7 @@ class YC20UI2
 		void *parameter_changed_obj;
 
 		// Images
+		cairo_surface_t *_image_background;
 		cairo_surface_t *drawbarWhiteImages[4];
 		cairo_surface_t *drawbarBlackImages[4];
 		cairo_surface_t *drawbarGreenImages[4];
