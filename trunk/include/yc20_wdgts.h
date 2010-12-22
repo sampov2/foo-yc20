@@ -156,69 +156,6 @@ class Drawbar : public Lever
 		cairo_surface_t **images;
 };
 
-class DrawbarWhite : public Lever
-{
-	public:
-		DrawbarWhite(float posX, float posY) 
-			: Lever(true)
-		{
-			setPosition(posX, posY);
-		}
-		
-		virtual void drawWidget(bool hover, cairo_t *cr) const
-		{
-			cairo_set_source_surface(cr, images[imageNum], x1, y1);
-			cairo_paint(cr);
-
-			drawEmphasis(hover, cr);
-		}
-	
-	protected:
-		static cairo_surface_t *images[];
-};
-
-class DrawbarBlack : public Lever
-{
-	public:
-		DrawbarBlack(float posX, float posY, bool notches) 
-			: Lever(notches)
-		{
-			setPosition(posX, posY);
-		}
-		
-		virtual void drawWidget(bool hover, cairo_t *cr) const
-		{
-			cairo_set_source_surface(cr, images[imageNum], x1, y1);
-			cairo_paint(cr);
-
-			drawEmphasis(hover, cr);
-		}
-	
-	protected:
-		static cairo_surface_t *images[];
-};
-
-class DrawbarGreen : public Lever
-{
-	public:
-		DrawbarGreen(float posX, float posY) 
-			: Lever(true)
-		{
-			setPosition(posX, posY);
-		}
-		
-		virtual void drawWidget(bool hover, cairo_t *cr) const
-		{
-			cairo_set_source_surface(cr, images[imageNum], x1, y1);
-			cairo_paint(cr);
-
-			drawEmphasis(hover, cr);
-		}
-	
-	protected:
-		static cairo_surface_t *images[];
-};
-
 class Switch : public Drawbar
 {
 	public:
@@ -238,61 +175,11 @@ class Switch : public Drawbar
 		}
 };
 
-class SwitchBlack : public DrawbarBlack
-{
-	public:
-		SwitchBlack(float posX, float posY)
-			: DrawbarBlack(posX, posY, false)
-		{
-		}
-
-		virtual bool setValue(float v)
-		{
-			if (v < 0.5) {
-				v = 0.0;
-			} else {
-				v = 1.0;
-			}
-			return DrawbarBlack::setValue(v);
-		}
-};
-
-class DummyDrawbarBlack : public DrawbarBlack
-{
-	public:
-		DummyDrawbarBlack(float posX, float posY)
-			: DrawbarBlack(posX, posY, false)
-		{
-		}
-
-		virtual bool setValue(float v)
-		{
-			return false;
-		}
-
-		virtual void drawWidget(bool hover, cairo_t *cr) const
-		{
-			cairo_set_source_surface(cr, images[0], x1, y1);
-			cairo_paint(cr);
-		}
-};
-
-
 class Potentiometer : public Draggable
 {
 	public:
 		Potentiometer(float posX, float posY, float min, float max, cairo_surface_t *_image)
-			: dynimage(_image)
-		{
-			init(posX, posY, min, max);
-		}
-		Potentiometer(float posX, float posY, float min, float max)
-			: dynimage(NULL)
-		{
-			init(posX, posY, min, max);
-		}
-
-		void init(float posX, float posY, float min, float max)
+			: image(_image)
 		{
 			minValue = min;
 			maxValue = max;
@@ -343,11 +230,8 @@ class Potentiometer : public Draggable
 
 		virtual void drawWidget(bool hover, cairo_t *cr) const
 		{
-			if (dynimage) {
-				cairo_set_source_surface(cr, dynimage, x1, y1);
-			} else {
-				cairo_set_source_surface(cr, image, x1, y1);
-			}
+			cairo_set_source_surface(cr, image, x1, y1);
+
 			cairo_paint(cr);
 
 			cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
@@ -385,8 +269,7 @@ class Potentiometer : public Draggable
 		float origoX;
 		float origoY;
 
-		static cairo_surface_t *image;
-		cairo_surface_t *dynimage;
+		cairo_surface_t *image;
 		
 };
 

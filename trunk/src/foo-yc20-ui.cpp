@@ -51,8 +51,6 @@ namespace Wdgt
 		}
 		return ret;
 	}
-
-	cairo_surface_t *Potentiometer::image = 0;
 }
 
 

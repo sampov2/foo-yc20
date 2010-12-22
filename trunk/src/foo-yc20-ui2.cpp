@@ -48,8 +48,6 @@ namespace Wdgt
 		}
 		return ret;
 	}
-
-	cairo_surface_t *Potentiometer::image = 0;
 }
 
 
@@ -593,7 +591,5 @@ YC20UI2::~YC20UI2()
 	}
 
 	cairo_surface_destroy(potentiometerImage);
-	// TODO destroy other images as well?
-	// And the UI.. or is it enough that the DrawingArea goes out of scope?
 }
 
