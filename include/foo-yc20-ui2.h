@@ -20,6 +20,7 @@
 #ifndef _FOO_YC20_UI2_H
 #define _FOO_YC20_UI2_H
 
+#include <stdint.h>
 
 #include <gtkmm/main.h>
 #include <gtkmm/window.h>
@@ -29,6 +30,8 @@
 
 #include "wdgt.h"
 #include "yc20_wdgts.h"
+
+typedef void (*parameterchange_callback)(void *, uint32_t, float);
 
 class YC20UI2
 {
@@ -40,7 +43,8 @@ class YC20UI2
 		Gtk::Widget *getWidget() { return &drawingArea; }
 
 		void setControlFromLV2(int, float);
-
+		//void setParameterChangedCallback(void (*callback)(void *, uint32_t, float), void *);
+		void setParameterChangedCallback(parameterchange_callback, void *);
 	private:
 
 		float ui_scale;
@@ -82,14 +86,8 @@ class YC20UI2
 
 		bool _ready_to_draw;
 
-		// Idle-timeout redraw things
-
-	/*
-		jack_ringbuffer_t *exposeRingbuffer;
-		static gboolean idleTimeout(gpointer );
-		void handleExposeEvents();
-		gint idleSignalTag;
-	*/
+		parameterchange_callback parameter_changed;
+		void *parameter_changed_obj;
 };
 
 

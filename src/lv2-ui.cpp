@@ -17,6 +17,7 @@
 */
 
 #include <iostream>
+#include <stdint.h>
 
 #include <lv2/http/lv2plug.in/ns/extensions/ui/ui.h>
 
@@ -35,6 +36,13 @@ struct YC20UI_Handle_t {
 	
 };
 
+static void parameterChanged(void *handle, uint32_t port_idx, float value)
+{
+	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)handle;
+
+	obj->write(obj->controller, port_idx, sizeof(float), 0, &value);
+}
+
 static LV2UI_Handle instantiate_FooYC20UI(
 			const struct _LV2UI_Descriptor* descriptor,
 			const char*                     plugin_uri,
@@ -52,6 +60,7 @@ static LV2UI_Handle instantiate_FooYC20UI(
 	struct YC20UI_Handle_t *obj = new YC20UI_Handle_t;
 
 	obj->ui = new YC20UI2();
+	obj->ui->setParameterChangedCallback(&parameterChanged, obj);
 
 
 	obj->write = write_function;
@@ -79,6 +88,7 @@ static void port_event_FooYC20UI(
 {
 	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)ui;
 
+	// They're all floats..
 	obj->ui->setControlFromLV2(port_index, *(float *)buffer);
 }
 
