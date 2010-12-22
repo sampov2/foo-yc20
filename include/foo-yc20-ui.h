@@ -83,8 +83,6 @@ class YC20UI : public YC20Exposable
 		std::map<std::string, Wdgt::Object *> wdgtPerLabel;
 		Wdgt::Draggable *draggablePerCC[127];
 
-		cairo_surface_t *_image_background;
-
 		bool _ready_to_draw;
 
 		// Idle-timeout redraw things
@@ -93,6 +91,13 @@ class YC20UI : public YC20Exposable
 		static gboolean idleTimeout(gpointer );
 		void handleExposeEvents();
 		gint idleSignalTag;
+
+		// Images
+		cairo_surface_t *_image_background;
+		cairo_surface_t *drawbarWhiteImages[4];
+		cairo_surface_t *drawbarBlackImages[4];
+		cairo_surface_t *drawbarGreenImages[4];
+		cairo_surface_t *potentiometerImage;
 };
 
 
