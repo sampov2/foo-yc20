@@ -49,25 +49,7 @@ namespace Wdgt
 		return ret;
 	}
 
-	cairo_surface_t *DrawbarWhite::images[] = {
-		load_png("white_0.png"), 
-		load_png("white_1.png"), 
-		load_png("white_2.png"), 
-		load_png("white_3.png") };
-
-	cairo_surface_t *DrawbarBlack::images[] = {
-		load_png("black_0.png"), 
-		load_png("black_1.png"), 
-		load_png("black_2.png"), 
-		load_png("black_3.png") };
-
-	cairo_surface_t *DrawbarGreen::images[] = {
-		load_png("green_0.png"), 
-		load_png("green_1.png"), 
-		load_png("green_2.png"), 
-		load_png("green_3.png") };
-	cairo_surface_t *Potentiometer::image =
-		load_png("potentiometer.png");
+	cairo_surface_t *Potentiometer::image = 0;
 }
 
 
@@ -81,6 +63,23 @@ YC20UI2::YC20UI2()
 	memset(draggablePerLV2Port, 0, sizeof(Wdgt::Draggable *)*27);
 
 	_image_background = Wdgt::load_png("background.png");
+
+	drawbarWhiteImages[0] = Wdgt::load_png("white_0.png");
+	drawbarWhiteImages[1] = Wdgt::load_png("white_1.png");
+	drawbarWhiteImages[2] = Wdgt::load_png("white_2.png");
+	drawbarWhiteImages[3] = Wdgt::load_png("white_3.png");
+
+	drawbarBlackImages[0] = Wdgt::load_png("black_0.png");
+	drawbarBlackImages[1] = Wdgt::load_png("black_1.png");
+	drawbarBlackImages[2] = Wdgt::load_png("black_2.png");
+	drawbarBlackImages[3] = Wdgt::load_png("black_3.png");
+
+	drawbarGreenImages[0] = Wdgt::load_png("green_0.png");
+	drawbarGreenImages[1] = Wdgt::load_png("green_1.png");
+	drawbarGreenImages[2] = Wdgt::load_png("green_2.png");
+	drawbarGreenImages[3] = Wdgt::load_png("green_3.png");
+
+	potentiometerImage = Wdgt::load_png("potentiometer.png");
 
 	drawingArea.signal_size_request().connect( sigc::mem_fun(*this, &YC20UI2::size_request));
 	drawingArea.signal_size_allocate().connect( sigc::mem_fun(*this, &YC20UI2::size_allocate));
@@ -113,17 +112,17 @@ YC20UI2::YC20UI2()
 	float y = 15.0;
 
 	// Pitch, volume & bass volume
-	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, -1.0, 1.0);
+	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, -1.0, 1.0, potentiometerImage);
 	pitch->setName("pitch");
 	pitch->setPortIndex(4);
 	x += 72.0 + pitch_x_longest;
 
-	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, 0.0, 1.0);
+	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, 0.0, 1.0, potentiometerImage);
 	volume->setName("volume");
 	volume->setPortIndex(5);
 	x += 72.0 + pitch_x_longest;
 
-	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, 0.0, 1.0);
+	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, 0.0, 1.0, potentiometerImage);
 	bass_v->setName("bass volume");
 	bass_v->setPortIndex(6);
 	x += 72.0 + pitch_x_longest + pitch_x_long;
@@ -134,17 +133,17 @@ YC20UI2::YC20UI2()
 
 	// Vibrato section
 	// Instead of the touch vibrato, we have a realism switch
-	Wdgt::DrawbarBlack *realism = new Wdgt::DrawbarBlack(x, y, true);
+	Wdgt::Drawbar *realism = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
 	realism->setName("realism");
 	realism->setPortIndex(7);
 	x += 40.0 + pitch_x;
 	
-	Wdgt::DrawbarBlack *vibrato = new Wdgt::DrawbarBlack(x, y, true);
+	Wdgt::Drawbar *vibrato = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
 	vibrato->setName("depth");
 	vibrato->setPortIndex(8);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarBlack *v_speed = new Wdgt::DrawbarBlack(x, y, true);
+	Wdgt::Drawbar *v_speed = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
 	v_speed->setName("speed");
 	v_speed->setPortIndex(9);
 	x += 40.0 + pitch_x_longest;
@@ -154,17 +153,17 @@ YC20UI2::YC20UI2()
 	wdgts.push_back(v_speed);
 
 	// Bass
-	Wdgt::DrawbarWhite *bass_16  = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *bass_16  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	bass_16->setName("16' b");
 	bass_16->setPortIndex(10);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *bass_8   = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *bass_8   = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	bass_8->setName("8' b");
 	bass_8->setPortIndex(11);
 	x += 40.0 + pitch_x;
 
-	Wdgt::SwitchBlack *bass_man = new Wdgt::SwitchBlack(x, y);
+	Wdgt::Switch *bass_man = new Wdgt::Switch(x, y, drawbarBlackImages);
 	bass_man->setName("bass manual");
 	bass_man->setPortIndex(12);
 	x += 40.0 + pitch_x_longest;
@@ -174,37 +173,37 @@ YC20UI2::YC20UI2()
 	wdgts.push_back(bass_man);
 
 	// Section I
-	Wdgt::DrawbarWhite *sect1_16    = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_16    = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_16->setName("16' i");
 	sect1_16->setPortIndex(13);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *sect1_8     = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_8     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_8->setName("8' i");
 	sect1_8->setPortIndex(14);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *sect1_4     = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_4     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_4->setName("4' i");
 	sect1_4->setPortIndex(15);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *sect1_2_2p3 = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_2_2p3 = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_2_2p3->setName("2 2/3' i");
 	sect1_2_2p3->setPortIndex(16);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *sect1_2     = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_2     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_2->setName("2' i");
 	sect1_2->setPortIndex(17);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *sect1_1_3p5 = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_1_3p5 = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_1_3p5->setName("1 3/5' i");
 	sect1_1_3p5->setPortIndex(18);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *sect1_1     = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect1_1     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_1->setName("1' i");
 	sect1_1->setPortIndex(19);
 	x += 40.0 + pitch_x_long;
@@ -218,12 +217,12 @@ YC20UI2::YC20UI2()
 	wdgts.push_back(sect1_1);
 
 	// Balance & Brightness
-	Wdgt::DrawbarBlack *balance    = new Wdgt::DrawbarBlack(x, y, false);
+	Wdgt::Drawbar *balance    = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
 	balance->setName("balance");
 	balance->setPortIndex(20);
 	x += 40.0 + pitch_x_long;
 
-	Wdgt::DrawbarBlack *brightness = new Wdgt::DrawbarBlack(x, y, false);
+	Wdgt::Drawbar *brightness = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
 	brightness->setName("bright");
 	brightness->setPortIndex(21);
 	x += 40.0 + pitch_x_long;
@@ -232,22 +231,22 @@ YC20UI2::YC20UI2()
 	wdgts.push_back(brightness);
 
 	// Section II
-	Wdgt::DrawbarWhite *sect2_16 = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect2_16 = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_16->setName("16' ii");
 	sect2_16->setPortIndex(22);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *sect2_8  = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect2_8  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_8->setName("8' ii");
 	sect2_8->setPortIndex(23);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *sect2_4  = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect2_4  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_4->setName("4' ii");
 	sect2_4->setPortIndex(24);
 	x += 40.0 + pitch_x;
 
-	Wdgt::DrawbarWhite *sect2_2  = new Wdgt::DrawbarWhite(x, y);
+	Wdgt::Drawbar *sect2_2  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_2->setName("2' ii");
 	sect2_2->setPortIndex(25);
 	x += 40.0 + pitch_x_long;
@@ -263,7 +262,7 @@ YC20UI2::YC20UI2()
 	wdgts.push_back(sect2_2);
 
 	// Percussion
-	Wdgt::DrawbarGreen *percussive = new Wdgt::DrawbarGreen(x, y);
+	Wdgt::Drawbar *percussive = new Wdgt::Drawbar(x, y, true, drawbarGreenImages);
 	percussive->setName("percussive");
 	percussive->setPortIndex(26);
 
@@ -586,7 +585,15 @@ YC20UI2::~YC20UI2()
         }
 
 	cairo_surface_destroy(_image_background);
-	// TODO destroy other images as well
+
+	for (int i = 0; i < 4; i++) {
+		cairo_surface_destroy(drawbarBlackImages[i]);
+		cairo_surface_destroy(drawbarWhiteImages[i]);
+		cairo_surface_destroy(drawbarGreenImages[i]);
+	}
+
+	cairo_surface_destroy(potentiometerImage);
+	// TODO destroy other images as well?
 	// And the UI.. or is it enough that the DrawingArea goes out of scope?
 }
 

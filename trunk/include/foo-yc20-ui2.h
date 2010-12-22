@@ -43,7 +43,6 @@ class YC20UI2
 		Gtk::Widget *getWidget() { return &drawingArea; }
 
 		void setControlFromLV2(int, float);
-		//void setParameterChangedCallback(void (*callback)(void *, uint32_t, float), void *);
 		void setParameterChangedCallback(parameterchange_callback, void *);
 	private:
 
@@ -88,6 +87,12 @@ class YC20UI2
 
 		parameterchange_callback parameter_changed;
 		void *parameter_changed_obj;
+
+		// Images
+		cairo_surface_t *drawbarWhiteImages[4];
+		cairo_surface_t *drawbarBlackImages[4];
+		cairo_surface_t *drawbarGreenImages[4];
+		cairo_surface_t *potentiometerImage;
 };
 
 
