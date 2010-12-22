@@ -162,8 +162,8 @@ static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 			handle->event_ref->lv2_event_unref(handle->event_ref->callback_data, ev);
 		} else if (ev->type == handle->midi_event_id) {
 			uint8_t *data = (uint8_t *)(ev+1);
-			float value;
-			int key;
+			float value = 0;
+			int key = -1;
 
 			switch ( (data[0]) & 0xf0 ) {
 			case 0x90:
@@ -179,7 +179,9 @@ static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 				key = data[1] - 36;
 				break;
 			}
-			handle->yc20->setKey(key, value);
+			if (key >= 0 && key < 61) {
+				handle->yc20->setKey(key, value);
+			}
 		}
 
 		
