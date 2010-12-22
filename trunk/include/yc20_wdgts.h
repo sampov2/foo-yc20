@@ -47,6 +47,9 @@ class Draggable : public Wdgt::Object
 		void setZone(float *z) { zone = z; };
 		float *getZone() const { return zone; };
 
+		void setPortIndex(uint32_t p) { port = p; }
+		uint32_t getPortIndex() const { return port; }
+
 	protected:
 		void inline setValueForZone()
 		{
@@ -60,6 +63,7 @@ class Draggable : public Wdgt::Object
 		float value;
 
 		float *zone;
+		uint32_t port;
 };
 
 class Lever : public Draggable

@@ -115,17 +115,17 @@ YC20UI2::YC20UI2()
 	// Pitch, volume & bass volume
 	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, -1.0, 1.0);
 	pitch->setName("pitch");
-	draggablePerLV2Port[4] = pitch;
+	pitch->setPortIndex(4);
 	x += 72.0 + pitch_x_longest;
 
 	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, 0.0, 1.0);
 	volume->setName("volume");
-	draggablePerLV2Port[5] = volume;
+	volume->setPortIndex(5);
 	x += 72.0 + pitch_x_longest;
 
 	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, 0.0, 1.0);
 	bass_v->setName("bass volume");
-	draggablePerLV2Port[6] = bass_v;
+	bass_v->setPortIndex(6);
 	x += 72.0 + pitch_x_longest + pitch_x_long;
 
 	wdgts.push_back(pitch);
@@ -136,17 +136,17 @@ YC20UI2::YC20UI2()
 	// Instead of the touch vibrato, we have a realism switch
 	Wdgt::DrawbarBlack *realism = new Wdgt::DrawbarBlack(x, y, true);
 	realism->setName("realism");
-	draggablePerLV2Port[7] = realism;
+	realism->setPortIndex(7);
 	x += 40.0 + pitch_x;
 	
 	Wdgt::DrawbarBlack *vibrato = new Wdgt::DrawbarBlack(x, y, true);
 	vibrato->setName("depth");
-	draggablePerLV2Port[8] = vibrato;
+	vibrato->setPortIndex(8);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarBlack *v_speed = new Wdgt::DrawbarBlack(x, y, true);
 	v_speed->setName("speed");
-	draggablePerLV2Port[9] = v_speed;
+	v_speed->setPortIndex(9);
 	x += 40.0 + pitch_x_longest;
 
 	wdgts.push_back(realism);
@@ -156,17 +156,17 @@ YC20UI2::YC20UI2()
 	// Bass
 	Wdgt::DrawbarWhite *bass_16  = new Wdgt::DrawbarWhite(x, y);
 	bass_16->setName("16' b");
-	draggablePerLV2Port[10] = bass_16;
+	bass_16->setPortIndex(10);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *bass_8   = new Wdgt::DrawbarWhite(x, y);
 	bass_8->setName("8' b");
-	draggablePerLV2Port[11] = bass_8;
+	bass_8->setPortIndex(11);
 	x += 40.0 + pitch_x;
 
 	Wdgt::SwitchBlack *bass_man = new Wdgt::SwitchBlack(x, y);
 	bass_man->setName("bass manual");
-	draggablePerLV2Port[12] = bass_man;
+	bass_man->setPortIndex(12);
 	x += 40.0 + pitch_x_longest;
 
 	wdgts.push_back(bass_16);
@@ -176,37 +176,37 @@ YC20UI2::YC20UI2()
 	// Section I
 	Wdgt::DrawbarWhite *sect1_16    = new Wdgt::DrawbarWhite(x, y);
 	sect1_16->setName("16' i");
-	draggablePerLV2Port[13] = sect1_16;
+	sect1_16->setPortIndex(13);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_8     = new Wdgt::DrawbarWhite(x, y);
 	sect1_8->setName("8' i");
-	draggablePerLV2Port[14] = sect1_8;
+	sect1_8->setPortIndex(14);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_4     = new Wdgt::DrawbarWhite(x, y);
 	sect1_4->setName("4' i");
-	draggablePerLV2Port[15] = sect1_4;
+	sect1_4->setPortIndex(15);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_2_2p3 = new Wdgt::DrawbarWhite(x, y);
 	sect1_2_2p3->setName("2 2/3' i");
-	draggablePerLV2Port[16] = sect1_2_2p3;
+	sect1_2_2p3->setPortIndex(16);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_2     = new Wdgt::DrawbarWhite(x, y);
 	sect1_2->setName("2' i");
-	draggablePerLV2Port[17] = sect1_2;
+	sect1_2->setPortIndex(17);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_1_3p5 = new Wdgt::DrawbarWhite(x, y);
 	sect1_1_3p5->setName("1 3/5' i");
-	draggablePerLV2Port[18] = sect1_1_3p5;
+	sect1_1_3p5->setPortIndex(18);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect1_1     = new Wdgt::DrawbarWhite(x, y);
 	sect1_1->setName("1' i");
-	draggablePerLV2Port[19] = sect1_1;
+	sect1_1->setPortIndex(19);
 	x += 40.0 + pitch_x_long;
 
 	wdgts.push_back(sect1_16);
@@ -220,12 +220,12 @@ YC20UI2::YC20UI2()
 	// Balance & Brightness
 	Wdgt::DrawbarBlack *balance    = new Wdgt::DrawbarBlack(x, y, false);
 	balance->setName("balance");
-	draggablePerLV2Port[20] = balance;
+	balance->setPortIndex(20);
 	x += 40.0 + pitch_x_long;
 
 	Wdgt::DrawbarBlack *brightness = new Wdgt::DrawbarBlack(x, y, false);
 	brightness->setName("bright");
-	draggablePerLV2Port[21] = brightness;
+	brightness->setPortIndex(21);
 	x += 40.0 + pitch_x_long;
 
 	wdgts.push_back(balance);
@@ -234,22 +234,22 @@ YC20UI2::YC20UI2()
 	// Section II
 	Wdgt::DrawbarWhite *sect2_16 = new Wdgt::DrawbarWhite(x, y);
 	sect2_16->setName("16' ii");
-	draggablePerLV2Port[22] = sect2_16;
+	sect2_16->setPortIndex(22);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect2_8  = new Wdgt::DrawbarWhite(x, y);
 	sect2_8->setName("8' ii");
-	draggablePerLV2Port[23] = sect2_8;
+	sect2_8->setPortIndex(23);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect2_4  = new Wdgt::DrawbarWhite(x, y);
 	sect2_4->setName("4' ii");
-	draggablePerLV2Port[24] = sect2_4;
+	sect2_4->setPortIndex(24);
 	x += 40.0 + pitch_x;
 
 	Wdgt::DrawbarWhite *sect2_2  = new Wdgt::DrawbarWhite(x, y);
 	sect2_2->setName("2' ii");
-	draggablePerLV2Port[25] = sect2_2;
+	sect2_2->setPortIndex(25);
 	x += 40.0 + pitch_x_long;
 
 	sect2_16->setValue(1.0);
@@ -265,9 +265,18 @@ YC20UI2::YC20UI2()
 	// Percussion
 	Wdgt::DrawbarGreen *percussive = new Wdgt::DrawbarGreen(x, y);
 	percussive->setName("percussive");
-	draggablePerLV2Port[26] = percussive;
+	percussive->setPortIndex(26);
 
 	wdgts.push_back(percussive);
+
+
+	for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i != wdgts.end(); ++i) {
+		Wdgt::Draggable *draggable = dynamic_cast<Wdgt::Draggable *>(*i);
+		if (draggable != NULL) {
+			draggablePerLV2Port[ draggable->getPortIndex() ] = draggable;
+		}
+	}
+	
 }
 
 void
@@ -377,6 +386,8 @@ YC20UI2::motion_notify_event(GdkEventMotion *evt)
 		if (!_dragWdgt->setValueFromDrag(_predrag_value, _dragStartY, evt->y)) {
 			return true;
 		}
+
+		parameter_changed(parameter_changed_obj, _dragWdgt->getPortIndex(), _dragWdgt->getValue());
 	
 		exposeWdgt(_dragWdgt);
 		return true;
@@ -487,9 +498,12 @@ YC20UI2::exposeWdgt(Wdgt::Object *obj)
 bool 
 YC20UI2::expose(GdkEventExpose *evt)
 {
-	bool clip = (evt != NULL);
+	Glib::RefPtr<Gdk::Window> window = drawingArea.get_window();
+	if (window == NULL) {
+		return false;
+	}
 
-	GdkRectangle physicalArea = evt->area;
+	bool clip = (evt != NULL);
 
 	evt->area.x /= ui_scale;
 	evt->area.y /= ui_scale;
@@ -503,7 +517,7 @@ YC20UI2::expose(GdkEventExpose *evt)
 
 	cairo_t *cr;
 
-	cr = gdk_cairo_create(GDK_DRAWABLE(drawingArea.get_window()->gobj()));
+	cr = gdk_cairo_create(GDK_DRAWABLE(window->gobj()));
 
 	cairo_scale(cr, ui_scale, ui_scale);
 
@@ -553,6 +567,13 @@ YC20UI2::expose(GdkEventExpose *evt)
         cairo_destroy(cr);
 
 	return true;
+}
+
+void
+YC20UI2::setParameterChangedCallback(parameterchange_callback cb, void *obj)
+{
+	parameter_changed = cb;
+	parameter_changed_obj = obj;
 }
 
 YC20UI2::~YC20UI2()

@@ -7,17 +7,21 @@ OBJS_JACK=src/yc20-jack.o
 OBJS_GTK=src/main-gui.o src/foo-yc20-ui.o src/lv2-ui.cpp src/lv2-ui.o src/foo-yc20-ui2.o
 OBJS_DSP=src/faust-dsp.o
 
-CFLAGS=-g -Wall
+OBJS_LV2=src/lv2.o src/foo-yc20.o src/faust-dsp.o
+OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
+
+LV2_PLUGIN=src/foo-yc20.lv2/foo-yc20.so
+LV2_UI=src/foo-yc20.lv2/foo-yc20-lv2ui.so
 
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
-CFLAGS=-O3 -mfpmath=sse -msse -msse2 -msse3 -mmmx -m3dnow -ffast-math -ftree-vectorize -Wall
+CFLAGS=-O3 -mfpmath=sse -msse -msse2 -msse3 -mmmx -m3dnow -ffast-math -ftree-vectorize
 else
 CFLAGS=-O3 -mtune=native -mfpmath=sse -ffast-math -ftree-vectorize 
 endif
 endif
 
-CFLAGS_X = $(CFLAGS) -fPIC -DVERSION=$(VERSION) -Isrc/ -Iinclude/ -DPREFIX=$(PREFIX)
+CFLAGS_X = $(CFLAGS) -fPIC -DVERSION=$(VERSION) -Isrc/ -Iinclude/ -DPREFIX=$(PREFIX) -Wall
 
 $(OBJS_NODEPS): CFLAGS_use = $(CFLAGS_X) 
 $(OBJS_JACK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags jack`
@@ -29,7 +33,7 @@ $(OBJS_DSP): CFLAGS_use = $(CFLAGS_X)
 .cpp.o:
 	$(CXX) $< $(CFLAGS_use) -c -o $@
 
-all: foo-yc20 foo-yc20-cli foo-yc20.so
+all: foo-yc20 foo-yc20-cli $(LV2_PLUGIN) $(LV2_UI)
 
 ## GUI version
 OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o src/faust-dsp.o
@@ -44,11 +48,11 @@ foo-yc20-cli: $(OBJS_FOO_YC20_CLI)
 	$(CXX) $(OBJS_FOO_YC20_CLI) `pkg-config --libs jack` -o foo-yc20-cli
 
 ## LV2 version
-OBJS_LV2=src/lv2.o src/foo-yc20.o src/faust-dsp.o
-OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
-foo-yc20.so: $(OBJS_LV2) $(OBJS_LV2_UI)
-	$(CXX) $(OBJS_LV2) -fPIC -shared -o src/foo-yc20.lv2/foo-yc20.so
-	$(CXX) $(OBJS_LV2_UI) -fPIC -shared -o src/foo-yc20.lv2/foo-yc20-lv2ui.so
+$(LV2_PLUGIN): $(OBJS_LV2)
+	$(CXX) $(OBJS_LV2) -fPIC -shared -o $(LV2_PLUGIN)
+
+$(LV2_UI): $(OBJS_LV2_UI)
+	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtkmm-2.4` -o $(LV2_UI)
 
 
 install: foo-yc20
