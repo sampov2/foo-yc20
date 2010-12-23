@@ -53,8 +53,8 @@ static LV2_Handle instantiate_FooYC20 (
 {
 	struct YC20_Handle_t *handle = new struct YC20_Handle_t;
 
-	handle->midi_event_id = 0;
-	handle->event_ref = 0;
+	handle->midi_event_id = -1;
+	handle->event_ref = NULL;
 	
 	for (int i = 0; host_features[i]; i++) {
 		if (strcmp(host_features[i]->URI, "http://lv2plug.in/ns/ext/uri-map") == 0) {
@@ -66,8 +66,8 @@ static LV2_Handle instantiate_FooYC20 (
 		}
 	}
 
-        if (handle->midi_event_id == 0 || handle->event_ref == NULL) {
-                std::cerr << "can not run YC20 LV2 in a non-MIDI host" << std::endl;
+        if (handle->midi_event_id == -1) {
+                std::cerr << "Host is incapable of running YC20: "<< handle->midi_event_id << ", " << handle->event_ref << std::endl;
 		delete handle;
                 return NULL;
         }
@@ -159,7 +159,9 @@ static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 
 		// Parse event
 		if (ev->type == 0) {
-			handle->event_ref->lv2_event_unref(handle->event_ref->callback_data, ev);
+			if (handle->event_ref) {
+				handle->event_ref->lv2_event_unref(handle->event_ref->callback_data, ev);
+			}
 		} else if (ev->type == handle->midi_event_id) {
 			uint8_t *data = (uint8_t *)(ev+1);
 			float value = 0;
