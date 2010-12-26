@@ -32,13 +32,15 @@ struct YC20UI_Handle_t {
 
 	LV2UI_Write_Function write;
 	LV2UI_Controller controller;
-	LV2UI_Widget widget;
-	
 };
 
 static void parameterChanged(void *handle, uint32_t port_idx, float value)
 {
 	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)handle;
+	if (obj->ui == NULL) {
+		std::cerr << "parameterChanged() triggered, but handle cleaned up. aborting operation." << std::endl;
+		return;
+	}
 
 	obj->write(obj->controller, port_idx, sizeof(float), 0, &value);
 }
@@ -52,31 +54,39 @@ static LV2UI_Handle instantiate_FooYC20UI(
 			LV2UI_Widget*                   widget,
 			const LV2_Feature* const*       features)
 {
+	std::cerr << "instantiate_FooYC20UI()" << std::endl;
+
 	if (strcmp(plugin_uri, "http://studionumbersix.com/foo/lv2/yc20") != 0) {
 		std::cerr << "Trying to instantiate FooYC20UI for a wrong plugin" << std::endl;
 		return NULL;
 	}
 
-	struct YC20UI_Handle_t *obj = new YC20UI_Handle_t;
+	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)malloc(sizeof(struct YC20UI_Handle_t));
+	obj->write = write_function;
+	obj->controller = controller;
+
+	// Make sure gtkmm is initialized
+	Gtk::Main::init_gtkmm_internals();
 
 	obj->ui = new YC20UI2();
 	obj->ui->setParameterChangedCallback(&parameterChanged, obj);
 
-
-	obj->write = write_function;
-	obj->controller = controller;
+	*widget = (LV2UI_Widget)obj->ui->getWidget();
 	
-	*widget = obj->ui->getWidget()->gobj();
-
-
 	return (LV2UI_Handle)obj;
 }
 
 static void cleanup_FooYC20UI(LV2UI_Handle ui)
 {
-	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)ui;
+	std::cerr << "cleanup_FooYC20UI()" << std::endl;
 
-	delete obj;
+	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)ui;
+	if (obj->ui != NULL) {
+		delete obj->ui;
+		obj->ui = NULL;
+	}
+
+	return;
 }
 
 static void port_event_FooYC20UI(
@@ -87,6 +97,11 @@ static void port_event_FooYC20UI(
 			const void*  buffer)
 {
 	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)ui;
+
+	if (obj->ui == NULL) {
+		std::cerr << "port_event to an UI which has been cleaned up." << std::endl;
+		return;
+	}
 
 	// They're all floats..
 	obj->ui->setControlFromLV2(port_index, *(float *)buffer);
