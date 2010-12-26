@@ -79,12 +79,9 @@ YC20UI2::YC20UI2()
 
 	potentiometerImage = Wdgt::load_png("potentiometer.png");
 
-	drawingArea.signal_size_request().connect( sigc::mem_fun(*this, &YC20UI2::size_request));
-	drawingArea.signal_size_allocate().connect( sigc::mem_fun(*this, &YC20UI2::size_allocate));
-	drawingArea.signal_expose_event().connect( sigc::mem_fun (*this, &YC20UI2::expose));
-
-	// Not good manners in LV2
-	//drawingArea.signal_realize().connect( sigc::mem_fun (*this, &YC20UI2::realize));
+	drawingArea.signal_size_request().connect        ( sigc::mem_fun (*this, &YC20UI2::size_request));
+	drawingArea.signal_size_allocate().connect       ( sigc::mem_fun (*this, &YC20UI2::size_allocate));
+	drawingArea.signal_expose_event().connect        ( sigc::mem_fun (*this, &YC20UI2::expose));
 
 	drawingArea.signal_motion_notify_event().connect ( sigc::mem_fun (*this, &YC20UI2::motion_notify_event) );
 	drawingArea.signal_button_press_event().connect  ( sigc::mem_fun (*this, &YC20UI2::button_press_event));
@@ -273,7 +270,9 @@ YC20UI2::YC20UI2()
 			draggablePerLV2Port[ draggable->getPortIndex() ] = draggable;
 		}
 	}
-	
+
+	drawingArea.show();
+
 }
 
 void
@@ -324,35 +323,6 @@ YC20UI2::size_allocate(Gtk::Allocation &alloc)
 	ui_scale = (float)alloc.get_width()/1280.0;
 
 	alloc.set_height(200.0 * ui_scale);
-}
-
-
-void
-YC20UI2::realize()
-{
-	Gdk::Geometry geom;
-	geom.min_width  = 768;
-	geom.min_height = 120; // 200.0 * (768.0 / 1280.0);
-	geom.max_width  = 1280;
-	geom.max_height = 200;
-
-	geom.min_aspect = 1280.0/200.0;
-	geom.max_aspect = 1280.0/200.0;
-
-	geom.width_inc  = 64;
-	geom.height_inc = 10;
-
-	Gtk::Container *cont = drawingArea.get_toplevel();
-
-	Gtk::Window *window = dynamic_cast<Gtk::Window *>(cont);
-
-	// TODO: something needs to be done here..
-	if (window == NULL) {
-		std::cerr << "could not find the toplevel window. weird." << std::endl;
-		return;
-	}
-
-	window->set_geometry_hints(drawingArea, geom, Gdk::HINT_MIN_SIZE | Gdk::HINT_MAX_SIZE | Gdk::HINT_ASPECT | Gdk::HINT_RESIZE_INC);
 }
 
 Wdgt::Object *
@@ -476,6 +446,14 @@ YC20UI2::exposeWdgt(Wdgt::Object *obj)
 	evt.area.y      *= ui_scale;
 	evt.area.width  *= ui_scale;
 	evt.area.height *= ui_scale;
+	
+	/*
+	if (drawingArea.get_window() != 0) {
+		evt.window = drawingArea.get_window()->gobj();
+	} else {
+		evt.window = NULL;
+	}
+	*/
 
 	expose(&evt);
 
@@ -495,8 +473,12 @@ YC20UI2::exposeWdgt(Wdgt::Object *obj)
 bool 
 YC20UI2::expose(GdkEventExpose *evt)
 {
-	Glib::RefPtr<Gdk::Window> window = drawingArea.get_window();
-	if (window == NULL) {
+	// Get the drawable directly from Gdk/Gtk instead of Gtkmm: this fixes things for qtractor
+	GdkDrawable *drawable;
+	drawable = GDK_DRAWABLE(GTK_WIDGET(drawingArea.gobj())->window);
+
+	if (drawable == 0) {
+		std::cerr << "drawable: " << drawable << ", aborting" << std::endl;
 		return false;
 	}
 
@@ -510,11 +492,9 @@ YC20UI2::expose(GdkEventExpose *evt)
 	evt->area.width++;
 	evt->area.height++;
 
-	_ready_to_draw = true;
-
 	cairo_t *cr;
 
-	cr = gdk_cairo_create(GDK_DRAWABLE(window->gobj()));
+	cr = gdk_cairo_create(drawable);
 
 	cairo_scale(cr, ui_scale, ui_scale);
 
