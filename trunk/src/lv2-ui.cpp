@@ -18,6 +18,10 @@
 
 #include <iostream>
 #include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include <list>
 
 #include <lv2/http/lv2plug.in/ns/extensions/ui/ui.h>
 
@@ -65,8 +69,8 @@ static LV2UI_Handle instantiate_FooYC20UI(
 	obj->write = write_function;
 	obj->controller = controller;
 
-	// Make sure gtkmm is initialized
-	Gtk::Main::init_gtkmm_internals();
+	// Make sure gtk is initialized
+	gtk_init(NULL, NULL);
 
 	obj->ui = new YC20UI2();
 	obj->ui->setParameterChangedCallback(&parameterChanged, obj);
