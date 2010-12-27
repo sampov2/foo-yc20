@@ -22,11 +22,7 @@
 
 #include <stdint.h>
 
-#include <gtkmm/main.h>
-#include <gtkmm/window.h>
-#include <gtkmm/drawingarea.h>
-
-#include <jack/ringbuffer.h>
+#include <gtk/gtk.h>
 
 #include "wdgt.h"
 #include "yc20_wdgts.h"
@@ -40,36 +36,32 @@ class YC20UI2
 
 		~YC20UI2();
 
-		Gtk::Widget *getWidget() { return &drawingArea; }
+		GtkWidget *getWidget() { return drawingArea; }
 
 		void setControlFromLV2(int, float);
 		void setParameterChangedCallback(parameterchange_callback, void *);
-	private:
 
-		float ui_scale;
-
-		Gtk::DrawingArea drawingArea;
-
-		// Gtk essentials
-		void size_request(Gtk::Requisition *);
-		void size_allocate(Gtk::Allocation &);
-		bool exposeWdgt(Wdgt::Object *);
+		// Events
+		void size_request(GtkRequisition *);
+		void size_allocate(GtkAllocation *);
 		bool expose(GdkEventExpose *);
-
-		void realize();
-
 
 		bool motion_notify_event(GdkEventMotion *);
 		bool button_press_event(GdkEventButton *);
 		bool button_release_event(GdkEventButton *);
 
-		bool draw_queue();
+	private:
+		GtkWidget       *drawingArea;
 
-		Wdgt::Object *identifyWdgt(GdkEventMotion *);
+		float ui_scale;
 
-		Wdgt::Object *_hoverWdgt;
+		bool exposeWdgt(Wdgt::Object *);
+
+		Wdgt::Object    *identifyWdgt(GdkEventMotion *);
+
+		Wdgt::Object    *_hoverWdgt;
 		Wdgt::Draggable *_dragWdgt;
-		Wdgt::Object *_buttonPressWdgt;
+		Wdgt::Object    *_buttonPressWdgt;
 
 		int _dragStartX;
 		int _dragStartY;
@@ -77,12 +69,6 @@ class YC20UI2
 
 		std::list<Wdgt::Object *> wdgts;
 		Wdgt::Draggable* draggablePerLV2Port[27];
-
-		//std::map<std::string, Wdgt::Object *> wdgtPerLabel;
-		//Wdgt::Draggable *draggablePerCC[127];
-
-
-		bool _ready_to_draw;
 
 		parameterchange_callback parameter_changed;
 		void *parameter_changed_obj;

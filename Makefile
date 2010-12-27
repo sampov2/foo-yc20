@@ -4,7 +4,8 @@ VERSION=
 
 OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/main-cli.o
 OBJS_JACK=src/yc20-jack.o 
-OBJS_GTK=src/main-gui.o src/foo-yc20-ui.o src/lv2-ui.cpp src/lv2-ui.o src/foo-yc20-ui2.o
+OBJS_GTKMM=src/main-gui.o src/foo-yc20-ui.o src/lv2-ui.cpp
+OBJS_GTK=src/foo-yc20-ui2.o src/lv2-ui.o
 OBJS_DSP=src/faust-dsp.o
 
 LV2_PLUGIN=src/foo-yc20.lv2/foo-yc20.so
@@ -22,7 +23,8 @@ CFLAGS_X = $(CFLAGS) -fPIC -DVERSION=$(VERSION) -Isrc/ -Iinclude/ -DPREFIX=$(PRE
 
 $(OBJS_NODEPS): CFLAGS_use = $(CFLAGS_X) 
 $(OBJS_JACK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags jack`
-$(OBJS_GTK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtkmm-2.4 jack`
+$(OBJS_GTKMM): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtkmm-2.4 jack`
+$(OBJS_GTK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtk+-2.0`
 $(OBJS_LV2): CFLAGS_use = $(CFLAGS_X)
 
 $(OBJS_DSP): CFLAGS_use = $(CFLAGS_X)
@@ -110,6 +112,6 @@ testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 	faust -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
 	$(CXX) $(CFLAGS) -Isrc/ gen/test.cpp `pkg-config --cflags --libs sndfile` -o testit
 
-$(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTK) $(OBJS_LV2): include/*.h
+$(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTKMM) $(OBJS_LV2): include/*.h
 
 src/faust-dsp.o: gen/foo-yc20-dsp.cpp

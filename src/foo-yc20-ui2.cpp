@@ -16,7 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class dsp;
+#include <list>
+
+#include <stdlib.h>
+#include <string.h>
 
 #include "foo-yc20-ui2.h"
 #include "foo-yc20.h"
@@ -50,6 +53,54 @@ namespace Wdgt
 	}
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// C-functions to wrap gtk/gdk signal handlers to C++ functions
+
+static void lv2ui_size_request(GtkWidget *widget, GtkRequisition *event, gpointer data)
+{
+	YC20UI2 *ui = (YC20UI2 *)data;
+	ui->size_request(event);
+}
+
+static void lv2ui_size_allocate(GtkWidget *widget, GtkAllocation *event, gpointer data)
+{
+	YC20UI2 *ui = (YC20UI2 *)data;
+	ui->size_allocate(event);
+}
+
+static gboolean lv2ui_expose_event(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+{
+	YC20UI2 *ui = (YC20UI2 *)data;
+	return ui->expose(event);
+}
+
+static gboolean lv2ui_motion_notify_event(GtkWidget *widget, GdkEventMotion *event, gpointer data)
+{
+	YC20UI2 *ui = (YC20UI2 *)data;
+	return ui->motion_notify_event(event);
+}
+
+static gboolean lv2ui_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	YC20UI2 *ui = (YC20UI2 *)data;
+	return ui->button_press_event(event);
+}
+
+static gboolean lv2ui_button_release_event(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	YC20UI2 *ui = (YC20UI2 *)data;
+	return ui->button_release_event(event);
+}
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
 
 
 YC20UI2::YC20UI2()
@@ -58,6 +109,9 @@ YC20UI2::YC20UI2()
 	, _dragWdgt(NULL)
 	, _buttonPressWdgt(NULL)
 {
+	drawingArea = GTK_WIDGET(gtk_drawing_area_new());
+	gtk_widget_ref(drawingArea);
+
 	memset(draggablePerLV2Port, 0, sizeof(Wdgt::Draggable *)*27);
 
 	_image_background = Wdgt::load_png("background.png");
@@ -79,24 +133,21 @@ YC20UI2::YC20UI2()
 
 	potentiometerImage = Wdgt::load_png("potentiometer.png");
 
-	drawingArea.signal_size_request().connect        ( sigc::mem_fun (*this, &YC20UI2::size_request));
-	drawingArea.signal_size_allocate().connect       ( sigc::mem_fun (*this, &YC20UI2::size_allocate));
-	drawingArea.signal_expose_event().connect        ( sigc::mem_fun (*this, &YC20UI2::expose));
+	// Gtk signals
+	g_signal_connect (drawingArea, "size-request",         G_CALLBACK( lv2ui_size_request ), this);
+	g_signal_connect (drawingArea, "size-allocate",        G_CALLBACK( lv2ui_size_allocate ), this);
+	g_signal_connect (drawingArea, "expose-event",         G_CALLBACK( lv2ui_expose_event ), this);
 
-	drawingArea.signal_motion_notify_event().connect ( sigc::mem_fun (*this, &YC20UI2::motion_notify_event) );
-	drawingArea.signal_button_press_event().connect  ( sigc::mem_fun (*this, &YC20UI2::button_press_event));
-	drawingArea.signal_button_release_event().connect( sigc::mem_fun (*this, &YC20UI2::button_release_event));
+	g_signal_connect (drawingArea, "motion-notify-event",  G_CALLBACK( lv2ui_motion_notify_event ), this);
+	g_signal_connect (drawingArea, "button-press-event",   G_CALLBACK( lv2ui_button_press_event ), this);
+	g_signal_connect (drawingArea, "button-release-event", G_CALLBACK( lv2ui_button_release_event ), this);
 
+	// Event mask
+	gint mask = gtk_widget_get_events(drawingArea);
 
+	mask |= GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK;
 
-	Gdk::EventMask mask = drawingArea.get_events();
-
-	mask |= Gdk::POINTER_MOTION_MASK | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK;
-
-	drawingArea.set_events(mask);
-
-
-	_dragWdgt = NULL;
+	gtk_widget_set_events(drawingArea, mask);
 
 	// Widgets
 	float pitch_x = 6.0;
@@ -270,9 +321,6 @@ YC20UI2::YC20UI2()
 			draggablePerLV2Port[ draggable->getPortIndex() ] = draggable;
 		}
 	}
-
-	drawingArea.show();
-
 }
 
 void
@@ -293,7 +341,7 @@ YC20UI2::setControlFromLV2(int port_idx, float value)
 }
 
 void
-YC20UI2::size_request(Gtk::Requisition *req)
+YC20UI2::size_request(GtkRequisition *req)
 {
 	//std::cerr << "size_request: " << req->width << " x " << req->height << std::endl;
 
@@ -308,21 +356,20 @@ YC20UI2::size_request(Gtk::Requisition *req)
 	req->height = 200.0 * ui_scale;
 }
 
-
 void 
-YC20UI2::size_allocate(Gtk::Allocation &alloc)
+YC20UI2::size_allocate(GtkAllocation *alloc)
 {
 	//std::cerr << "size_allocate: " << alloc.get_x() << " x " << alloc.get_y() << "  :  " << alloc.get_width() << " x " << alloc.get_height() << std::endl;
 
-	if (alloc.get_width() > 1280) {
-		alloc.set_width(1280);
-	} else if (alloc.get_width() < 768) {
-		alloc.set_width(768);
+	if (alloc->width > 1280) {
+		alloc->width = 1280;
+	} else if (alloc->width < 768) {
+		alloc->width = 768;
 	}
 
-	ui_scale = (float)alloc.get_width()/1280.0;
+	ui_scale = (float)alloc->width/1280.0;
 
-	alloc.set_height(200.0 * ui_scale);
+	alloc->height = 200.0 * ui_scale;
 }
 
 Wdgt::Object *
@@ -447,14 +494,6 @@ YC20UI2::exposeWdgt(Wdgt::Object *obj)
 	evt.area.width  *= ui_scale;
 	evt.area.height *= ui_scale;
 	
-	/*
-	if (drawingArea.get_window() != 0) {
-		evt.window = drawingArea.get_window()->gobj();
-	} else {
-		evt.window = NULL;
-	}
-	*/
-
 	expose(&evt);
 
 	for (std::list<Wdgt::Object *>::iterator i = obj->dependents.begin(); i != obj->dependents.end(); ) {
@@ -473,12 +512,11 @@ YC20UI2::exposeWdgt(Wdgt::Object *obj)
 bool 
 YC20UI2::expose(GdkEventExpose *evt)
 {
-	// Get the drawable directly from Gdk/Gtk instead of Gtkmm: this fixes things for qtractor
-	GdkDrawable *drawable;
-	drawable = GDK_DRAWABLE(GTK_WIDGET(drawingArea.gobj())->window);
+	GdkDrawable *drawable = GDK_DRAWABLE(drawingArea->window);
 
+	// This needs to be checked as at least with qtractor, expose() gets called multiple times before there's a drawable
 	if (drawable == 0) {
-		std::cerr << "drawable: " << drawable << ", aborting" << std::endl;
+		//std::cerr << "drawable: " << drawable << ", aborting" << std::endl;
 		return false;
 	}
 
@@ -555,6 +593,9 @@ YC20UI2::setParameterChangedCallback(parameterchange_callback cb, void *obj)
 
 YC20UI2::~YC20UI2()
 {
+	gtk_widget_unref(drawingArea);
+	gtk_widget_destroy(drawingArea);
+
         for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i != wdgts.end(); ) {
                 Wdgt::Object *obj = *i;
                 delete obj;
