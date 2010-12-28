@@ -32,7 +32,9 @@ $(OBJS_DSP): CFLAGS_use = $(CFLAGS_X)
 .cpp.o:
 	$(CXX) $< $(CFLAGS_use) -c -o $@
 
-all: foo-yc20 foo-yc20-cli $(LV2_PLUGIN) $(LV2_UI)
+all: foo-yc20 foo-yc20-cli lv2
+
+lv2: $(LV2_PLUGIN) $(LV2_UI)
 
 ## GUI version
 OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o
