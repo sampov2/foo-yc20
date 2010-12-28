@@ -70,6 +70,7 @@ cb:
 
 install: foo-yc20
 	install -Dm 755 foo-yc20 $(DESTDIR)$(PREFIX)/bin/foo-yc20
+	install -Dm 755 foo-yc20-cli $(DESTDIR)$(PREFIX)/bin/foo-yc20-cli
 	install -d $(DESTDIR)$(PREFIX)/share/foo-yc20/graphics
 	install -m 644 graphics/*.png $(DESTDIR)$(PREFIX)/share/foo-yc20/graphics
 	cat foo-yc20.desktop.in | sed 's!%PREFIX%!$(PREFIX)!' > foo-yc20.desktop
