@@ -15,7 +15,7 @@ ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
 CFLAGS=-O3 -mfpmath=sse -msse -msse2 -msse3 -mmmx -m3dnow -ffast-math -ftree-vectorize
 else
-CFLAGS=-O3 -mtune=native -mfpmath=sse -ffast-math -ftree-vectorize 
+CFLAGS=-O3 -mtune=native -march=native -mfpmath=sse -ffast-math -ftree-vectorize 
 endif
 endif
 
