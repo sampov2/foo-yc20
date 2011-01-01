@@ -157,20 +157,22 @@ YC20UI2::YC20UI2()
 	float x = 15.0;
 	float y = 15.0;
 
+	int c_idx = 3;
+
 	// Pitch, volume & bass volume
 	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, -1.0, 1.0, potentiometerImage);
 	pitch->setName("pitch");
-	pitch->setPortIndex(4);
+	pitch->setPortIndex(c_idx++);
 	x += 72.0 + pitch_x_longest;
 
 	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, 0.0, 1.0, potentiometerImage);
 	volume->setName("volume");
-	volume->setPortIndex(5);
+	volume->setPortIndex(c_idx++);
 	x += 72.0 + pitch_x_longest;
 
 	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, 0.0, 1.0, potentiometerImage);
 	bass_v->setName("bass volume");
-	bass_v->setPortIndex(6);
+	bass_v->setPortIndex(c_idx++);
 	x += 72.0 + pitch_x_longest + pitch_x_long;
 
 	wdgts.push_back(pitch);
@@ -181,17 +183,17 @@ YC20UI2::YC20UI2()
 	// Instead of the touch vibrato, we have a realism switch
 	Wdgt::Drawbar *realism = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
 	realism->setName("realism");
-	realism->setPortIndex(7);
+	realism->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 	
 	Wdgt::Drawbar *vibrato = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
 	vibrato->setName("depth");
-	vibrato->setPortIndex(8);
+	vibrato->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *v_speed = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
 	v_speed->setName("speed");
-	v_speed->setPortIndex(9);
+	v_speed->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_longest;
 
 	wdgts.push_back(realism);
@@ -201,17 +203,17 @@ YC20UI2::YC20UI2()
 	// Bass
 	Wdgt::Drawbar *bass_16  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	bass_16->setName("16' b");
-	bass_16->setPortIndex(10);
+	bass_16->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *bass_8   = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	bass_8->setName("8' b");
-	bass_8->setPortIndex(11);
+	bass_8->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Switch *bass_man = new Wdgt::Switch(x, y, drawbarBlackImages);
 	bass_man->setName("bass manual");
-	bass_man->setPortIndex(12);
+	bass_man->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_longest;
 
 	wdgts.push_back(bass_16);
@@ -221,37 +223,37 @@ YC20UI2::YC20UI2()
 	// Section I
 	Wdgt::Drawbar *sect1_16    = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_16->setName("16' i");
-	sect1_16->setPortIndex(13);
+	sect1_16->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *sect1_8     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_8->setName("8' i");
-	sect1_8->setPortIndex(14);
+	sect1_8->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *sect1_4     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_4->setName("4' i");
-	sect1_4->setPortIndex(15);
+	sect1_4->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *sect1_2_2p3 = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_2_2p3->setName("2 2/3' i");
-	sect1_2_2p3->setPortIndex(16);
+	sect1_2_2p3->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *sect1_2     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_2->setName("2' i");
-	sect1_2->setPortIndex(17);
+	sect1_2->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *sect1_1_3p5 = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_1_3p5->setName("1 3/5' i");
-	sect1_1_3p5->setPortIndex(18);
+	sect1_1_3p5->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *sect1_1     = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect1_1->setName("1' i");
-	sect1_1->setPortIndex(19);
+	sect1_1->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_long;
 
 	wdgts.push_back(sect1_16);
@@ -265,12 +267,12 @@ YC20UI2::YC20UI2()
 	// Balance & Brightness
 	Wdgt::Drawbar *balance    = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
 	balance->setName("balance");
-	balance->setPortIndex(20);
+	balance->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_long;
 
 	Wdgt::Drawbar *brightness = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
 	brightness->setName("bright");
-	brightness->setPortIndex(21);
+	brightness->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_long;
 
 	wdgts.push_back(balance);
@@ -279,22 +281,22 @@ YC20UI2::YC20UI2()
 	// Section II
 	Wdgt::Drawbar *sect2_16 = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_16->setName("16' ii");
-	sect2_16->setPortIndex(22);
+	sect2_16->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *sect2_8  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_8->setName("8' ii");
-	sect2_8->setPortIndex(23);
+	sect2_8->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *sect2_4  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_4->setName("4' ii");
-	sect2_4->setPortIndex(24);
+	sect2_4->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
 	Wdgt::Drawbar *sect2_2  = new Wdgt::Drawbar(x, y, true, drawbarWhiteImages);
 	sect2_2->setName("2' ii");
-	sect2_2->setPortIndex(25);
+	sect2_2->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_long;
 
 	sect2_16->setValue(1.0);
@@ -310,7 +312,7 @@ YC20UI2::YC20UI2()
 	// Percussion
 	Wdgt::Drawbar *percussive = new Wdgt::Drawbar(x, y, true, drawbarGreenImages);
 	percussive->setName("percussive");
-	percussive->setPortIndex(26);
+	percussive->setPortIndex(c_idx++);
 
 	wdgts.push_back(percussive);
 
@@ -326,7 +328,7 @@ YC20UI2::YC20UI2()
 void
 YC20UI2::setControlFromLV2(int port_idx, float value)
 {
-	if (port_idx < 0 || port_idx > 26) {
+	if (port_idx < 0 || port_idx > 25) {
 		std::cerr << "LV2 port index " << port_idx << " out of range" << std::endl;
 		return;
 	}
