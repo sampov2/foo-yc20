@@ -60,14 +60,24 @@ declick(n) = (_ * (n-1) / n)  + (_ /n);
 manual_bass_vol = manual_bass_slider : (declick(50) ~ _);
 volume          = volume_slider : (declick(50) ~ _);
 
-// The volume slider must be declicked!
-mixer = (mixer_normal, mixer_bass) : splitter
+volume_control  = *(0.001 + 0.05 * volume);
+
+// Mixer for the standalone client
+standalone_mixer = (mixer_treble, mixer_bass) : splitter
 with {
-	splitter(norm, bass) = (norm + bass : vol ), (norm : vol), (bass : vol);
-	vol = *(0.001 + 0.05 * volume);
+	splitter(treble, bass) = 
+		(treble + bass : volume_control ), 
+		(treble : volume_control ), 
+		(bass : volume_control );
 };
 
-mixer_normal (bus_1, bus_1_3p5, bus_2, bus_2_2p3, bus_4, bus_8, bus_16) 
+// Mixer for the standalone client
+plugin_mixer = (mixer_treble, mixer_bass) : combiner
+with {
+	combiner(treble, bass) = (treble + bass) <: (_, _);
+};
+
+mixer_treble (bus_1, bus_1_3p5, bus_2, bus_2_2p3, bus_4, bus_8, bus_16) 
 	= balance(manual_i, manual_ii) + percussion
 with {
 	balance = (_ * (1-balance_control)) + (_ * balance_control);

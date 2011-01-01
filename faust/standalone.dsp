@@ -1,6 +1,6 @@
 /*
-    Foo-YC20 dsp wrapper
-    Copyright (C) 2010  Sampo Savolainen <v2@iki.fi>
+    YC-20 emulation in Faust
+    Copyright(C) 2010 Sampo Savolainen <v2@iki.fi>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,27 +14,10 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 */
 
-#include <math.h>
+import ("yc20.dsp");
 
-inline float max(float x, float y)
-{
-	return fmaxf(x,y);
-}
-
-inline float min(float x, float y)
-{
-	return fminf(x,y);
-}
-
-#include "../gen/foo-yc20-dsp.cpp"
-
-dsp *createDSP()
-{
-	mydsp *ret = new mydsp();
-
-	return ret;
-}
-
+process = basic_process : standalone_mixer;
 

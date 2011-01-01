@@ -6,7 +6,9 @@ OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/main-cli.o
 OBJS_JACK=src/yc20-jack.o 
 OBJS_GTKMM=src/main-gui.o src/foo-yc20-ui.o src/lv2-ui.cpp
 OBJS_GTK=src/foo-yc20-ui2.o src/lv2-ui.o
-OBJS_DSP=src/faust-dsp.o
+
+OBJS_DSP_STANDALONE=src/faust-dsp-standalone.o
+OBJS_DSP_PLUGIN=src/faust-dsp-plugin.o
 
 LV2_PLUGIN=src/foo-yc20.lv2/foo-yc20.so
 LV2_UI=src/foo-yc20.lv2/foo-yc20-lv2ui.so
@@ -27,7 +29,7 @@ $(OBJS_GTKMM): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtkmm-2.4 jack`
 $(OBJS_GTK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtk+-2.0`
 $(OBJS_LV2): CFLAGS_use = $(CFLAGS_X)
 
-$(OBJS_DSP): CFLAGS_use = $(CFLAGS_X)
+$(OBJS_DSP_STANDALONE) $(OBJS_DSP_PLUGIN): CFLAGS_use = $(CFLAGS_X)
 
 .cpp.o:
 	$(CXX) $< $(CFLAGS_use) -c -o $@
@@ -39,20 +41,20 @@ lv2: $(LV2_PLUGIN) $(LV2_UI)
 ## GUI version
 OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o
 
-foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP)
-	$(CXX) $(OBJS_FOO_YC20) $(OBJS_DSP) `pkg-config --libs gtkmm-2.4 jack` -o foo-yc20
+foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE)
+	$(CXX) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `pkg-config --libs gtkmm-2.4 jack` -o foo-yc20
 
 ## CLI version
 OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o
 
-foo-yc20-cli: $(OBJS_FOO_YC20_CLI) $(OBJS_DSP)
-	$(CXX) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP) `pkg-config --libs jack` -o foo-yc20-cli
+foo-yc20-cli: $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE)
+	$(CXX) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE) `pkg-config --libs jack` -o foo-yc20-cli
 
 ## LV2 version
 OBJS_LV2=src/lv2.o src/foo-yc20.o
 
-$(LV2_PLUGIN): $(OBJS_LV2) $(OBJS_DSP)
-	$(CXX) $(OBJS_LV2) $(OBJS_DSP) -fPIC -shared -o $(LV2_PLUGIN)
+$(LV2_PLUGIN): $(OBJS_LV2) $(OBJS_DSP_PLUGIN)
+	$(CXX) $(OBJS_LV2) $(OBJS_DSP_PLUGIN) -fPIC -shared -o $(LV2_PLUGIN)
 
 ## LV2 UI
 OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
@@ -60,9 +62,8 @@ OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
 $(LV2_UI): $(OBJS_LV2_UI)
 	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtkmm-2.4` -o $(LV2_UI)
 
-clean:
-	rm -f foo-yc20 foo-yc20-cli $(LV2_PLUGIN) $(LV2_UI)
-	rm -f $(OBJS_FOO_YC20) $(OBJS_FOO_YC20_CLI) $(OBJS_LV2) $(OBJS_LV2_UI) $(OBJS_DSP)
+clean: cb
+	rm -f $(OBJS_DSP_STANDALONE) $(OBJS_DSP_PLUGIN)
 
 cb:
 	rm -f foo-yc20 foo-yc20-cli $(LV2_PLUGIN) $(LV2_UI)
@@ -92,18 +93,16 @@ uninstall:
 ## Targets only for those with Faust installed
 
 generate-source:
-	rm -rf faust/yc20-svg/
-	faust -svg -a minimal.cpp faust/yc20.dsp > gen/foo-yc20-dsp.cpp
+	faust -a minimal.cpp faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
+	faust -a minimal.cpp faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
 
 generate-source-vec:
-	faust -vec -a minimal.cpp faust/yc20.dsp > gen/foo-yc20-dsp.cpp
+	faust -vec -a minimal.cpp faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
+	faust -vec -a minimal.cpp faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
 
-generate-source-sch:
-	faust -sch -vs 128 -g -a minimal.cpp faust/yc20.dsp > gen/foo-yc20-dsp.cpp
 
 basic-test:
-	rm -rf faust/yc20-svg/
-	faust -svg -a jack-console.cpp faust/yc20.dsp > gen/basic.cpp
+	faust -a jack-console.cpp faust/yc20.dsp > gen/basic.cpp
 	$(CXX) $(CFLAGS) -Isrc/ gen/basic.cpp -o basic `pkg-config --cflags --libs jack`
 
 ## test compilation
@@ -117,4 +116,8 @@ testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 
 $(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTKMM) $(OBJS_LV2): include/*.h
 
-src/faust-dsp.o: gen/foo-yc20-dsp.cpp
+
+$(OBJS_DSP_STANDALONE): gen/yc20-dsp-standalone.cpp
+$(OBJS_DSP_PLUGIN): gen/yc20-dsp-plugin.cpp
+
+
