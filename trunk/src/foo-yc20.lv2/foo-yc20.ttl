@@ -17,79 +17,74 @@
 	lv2:port [
 		a lv2:AudioPort, lv2:OutputPort;
 		lv2:index 0;
-		lv2:symbol "output";
-		lv2:name "Output";
+		lv2:symbol "output_L";
+		lv2:name "Output L";
 	],
 	[
 		a lv2:AudioPort, lv2:OutputPort;
 		lv2:index 1;
-		lv2:symbol "treble";
-		lv2:name "Main sections";
-	],
-	[
-		a lv2:AudioPort, lv2:OutputPort;
-		lv2:index 2;
-		lv2:symbol "bass";
-		lv2:name "Bass section";
+		lv2:symbol "output_R";
+		lv2:name "Output R";
 	],
 	[
 		a lv2:InputPort, lv2ev:EventPort;
 		lv2ev:supportsEvent <http://lv2plug.in/ns/ext/midi#MidiEvent>;
-		lv2:index 3;
+		lv2:index 2;
 		lv2:symbol "midi";
 		lv2:name "MIDI in";
 	],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 4;  lv2:symbol "pitch";       lv2:name "pitch"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 3;  lv2:symbol "pitch";       lv2:name "pitch"; 
 		lv2:minimum -1.0; lv2:maximum 1.0; lv2:default 0.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 5;  lv2:symbol "volume";      lv2:name "volume"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 4;  lv2:symbol "volume";      lv2:name "volume"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.1; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 6;  lv2:symbol "bass_volume"; lv2:name "bass volume"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 5;  lv2:symbol "bass_volume"; lv2:name "bass volume"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 7;  lv2:symbol "realism";     lv2:name "realism"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 6;  lv2:symbol "realism";     lv2:name "realism"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 8;  lv2:symbol "depth";       lv2:name "depth"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 7;  lv2:symbol "depth";       lv2:name "depth"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 9;  lv2:symbol "speed";       lv2:name "speed"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 8;  lv2:symbol "speed";       lv2:name "speed"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 10; lv2:symbol "b_16";        lv2:name "16' b"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 9; lv2:symbol "b_16";        lv2:name "16' b"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 11; lv2:symbol "b_8";         lv2:name "8' b"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 10; lv2:symbol "b_8";         lv2:name "8' b"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 12; lv2:symbol "bass_manual"; lv2:name "bass manual"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 11; lv2:symbol "bass_manual"; lv2:name "bass manual"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 13; lv2:symbol "i_16";        lv2:name "16' i"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 12; lv2:symbol "i_16";        lv2:name "16' i"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.5; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 14; lv2:symbol "i_8";         lv2:name "8' i"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 13; lv2:symbol "i_8";         lv2:name "8' i"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 15; lv2:symbol "i_4";         lv2:name "4' i"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 14; lv2:symbol "i_4";         lv2:name "4' i"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 16; lv2:symbol "i_2_2p3";     lv2:name "2 2/3' i"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 15; lv2:symbol "i_2_2p3";     lv2:name "2 2/3' i"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.5; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 17; lv2:symbol "i_2";         lv2:name "2' i"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 16; lv2:symbol "i_2";         lv2:name "2' i"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 18; lv2:symbol "i_1_3p5";     lv2:name "1 3/5' i"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 17; lv2:symbol "i_1_3p5";     lv2:name "1 3/5' i"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 19; lv2:symbol "i_1";         lv2:name "1' i"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 18; lv2:symbol "i_1";         lv2:name "1' i"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.5; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 20; lv2:symbol "balance";     lv2:name "balance"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 19; lv2:symbol "balance";     lv2:name "balance"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 21; lv2:symbol "bright";      lv2:name "bright"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 20; lv2:symbol "bright";      lv2:name "bright"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 0.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 22; lv2:symbol "ii_16";       lv2:name "16' ii"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 21; lv2:symbol "ii_16";       lv2:name "16' ii"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 23; lv2:symbol "ii_8";        lv2:name "8' ii"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 22; lv2:symbol "ii_8";        lv2:name "8' ii"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 24; lv2:symbol "ii_4";        lv2:name "4' ii"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 23; lv2:symbol "ii_4";        lv2:name "4' ii"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 25; lv2:symbol "ii_2";        lv2:name "2' ii"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 24; lv2:symbol "ii_2";        lv2:name "2' ii"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ],
-	[ a lv2:ControlPort, lv2:InputPort; lv2:index 26; lv2:symbol "percussive";  lv2:name "percussive"; 
+	[ a lv2:ControlPort, lv2:InputPort; lv2:index 25; lv2:symbol "percussive";  lv2:name "percussive"; 
 		lv2:minimum  0.0; lv2:maximum 1.0; lv2:default 1.0; ] .
 	
 <http://studionumbersix.com/foo/lv2/yc20/ui>
 	a		ui:GtkUI;
 	ui:binary	<foo-yc20-lv2ui.so>;
 	ui:portNotification 
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 3;  ],
 			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 4;  ],
 			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 5;  ],
 			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 6;  ],
@@ -111,7 +106,6 @@
 			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 22; ],
 			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 23; ],
 			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 24; ],
-			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 25; ],
-			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 26; ] .
+			[ ui:plugin <http://studionumbersix.com/foo/lv2/yc20>; ui:portIndex 25; ] .
 
 

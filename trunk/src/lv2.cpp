@@ -36,7 +36,7 @@ struct YC20_Handle_t {
 	YC20Processor *yc20;
 
 	// Registered ports
-	float *outputPorts[3];
+	float *outputPorts[2];
 	LV2_Event_Buffer *eventPort;
 	std::map<Control *, float *> controlParameters;
 
@@ -88,48 +88,52 @@ static void connect_port_FooYC20 (
 {
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
 
-	if (port >= 0 && port < 3) {
+	if (port >= 0 && port < 2) {
 		handle->outputPorts[port] = (float *)data_location;
 		return;
 	}
 
-	if (port == 3) {
+	if (port == 2) {
 		handle->eventPort = (LV2_Event_Buffer *)data_location;
 		return;
 	}
 
 	Control *c = NULL;
 
+#define C_IDX 3
 	switch(port) {
-		case 4: c = handle->yc20->getControl("pitch"); break;
-		case 5: c = handle->yc20->getControl("volume"); break;
-		case 6: c = handle->yc20->getControl("bass volume"); break;
-		case 7: c = handle->yc20->getControl("realism"); break;
-		case 8: c = handle->yc20->getControl("depth"); break;
-		case 9: c = handle->yc20->getControl("speed"); break;
-		case 10: c = handle->yc20->getControl("16' b"); break;
-		case 11: c = handle->yc20->getControl("8' b"); break;
-		case 12: c = handle->yc20->getControl("bass manual"); break;
-		case 13: c = handle->yc20->getControl("16' i"); break;
-		case 14: c = handle->yc20->getControl("8' i"); break;
-		case 15: c = handle->yc20->getControl("4' i"); break;
-		case 16: c = handle->yc20->getControl("2 2/3' i"); break;
-		case 17: c = handle->yc20->getControl("2' i"); break;
-		case 18: c = handle->yc20->getControl("1 3/5' i"); break;
-		case 19: c = handle->yc20->getControl("1' i"); break;
-		case 20: c = handle->yc20->getControl("balance"); break;
-		case 21: c = handle->yc20->getControl("bright"); break;
-		case 22: c = handle->yc20->getControl("16' ii"); break;
-		case 23: c = handle->yc20->getControl("8' ii"); break;
-		case 24: c = handle->yc20->getControl("4' ii"); break;
-		case 25: c = handle->yc20->getControl("2' ii"); break;
-		case 26: c = handle->yc20->getControl("percussive"); break;
+		case C_IDX + 0: c = handle->yc20->getControl("pitch"); break;
+		case C_IDX + 1: c = handle->yc20->getControl("volume"); break;
+		case C_IDX + 2: c = handle->yc20->getControl("bass volume"); break;
+		case C_IDX + 3: c = handle->yc20->getControl("realism"); break;
+		case C_IDX + 4: c = handle->yc20->getControl("depth"); break;
+		case C_IDX + 5: c = handle->yc20->getControl("speed"); break;
+		case C_IDX + 6: c = handle->yc20->getControl("16' b"); break;
+		case C_IDX + 7: c = handle->yc20->getControl("8' b"); break;
+		case C_IDX + 8: c = handle->yc20->getControl("bass manual"); break;
+		case C_IDX + 9: c = handle->yc20->getControl("16' i"); break;
+		case C_IDX + 10: c = handle->yc20->getControl("8' i"); break;
+		case C_IDX + 11: c = handle->yc20->getControl("4' i"); break;
+		case C_IDX + 12: c = handle->yc20->getControl("2 2/3' i"); break;
+		case C_IDX + 13: c = handle->yc20->getControl("2' i"); break;
+		case C_IDX + 14: c = handle->yc20->getControl("1 3/5' i"); break;
+		case C_IDX + 15: c = handle->yc20->getControl("1' i"); break;
+		case C_IDX + 16: c = handle->yc20->getControl("balance"); break;
+		case C_IDX + 17: c = handle->yc20->getControl("bright"); break;
+		case C_IDX + 18: c = handle->yc20->getControl("16' ii"); break;
+		case C_IDX + 19: c = handle->yc20->getControl("8' ii"); break;
+		case C_IDX + 20: c = handle->yc20->getControl("4' ii"); break;
+		case C_IDX + 21: c = handle->yc20->getControl("2' ii"); break;
+		case C_IDX + 22: c = handle->yc20->getControl("percussive"); break;
 		default:
 			std::cerr << "Unknown LV2 port index " << port << std::endl;
-
 	}
 
+#undef C_IDX
+	//std::cerr << "port: " << port << ", c: " << c << " (data: " << data_location << ")" << std::endl;
+
 	handle->controlParameters[c] = (float*)data_location;
+	c->setZone( (float*)data_location);
 }
 
 static void activate_FooYC20 (LV2_Handle instance)
