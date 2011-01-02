@@ -22,7 +22,7 @@
 #include <map>
 #include <string>
 
-#include "faust-dsp.h"
+#include <faust-dsp.h>
 
 #ifdef __SSE__
     #include <xmmintrin.h>

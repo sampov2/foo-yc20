@@ -25,9 +25,9 @@
 
 #include <stdlib.h>
 
-#include "faust-dsp.h"
 
-#include "foo-yc20.h"
+#include <foo-yc20.h>
+#include <faust-dsp.h>
 
 void
 YC20Processor::addButton(const char* label, float* zone)

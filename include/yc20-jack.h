@@ -19,7 +19,7 @@
 #ifndef _FOO_YC20_JACK_H
 #define _FOO_YC20_JACK_H
 
-#include "foo-yc20.h"
+#include <foo-yc20.h>
 
 #include <jack/jack.h>
 #include <jack/midiport.h>

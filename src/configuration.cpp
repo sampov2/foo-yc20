@@ -23,12 +23,12 @@
 
 #include <list>
 
-#include <sys/stat.h>
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
 
-#include "foo-yc20.h"
+#include <foo-yc20.h>
 
 void 
 YC20Processor::loadConfiguration(std::string fileName)

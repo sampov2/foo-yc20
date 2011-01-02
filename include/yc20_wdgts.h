@@ -22,7 +22,7 @@
 #include <iostream>
 #include <math.h>
 
-#include "wdgt.h"
+#include <wdgt.h>
 
 namespace Wdgt
 {
