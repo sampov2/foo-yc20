@@ -25,7 +25,7 @@ CFLAGS_X = $(CFLAGS) -fPIC -DVERSION=$(VERSION) -Isrc/ -Iinclude/ -DPREFIX=$(PRE
 
 $(OBJS_NODEPS): CFLAGS_use = $(CFLAGS_X) 
 $(OBJS_JACK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags jack`
-$(OBJS_GTKMM): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtkmm-2.4 jack`
+$(OBJS_GTKMM): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtkmm-2.4` `pkg-config --cflags jack`
 $(OBJS_GTK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtk+-2.0`
 $(OBJS_LV2): CFLAGS_use = $(CFLAGS_X)
 
@@ -42,7 +42,7 @@ lv2: $(LV2_PLUGIN) $(LV2_UI)
 OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o
 
 foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE)
-	$(CXX) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `pkg-config --libs gtkmm-2.4 jack` -o foo-yc20
+	$(CXX) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `pkg-config --libs gtkmm-2.4` `pkg-config --libs jack` $(LDFLAGS) -o foo-yc20
 
 ## CLI version
 OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o
@@ -60,7 +60,7 @@ $(LV2_PLUGIN): $(OBJS_LV2) $(OBJS_DSP_PLUGIN)
 OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
 
 $(LV2_UI): $(OBJS_LV2_UI)
-	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtkmm-2.4` -o $(LV2_UI)
+	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtk+-2.0` -o $(LV2_UI)
 
 clean: cb
 	rm -f $(OBJS_DSP_STANDALONE) $(OBJS_DSP_PLUGIN)
