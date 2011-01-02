@@ -21,6 +21,7 @@
 #include <map>
 
 #include <signal.h>
+#include <unistd.h>
 
 #include <yc20-jack.h>
 
