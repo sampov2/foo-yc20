@@ -25,6 +25,10 @@
 
 #include <yc20-jack.h>
 
+#if defined (__WIN32__)
+#include <windows.h>
+#define sleep(n) Sleep(1000 * n)
+#endif
 
 bool run;
 
