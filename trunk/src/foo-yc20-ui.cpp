@@ -16,13 +16,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class dsp;
-
-
 #include <jack/jack.h>
 
-#include "foo-yc20-ui.h"
 #include "foo-yc20.h"
+#include "foo-yc20-ui.h"
 
 namespace Wdgt
 {
