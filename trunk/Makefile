@@ -42,13 +42,13 @@ lv2: $(LV2_PLUGIN) $(LV2_UI)
 OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o
 
 foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE)
-	$(CXX) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `pkg-config --libs gtkmm-2.4` `pkg-config --libs jack` $(LDFLAGS) -o foo-yc20
+	$(CXX) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `pkg-config --libs gtkmm-2.4` `pkg-config --libs jack` $(LDFLAGS_YC20) -o foo-yc20
 
 ## CLI version
 OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o
 
 foo-yc20-cli: $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE)
-	$(CXX) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE) `pkg-config --libs jack` -o foo-yc20-cli
+	$(CXX) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE) $(LDFLAGS_YC20_CLI) `pkg-config --libs jack` -o foo-yc20-cli
 
 ## LV2 version
 OBJS_LV2=src/lv2.o src/foo-yc20.o
