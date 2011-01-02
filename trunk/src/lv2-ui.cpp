@@ -25,7 +25,7 @@
 
 #include <lv2/http/lv2plug.in/ns/extensions/ui/ui.h>
 
-#include "foo-yc20-ui2.h"
+#include <foo-yc20-ui2.h>
 
 #ifdef __cplusplus
 extern "C" {

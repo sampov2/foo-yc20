@@ -27,9 +27,9 @@
 
 #include <jack/ringbuffer.h>
 
-#include "wdgt.h"
-#include "yc20_wdgts.h"
-#include "foo-yc20.h"
+#include <wdgt.h>
+#include <yc20_wdgts.h>
+#include <foo-yc20.h>
 
 //class YC20Processor;
 

@@ -18,7 +18,7 @@
 
 #include <iostream>
 
-#include "yc20-jack.h"
+#include <yc20-jack.h>
 
 int
 YC20Jack::process (jack_nframes_t nframes)

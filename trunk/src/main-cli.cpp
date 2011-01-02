@@ -22,7 +22,7 @@
 
 #include <signal.h>
 
-#include "yc20-jack.h"
+#include <yc20-jack.h>
 
 
 bool run;

@@ -16,8 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "yc20-jack.h"
-#include "foo-yc20-ui.h"
+#include <yc20-jack.h>
+#include <foo-yc20-ui.h>
 
 
 int main(int argc, char **argv)

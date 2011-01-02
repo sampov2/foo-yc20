@@ -21,8 +21,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "foo-yc20-ui2.h"
-#include "foo-yc20.h"
+#include <foo-yc20-ui2.h>
+#include <foo-yc20.h>
 
 namespace Wdgt
 {

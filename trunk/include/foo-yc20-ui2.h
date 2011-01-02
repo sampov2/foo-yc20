@@ -24,8 +24,8 @@
 
 #include <gtk/gtk.h>
 
-#include "wdgt.h"
-#include "yc20_wdgts.h"
+#include <wdgt.h>
+#include <yc20_wdgts.h>
 
 typedef void (*parameterchange_callback)(void *, uint32_t, float);
 
