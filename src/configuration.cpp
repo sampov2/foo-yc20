@@ -60,7 +60,11 @@ makeDirIfNotExists(std::string dir)
 		return false;
 	}
 
+#ifdef S_IRWXU
 	if (mkdir(dir.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH)) {
+#else
+	if (mkdir(dir.c_str())) {
+#endif
 		std::cerr << dir << ": could not create the directory" << std::endl;
 		return false;
 	}
