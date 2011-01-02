@@ -20,6 +20,7 @@
 #define _FOO_YC20_WDGTS_H
 
 #include <iostream>
+#include <stdint.h>
 #include <math.h>
 
 #include <wdgt.h>
