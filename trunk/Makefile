@@ -15,7 +15,7 @@ LV2_UI=src/foo-yc20.lv2/foo-yc20-lv2ui.so
 
 ifeq ($(CFLAGS),)
 ifeq ($(shell uname), Darwin)
-CFLAGS=-O3 -mfpmath=sse -msse -msse2 -msse3 -mmmx -m3dnow -ffast-math -ftree-vectorize
+CFLAGS=-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -arch x86_64
 else
 CFLAGS=-O3 -mtune=native -march=native -mfpmath=sse -ffast-math -ftree-vectorize 
 endif

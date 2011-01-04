@@ -23,6 +23,7 @@
 
 #include <foo-yc20-ui2.h>
 #include <foo-yc20.h>
+#include <foo-yc20-os.h>
 
 namespace Wdgt
 {
@@ -38,7 +39,7 @@ namespace Wdgt
 
 	inline cairo_surface_t * load_png(std::string file)
 	{       
-		std::string installed_file = PREFIX_STR SHARE_DIR YC20_PNG_DIR + file;
+		std::string installed_file = INSTALL_LOCATION YC20_PNG_DIR + file;
 		std::string local_file = YC20_PNG_DIR + file;
 
 		cairo_surface_t *ret = cairo_image_surface_create_from_png (installed_file.c_str());

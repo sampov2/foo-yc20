@@ -18,6 +18,7 @@
 
 #include <yc20-jack.h>
 #include <foo-yc20-ui.h>
+#include <foo-yc20-os.h>
 
 
 int main(int argc, char **argv)

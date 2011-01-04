@@ -24,6 +24,7 @@
 #include <unistd.h>
 
 #include <yc20-jack.h>
+#include <foo-yc20-os.h>
 
 #if defined (__WIN32__)
 #include <windows.h>
