@@ -29,6 +29,7 @@
 #include <stdlib.h>
 
 #include <foo-yc20.h>
+#include <foo-yc20-os.h>
 
 void 
 YC20Processor::loadConfiguration(std::string fileName)
@@ -76,11 +77,9 @@ void
 YC20Processor::loadConfiguration()
 {
 	if (configFile == "") {
-		configFile  = getenv("HOME");
-		configFile += "/.foo-yc20";
 	
-		std::string dirName(configFile);
-		configFile += "/default";
+		std::string dirName(DEFAULT_CONFIG_DIR);
+		configFile = dirName + "/default";
 
 		if (!makeDirIfNotExists(dirName)) {
 			std::cerr << dirName << ": not saving or loading default configuration" << std::endl;

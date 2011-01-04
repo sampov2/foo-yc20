@@ -35,16 +35,6 @@
     #define TURNOFFDENORMALS 
 #endif
 
-#define SHARE_DIR "/share/foo-yc20/"
-#define YC20_PNG_DIR "graphics/"
-
-
-#define QUOTE(name) #name
-#define STR(macro) QUOTE(macro)
-
-#define PREFIX_STR STR(PREFIX)
-#define VERSION_STR STR(VERSION)
-
 class YC20Exposable
 {
 	public:
