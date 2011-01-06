@@ -2,8 +2,8 @@ PREFIX=/usr/local
 CXX=g++
 VERSION=
 
-OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/main-cli.o
-OBJS_JACK=src/yc20-jack.o 
+OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o
+OBJS_JACK=src/yc20-jack.o src/main-cli.o
 OBJS_GTKJACK=src/main-gui.o src/foo-yc20-ui.o
 OBJS_GTK=src/foo-yc20-ui2.o src/lv2-ui.o
 
