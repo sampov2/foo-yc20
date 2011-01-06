@@ -192,7 +192,7 @@ YC20UI::YC20UI(YC20Processor *parent)
 	// Vibrato section
 	// Instead of the touch vibrato, we have a realism switch
 	c = yc20->getControl("realism");
-	Wdgt::Drawbar *realism = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
+	Wdgt::Drawbar *realism = new Wdgt::Drawbar(x, y, true, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	realism->setName("realism");
 	draggablePerCC[c->getCC()] = realism;
 	x += 40.0 + pitch_x;
@@ -203,13 +203,13 @@ YC20UI::YC20UI(YC20Processor *parent)
 	*/
 
 	c = yc20->getControl("depth");
-	Wdgt::Drawbar *vibrato = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
+	Wdgt::Drawbar *vibrato = new Wdgt::Drawbar(x, y, true, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	vibrato->setName("depth");
 	draggablePerCC[c->getCC()] = vibrato;
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("speed");
-	Wdgt::Drawbar *v_speed = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
+	Wdgt::Drawbar *v_speed = new Wdgt::Drawbar(x, y, true, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	v_speed->setName("speed");
 	draggablePerCC[c->getCC()] = v_speed;
 	x += 40.0 + pitch_x_longest;
@@ -233,7 +233,7 @@ YC20UI::YC20UI(YC20Processor *parent)
 	x += 40.0 + pitch_x;
 
 	c = yc20->getControl("bass manual");
-	Wdgt::Switch *bass_man = new Wdgt::Switch(x, y, drawbarBlackImages);
+	Wdgt::Switch *bass_man = new Wdgt::Switch(x, y, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	bass_man->setName("bass manual");
 	draggablePerCC[c->getCC()] = bass_man;
 	x += 40.0 + pitch_x_longest;
@@ -295,13 +295,13 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 	// Balance & Brightness
 	c = yc20->getControl("balance");
-	Wdgt::Drawbar *balance    = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
+	Wdgt::Drawbar *balance    = new Wdgt::Drawbar(x, y, false, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	balance->setName("balance");
 	draggablePerCC[c->getCC()] = balance;
 	x += 40.0 + pitch_x_long;
 
 	c = yc20->getControl("bright");
-	Wdgt::Drawbar *brightness = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
+	Wdgt::Drawbar *brightness = new Wdgt::Drawbar(x, y, false, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	brightness->setName("bright");
 	draggablePerCC[c->getCC()] = brightness;
 	x += 40.0 + pitch_x_long;

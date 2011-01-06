@@ -25,6 +25,9 @@
 
 #include <wdgt.h>
 
+#define DRAWBAR_BLACK_EMPHASIS_ALPHA 0.9
+
+
 namespace Wdgt
 {
 
@@ -120,15 +123,6 @@ class Lever : public Draggable
 			y2 = y1 + 90 + 5;
 		}
 
-		void drawEmphasis(bool hover, cairo_t *cr) const
-		{
-			if (hover) {
-				cairo_set_source_rgba(cr, 1.0, 1.0, 1.0, 0.1);
-				cairo_rectangle(cr, x1, y1, x2, y2);
-				cairo_fill(cr);
-			}
-		}
-
 	protected:
 
 		bool notched;
@@ -142,6 +136,15 @@ class Drawbar : public Lever
 		Drawbar(float posX, float posY, bool notches, cairo_surface_t **_images)
 			: Lever(notches)
 			, images(_images)
+			, alpha(0.08)
+		{
+			setPosition(posX, posY);
+		}
+
+		Drawbar(float posX, float posY, bool notches, float _alpha, cairo_surface_t **_images)
+			: Lever(notches)
+			, images(_images)
+			, alpha(_alpha)
 		{
 			setPosition(posX, posY);
 		}
@@ -150,19 +153,26 @@ class Drawbar : public Lever
 		{
 			cairo_set_source_surface(cr, images[imageNum], x1, y1);
 			cairo_paint(cr);
+			
+			if (hover) {
+				cairo_set_source_surface(cr, images[imageNum], x1, y1);
+				cairo_set_operator(cr, CAIRO_OPERATOR_ADD);
+				cairo_paint_with_alpha(cr, alpha);
+				cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
 
-			drawEmphasis(hover, cr);
+			}
 		}
 
 	private:
 		cairo_surface_t **images;
+		float alpha;
 };
 
 class Switch : public Drawbar
 {
 	public:
-		Switch(float posX, float posY, cairo_surface_t **images)
-			: Drawbar(posX, posY, false, images)
+		Switch(float posX, float posY, float alpha, cairo_surface_t **images)
+			: Drawbar(posX, posY, false, alpha, images)
 		{
 		}
 
@@ -233,8 +243,13 @@ class Potentiometer : public Draggable
 		virtual void drawWidget(bool hover, cairo_t *cr) const
 		{
 			cairo_set_source_surface(cr, image, x1, y1);
-
 			cairo_paint(cr);
+
+			if (hover) {
+				cairo_set_operator(cr, CAIRO_OPERATOR_ADD);
+				cairo_paint_with_alpha(cr, 0.08);
+				cairo_set_operator(cr, CAIRO_OPERATOR_OVER);
+			}
 
 			cairo_set_source_rgb(cr, 0.0, 0.0, 0.0);
 			cairo_set_line_width(cr, 2.5);
@@ -254,17 +269,6 @@ class Potentiometer : public Draggable
 			cairo_line_to(cr, origoX + x2offt, origoY + y2offt);
 
 			cairo_stroke(cr);
-
-			drawEmphasis(hover, cr);
-		}
-
-		void drawEmphasis(bool hover, cairo_t *cr) const
-		{
-			if (hover) {
-				cairo_set_source_rgba(cr, 1.0, 1.0, 1.0, 0.1);
-				cairo_rectangle(cr, x1, y1, x2, y2);
-				cairo_fill(cr);
-			}
 		}
 
 	private:
