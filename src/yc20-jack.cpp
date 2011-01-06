@@ -174,7 +174,11 @@ YC20Jack::connect()
 	   just decides to stop calling us.
 	 */
 
+	// jack 1.9.6 crashes when the shutdown handler is set. this is a dirty
+	// fix until jack is corrected.
+#ifndef __WIN32__
 	jack_on_shutdown (jack_client, shutdown_callback, this);
+#endif
 }
 
 void
