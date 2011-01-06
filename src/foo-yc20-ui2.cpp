@@ -182,17 +182,17 @@ YC20UI2::YC20UI2()
 
 	// Vibrato section
 	// Instead of the touch vibrato, we have a realism switch
-	Wdgt::Drawbar *realism = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
+	Wdgt::Drawbar *realism = new Wdgt::Drawbar(x, y, true, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	realism->setName("realism");
 	realism->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 	
-	Wdgt::Drawbar *vibrato = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
+	Wdgt::Drawbar *vibrato = new Wdgt::Drawbar(x, y, true, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	vibrato->setName("depth");
 	vibrato->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
-	Wdgt::Drawbar *v_speed = new Wdgt::Drawbar(x, y, true, drawbarBlackImages);
+	Wdgt::Drawbar *v_speed = new Wdgt::Drawbar(x, y, true, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	v_speed->setName("speed");
 	v_speed->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_longest;
@@ -212,7 +212,7 @@ YC20UI2::YC20UI2()
 	bass_8->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x;
 
-	Wdgt::Switch *bass_man = new Wdgt::Switch(x, y, drawbarBlackImages);
+	Wdgt::Switch *bass_man = new Wdgt::Switch(x, y, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	bass_man->setName("bass manual");
 	bass_man->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_longest;
@@ -266,12 +266,12 @@ YC20UI2::YC20UI2()
 	wdgts.push_back(sect1_1);
 
 	// Balance & Brightness
-	Wdgt::Drawbar *balance    = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
+	Wdgt::Drawbar *balance    = new Wdgt::Drawbar(x, y, false, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	balance->setName("balance");
 	balance->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_long;
 
-	Wdgt::Drawbar *brightness = new Wdgt::Drawbar(x, y, false, drawbarBlackImages);
+	Wdgt::Drawbar *brightness = new Wdgt::Drawbar(x, y, false, DRAWBAR_BLACK_EMPHASIS_ALPHA, drawbarBlackImages);
 	brightness->setName("bright");
 	brightness->setPortIndex(c_idx++);
 	x += 40.0 + pitch_x_long;
