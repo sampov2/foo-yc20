@@ -94,7 +94,7 @@ int main(int argc, char **argv)
 	// Cleanup
 	processor.saveConfiguration();
 
-	delete yc20ui;
+	// as processor goes out of scope, it will take care of the UI
 
 	return 0;
 }

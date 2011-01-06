@@ -38,6 +38,7 @@
 class YC20Exposable
 {
 	public:
+		virtual ~YC20Exposable() {};
 		virtual void queueExpose(int) = 0;
 		virtual void updateControlsFromState() = 0;
 };

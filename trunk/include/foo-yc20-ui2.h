@@ -34,7 +34,7 @@ class YC20UI2
 	public:
 		YC20UI2();
 
-		~YC20UI2();
+		virtual ~YC20UI2();
 
 		GtkWidget *getWidget() { return drawingArea; }
 
