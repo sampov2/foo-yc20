@@ -33,23 +33,26 @@
 
 
 #ifdef __APPLE__
+//#warning "Selected OS X directories"
 
 #define DEFAULT_CONFIG_DIR std::string(getenv("HOME")) + "/Library/Application Support/foo-yc20/"
 #define INSTALL_LOCATION "../Resources/"
+#endif
 
-#elsifdef __WIN32__
+#ifdef __WIN32__
+//#warning "Selected WIN32 directories"
 
 #define DEFAULT_CONFIG_DIR std::string(getenv("HOMEPATH")) + "\\foo-yc20"
-// this is wrong
-#define INSTALL_LOCATION_PREFIX PREFIX_STR SHARE_DIR
+// this is wrong, but we will live
+#define INSTALL_LOCATION PREFIX_STR SHARE_DIR
+#endif
 
 
-#else
-// Linux
+#ifndef DEFAULT_CONFIG_DIR
+//#warning "Selected Linux/UNIX directories"
 
 #define DEFAULT_CONFIG_DIR std::string(getenv("HOME")) + "/.foo-yc20"
 #define INSTALL_LOCATION PREFIX_STR SHARE_DIR
-
 #endif
 
 
