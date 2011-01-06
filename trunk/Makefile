@@ -1,5 +1,4 @@
 PREFIX=/usr/local
-CXX=g++
 VERSION=
 
 OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o
