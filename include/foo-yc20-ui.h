@@ -20,18 +20,15 @@
 #ifndef _FOO_YC20_UI_H
 #define _FOO_YC20_UI_H
 
+#include <stdint.h>
 
-#include <gtkmm/main.h>
-#include <gtkmm/window.h>
-#include <gtkmm/drawingarea.h>
+#include <gtk/gtk.h>
 
 #include <jack/ringbuffer.h>
 
 #include <wdgt.h>
 #include <yc20_wdgts.h>
 #include <foo-yc20.h>
-
-//class YC20Processor;
 
 class YC20UI : public YC20Exposable
 {
@@ -40,31 +37,32 @@ class YC20UI : public YC20Exposable
 
 		~YC20UI();
 
-		Gtk::Widget *getWidget() { return &drawingArea; }
+		GtkWidget *getWidget() { return drawingArea; }
 
 		virtual void queueExpose(int cc);
 
 		virtual void updateControlsFromState();
 
-	private:
-		YC20Processor *yc20;
-
-		float ui_scale;
-
-		Gtk::DrawingArea drawingArea;
-
-		// Gtk essentials
-		void size_request(Gtk::Requisition *);
-		void size_allocate(Gtk::Allocation &);
-		bool exposeWdgt(Wdgt::Object *);
+		// Events
+		void size_request(GtkRequisition *);
+		void size_allocate(GtkAllocation *);
 		bool expose(GdkEventExpose *);
-
 		void realize();
-
 
 		bool motion_notify_event(GdkEventMotion *);
 		bool button_press_event(GdkEventButton *);
 		bool button_release_event(GdkEventButton *);
+
+	private:
+		YC20Processor *yc20;
+
+		GtkWidget *drawingArea;
+
+		float ui_scale;
+
+		bool exposeWdgt(Wdgt::Object *);
+
+
 
 		bool draw_queue();
 

@@ -4,7 +4,7 @@ VERSION=
 
 OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/main-cli.o
 OBJS_JACK=src/yc20-jack.o 
-OBJS_GTKMM=src/main-gui.o src/foo-yc20-ui.o src/lv2-ui.cpp
+OBJS_GTKJACK=src/main-gui.o src/foo-yc20-ui.o
 OBJS_GTK=src/foo-yc20-ui2.o src/lv2-ui.o
 
 OBJS_DSP_STANDALONE=src/faust-dsp-standalone.o
@@ -25,7 +25,7 @@ CFLAGS_X = $(CFLAGS) -fPIC -DVERSION=$(VERSION) -Isrc/ -Iinclude/ -DPREFIX=$(PRE
 
 $(OBJS_NODEPS): CFLAGS_use = $(CFLAGS_X) 
 $(OBJS_JACK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags jack`
-$(OBJS_GTKMM): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtkmm-2.4` `pkg-config --cflags jack`
+$(OBJS_GTKJACK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtk+-2.0` `pkg-config --cflags jack`
 $(OBJS_GTK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtk+-2.0`
 $(OBJS_LV2): CFLAGS_use = $(CFLAGS_X)
 
@@ -42,7 +42,7 @@ lv2: $(LV2_PLUGIN) $(LV2_UI)
 OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o
 
 foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE)
-	$(CXX) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `pkg-config --libs gtkmm-2.4` `pkg-config --libs jack` $(LDFLAGS_YC20) -o foo-yc20
+	$(CXX) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `pkg-config --libs gtk+-2.0` `pkg-config --libs jack` $(LDFLAGS_YC20) -o foo-yc20
 
 ## CLI version
 OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o
@@ -114,7 +114,7 @@ testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 	faust -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
 	$(CXX) $(CFLAGS) -Isrc/ gen/test.cpp `pkg-config --cflags --libs sndfile` -o testit
 
-$(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTKMM) $(OBJS_LV2): include/*.h
+$(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTKJACK) $(OBJS_LV2): include/*.h
 
 
 $(OBJS_DSP_STANDALONE): gen/yc20-dsp-standalone.cpp

@@ -20,6 +20,7 @@
 #define _WDGT_H
 
 #include <string>
+#include <list>
 
 namespace Wdgt {
 
