@@ -35,7 +35,7 @@ class YC20UI : public YC20Exposable
 	public:
 		YC20UI(YC20Processor *);
 
-		~YC20UI();
+		virtual ~YC20UI();
 
 		GtkWidget *getWidget() { return drawingArea; }
 
