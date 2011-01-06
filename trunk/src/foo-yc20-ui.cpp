@@ -20,6 +20,8 @@
 #include <foo-yc20-ui.h>
 #include <foo-yc20-os.h>
 
+#include <string.h>
+
 namespace Wdgt
 {
 
@@ -49,6 +51,60 @@ namespace Wdgt
 	}
 }
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+// C-functions to wrap gtk/gdk signal handlers to C++ functions
+
+static void lv2ui_size_request(GtkWidget *widget, GtkRequisition *event, gpointer data)
+{
+        YC20UI *ui = (YC20UI *)data;
+        ui->size_request(event);
+}
+
+static void lv2ui_size_allocate(GtkWidget *widget, GtkAllocation *event, gpointer data)
+{
+        YC20UI *ui = (YC20UI *)data;
+        ui->size_allocate(event);
+}
+
+static gboolean lv2ui_expose_event(GtkWidget *widget, GdkEventExpose *event, gpointer data)
+{
+        YC20UI *ui = (YC20UI *)data;
+        return ui->expose(event);
+}
+
+static void lv2ui_realize(GtkWidget *widget, gpointer data)
+{
+        YC20UI *ui = (YC20UI *)data;
+        ui->realize();
+}
+
+static gboolean lv2ui_motion_notify_event(GtkWidget *widget, GdkEventMotion *event, gpointer data)
+{
+        YC20UI *ui = (YC20UI *)data;
+        return ui->motion_notify_event(event);
+}
+
+static gboolean lv2ui_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+        YC20UI *ui = (YC20UI *)data;
+        return ui->button_press_event(event);
+}
+
+static gboolean lv2ui_button_release_event(GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+        YC20UI *ui = (YC20UI *)data;
+        return ui->button_release_event(event);
+}
+
+
+#ifdef __cplusplus
+}
+#endif
+
+
 
 
 YC20UI::YC20UI(YC20Processor *parent)
@@ -58,6 +114,8 @@ YC20UI::YC20UI(YC20Processor *parent)
 	, _dragWdgt(NULL)
 	, _buttonPressWdgt(NULL)
 {
+	drawingArea = GTK_WIDGET(gtk_drawing_area_new());
+
 	memset(draggablePerCC, 0, sizeof(Wdgt::Draggable *)*127);
 	_image_background = Wdgt::load_png("background.png");
 
@@ -78,24 +136,22 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 	potentiometerImage = Wdgt::load_png("potentiometer.png");
 
-	drawingArea.signal_size_request().connect( sigc::mem_fun(*this, &YC20UI::size_request));
-	drawingArea.signal_size_allocate().connect( sigc::mem_fun(*this, &YC20UI::size_allocate));
-	drawingArea.signal_expose_event().connect( sigc::mem_fun (*this, &YC20UI::expose));
+        // Gtk signals
+        g_signal_connect (drawingArea, "size-request",         G_CALLBACK( lv2ui_size_request ), this);
+        g_signal_connect (drawingArea, "size-allocate",        G_CALLBACK( lv2ui_size_allocate ), this);
+        g_signal_connect (drawingArea, "expose-event",         G_CALLBACK( lv2ui_expose_event ), this);
+	g_signal_connect (drawingArea, "realize",              G_CALLBACK( lv2ui_realize ), this);
 
-	drawingArea.signal_realize().connect( sigc::mem_fun (*this, &YC20UI::realize));
+        g_signal_connect (drawingArea, "motion-notify-event",  G_CALLBACK( lv2ui_motion_notify_event ), this);
+        g_signal_connect (drawingArea, "button-press-event",   G_CALLBACK( lv2ui_button_press_event ), this);
+        g_signal_connect (drawingArea, "button-release-event", G_CALLBACK( lv2ui_button_release_event ), this);
 
+        // Event mask
+        gint mask = gtk_widget_get_events(drawingArea);
 
-	drawingArea.signal_motion_notify_event().connect ( sigc::mem_fun (*this, &YC20UI::motion_notify_event) );
-	drawingArea.signal_button_press_event().connect  ( sigc::mem_fun (*this, &YC20UI::button_press_event));
-	drawingArea.signal_button_release_event().connect( sigc::mem_fun (*this, &YC20UI::button_release_event));
+        mask |= GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK;
 
-
-
-	Gdk::EventMask mask = drawingArea.get_events();
-
-	mask |= Gdk::POINTER_MOTION_MASK | Gdk::BUTTON_PRESS_MASK | Gdk::BUTTON_RELEASE_MASK;
-
-	drawingArea.set_events(mask);
+        gtk_widget_set_events(drawingArea, mask);
 
 
 	_dragWdgt = NULL;
@@ -335,7 +391,7 @@ YC20UI::updateControlsFromState()
 
 
 void
-YC20UI::size_request(Gtk::Requisition *req)
+YC20UI::size_request(GtkRequisition *req)
 {
 	//std::cerr << "size_request: " << req->width << " x " << req->height << std::endl;
 
@@ -352,25 +408,23 @@ YC20UI::size_request(Gtk::Requisition *req)
 
 
 void 
-YC20UI::size_allocate(Gtk::Allocation &alloc)
+YC20UI::size_allocate(GtkAllocation *alloc)
 {
-	//std::cerr << "size_allocate: " << alloc.get_x() << " x " << alloc.get_y() << "  :  " << alloc.get_width() << " x " << alloc.get_height() << std::endl;
+        if (alloc->width > 1280) {
+                alloc->width = 1280;
+        } else if (alloc->width < 768) {
+                alloc->width = 768;
+        }
 
-	if (alloc.get_width() > 1280) {
-		alloc.set_width(1280);
-	} else if (alloc.get_width() < 768) {
-		alloc.set_width(768);
-	}
+        ui_scale = (float)alloc->width/1280.0;
 
-	ui_scale = (float)alloc.get_width()/1280.0;
-
-	alloc.set_height(200.0 * ui_scale);
+        alloc->height = 200.0 * ui_scale;
 }
 
 void
 YC20UI::realize()
 {
-	Gdk::Geometry geom;
+	GdkGeometry geom;
 	geom.min_width  = 768;
 	geom.min_height = 120; // 200.0 * (768.0 / 1280.0);
 	geom.max_width  = 1280;
@@ -382,16 +436,20 @@ YC20UI::realize()
 	geom.width_inc  = 64;
 	geom.height_inc = 10;
 
-	Gtk::Container *cont = drawingArea.get_toplevel();
+	GtkWidget *top = gtk_widget_get_toplevel(drawingArea);
+	if (top == NULL) {
+		std::cerr << "No toplevel widget?!?!" << std::endl;
+		return;
+	}
 
-	Gtk::Window *window = dynamic_cast<Gtk::Window *>(cont);
-
+	GtkWindow *window = GTK_WINDOW(top);
 	if (window == NULL) {
 		std::cerr << "could not find the toplevel window. weird." << std::endl;
 		return;
 	}
-
-	window->set_geometry_hints(drawingArea, geom, Gdk::HINT_MIN_SIZE | Gdk::HINT_MAX_SIZE | Gdk::HINT_ASPECT | Gdk::HINT_RESIZE_INC);
+	
+	GdkWindowHints hints = (GdkWindowHints)(GDK_HINT_MIN_SIZE | GDK_HINT_MAX_SIZE | GDK_HINT_ASPECT | GDK_HINT_RESIZE_INC);
+	gtk_window_set_geometry_hints(window, NULL, &geom, hints);
 }
 
 Wdgt::Object *
@@ -585,7 +643,7 @@ YC20UI::expose(GdkEventExpose *evt)
 
 	cairo_t *cr;
 
-	cr = gdk_cairo_create(GDK_DRAWABLE(drawingArea.get_window()->gobj()));
+	cr = gdk_cairo_create(GDK_DRAWABLE(gtk_widget_get_window(drawingArea)));
 
 	cairo_scale(cr, ui_scale, ui_scale);
 

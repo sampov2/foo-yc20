@@ -20,10 +20,14 @@
 #include <foo-yc20-ui.h>
 #include <foo-yc20-os.h>
 
+void quit_callback(GtkWidget *widget, gpointer data)
+{
+	gtk_main_quit();
+}
 
 int main(int argc, char **argv)
 {
-        Gtk::Main mymain(argc, argv);
+	gtk_init(&argc, &argv);
 
 	std::string version(VERSION_STR);
 	std::string svn_revision("$Revision: 106 $");
@@ -36,12 +40,14 @@ int main(int argc, char **argv)
 
 	std::cerr << "Foo-YC20 " << version << " (c)Sampo Savolainen 2010" << std::endl;
 
-	Gtk::Window *main_window;
-	YC20UI      *yc20ui;
+	GtkWidget *main_window;
+	YC20UI    *yc20ui;
 
-	main_window = new Gtk::Window();
-	main_window->set_title("Foo YC20");
-	main_window->set_default_size(1280, 200);
+	main_window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_title( GTK_WINDOW(main_window), "Foo YC20");
+	gtk_window_set_default_size( GTK_WINDOW(main_window), 1280, 200);
+
+	g_signal_connect (main_window, "destroy", G_CALLBACK(quit_callback), NULL);
 
 	// Connect to Jack
 	YC20Jack processor;
@@ -58,10 +64,9 @@ int main(int argc, char **argv)
 	yc20ui = new YC20UI(&processor);
 	processor.setUI(yc20ui);
 
-	main_window->add(*yc20ui->getWidget());
+	gtk_container_add( GTK_CONTAINER(main_window), yc20ui->getWidget());
 
-	main_window->show();
-	yc20ui->getWidget()->show();
+	gtk_widget_show_all(main_window);
 
 
 	// Load configuration
@@ -82,14 +87,14 @@ int main(int argc, char **argv)
 
 
 	// RUN!
-        Gtk::Main::run(*main_window);
+	gtk_main();
 
 	processor.deactivate();
 
 	// Cleanup
 	processor.saveConfiguration();
 
-	delete main_window;
+	delete yc20ui;
 
 	return 0;
 }
