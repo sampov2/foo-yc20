@@ -37,7 +37,15 @@
 #define DEFAULT_CONFIG_DIR std::string(getenv("HOME")) + "/Library/Application Support/foo-yc20/"
 #define INSTALL_LOCATION "../Resources/"
 
+#elsifdef __WIN32__
+
+#define DEFAULT_CONFIG_DIR std::string(getenv("HOMEPATH")) + "\\foo-yc20"
+// this is wrong
+#define INSTALL_LOCATION_PREFIX PREFIX_STR SHARE_DIR
+
+
 #else
+// Linux
 
 #define DEFAULT_CONFIG_DIR std::string(getenv("HOME")) + "/.foo-yc20"
 #define INSTALL_LOCATION PREFIX_STR SHARE_DIR
