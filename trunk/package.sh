@@ -28,7 +28,9 @@ mkdir -p $BUILDDIR
 
 mkdir $BUILDDIR/gen
 mkdir $BUILDDIR/faust
+mkdir $BUILDDIR/include
 mkdir $BUILDDIR/src
+mkdir $BUILDDIR/src/foo-yc20.lv2
 mkdir $BUILDDIR/graphics
 
 cp -n	foo-yc20.desktop.in \
@@ -54,7 +56,24 @@ cp -n src/configuration.cpp \
       src/main-gui.cpp \
       src/polyblep.cpp \
       src/yc20-jack.cpp \
-	$BUILDDIR/src
+      $BUILDDIR/src
+
+cp -n src/foo-yc20.lv2/foo-yc20.ttl \
+      src/foo-yc20.lv2/manifest.ttl \
+      $BUILDDIR/src/foo-yc20.lv2
+
+cp -n include/faust-dsp.h \
+      include/foo-yc20.h \
+      include/foo-yc20-os.h \
+      include/foo-yc20-ui2.h \
+      include/foo-yc20-ui.h \
+      include/wdgt.h \
+      include/yc20-jack.h \
+      include/yc20_wdgts.h \
+      $BUILDDIR/include
+
+cp -nr include/lv2 $BUILDDIR/include
+rm -rf $(find $BUILDDIR/include -name .svn)
 
 cp -n 	graphics/white_[0-3].png \
 	graphics/black_[0-3].png \
