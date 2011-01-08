@@ -1,5 +1,12 @@
+#!/bin/bash
 
-THIS_PATH=$(dirname $(readlink -f $0))
+PROG=$0
+if [ x$BASH_ARGV != "x" ]; then
+	PROG=$BASH_ARGV
+fi
+
+
+export YC20_TOOL_PATH=$(dirname $(readlink -f $PROG))
 
 export CC=i586-mingw32msvc-gcc
 export CXX=i586-mingw32msvc-g++
@@ -14,13 +21,17 @@ export OBJDUMP=i586-mingw32msvc-objdump
 export RC=i586-mingw32msvc-windres
 export WINDRES=i586-mingw32msvc-windres
 
-export PATH=$THIS_PATH/fake-utils:$PATH
+export PATH=$YC20_TOOL_PATH/fake-utils:$PATH
 
-export LDFLAGS_YC20="-mwindows "$THIS_PATH/gui.o
+export LDFLAGS_YC20="-mwindows "$YC20_TOOL_PATH"/gui.o "$YC20_TOOL_PATH"/ringbuffer.o"
+export LDFLAGS_CLI=$YC20_TOOL_PATH"/ringbuffer.o"
+
 export CFLAGS="-O3 -mtune=native -march=native -msse -mfpmath=sse -ffast-math"
+export CFLAGS="-O1"
 
-if [ ! -f $THIS_PATH/gui.o ]; then
-	echo compiling gui.rc
-	$WINDRES $THIS_PATH/gui.rc -o $THIS_PATH/gui.o
-fi
+echo compiling gui.rc
+$WINDRES $YC20_TOOL_PATH/gui.rc -o $YC20_TOOL_PATH/gui.o
+
+echo compiling ringbuffer.c
+$CC $YC20_TOOL_PATH/jack-1.9.6/jack-1.9.6/common/ringbuffer.c -I$YC20_TOOL_PATH/jack-1.9.6/jack-1.9.6/windows $CFLAGS -c -o $YC20_TOOL_PATH/ringbuffer.o
 
