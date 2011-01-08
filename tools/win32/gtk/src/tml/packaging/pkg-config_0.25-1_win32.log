@@ -1,0 +1,179 @@
++++ latest --arch=win32 glib
+++ GLIB=glib-2.26.0-2
++++ latest --arch=win32 proxy-libintl
+++ PROXY_LIBINTL=proxy-libintl-20100902
++++ latest --arch=win32 pkg-config
+++ PKG_CONFIG=/devel/dist/win32/pkg-config-0.23-3/bin/pkg-config.exe
+++ sed -e 's/need_relink=yes/need_relink=no # no way --tml/'
+++ mv ltmain.temp ltmain.sh
+++ sed -e 's/-lglib-2.0 -liconv -lintl/-lglib-2.0/'
+++ mv configure.temp configure
+++ PATH='/devel/dist/win32/glib-2.26.0-2/bin:/opt/misc/bin:/opt/gnu/bin:/opt/mingw/bin:/opt/svn/bin:/opt/local/bin:/c/Windows/Microsoft.NET/Framework/v3.5:/c/Windows/Microsoft.NET/Framework/v2.0.50727:/opt/xemacs/XEmacs-21.4.22/i586-pc-win32:/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0/:/c/Program Files (x86)/Novell/GroupWise:/c/Program Files (x86)/QuickTime/QTSystem/'
+++ PKG_CONFIG_PATH=/devel/dist/win32/glib-2.26.0-2/lib/pkgconfig
+++ CC='gcc -mthreads'
++++ /devel/dist/win32/pkg-config-0.23-3/bin/pkg-config.exe --cflags glib-2.0
+++ CPPFLAGS='-mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include   -I/devel/dist/win32/proxy-libintl-20100902/include'
++++ /devel/dist/win32/pkg-config-0.23-3/bin/pkg-config.exe --libs glib-2.0
+++ LDFLAGS='-Lc:/devel/dist/win32/glib-2.26.0-2/lib -lglib-2.0 -lintl   -L/devel/dist/win32/proxy-libintl-20100902/lib -Wl,--exclude-libs=libintl.a'
+++ CFLAGS=-O2
+++ ./configure --disable-static --prefix=c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b
+checking for a BSD-compatible install... /opt/local/bin/install -c
+checking whether build environment is sane... yes
+checking for a thread-safe mkdir -p... /bin/mkdir -p
+checking for gawk... gawk
+checking whether make sets $(MAKE)... yes
+checking whether to enable maintainer-specific portions of Makefiles... no
+checking build system type... i686-pc-mingw32
+checking host system type... i686-pc-mingw32
+checking for style of include used by make... GNU
+checking for gcc... gcc -mthreads
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.exe
+checking for suffix of executables... .exe
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc -mthreads accepts -g... yes
+checking for gcc -mthreads option to accept ISO C89... none needed
+checking dependency style of gcc -mthreads... gcc3
+checking for a sed that does not truncate output... /bin/sed
+checking for grep that handles long lines and -e... /bin/grep
+checking for egrep... /bin/grep -E
+checking for fgrep... /bin/grep -F
+checking for ld used by gcc -mthreads... c:/opt/mingw/mingw32/bin/ld.exe
+checking if the linker (c:/opt/mingw/mingw32/bin/ld.exe) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /opt/mingw/bin/nm
+checking the name lister (/opt/mingw/bin/nm) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 8192
+checking whether the shell understands some XSI constructs... yes
+checking whether the shell understands "+="... yes
+checking for c:/opt/mingw/mingw32/bin/ld.exe option to reload object files... -r
+checking for objdump... objdump
+checking how to recognize dependent libraries... file_magic ^x86 archive import|^x86 DLL
+checking for ar... ar
+checking for strip... strip
+checking for ranlib... ranlib
+checking command to parse /opt/mingw/bin/nm output from gcc -mthreads object... ok
+checking how to run the C preprocessor... gcc -mthreads -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... no
+checking for objdir... .libs
+checking if gcc -mthreads supports -fno-rtti -fno-exceptions... no
+checking for gcc -mthreads option to produce PIC... -DDLL_EXPORT -DPIC
+checking if gcc -mthreads PIC flag -DDLL_EXPORT -DPIC works... yes
+checking if gcc -mthreads static flag -static works... yes
+checking if gcc -mthreads supports -c -o file.o... yes
+checking if gcc -mthreads supports -c -o file.o... (cached) yes
+checking whether the gcc -mthreads linker (c:/opt/mingw/mingw32/bin/ld.exe) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... yes
+checking dynamic linker characteristics... Win32 ld.exe
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... no
+checking for gcc... (cached) gcc -mthreads
+checking whether we are using the GNU C compiler... (cached) yes
+checking whether gcc -mthreads accepts -g... (cached) yes
+checking for gcc -mthreads option to accept ISO C89... (cached) none needed
+checking dependency style of gcc -mthreads... (cached) gcc3
+checking for default search path for .pc files... ${libdir}/pkgconfig:${datadir}/pkgconfig
+checking whether to list both direct and indirect dependencies... ./configure: line 11170: ./libtool: No such file or directory
+no
+checking for Win32... yes
+checking for working alloca.h... no
+checking for alloca... yes
+checking for setresuid... no
+checking for setreuid... no
+checking dirent.h usability... yes
+checking dirent.h presence... yes
+checking for dirent.h... yes
+checking for unistd.h... (cached) yes
+checking sys/wait.h usability... no
+checking sys/wait.h presence... no
+checking for sys/wait.h... no
+checking malloc.h usability... yes
+checking malloc.h presence... yes
+checking for malloc.h... yes
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating popt/Makefile
+config.status: creating check/Makefile
+config.status: creating check/config.sh
+config.status: creating config.h
+config.status: executing depfiles commands
+config.status: executing libtool commands
+++ make -j3 install
+Making install in popt
+make[1]: Entering directory `/devel/src/freedesktop/pkg-config/0.25-1_win32/popt'
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -mthreads -DHAVE_CONFIG_H -I. -I..   -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include   -I/devel/dist/win32/proxy-libintl-20100902/include  -O2 -MT popt.lo -MD -MP -MF .deps/popt.Tpo -c -o popt.lo popt.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -mthreads -DHAVE_CONFIG_H -I. -I..   -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include   -I/devel/dist/win32/proxy-libintl-20100902/include  -O2 -MT poptconfig.lo -MD -MP -MF .deps/poptconfig.Tpo -c -o poptconfig.lo poptconfig.c
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -mthreads -DHAVE_CONFIG_H -I. -I..   -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include   -I/devel/dist/win32/proxy-libintl-20100902/include  -O2 -MT popthelp.lo -MD -MP -MF .deps/popthelp.Tpo -c -o popthelp.lo popthelp.c
+libtool: compile:  gcc -mthreads -DHAVE_CONFIG_H -I. -I.. -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include -I/devel/dist/win32/proxy-libintl-20100902/include -O2 -MT popthelp.lo -MD -MP -MF .deps/popthelp.Tpo -c popthelp.c  -DDLL_EXPORT -DPIC -o .libs/popthelp.o
+libtool: compile:  gcc -mthreads -DHAVE_CONFIG_H -I. -I.. -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include -I/devel/dist/win32/proxy-libintl-20100902/include -O2 -MT poptconfig.lo -MD -MP -MF .deps/poptconfig.Tpo -c poptconfig.c  -DDLL_EXPORT -DPIC -o .libs/poptconfig.o
+libtool: compile:  gcc -mthreads -DHAVE_CONFIG_H -I. -I.. -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include -I/devel/dist/win32/proxy-libintl-20100902/include -O2 -MT popt.lo -MD -MP -MF .deps/popt.Tpo -c popt.c  -DDLL_EXPORT -DPIC -o .libs/popt.o
+mv -f .deps/poptconfig.Tpo .deps/poptconfig.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -mthreads -DHAVE_CONFIG_H -I. -I..   -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include   -I/devel/dist/win32/proxy-libintl-20100902/include  -O2 -MT poptparse.lo -MD -MP -MF .deps/poptparse.Tpo -c -o poptparse.lo poptparse.c
+mv -f .deps/popthelp.Tpo .deps/popthelp.Plo
+/bin/sh ../libtool --tag=CC   --mode=compile gcc -mthreads -DHAVE_CONFIG_H -I. -I..   -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include   -I/devel/dist/win32/proxy-libintl-20100902/include  -O2 -MT findme.lo -MD -MP -MF .deps/findme.Tpo -c -o findme.lo findme.c
+mv -f .deps/popt.Tpo .deps/popt.Plo
+libtool: compile:  gcc -mthreads -DHAVE_CONFIG_H -I. -I.. -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include -I/devel/dist/win32/proxy-libintl-20100902/include -O2 -MT poptparse.lo -MD -MP -MF .deps/poptparse.Tpo -c poptparse.c  -DDLL_EXPORT -DPIC -o .libs/poptparse.o
+libtool: compile:  gcc -mthreads -DHAVE_CONFIG_H -I. -I.. -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include -I/devel/dist/win32/proxy-libintl-20100902/include -O2 -MT findme.lo -MD -MP -MF .deps/findme.Tpo -c findme.c  -DDLL_EXPORT -DPIC -o .libs/findme.o
+mv -f .deps/poptparse.Tpo .deps/poptparse.Plo
+mv -f .deps/findme.Tpo .deps/findme.Plo
+/bin/sh ../libtool --tag=CC   --mode=link gcc -mthreads  -O2  -Lc:/devel/dist/win32/glib-2.26.0-2/lib -lglib-2.0 -lintl   -L/devel/dist/win32/proxy-libintl-20100902/lib -Wl,--exclude-libs=libintl.a -o libpopt.la  popt.lo poptconfig.lo popthelp.lo poptparse.lo findme.lo  
+libtool: link: ar cru .libs/libpopt.a .libs/popt.o .libs/poptconfig.o .libs/popthelp.o .libs/poptparse.o .libs/findme.o 
+libtool: link: ranlib .libs/libpopt.a
+libtool: link: ( cd ".libs" && rm -f "libpopt.la" && ln -s "../libpopt.la" "libpopt.la" )
+make[2]: Entering directory `/devel/src/freedesktop/pkg-config/0.25-1_win32/popt'
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+make[2]: Leaving directory `/devel/src/freedesktop/pkg-config/0.25-1_win32/popt'
+make[1]: Leaving directory `/devel/src/freedesktop/pkg-config/0.25-1_win32/popt'
+Making install in check
+make[1]: Entering directory `/devel/src/freedesktop/pkg-config/0.25-1_win32/check'
+make[2]: Entering directory `/devel/src/freedesktop/pkg-config/0.25-1_win32/check'
+make[2]: Nothing to be done for `install-exec-am'.
+make[2]: Nothing to be done for `install-data-am'.
+make[2]: Leaving directory `/devel/src/freedesktop/pkg-config/0.25-1_win32/check'
+make[1]: Leaving directory `/devel/src/freedesktop/pkg-config/0.25-1_win32/check'
+make[1]: Entering directory `/devel/src/freedesktop/pkg-config/0.25-1_win32'
+gcc -mthreads -DHAVE_CONFIG_H -I. -DPKG_CONFIG_PC_PATH="\"c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/lib/pkgconfig:c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/pkgconfig\"" -Ic:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/include/glib-2.0 -Ic:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/lib/glib-2.0/include -I./popt  -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include   -I/devel/dist/win32/proxy-libintl-20100902/include  -O2 -MT pkg.o -MD -MP -MF .deps/pkg.Tpo -c -o pkg.o pkg.c
+gcc -mthreads -DHAVE_CONFIG_H -I. -DPKG_CONFIG_PC_PATH="\"c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/lib/pkgconfig:c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/pkgconfig\"" -Ic:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/include/glib-2.0 -Ic:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/lib/glib-2.0/include -I./popt  -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include   -I/devel/dist/win32/proxy-libintl-20100902/include  -O2 -MT parse.o -MD -MP -MF .deps/parse.Tpo -c -o parse.o parse.c
+gcc -mthreads -DHAVE_CONFIG_H -I. -DPKG_CONFIG_PC_PATH="\"c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/lib/pkgconfig:c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/pkgconfig\"" -Ic:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/include/glib-2.0 -Ic:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/lib/glib-2.0/include -I./popt  -mms-bitfields -Ic:/devel/dist/win32/glib-2.26.0-2/include/glib-2.0 -Ic:/devel/dist/win32/glib-2.26.0-2/lib/glib-2.0/include   -I/devel/dist/win32/proxy-libintl-20100902/include  -O2 -MT main.o -MD -MP -MF .deps/main.Tpo -c -o main.o main.c
+pkg.c: In function 'scan_dir':
+pkg.c:159:9: warning: assignment discards qualifiers from pointer target type
+mv -f .deps/parse.Tpo .deps/parse.Po
+mv -f .deps/pkg.Tpo .deps/pkg.Po
+mv -f .deps/main.Tpo .deps/main.Po
+/bin/sh ./libtool --tag=CC   --mode=link gcc -mthreads  -O2  -Lc:/devel/dist/win32/glib-2.26.0-2/lib -lglib-2.0 -lintl   -L/devel/dist/win32/proxy-libintl-20100902/lib -Wl,--exclude-libs=libintl.a -o pkg-config.exe pkg.o parse.o main.o -Lc:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/lib -lglib-2.0  popt/libpopt.la 
+libtool: link: gcc -mthreads -O2 -Wl,--exclude-libs=libintl.a -o .libs/pkg-config.exe pkg.o parse.o main.o  -Lc:/devel/dist/win32/glib-2.26.0-2/lib -L/devel/dist/win32/proxy-libintl-20100902/lib -Lc:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/lib popt/.libs/libpopt.a -lglib-2.0 -lintl -mthreads
+make[2]: Entering directory `/devel/src/freedesktop/pkg-config/0.25-1_win32'
+test -z "c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/bin" || /bin/mkdir -p "c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/bin"
+test -z "c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/doc/pkg-config" || /bin/mkdir -p "c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/doc/pkg-config"
+test -z "c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/aclocal" || /bin/mkdir -p "c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/aclocal"
+ /opt/local/bin/install -c -m 644 pkg-config-guide.html 'c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/doc/pkg-config'
+ /opt/local/bin/install -c -m 644 pkg.m4 'c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/aclocal'
+test -z "c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/man/man1" || /bin/mkdir -p "c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/man/man1"
+  /bin/sh ./libtool   --mode=install /opt/local/bin/install -c pkg-config.exe 'c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/bin'
+ /opt/local/bin/install -c -m 644 pkg-config.1 'c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/share/man/man1'
+libtool: install: /opt/local/bin/install -c .libs/pkg-config.exe c:/devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b/bin/pkg-config.exe
+make[2]: Leaving directory `/devel/src/freedesktop/pkg-config/0.25-1_win32'
+make[1]: Leaving directory `/devel/src/freedesktop/pkg-config/0.25-1_win32'
+++ rm -f /tmp/pkg-config_0.25-1_win32.zip /tmp/pkg-config-dev_0.25-1_win32.zip
+++ cd /devel/target/aa26a88ea88fd60e0bb64aeb3351ae7b
+++ zip /tmp/pkg-config_0.25-1_win32.zip bin/pkg-config.exe
+  adding: bin/pkg-config.exe (200 bytes security) (deflated 63%)
+++ zip /tmp/pkg-config-dev_0.25-1_win32.zip share/man/man1/pkg-config.1 share/aclocal/pkg.m4
+  adding: share/man/man1/pkg-config.1 (200 bytes security) (deflated 64%)
+  adding: share/aclocal/pkg.m4 (200 bytes security) (deflated 60%)

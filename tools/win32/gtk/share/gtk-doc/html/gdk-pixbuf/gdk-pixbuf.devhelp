@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
+<book xmlns="http://www.devhelp.net/book" title="GDK-PixBuf Reference Manual" link="index.html" author="Federico Mena Quintero" name="gdk-pixbuf">
+  <chapters>
+    <sub name="API Reference" link="rn01.html">
+      <sub name="Versioning" link="gdk-pixbuf-Versioning.html"/>
+      <sub name="gdk-pixbuf" link="gdk-pixbuf-gdk-pixbuf.html"/>
+      <sub name="refcounting" link="gdk-pixbuf-refcounting.html"/>
+      <sub name="file-loading" link="gdk-pixbuf-file-loading.html"/>
+      <sub name="file-saving" link="gdk-pixbuf-file-saving.html"/>
+      <sub name="creating" link="gdk-pixbuf-creating.html"/>
+      <sub name="inline" link="gdk-pixbuf-inline.html"/>
+      <sub name="scaling" link="gdk-pixbuf-scaling.html"/>
+      <sub name="Rendering" link="gdk-pixbuf-gdk-pixbuf-rendering.html"/>
+      <sub name="Drawables to Pixbufs" link="gdk-pixbuf-gdk-pixbuf-from-drawables.html"/>
+      <sub name="util" link="gdk-pixbuf-util.html"/>
+      <sub name="animation" link="gdk-pixbuf-animation.html"/>
+      <sub name="GdkPixbufLoader" link="GdkPixbufLoader.html"/>
+      <sub name="Module Interface" link="gdk-pixbuf-Module-Interface.html"/>
+    </sub>
+    <sub name="Tools Reference" link="rn02.html">
+      <sub name="gdk-pixbuf-csource" link="gdk-pixbuf-csource.html"/>
+      <sub name="gdk-pixbuf-query-loaders" link="gdk-pixbuf-query-loaders.html"/>
+    </sub>
+    <sub name="Index of all symbols" link="api-index-full.html"/>
+    <sub name="Index of deprecated symbols" link="api-index-deprecated.html"/>
+    <sub name="Index of new symbols in 2.2" link="api-index-2-2.html"/>
+    <sub name="Index of new symbols in 2.4" link="api-index-2-4.html"/>
+    <sub name="Index of new symbols in 2.6" link="api-index-2-6.html"/>
+    <sub name="Index of new symbols in 2.8" link="api-index-2-8.html"/>
+    <sub name="Index of new symbols in 2.10" link="api-index-2-10.html"/>
+    <sub name="Index of new symbols in 2.12" link="api-index-2-12.html"/>
+    <sub name="Index of new symbols in 2.14" link="api-index-2-14.html"/>
+    <sub name="License" link="license.html"/>
+    <sub name="Annotation Glossary" link="annotation-glossary.html"/>
+  </chapters>
+  <functions>
+    <function name="gdk_pixbuf_version" link="gdk-pixbuf-Versioning.html#gdk-pixbuf-version"/>
+    <function name="gdk_pixbuf_major_version" link="gdk-pixbuf-Versioning.html#gdk-pixbuf-major-version"/>
+    <function name="gdk_pixbuf_minor_version" link="gdk-pixbuf-Versioning.html#gdk-pixbuf-minor-version"/>
+    <function name="gdk_pixbuf_micro_version" link="gdk-pixbuf-Versioning.html#gdk-pixbuf-micro-version"/>
+    <function name="GDK_PIXBUF_VERSION" link="gdk-pixbuf-Versioning.html#GDK-PIXBUF-VERSION:CAPS"/>
+    <function name="GDK_PIXBUF_MAJOR" link="gdk-pixbuf-Versioning.html#GDK-PIXBUF-MAJOR:CAPS"/>
+    <function name="GDK_PIXBUF_MINOR" link="gdk-pixbuf-Versioning.html#GDK-PIXBUF-MINOR:CAPS"/>
+    <function name="GDK_PIXBUF_MICRO" link="gdk-pixbuf-Versioning.html#GDK-PIXBUF-MICRO:CAPS"/>
+    <function name="enum GdkPixbufError" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbufError"/>
+    <function name="GDK_PIXBUF_ERROR" link="gdk-pixbuf-gdk-pixbuf.html#GDK-PIXBUF-ERROR:CAPS"/>
+    <function name="enum GdkColorspace" link="gdk-pixbuf-gdk-pixbuf.html#GdkColorspace"/>
+    <function name="enum GdkPixbufAlphaMode" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbufAlphaMode"/>
+    <function name="GdkPixbuf" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf-struct"/>
+    <function name="gdk_pixbuf_get_colorspace ()" link="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-colorspace"/>
+    <function name="gdk_pixbuf_get_n_channels ()" link="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-n-channels"/>
+    <function name="gdk_pixbuf_get_has_alpha ()" link="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-has-alpha"/>
+    <function name="gdk_pixbuf_get_bits_per_sample ()" link="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-bits-per-sample"/>
+    <function name="gdk_pixbuf_get_pixels ()" link="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-pixels"/>
+    <function name="gdk_pixbuf_get_width ()" link="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-width"/>
+    <function name="gdk_pixbuf_get_height ()" link="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-height"/>
+    <function name="gdk_pixbuf_get_rowstride ()" link="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-rowstride"/>
+    <function name="gdk_pixbuf_get_option ()" link="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-option"/>
+    <function name="The &quot;bits-per-sample&quot; property" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--bits-per-sample"/>
+    <function name="The &quot;colorspace&quot; property" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--colorspace"/>
+    <function name="The &quot;has-alpha&quot; property" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--has-alpha"/>
+    <function name="The &quot;height&quot; property" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--height"/>
+    <function name="The &quot;n-channels&quot; property" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--n-channels"/>
+    <function name="The &quot;pixels&quot; property" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--pixels"/>
+    <function name="The &quot;rowstride&quot; property" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--rowstride"/>
+    <function name="The &quot;width&quot; property" link="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--width"/>
+    <function name="gdk_pixbuf_ref ()" link="gdk-pixbuf-refcounting.html#gdk-pixbuf-ref"/>
+    <function name="gdk_pixbuf_unref ()" link="gdk-pixbuf-refcounting.html#gdk-pixbuf-unref"/>
+    <function name="GdkPixbufDestroyNotify ()" link="gdk-pixbuf-refcounting.html#GdkPixbufDestroyNotify"/>
+    <function name="gdk_pixbuf_new_from_file ()" link="gdk-pixbuf-file-loading.html#gdk-pixbuf-new-from-file"/>
+    <function name="gdk_pixbuf_new_from_file_at_size ()" link="gdk-pixbuf-file-loading.html#gdk-pixbuf-new-from-file-at-size"/>
+    <function name="gdk_pixbuf_new_from_file_at_scale ()" link="gdk-pixbuf-file-loading.html#gdk-pixbuf-new-from-file-at-scale"/>
+    <function name="gdk_pixbuf_get_file_info ()" link="gdk-pixbuf-file-loading.html#gdk-pixbuf-get-file-info"/>
+    <function name="gdk_pixbuf_new_from_stream ()" link="gdk-pixbuf-file-loading.html#gdk-pixbuf-new-from-stream"/>
+    <function name="gdk_pixbuf_new_from_stream_at_scale ()" link="gdk-pixbuf-file-loading.html#gdk-pixbuf-new-from-stream-at-scale"/>
+    <function name="gdk_pixbuf_savev ()" link="gdk-pixbuf-file-saving.html#gdk-pixbuf-savev"/>
+    <function name="gdk_pixbuf_save ()" link="gdk-pixbuf-file-saving.html#gdk-pixbuf-save"/>
+    <function name="GdkPixbufSaveFunc ()" link="gdk-pixbuf-file-saving.html#GdkPixbufSaveFunc"/>
+    <function name="gdk_pixbuf_save_to_callback ()" link="gdk-pixbuf-file-saving.html#gdk-pixbuf-save-to-callback"/>
+    <function name="gdk_pixbuf_save_to_callbackv ()" link="gdk-pixbuf-file-saving.html#gdk-pixbuf-save-to-callbackv"/>
+    <function name="gdk_pixbuf_save_to_buffer ()" link="gdk-pixbuf-file-saving.html#gdk-pixbuf-save-to-buffer"/>
+    <function name="gdk_pixbuf_save_to_bufferv ()" link="gdk-pixbuf-file-saving.html#gdk-pixbuf-save-to-bufferv"/>
+    <function name="gdk_pixbuf_save_to_stream ()" link="gdk-pixbuf-file-saving.html#gdk-pixbuf-save-to-stream"/>
+    <function name="gdk_pixbuf_new ()" link="gdk-pixbuf-creating.html#gdk-pixbuf-new"/>
+    <function name="gdk_pixbuf_new_from_data ()" link="gdk-pixbuf-creating.html#gdk-pixbuf-new-from-data"/>
+    <function name="gdk_pixbuf_new_from_xpm_data ()" link="gdk-pixbuf-creating.html#gdk-pixbuf-new-from-xpm-data"/>
+    <function name="gdk_pixbuf_new_from_inline ()" link="gdk-pixbuf-creating.html#gdk-pixbuf-new-from-inline"/>
+    <function name="gdk_pixbuf_new_subpixbuf ()" link="gdk-pixbuf-creating.html#gdk-pixbuf-new-subpixbuf"/>
+    <function name="gdk_pixbuf_copy ()" link="gdk-pixbuf-creating.html#gdk-pixbuf-copy"/>
+    <function name="GdkPixdata" link="gdk-pixbuf-inline.html#GdkPixdata"/>
+    <function name="enum GdkPixdataType" link="gdk-pixbuf-inline.html#GdkPixdataType"/>
+    <function name="enum GdkPixdataDumpType" link="gdk-pixbuf-inline.html#GdkPixdataDumpType"/>
+    <function name="GDK_PIXBUF_MAGIC_NUMBER" link="gdk-pixbuf-inline.html#GDK-PIXBUF-MAGIC-NUMBER:CAPS"/>
+    <function name="GDK_PIXDATA_HEADER_LENGTH" link="gdk-pixbuf-inline.html#GDK-PIXDATA-HEADER-LENGTH:CAPS"/>
+    <function name="gdk_pixdata_from_pixbuf ()" link="gdk-pixbuf-inline.html#gdk-pixdata-from-pixbuf"/>
+    <function name="gdk_pixbuf_from_pixdata ()" link="gdk-pixbuf-inline.html#gdk-pixbuf-from-pixdata"/>
+    <function name="gdk_pixdata_serialize ()" link="gdk-pixbuf-inline.html#gdk-pixdata-serialize"/>
+    <function name="gdk_pixdata_deserialize ()" link="gdk-pixbuf-inline.html#gdk-pixdata-deserialize"/>
+    <function name="gdk_pixdata_to_csource ()" link="gdk-pixbuf-inline.html#gdk-pixdata-to-csource"/>
+    <function name="enum GdkInterpType" link="gdk-pixbuf-scaling.html#GdkInterpType"/>
+    <function name="gdk_pixbuf_scale_simple ()" link="gdk-pixbuf-scaling.html#gdk-pixbuf-scale-simple"/>
+    <function name="gdk_pixbuf_scale ()" link="gdk-pixbuf-scaling.html#gdk-pixbuf-scale"/>
+    <function name="gdk_pixbuf_composite_color_simple ()" link="gdk-pixbuf-scaling.html#gdk-pixbuf-composite-color-simple"/>
+    <function name="gdk_pixbuf_composite ()" link="gdk-pixbuf-scaling.html#gdk-pixbuf-composite"/>
+    <function name="gdk_pixbuf_composite_color ()" link="gdk-pixbuf-scaling.html#gdk-pixbuf-composite-color"/>
+    <function name="enum GdkPixbufRotation" link="gdk-pixbuf-scaling.html#GdkPixbufRotation"/>
+    <function name="gdk_pixbuf_rotate_simple ()" link="gdk-pixbuf-scaling.html#gdk-pixbuf-rotate-simple"/>
+    <function name="gdk_pixbuf_flip ()" link="gdk-pixbuf-scaling.html#gdk-pixbuf-flip"/>
+    <function name="gdk_pixbuf_add_alpha ()" link="gdk-pixbuf-util.html#gdk-pixbuf-add-alpha"/>
+    <function name="gdk_pixbuf_copy_area ()" link="gdk-pixbuf-util.html#gdk-pixbuf-copy-area"/>
+    <function name="gdk_pixbuf_saturate_and_pixelate ()" link="gdk-pixbuf-util.html#gdk-pixbuf-saturate-and-pixelate"/>
+    <function name="gdk_pixbuf_apply_embedded_orientation ()" link="gdk-pixbuf-util.html#gdk-pixbuf-apply-embedded-orientation"/>
+    <function name="gdk_pixbuf_fill ()" link="gdk-pixbuf-util.html#gdk-pixbuf-fill"/>
+    <function name="GdkPixbufAnimation" link="gdk-pixbuf-animation.html#GdkPixbufAnimation-struct"/>
+    <function name="GdkPixbufAnimationIter" link="gdk-pixbuf-animation.html#GdkPixbufAnimationIter-struct"/>
+    <function name="gdk_pixbuf_animation_new_from_file ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-new-from-file"/>
+    <function name="gdk_pixbuf_animation_ref ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-ref"/>
+    <function name="gdk_pixbuf_animation_unref ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-unref"/>
+    <function name="gdk_pixbuf_animation_get_width ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-get-width"/>
+    <function name="gdk_pixbuf_animation_get_height ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-get-height"/>
+    <function name="gdk_pixbuf_animation_get_iter ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-get-iter"/>
+    <function name="gdk_pixbuf_animation_is_static_image ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-is-static-image"/>
+    <function name="gdk_pixbuf_animation_get_static_image ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-get-static-image"/>
+    <function name="gdk_pixbuf_animation_iter_advance ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-iter-advance"/>
+    <function name="gdk_pixbuf_animation_iter_get_delay_time ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-iter-get-delay-time"/>
+    <function name="gdk_pixbuf_animation_iter_on_currently_loading_frame ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-iter-on-currently-loading-frame"/>
+    <function name="gdk_pixbuf_animation_iter_get_pixbuf ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-animation-iter-get-pixbuf"/>
+    <function name="GdkPixbufSimpleAnim" link="gdk-pixbuf-animation.html#GdkPixbufSimpleAnim-struct"/>
+    <function name="gdk_pixbuf_simple_anim_new ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-simple-anim-new"/>
+    <function name="gdk_pixbuf_simple_anim_add_frame ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-simple-anim-add-frame"/>
+    <function name="gdk_pixbuf_simple_anim_set_loop ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-simple-anim-set-loop"/>
+    <function name="gdk_pixbuf_simple_anim_get_loop ()" link="gdk-pixbuf-animation.html#gdk-pixbuf-simple-anim-get-loop"/>
+    <function name="The &quot;loop&quot; property" link="gdk-pixbuf-animation.html#GdkPixbufSimpleAnim--loop"/>
+    <function name="GdkPixbufLoader" link="GdkPixbufLoader.html#GdkPixbufLoader-struct"/>
+    <function name="gdk_pixbuf_loader_new ()" link="GdkPixbufLoader.html#gdk-pixbuf-loader-new"/>
+    <function name="gdk_pixbuf_loader_new_with_type ()" link="GdkPixbufLoader.html#gdk-pixbuf-loader-new-with-type"/>
+    <function name="gdk_pixbuf_loader_new_with_mime_type ()" link="GdkPixbufLoader.html#gdk-pixbuf-loader-new-with-mime-type"/>
+    <function name="gdk_pixbuf_loader_get_format ()" link="GdkPixbufLoader.html#gdk-pixbuf-loader-get-format"/>
+    <function name="gdk_pixbuf_loader_write ()" link="GdkPixbufLoader.html#gdk-pixbuf-loader-write"/>
+    <function name="gdk_pixbuf_loader_set_size ()" link="GdkPixbufLoader.html#gdk-pixbuf-loader-set-size"/>
+    <function name="gdk_pixbuf_loader_get_pixbuf ()" link="GdkPixbufLoader.html#gdk-pixbuf-loader-get-pixbuf"/>
+    <function name="gdk_pixbuf_loader_get_animation ()" link="GdkPixbufLoader.html#gdk-pixbuf-loader-get-animation"/>
+    <function name="gdk_pixbuf_loader_close ()" link="GdkPixbufLoader.html#gdk-pixbuf-loader-close"/>
+    <function name="The &quot;area-prepared&quot; signal" link="GdkPixbufLoader.html#GdkPixbufLoader-area-prepared"/>
+    <function name="The &quot;area-updated&quot; signal" link="GdkPixbufLoader.html#GdkPixbufLoader-area-updated"/>
+    <function name="The &quot;closed&quot; signal" link="GdkPixbufLoader.html#GdkPixbufLoader-closed"/>
+    <function name="The &quot;size-prepared&quot; signal" link="GdkPixbufLoader.html#GdkPixbufLoader-size-prepared"/>
+    <function name="gdk_pixbuf_set_option ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-set-option"/>
+    <function name="gdk_pixbuf_get_formats ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-get-formats"/>
+    <function name="gdk_pixbuf_format_copy ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-copy"/>
+    <function name="gdk_pixbuf_format_free ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-free"/>
+    <function name="gdk_pixbuf_format_get_name ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-get-name"/>
+    <function name="gdk_pixbuf_format_get_description ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-get-description"/>
+    <function name="gdk_pixbuf_format_get_mime_types ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-get-mime-types"/>
+    <function name="gdk_pixbuf_format_get_extensions ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-get-extensions"/>
+    <function name="gdk_pixbuf_format_is_writable ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-is-writable"/>
+    <function name="gdk_pixbuf_format_is_scalable ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-is-scalable"/>
+    <function name="gdk_pixbuf_format_is_disabled ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-is-disabled"/>
+    <function name="gdk_pixbuf_format_set_disabled ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-set-disabled"/>
+    <function name="gdk_pixbuf_format_get_license ()" link="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-format-get-license"/>
+    <function name="GdkPixbufFormat" link="gdk-pixbuf-Module-Interface.html#GdkPixbufFormat"/>
+    <function name="enum GdkPixbufFormatFlags" link="gdk-pixbuf-Module-Interface.html#GdkPixbufFormatFlags"/>
+    <function name="GdkPixbufModulePattern" link="gdk-pixbuf-Module-Interface.html#GdkPixbufModulePattern"/>
+    <function name="GdkPixbufModuleFillVtableFunc ()" link="gdk-pixbuf-Module-Interface.html#GdkPixbufModuleFillVtableFunc"/>
+    <function name="GdkPixbufModuleFillInfoFunc ()" link="gdk-pixbuf-Module-Interface.html#GdkPixbufModuleFillInfoFunc"/>
+    <function name="GdkPixbufModuleSizeFunc ()" link="gdk-pixbuf-Module-Interface.html#GdkPixbufModuleSizeFunc"/>
+    <function name="GdkPixbufModulePreparedFunc ()" link="gdk-pixbuf-Module-Interface.html#GdkPixbufModulePreparedFunc"/>
+    <function name="GdkPixbufModuleUpdatedFunc ()" link="gdk-pixbuf-Module-Interface.html#GdkPixbufModuleUpdatedFunc"/>
+    <function name="GdkPixbufModule" link="gdk-pixbuf-Module-Interface.html#GdkPixbufModule"/>
+    <function name="GdkPixbufAnimationClass" link="gdk-pixbuf-Module-Interface.html#GdkPixbufAnimationClass"/>
+    <function name="GdkPixbufAnimationIterClass" link="gdk-pixbuf-Module-Interface.html#GdkPixbufAnimationIterClass"/>
+    <function name="Options" link="gdk-pixbuf-csource.html#id642171"/>
+  </functions>
+</book>

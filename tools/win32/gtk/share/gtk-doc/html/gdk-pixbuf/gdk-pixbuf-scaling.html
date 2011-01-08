@@ -1,0 +1,646 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>scaling</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="index.html" title="GDK-PixBuf Reference Manual">
+<link rel="up" href="rn01.html" title="API Reference">
+<link rel="prev" href="gdk-pixbuf-inline.html" title="inline">
+<link rel="next" href="gdk-pixbuf-gdk-pixbuf-rendering.html" title="Rendering">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gdk-pixbuf-inline.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="rn01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GDK-PixBuf Reference Manual</th>
+<td><a accesskey="n" href="gdk-pixbuf-gdk-pixbuf-rendering.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gdk-pixbuf-scaling.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gdk-pixbuf-scaling.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry" title="scaling">
+<a name="gdk-pixbuf-scaling"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gdk-pixbuf-scaling.top_of_page"></a>scaling</span></h2>
+<p>scaling</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="gdk-pixbuf-scaling.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;gdk-pixbuf/gdk-pixbuf.h&gt;
+
+enum                <a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType">GdkInterpType</a>;
+<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a> *         <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-scale-simple" title="gdk_pixbuf_scale_simple ()">gdk_pixbuf_scale_simple</a>             (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-scale" title="gdk_pixbuf_scale ()">gdk_pixbuf_scale</a>                    (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_y</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>);
+<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a> *         <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-composite-color-simple" title="gdk_pixbuf_composite_color_simple ()">gdk_pixbuf_composite_color_simple</a>   (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> overall_alpha</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> check_size</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> color1</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> color2</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-composite" title="gdk_pixbuf_composite ()">gdk_pixbuf_composite</a>                (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_y</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> overall_alpha</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-composite-color" title="gdk_pixbuf_composite_color ()">gdk_pixbuf_composite_color</a>          (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_y</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> overall_alpha</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> check_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> check_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> check_size</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> color1</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> color2</code></em>);
+enum                <a class="link" href="gdk-pixbuf-scaling.html#GdkPixbufRotation" title="enum GdkPixbufRotation">GdkPixbufRotation</a>;
+<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a> *         <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-rotate-simple" title="gdk_pixbuf_rotate_simple ()">gdk_pixbuf_rotate_simple</a>            (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkPixbufRotation" title="enum GdkPixbufRotation"><span class="type">GdkPixbufRotation</span></a> angle</code></em>);
+<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a> *         <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-flip" title="gdk_pixbuf_flip ()">gdk_pixbuf_flip</a>                     (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> horizontal</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="gdk-pixbuf-scaling.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="gdk-pixbuf-scaling.details"></a><h2>Details</h2>
+<div class="refsect2" title="enum GdkInterpType">
+<a name="GdkInterpType"></a><h3>enum GdkInterpType</h3>
+<pre class="programlisting">typedef enum {
+	GDK_INTERP_NEAREST,
+	GDK_INTERP_TILES,
+	GDK_INTERP_BILINEAR,
+	GDK_INTERP_HYPER
+} GdkInterpType;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_scale_simple ()">
+<a name="gdk-pixbuf-scale-simple"></a><h3>gdk_pixbuf_scale_simple ()</h3>
+<pre class="programlisting"><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a> *         gdk_pixbuf_scale_simple             (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>);</pre>
+<p>
+Create a new <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> containing a copy of <em class="parameter"><code>src</code></em> scaled to
+<em class="parameter"><code>dest_width</code></em> x <em class="parameter"><code>dest_height</code></em>. Leaves <em class="parameter"><code>src</code></em> unaffected.  <em class="parameter"><code>interp_type</code></em>
+should be <span class="type">GDK_INTERP_NEAREST</span> if you want maximum speed (but when
+scaling down <span class="type">GDK_INTERP_NEAREST</span> is usually unusably ugly).  The
+default <em class="parameter"><code>interp_type</code></em> should be <span class="type">GDK_INTERP_BILINEAR</span> which offers
+reasonable quality and speed.
+</p>
+<p>
+You can scale a sub-portion of <em class="parameter"><code>src</code></em> by creating a sub-pixbuf
+pointing into <em class="parameter"><code>src</code></em>; see <a class="link" href="gdk-pixbuf-creating.html#gdk-pixbuf-new-subpixbuf" title="gdk_pixbuf_new_subpixbuf ()"><code class="function">gdk_pixbuf_new_subpixbuf()</code></a>.
+</p>
+<p>
+For more complicated scaling/compositing see <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-scale" title="gdk_pixbuf_scale ()"><code class="function">gdk_pixbuf_scale()</code></a>
+and <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-composite" title="gdk_pixbuf_composite ()"><code class="function">gdk_pixbuf_composite()</code></a>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>a <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_width</code></em> :</span></p></td>
+<td>the width of destination image
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_height</code></em> :</span></p></td>
+<td>the height of destination image
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>interp_type</code></em> :</span></p></td>
+<td>the interpolation type for the transformation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the new <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if not enough memory could be
+allocated for it. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_scale ()">
+<a name="gdk-pixbuf-scale"></a><h3>gdk_pixbuf_scale ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gdk_pixbuf_scale                    (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_y</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>);</pre>
+<p>
+Creates a transformation of the source image <em class="parameter"><code>src</code></em> by scaling by
+<em class="parameter"><code>scale_x</code></em> and <em class="parameter"><code>scale_y</code></em> then translating by <em class="parameter"><code>offset_x</code></em> and <em class="parameter"><code>offset_y</code></em>,
+then renders the rectangle (<em class="parameter"><code>dest_x</code></em>, <em class="parameter"><code>dest_y</code></em>, <em class="parameter"><code>dest_width</code></em>,
+<em class="parameter"><code>dest_height</code></em>) of the resulting image onto the destination image
+replacing the previous contents.
+</p>
+<p>
+Try to use <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-scale-simple" title="gdk_pixbuf_scale_simple ()"><code class="function">gdk_pixbuf_scale_simple()</code></a> first, this function is
+the industrial-strength power tool you can fall back to if
+<a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-scale-simple" title="gdk_pixbuf_scale_simple ()"><code class="function">gdk_pixbuf_scale_simple()</code></a> isn't powerful enough.
+</p>
+<p>
+If the source rectangle overlaps the destination rectangle on the
+same pixbuf, it will be overwritten during the scaling which
+results in rendering artifacts.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>a <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>the <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> into which to render the results
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_x</code></em> :</span></p></td>
+<td>the left coordinate for region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_y</code></em> :</span></p></td>
+<td>the top coordinate for region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_width</code></em> :</span></p></td>
+<td>the width of the region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_height</code></em> :</span></p></td>
+<td>the height of the region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset_x</code></em> :</span></p></td>
+<td>the offset in the X direction (currently rounded to an integer)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset_y</code></em> :</span></p></td>
+<td>the offset in the Y direction (currently rounded to an integer)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scale_x</code></em> :</span></p></td>
+<td>the scale factor in the X direction
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scale_y</code></em> :</span></p></td>
+<td>the scale factor in the Y direction
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>interp_type</code></em> :</span></p></td>
+<td>the interpolation type for the transformation.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_composite_color_simple ()">
+<a name="gdk-pixbuf-composite-color-simple"></a><h3>gdk_pixbuf_composite_color_simple ()</h3>
+<pre class="programlisting"><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a> *         gdk_pixbuf_composite_color_simple   (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> overall_alpha</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> check_size</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> color1</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> color2</code></em>);</pre>
+<p>
+Creates a new <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> by scaling <em class="parameter"><code>src</code></em> to <em class="parameter"><code>dest_width</code></em> x
+<em class="parameter"><code>dest_height</code></em> and compositing the result with a checkboard of colors
+<em class="parameter"><code>color1</code></em> and <em class="parameter"><code>color2</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>a <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_width</code></em> :</span></p></td>
+<td>the width of destination image
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_height</code></em> :</span></p></td>
+<td>the height of destination image
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>interp_type</code></em> :</span></p></td>
+<td>the interpolation type for the transformation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>overall_alpha</code></em> :</span></p></td>
+<td>overall alpha for source image (0..255)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>check_size</code></em> :</span></p></td>
+<td>the size of checks in the checkboard (must be a power of two)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>color1</code></em> :</span></p></td>
+<td>the color of check at upper left
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>color2</code></em> :</span></p></td>
+<td>the color of the other check
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the new <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if not enough memory could be
+allocated for it. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_composite ()">
+<a name="gdk-pixbuf-composite"></a><h3>gdk_pixbuf_composite ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gdk_pixbuf_composite                (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_y</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> overall_alpha</code></em>);</pre>
+<p>
+Creates a transformation of the source image <em class="parameter"><code>src</code></em> by scaling by
+<em class="parameter"><code>scale_x</code></em> and <em class="parameter"><code>scale_y</code></em> then translating by <em class="parameter"><code>offset_x</code></em> and <em class="parameter"><code>offset_y</code></em>.
+This gives an image in the coordinates of the destination pixbuf.
+The rectangle (<em class="parameter"><code>dest_x</code></em>, <em class="parameter"><code>dest_y</code></em>, <em class="parameter"><code>dest_width</code></em>, <em class="parameter"><code>dest_height</code></em>)
+is then composited onto the corresponding rectangle of the
+original destination image.
+</p>
+<p>
+When the destination rectangle contains parts not in the source 
+image, the data at the edges of the source image is replicated
+to infinity. 
+</p>
+<p>
+</p>
+<div class="figure">
+<a name="pixbuf-composite-diagram"></a><p class="title"><b>Figure 1. Compositing of pixbufs</b></p>
+<div class="figure-contents"><div><img src="composite.png" alt="Compositing of pixbufs"></div></div>
+</div>
+<p><br class="figure-break">
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>a <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>the <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> into which to render the results
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_x</code></em> :</span></p></td>
+<td>the left coordinate for region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_y</code></em> :</span></p></td>
+<td>the top coordinate for region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_width</code></em> :</span></p></td>
+<td>the width of the region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_height</code></em> :</span></p></td>
+<td>the height of the region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset_x</code></em> :</span></p></td>
+<td>the offset in the X direction (currently rounded to an integer)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset_y</code></em> :</span></p></td>
+<td>the offset in the Y direction (currently rounded to an integer)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scale_x</code></em> :</span></p></td>
+<td>the scale factor in the X direction
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scale_y</code></em> :</span></p></td>
+<td>the scale factor in the Y direction
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>interp_type</code></em> :</span></p></td>
+<td>the interpolation type for the transformation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>overall_alpha</code></em> :</span></p></td>
+<td>overall alpha for source image (0..255)
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_composite_color ()">
+<a name="gdk-pixbuf-composite-color"></a><h3>gdk_pixbuf_composite_color ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                gdk_pixbuf_composite_color          (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *dest</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_width</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> dest_height</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> offset_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">double</span> scale_y</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkInterpType" title="enum GdkInterpType"><span class="type">GdkInterpType</span></a> interp_type</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> overall_alpha</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> check_x</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> check_y</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> check_size</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> color1</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guint32"><span class="type">guint32</span></a> color2</code></em>);</pre>
+<p>
+Creates a transformation of the source image <em class="parameter"><code>src</code></em> by scaling by
+<em class="parameter"><code>scale_x</code></em> and <em class="parameter"><code>scale_y</code></em> then translating by <em class="parameter"><code>offset_x</code></em> and <em class="parameter"><code>offset_y</code></em>,
+then composites the rectangle (<em class="parameter"><code>dest_x</code></em> ,<em class="parameter"><code>dest_y</code></em>, <em class="parameter"><code>dest_width</code></em>,
+<em class="parameter"><code>dest_height</code></em>) of the resulting image with a checkboard of the
+colors <em class="parameter"><code>color1</code></em> and <em class="parameter"><code>color2</code></em> and renders it onto the destination
+image.
+</p>
+<p>
+See <a class="link" href="gdk-pixbuf-scaling.html#gdk-pixbuf-composite-color-simple" title="gdk_pixbuf_composite_color_simple ()"><code class="function">gdk_pixbuf_composite_color_simple()</code></a> for a simpler variant of this
+function suitable for many tasks.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>a <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest</code></em> :</span></p></td>
+<td>the <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> into which to render the results
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_x</code></em> :</span></p></td>
+<td>the left coordinate for region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_y</code></em> :</span></p></td>
+<td>the top coordinate for region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_width</code></em> :</span></p></td>
+<td>the width of the region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>dest_height</code></em> :</span></p></td>
+<td>the height of the region to render
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset_x</code></em> :</span></p></td>
+<td>the offset in the X direction (currently rounded to an integer)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>offset_y</code></em> :</span></p></td>
+<td>the offset in the Y direction (currently rounded to an integer)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scale_x</code></em> :</span></p></td>
+<td>the scale factor in the X direction
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>scale_y</code></em> :</span></p></td>
+<td>the scale factor in the Y direction
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>interp_type</code></em> :</span></p></td>
+<td>the interpolation type for the transformation.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>overall_alpha</code></em> :</span></p></td>
+<td>overall alpha for source image (0..255)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>check_x</code></em> :</span></p></td>
+<td>the X offset for the checkboard (origin of checkboard is at -<em class="parameter"><code>check_x</code></em>, -<em class="parameter"><code>check_y</code></em>)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>check_y</code></em> :</span></p></td>
+<td>the Y offset for the checkboard 
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>check_size</code></em> :</span></p></td>
+<td>the size of checks in the checkboard (must be a power of two)
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>color1</code></em> :</span></p></td>
+<td>the color of check at upper left
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>color2</code></em> :</span></p></td>
+<td>the color of the other check
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="enum GdkPixbufRotation">
+<a name="GdkPixbufRotation"></a><h3>enum GdkPixbufRotation</h3>
+<pre class="programlisting">typedef enum {
+	GDK_PIXBUF_ROTATE_NONE             =   0,
+	GDK_PIXBUF_ROTATE_COUNTERCLOCKWISE =  90,
+	GDK_PIXBUF_ROTATE_UPSIDEDOWN       = 180,
+	GDK_PIXBUF_ROTATE_CLOCKWISE        = 270
+} GdkPixbufRotation;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_rotate_simple ()">
+<a name="gdk-pixbuf-rotate-simple"></a><h3>gdk_pixbuf_rotate_simple ()</h3>
+<pre class="programlisting"><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a> *         gdk_pixbuf_rotate_simple            (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="gdk-pixbuf-scaling.html#GdkPixbufRotation" title="enum GdkPixbufRotation"><span class="type">GdkPixbufRotation</span></a> angle</code></em>);</pre>
+<p>
+Rotates a pixbuf by a multiple of 90 degrees, and returns the
+result in a new pixbuf.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>a <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>angle</code></em> :</span></p></td>
+<td>the angle to rotate by
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the new <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if not enough memory could be
+allocated for it. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_flip ()">
+<a name="gdk-pixbuf-flip"></a><h3>gdk_pixbuf_flip ()</h3>
+<pre class="programlisting"><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="returnvalue">GdkPixbuf</span></a> *         gdk_pixbuf_flip                     (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *src</code></em>,
+                                                         <em class="parameter"><code><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> horizontal</code></em>);</pre>
+<p>
+Flips a pixbuf horizontally or vertically and returns the
+result in a new pixbuf.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>src</code></em> :</span></p></td>
+<td>a <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>horizontal</code></em> :</span></p></td>
+<td>
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> to flip horizontally, <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> to flip vertically
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the new <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>, or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if not enough memory could be
+allocated for it. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p class="since">Since 2.6</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

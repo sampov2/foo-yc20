@@ -1,0 +1,12 @@
+prefix=c:/devel/target/07e58d8dfb5344a8678c02e4bf57e61b
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: cairo-png
+Description: PNG functions for cairo graphics library
+Version: 1.10.2
+
+Requires: cairo libpng
+Libs:  
+Cflags: -I${includedir}/cairo 

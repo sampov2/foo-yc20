@@ -1,0 +1,460 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>gdk-pixbuf</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="index.html" title="GDK-PixBuf Reference Manual">
+<link rel="up" href="rn01.html" title="API Reference">
+<link rel="prev" href="gdk-pixbuf-Versioning.html" title="Versioning">
+<link rel="next" href="gdk-pixbuf-refcounting.html" title="refcounting">
+<meta name="generator" content="GTK-Doc V1.15 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="gdk-pixbuf-Versioning.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="rn01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">GDK-PixBuf Reference Manual</th>
+<td><a accesskey="n" href="gdk-pixbuf-refcounting.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#gdk-pixbuf-gdk-pixbuf.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#gdk-pixbuf-gdk-pixbuf.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#gdk-pixbuf-gdk-pixbuf.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#gdk-pixbuf-gdk-pixbuf.implemented-interfaces" class="shortcut">Implemented Interfaces</a>
+                   | 
+                  <a href="#gdk-pixbuf-gdk-pixbuf.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry" title="gdk-pixbuf">
+<a name="gdk-pixbuf-gdk-pixbuf"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="gdk-pixbuf-gdk-pixbuf.top_of_page"></a>gdk-pixbuf</span></h2>
+<p>gdk-pixbuf</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv" title="Synopsis">
+<a name="gdk-pixbuf-gdk-pixbuf.synopsis"></a><h2>Synopsis</h2>
+<a name="GdkPixbuf"></a><pre class="synopsis">
+#include &lt;gdk-pixbuf/gdk-pixbuf.h&gt;
+
+enum                <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbufError" title="enum GdkPixbufError">GdkPixbufError</a>;
+#define             <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GDK-PIXBUF-ERROR:CAPS" title="GDK_PIXBUF_ERROR">GDK_PIXBUF_ERROR</a>
+enum                <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkColorspace" title="enum GdkColorspace">GdkColorspace</a>;
+enum                <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbufAlphaMode" title="enum GdkPixbufAlphaMode">GdkPixbufAlphaMode</a>;
+                    <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf-struct" title="GdkPixbuf">GdkPixbuf</a>;
+<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkColorspace" title="enum GdkColorspace"><span class="returnvalue">GdkColorspace</span></a>       <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-colorspace" title="gdk_pixbuf_get_colorspace ()">gdk_pixbuf_get_colorspace</a>           (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-n-channels" title="gdk_pixbuf_get_n_channels ()">gdk_pixbuf_get_n_channels</a>           (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-has-alpha" title="gdk_pixbuf_get_has_alpha ()">gdk_pixbuf_get_has_alpha</a>            (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-bits-per-sample" title="gdk_pixbuf_get_bits_per_sample ()">gdk_pixbuf_get_bits_per_sample</a>      (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);
+<a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guchar"><span class="returnvalue">guchar</span></a> *            <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-pixels" title="gdk_pixbuf_get_pixels ()">gdk_pixbuf_get_pixels</a>               (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-width" title="gdk_pixbuf_get_width ()">gdk_pixbuf_get_width</a>                (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-height" title="gdk_pixbuf_get_height ()">gdk_pixbuf_get_height</a>               (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);
+<span class="returnvalue">int</span>                 <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-rowstride" title="gdk_pixbuf_get_rowstride ()">gdk_pixbuf_get_rowstride</a>            (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);
+const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#gdk-pixbuf-get-option" title="gdk_pixbuf_get_option ()">gdk_pixbuf_get_option</a>               (<em class="parameter"><code><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);
+</pre>
+</div>
+<div class="refsect1" title="Object Hierarchy">
+<a name="gdk-pixbuf-gdk-pixbuf.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="http://library.gnome.org/devel/gobject/unstable/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----GdkPixbuf
+</pre>
+</div>
+<div class="refsect1" title="Implemented Interfaces">
+<a name="gdk-pixbuf-gdk-pixbuf.implemented-interfaces"></a><h2>Implemented Interfaces</h2>
+<p>
+GdkPixbuf implements
+ <a href="http://library.gnome.org/devel/gio/unstable/GIcon.html">GIcon</a>.</p>
+</div>
+<div class="refsect1" title="Properties">
+<a name="gdk-pixbuf-gdk-pixbuf.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--bits-per-sample" title='The "bits-per-sample" property'>bits-per-sample</a>"          <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only
+  "<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--colorspace" title='The "colorspace" property'>colorspace</a>"               <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkColorspace" title="enum GdkColorspace"><span class="type">GdkColorspace</span></a>         : Read / Write / Construct Only
+  "<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--has-alpha" title='The "has-alpha" property'>has-alpha</a>"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write / Construct Only
+  "<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--height" title='The "height" property'>height</a>"                   <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only
+  "<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--n-channels" title='The "n-channels" property'>n-channels</a>"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only
+  "<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--pixels" title='The "pixels" property'>pixels</a>"                   <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read / Write / Construct Only
+  "<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--rowstride" title='The "rowstride" property'>rowstride</a>"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only
+  "<a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf--width" title='The "width" property'>width</a>"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only
+</pre>
+</div>
+<div class="refsect1" title="Description">
+<a name="gdk-pixbuf-gdk-pixbuf.description"></a><h2>Description</h2>
+<p>
+</p>
+</div>
+<div class="refsect1" title="Details">
+<a name="gdk-pixbuf-gdk-pixbuf.details"></a><h2>Details</h2>
+<div class="refsect2" title="enum GdkPixbufError">
+<a name="GdkPixbufError"></a><h3>enum GdkPixbufError</h3>
+<pre class="programlisting">typedef enum {
+        /* image data hosed */
+        GDK_PIXBUF_ERROR_CORRUPT_IMAGE,
+        /* no mem to load image */
+        GDK_PIXBUF_ERROR_INSUFFICIENT_MEMORY,
+        /* bad option passed to save routine */
+        GDK_PIXBUF_ERROR_BAD_OPTION,
+        /* unsupported image type (sort of an ENOSYS) */
+        GDK_PIXBUF_ERROR_UNKNOWN_TYPE,
+        /* unsupported operation (load, save) for image type */
+        GDK_PIXBUF_ERROR_UNSUPPORTED_OPERATION,
+        GDK_PIXBUF_ERROR_FAILED
+} GdkPixbufError;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="GDK_PIXBUF_ERROR">
+<a name="GDK-PIXBUF-ERROR:CAPS"></a><h3>GDK_PIXBUF_ERROR</h3>
+<pre class="programlisting">#define GDK_PIXBUF_ERROR gdk_pixbuf_error_quark ()
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum GdkColorspace">
+<a name="GdkColorspace"></a><h3>enum GdkColorspace</h3>
+<pre class="programlisting">typedef enum {
+	GDK_COLORSPACE_RGB
+} GdkColorspace;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="enum GdkPixbufAlphaMode">
+<a name="GdkPixbufAlphaMode"></a><h3>enum GdkPixbufAlphaMode</h3>
+<pre class="programlisting">typedef enum
+{
+        GDK_PIXBUF_ALPHA_BILEVEL,
+        GDK_PIXBUF_ALPHA_FULL
+} GdkPixbufAlphaMode;
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="GdkPixbuf">
+<a name="GdkPixbuf-struct"></a><h3>GdkPixbuf</h3>
+<pre class="programlisting">typedef struct _GdkPixbuf GdkPixbuf;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_get_colorspace ()">
+<a name="gdk-pixbuf-get-colorspace"></a><h3>gdk_pixbuf_get_colorspace ()</h3>
+<pre class="programlisting"><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkColorspace" title="enum GdkColorspace"><span class="returnvalue">GdkColorspace</span></a>       gdk_pixbuf_get_colorspace           (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);</pre>
+<p>
+Queries the color space of a pixbuf.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>A pixbuf.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Color space.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_get_n_channels ()">
+<a name="gdk-pixbuf-get-n-channels"></a><h3>gdk_pixbuf_get_n_channels ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 gdk_pixbuf_get_n_channels           (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);</pre>
+<p>
+Queries the number of channels of a pixbuf.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>A pixbuf.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Number of channels.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_get_has_alpha ()">
+<a name="gdk-pixbuf-get-has-alpha"></a><h3>gdk_pixbuf_get_has_alpha ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            gdk_pixbuf_get_has_alpha            (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);</pre>
+<p>
+Queries whether a pixbuf has an alpha channel (opacity information).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>A pixbuf.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if it has an alpha channel, <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_get_bits_per_sample ()">
+<a name="gdk-pixbuf-get-bits-per-sample"></a><h3>gdk_pixbuf_get_bits_per_sample ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 gdk_pixbuf_get_bits_per_sample      (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);</pre>
+<p>
+Queries the number of bits per color sample in a pixbuf.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>A pixbuf.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Number of bits per color sample.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_get_pixels ()">
+<a name="gdk-pixbuf-get-pixels"></a><h3>gdk_pixbuf_get_pixels ()</h3>
+<pre class="programlisting"><a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#guchar"><span class="returnvalue">guchar</span></a> *            gdk_pixbuf_get_pixels               (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);</pre>
+<p>
+Queries a pointer to the pixel data of a pixbuf.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>A pixbuf.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> A pointer to the pixbuf's pixel data.  Please see <a class="xref" href="">???</a>
+for information about how the pixel data is stored in
+memory.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_get_width ()">
+<a name="gdk-pixbuf-get-width"></a><h3>gdk_pixbuf_get_width ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 gdk_pixbuf_get_width                (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);</pre>
+<p>
+Queries the width of a pixbuf.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>A pixbuf.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Width in pixels.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_get_height ()">
+<a name="gdk-pixbuf-get-height"></a><h3>gdk_pixbuf_get_height ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 gdk_pixbuf_get_height               (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);</pre>
+<p>
+Queries the height of a pixbuf.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>A pixbuf.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Height in pixels.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_get_rowstride ()">
+<a name="gdk-pixbuf-get-rowstride"></a><h3>gdk_pixbuf_get_rowstride ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>                 gdk_pixbuf_get_rowstride            (<em class="parameter"><code>const <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>);</pre>
+<p>
+Queries the rowstride of a pixbuf, which is the number of bytes between the start of a row
+and the start of the next row.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>A pixbuf.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> Distance between row starts.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2" title="gdk_pixbuf_get_option ()">
+<a name="gdk-pixbuf-get-option"></a><h3>gdk_pixbuf_get_option ()</h3>
+<pre class="programlisting">const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       gdk_pixbuf_get_option               (<em class="parameter"><code><a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a> *pixbuf</code></em>,
+                                                         <em class="parameter"><code>const <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>
+Looks up <em class="parameter"><code>key</code></em> in the list of options that may have been attached to the
+<em class="parameter"><code>pixbuf</code></em> when it was loaded, or that may have been attached by another
+function using <a class="link" href="gdk-pixbuf-Module-Interface.html#gdk-pixbuf-set-option" title="gdk_pixbuf_set_option ()"><code class="function">gdk_pixbuf_set_option()</code></a>.
+</p>
+<p>
+For instance, the ANI loader provides "Title" and "Artist" options. 
+The ICO, XBM, and XPM loaders provide "x_hot" and "y_hot" hot-spot 
+options for cursor definitions. The PNG loader provides the tEXt ancillary
+chunk key/value pairs as options. Since 2.12, the TIFF and JPEG loaders
+return an "orientation" option string that corresponds to the embedded 
+TIFF/Exif orientation tag (if present).
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>pixbuf</code></em> :</span></p></td>
+<td>a <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkPixbuf"><span class="type">GdkPixbuf</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td>a nul-terminated string.
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td> the value associated with <em class="parameter"><code>key</code></em>. This is a nul-terminated 
+string that should not be freed or <a href="http://library.gnome.org/devel/glib/unstable/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if <em class="parameter"><code>key</code></em> was not found.
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<div class="refsect1" title="Property Details">
+<a name="gdk-pixbuf-gdk-pixbuf.property-details"></a><h2>Property Details</h2>
+<div class="refsect2" title='The "bits-per-sample" property'>
+<a name="GdkPixbuf--bits-per-sample"></a><h3>The <code class="literal">"bits-per-sample"</code> property</h3>
+<pre class="programlisting">  "bits-per-sample"          <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only</pre>
+<p>
+The number of bits per sample.
+Currently only 8 bit per sample are supported.
+</p>
+<p>Allowed values: [1,16]</p>
+<p>Default value: 8</p>
+</div>
+<hr>
+<div class="refsect2" title='The "colorspace" property'>
+<a name="GdkPixbuf--colorspace"></a><h3>The <code class="literal">"colorspace"</code> property</h3>
+<pre class="programlisting">  "colorspace"               <a class="link" href="gdk-pixbuf-gdk-pixbuf.html#GdkColorspace" title="enum GdkColorspace"><span class="type">GdkColorspace</span></a>         : Read / Write / Construct Only</pre>
+<p>The colorspace in which the samples are interpreted.</p>
+<p>Default value: GDK_COLORSPACE_RGB</p>
+</div>
+<hr>
+<div class="refsect2" title='The "has-alpha" property'>
+<a name="GdkPixbuf--has-alpha"></a><h3>The <code class="literal">"has-alpha"</code> property</h3>
+<pre class="programlisting">  "has-alpha"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write / Construct Only</pre>
+<p>Whether the pixbuf has an alpha channel.</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2" title='The "height" property'>
+<a name="GdkPixbuf--height"></a><h3>The <code class="literal">"height"</code> property</h3>
+<pre class="programlisting">  "height"                   <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only</pre>
+<p>The number of rows of the pixbuf.</p>
+<p>Allowed values: &gt;= 1</p>
+<p>Default value: 1</p>
+</div>
+<hr>
+<div class="refsect2" title='The "n-channels" property'>
+<a name="GdkPixbuf--n-channels"></a><h3>The <code class="literal">"n-channels"</code> property</h3>
+<pre class="programlisting">  "n-channels"               <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only</pre>
+<p>
+The number of samples per pixel. 
+Currently, only 3 or 4 samples per pixel are supported.
+</p>
+<p>Allowed values: &gt;= 0</p>
+<p>Default value: 3</p>
+</div>
+<hr>
+<div class="refsect2" title='The "pixels" property'>
+<a name="GdkPixbuf--pixels"></a><h3>The <code class="literal">"pixels"</code> property</h3>
+<pre class="programlisting">  "pixels"                   <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read / Write / Construct Only</pre>
+<p>A pointer to the pixel data of the pixbuf.</p>
+</div>
+<hr>
+<div class="refsect2" title='The "rowstride" property'>
+<a name="GdkPixbuf--rowstride"></a><h3>The <code class="literal">"rowstride"</code> property</h3>
+<pre class="programlisting">  "rowstride"                <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only</pre>
+<p>
+The number of bytes between the start of a row and 
+the start of the next row. This number must (obviously)
+be at least as large as the width of the pixbuf.
+</p>
+<p>Allowed values: &gt;= 1</p>
+<p>Default value: 1</p>
+</div>
+<hr>
+<div class="refsect2" title='The "width" property'>
+<a name="GdkPixbuf--width"></a><h3>The <code class="literal">"width"</code> property</h3>
+<pre class="programlisting">  "width"                    <a href="http://library.gnome.org/devel/glib/unstable/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write / Construct Only</pre>
+<p>The number of columns of the pixbuf.</p>
+<p>Allowed values: &gt;= 1</p>
+<p>Default value: 1</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.15</div>
+</body>
+</html>

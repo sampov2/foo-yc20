@@ -1,0 +1,11 @@
+prefix=c:/devel/target/8694ad67a8496a826c55cee759a59a36
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Atk
+Description: Accessibility Toolkit
+Version: 1.32.0
+Requires: gobject-2.0
+Libs: -L${libdir} -latk-1.0
+Cflags: -I${includedir}/atk-1.0

@@ -1,0 +1,34 @@
+#! /usr/bin/env python
+# encoding: utf-8
+
+test_programs = {
+    # For testing purposes
+    #'synchroClient': ['testSynchroClient.cpp'],
+    #'synchroServer': ['testSynchroServer.cpp'],
+    #'synchroServerClient': ['testSynchroServerClient.cpp'],
+    #'testSem': ['testSem.cpp'],
+    'jack_test': ['test.cpp'],
+    'jack_cpu': ['cpu.c'],
+    'jack_delay': ['jdelay.cpp'],
+    'jack_multiple_metro' : ['external_metro.cpp'],
+    }
+
+def build(bld):
+    for test_program, test_program_sources in test_programs.items():
+        prog = bld.new_task_gen('cxx', 'program')
+        prog.features.append('cc')
+        if bld.env['IS_MACOSX']:
+	        prog.includes = ['..','../macosx', '../posix', '../common/jack', '../common']
+        if bld.env['IS_LINUX']:
+	        prog.includes = ['..','../linux', '../posix', '../common/jack', '../common']
+        if bld.env['IS_SUN']:
+	        prog.includes = ['..','../solaris', '../posix', '../common/jack', '../common']
+        prog.source = test_program_sources
+        if bld.env['IS_LINUX']:
+            prog.uselib = 'RT'
+        if bld.env['IS_MACOSX']:
+            prog.env.append_value("CPPFLAGS", "-mmacosx-version-min=10.4 -arch i386 -arch ppc")
+            #prog.env.append_value("LINKFLAGS", "-arch i386 -arch ppc")
+	    prog.env.append_value("LINKFLAGS", "")
+        prog.uselib_local = 'clientlib'
+        prog.target = test_program
