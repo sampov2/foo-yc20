@@ -263,7 +263,7 @@ with
 	            + c7 + C7 + d7 + D7 + e7 + f7 + F7 + g7 + G7 + a7 + A7 + b7
 		    + c8;
 
-	bus_4_bleed = bus_4_all - bus_4_all : bus_bleed_filter : apply_realism;
+	bus_4_bleed = bus_4_all - bus_4 : bus_bleed_filter : apply_realism;
 
 	// ******** BUS 8
 
