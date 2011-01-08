@@ -38,13 +38,22 @@ cp -n	foo-yc20.desktop.in \
 
 cat Makefile | sed 's/^VERSION=/VERSION='$VERSION'/' > $BUILDDIR/Makefile
 
-cp -n gen/foo-yc20-dsp.cpp $BUILDDIR/gen
+cp -n gen/yc20-dsp-plugin.cpp \
+      gen/yc20-dsp-standalone.cpp \
+      $BUILDDIR/gen
 
-cp -n	src/foo-yc20.cpp \
-	src/foo-yc20.h \
-	src/polyblep.cpp \
-	src/wdgt.h \
-	src/yc20_wdgts.h \
+cp -n src/configuration.cpp \
+      src/faust-dsp-plugin.cpp \
+      src/faust-dsp-standalone.cpp \
+      src/foo-yc20.cpp \
+      src/foo-yc20-ui2.cpp \
+      src/foo-yc20-ui.cpp \
+      src/lv2.cpp \
+      src/lv2-ui.cpp \
+      src/main-cli.cpp \
+      src/main-gui.cpp \
+      src/polyblep.cpp \
+      src/yc20-jack.cpp \
 	$BUILDDIR/src
 
 cp -n 	graphics/white_[0-3].png \
@@ -62,7 +71,9 @@ cp -n	faust/biquad.dsp \
 	faust/mixer.dsp \
 	faust/oscillator.dsp \
 	faust/percussion.dsp \
+	faust/plugin.dsp \
 	faust/rc_filter.dsp \
+	faust/standalone.dsp \
 	faust/vibrato.dsp \
 	faust/wave_transformer.dsp \
 	faust/yc20.dsp \
