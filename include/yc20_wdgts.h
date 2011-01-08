@@ -25,7 +25,7 @@
 
 #include <wdgt.h>
 
-#define DRAWBAR_BLACK_EMPHASIS_ALPHA 0.9
+#define DRAWBAR_BLACK_EMPHASIS_ALPHA 0.333
 
 
 namespace Wdgt
