@@ -27,7 +27,6 @@ export LDFLAGS_YC20="-mwindows "$YC20_TOOL_PATH"/gui.o "$YC20_TOOL_PATH"/ringbuf
 export LDFLAGS_CLI=$YC20_TOOL_PATH"/ringbuffer.o"
 
 export CFLAGS="-O3 -mtune=native -march=native -msse -mfpmath=sse -ffast-math"
-export CFLAGS="-O1"
 
 echo compiling gui.rc
 $WINDRES $YC20_TOOL_PATH/gui.rc -o $YC20_TOOL_PATH/gui.o
