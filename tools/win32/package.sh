@@ -22,6 +22,7 @@ if [ x$VERSION = "x" ]; then
 	exit
 fi
 
+make clean
 make foo-yc20 foo-yc20-cli
 
 BUILDDIR=foo-yc20-$VERSION
