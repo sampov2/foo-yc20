@@ -23,7 +23,7 @@ if [ x$VERSION = "x" ]; then
 fi
 
 make clean
-make foo-yc20 foo-yc20-cli
+make foo-yc20 foo-yc20-cli vsti
 
 BUILDDIR=foo-yc20-$VERSION
 
@@ -47,6 +47,7 @@ done
 
 cp -n foo-yc20 $BUILDDIR/foo-yc20.exe
 cp -n foo-yc20-cli $BUILDDIR/foo-yc20-cli.exe
+cp -n FooYC20.dll $BUILDDIR/
 
 zip -r foo-yc20-$VERSION.zip $BUILDDIR
 
