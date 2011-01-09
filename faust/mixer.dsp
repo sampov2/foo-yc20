@@ -74,7 +74,7 @@ with {
 // Mixer for the standalone client
 plugin_mixer = (mixer_treble, mixer_bass) : combiner
 with {
-	combiner(treble, bass) = (treble + bass) <: (_, _);
+	combiner(treble, bass) = (treble + bass) : volume_control <: (_, _);
 };
 
 mixer_treble (bus_1, bus_1_3p5, bus_2, bus_2_2p3, bus_4, bus_8, bus_16) 
