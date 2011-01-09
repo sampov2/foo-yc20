@@ -61,12 +61,24 @@ OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
 $(LV2_UI): $(OBJS_LV2_UI)
 	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtk+-2.0` -o $(LV2_UI)
 
+## VSTi - only compiles for windows with MinGW32
+OBJS_VSTI=src/vsti.o src/foo-yc20.o
+src/vsti.o: CFLAGS_use = $(CFLAGS_X) -I$(VSTSDK) -I$(VSTSDK)/public.sdk/source/vst2.x 
+
+vsti: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/vsti.def
+	$(CXX) -Wall -s -shared -static src/vsti.def $(VSTFLAGS) $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) -o FooYC20.dll
+
+$(BIN): $(OBJ)
+
+
+## clean
+
 clean: cb
 	rm -f $(OBJS_DSP_STANDALONE) $(OBJS_DSP_PLUGIN)
 
 cb:
 	rm -f foo-yc20 foo-yc20-cli $(LV2_PLUGIN) $(LV2_UI)
-	rm -f $(OBJS_FOO_YC20) $(OBJS_FOO_YC20_CLI) $(OBJS_LV2) $(OBJS_LV2_UI)
+	rm -f $(OBJS_FOO_YC20) $(OBJS_FOO_YC20_CLI) $(OBJS_LV2) $(OBJS_LV2_UI) $(OBJS_VSTI)
 	
 
 

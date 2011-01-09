@@ -1,0 +1,3 @@
+LIBRARY     FooYC20
+DESCRIPTION 'Foo YC20 organ emulator'
+EXPORTS     main=createFooYC20VSTi
