@@ -120,8 +120,6 @@ class YC20Processor : public UI
 		void loadConfiguration();
 		void saveConfiguration();
 
-		std::map<std::string, Control *> const getControls() { return controlPerLabel; }
-
 	protected:
 
 		// Pointers to DSP key values
