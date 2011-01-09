@@ -14,6 +14,9 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    VST2 SDK Interfaces by (c)1996-1999 Steinberg Soft und Hardware GmbH, All Rights Reserved
+
 */
 
 #include <iostream> // TODO: get rid of this
@@ -25,6 +28,8 @@
 #include <foo-yc20.h>
 
 #define NUM_PARAMS 23
+
+#define PARAM_PITCH 0
 
 class FooYC20VSTi : public AudioEffectX
 {
@@ -41,87 +46,104 @@ class FooYC20VSTi : public AudioEffectX
 		void getProgramName	(char *);
 		bool getProgramNameIndexed(VstInt32, VstInt32, char*);
 
+		
+		bool getOutputProperties(VstInt32, VstPinProperties*);
 		void setSampleRate	(float sampleRate);
+
 		void process		(float **, float **, VstInt32);
 		void processReplacing	(float **, float **, VstInt32);
 		VstInt32 processEvents(VstEvents*);
-
-//		VstIntPtr dispatcher	(VstInt32, VstInt32, VstInt32, void *, float);
 
 		void setParameter	(VstInt32, float);
 		float getParameter	(VstInt32);
 		void getParameterName	(VstInt32, char *);
 		void getParameterDisplay(VstInt32, char *);
 
+		
+		VstInt32 getNumMidiInputChannels ()  { return 1; };
+
 		YC20Processor *yc20;
 		VstEvents* events;			// midi events
 		
-		std::string label_for_parameter[NUM_PARAMS];
 
 	private:
-		char programName[32];
+		std::string label_for_parameter[NUM_PARAMS];
+		char programName[kVstMaxNameLen+1];
 };
 
-
-/*
-#ifdef __GNUC__ 
-AEffect* main_plugin (audioMasterCallback audioMaster) asm ("main");
-#define main main_plugin
-#else
-AEffect *main (audioMasterCallback audioMaster);
-#endif
-*/
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-
-AEffect *createFooYC20VSTi(audioMasterCallback audioMaster)
+AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
 	FooYC20VSTi* effect = new FooYC20VSTi (audioMaster, 1, NUM_PARAMS);
 	if (effect == 0) return 0;
 
-	return effect->getAeffect ();
+	return effect;
 }
-#ifdef __cplusplus
+
+
+bool
+FooYC20VSTi::getProductString(char* text)
+{
+	vst_strncpy(text, "Foo YC20", kVstMaxProductStrLen);
+	return true;
 }
-#endif
 
+bool
+FooYC20VSTi::getVendorString(char* text)
+{
+	vst_strncpy(text, "Sampo Savolainen", kVstMaxVendorStrLen);
+	return true;
+}
 
-bool FooYC20VSTi::getProductString(char* text) { strcpy(text, "Foo YC20"); return true; }
-bool FooYC20VSTi::getVendorString(char* text)  { strcpy(text, "Sampo Savolainen"); return true; }
-bool FooYC20VSTi::getEffectName(char* name)    { strcpy(name, "YC20 emulation"); return true; }
+bool
+FooYC20VSTi::getEffectName(char* name)
+{
+	vst_strncpy(name, "YC20 emulation", kVstMaxEffectNameLen);
+	return true;
+}
 
-void FooYC20VSTi::setProgramName(char *name)   { strcpy(programName, name); }
-void FooYC20VSTi::getProgramName(char *name)   { strcpy(name, programName); }
+void
+FooYC20VSTi::setProgramName(char *name)
+{ 
+	std::cerr << "setProgramName(" << name << ")" << std::endl;
+	vst_strncpy(programName, name, kVstMaxNameLen);
+	std::cerr << " .. program = '" << programName << "'" << std::endl;
+}
+
+void
+FooYC20VSTi::getProgramName(char *name)
+{
+	std::cerr << "getProgramName(" << (int)name << ")" << std::endl;
+	vst_strncpy(name, programName, kVstMaxNameLen);
+}
+
 bool FooYC20VSTi::getProgramNameIndexed (VstInt32 category, VstInt32 index, char* name)
 {
-	if (index == 0) 
-	{
-	    strcpy(name, programName);
-	    return true;
+	std::cerr << "getProgramNameIndexed(" << category << ", " << index << ", <ptr>)" << std::endl;
+	if (index == 0) {
+		vst_strncpy(name, programName, kVstMaxNameLen);
+		return true;
 	}
+	*name = 0;
+
 	return false;
 }
-
 
 FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstInt32 params)
 	: AudioEffectX(callback, programs, params)
 {
 
-	setUniqueID ((int)'YC20'); // TODO: iffy!
+	setUniqueID ((int)'YC20');
 	
-	setNumInputs (0);
-	setNumOutputs (2);
+	setNumInputs(0);
+	setNumOutputs(2);
 	canProcessReplacing();
 	isSynth();
 
+	vst_strncpy(programName, "Foo YC20 Organ", kVstMaxNameLen);
+
 	setProgram(0);
 
-	strcpy(programName, "Foo YC20 Organ");
-
-	label_for_parameter[0] = "pitch";
+	label_for_parameter[PARAM_PITCH] = "pitch";
 	label_for_parameter[1] = "volume";
 	label_for_parameter[2] = "bass volume";
 	
@@ -177,31 +199,45 @@ FooYC20VSTi::setSampleRate (float sampleRate)
 	yc20->setDSP(tmp);
 }
 
-FooYC20VSTi::~FooYC20VSTi()
+bool FooYC20VSTi::getOutputProperties(VstInt32 index, VstPinProperties* properties)
 {
-	delete yc20;
+	std::cerr << "getOutputProperties(" << index << ", ...)" << std::endl;
+	if(index<2)
+	{
+		sprintf(properties->label, "YC20");
+		properties->flags = kVstPinIsActive | kVstPinIsStereo;
+		return true;
+	}
+	return false;
 }
 
+FooYC20VSTi::~FooYC20VSTi()
+{
+	std::cerr << "~FooYC20VSTi()" << std::endl;
+	delete yc20;
+}
 
 void
 FooYC20VSTi::process		(float **input, float **output, VstInt32 nframes)
 {
+	std::cerr << "process(.., .., " << nframes << ")" << std::endl;
 	processReplacing(input, output, nframes);
 }
 
 void
 FooYC20VSTi::processReplacing	(float **input, float **output, VstInt32 nframes)
 {
-	// TODO: we need events!
-
+	std::cerr << "processReplacing(.., .., " << nframes << ")" << std::endl;
 	yc20->getDSP()->compute(nframes, NULL, output);
-
 }
 
 VstInt32
 FooYC20VSTi::processEvents(VstEvents *events)
 {
+	std::cerr << "processEevents()" << std::endl;
 	for (VstInt32 i=0; i<events->numEvents; i++) {
+		std::cerr << " .. " << i << std::endl;
+
 		if((events->events[i])->type != kVstMidiType) continue;
 		VstMidiEvent* event = (VstMidiEvent*)events->events[i];
 		uint8_t* data = (uint8_t *)event->midiData;
@@ -235,22 +271,38 @@ FooYC20VSTi::processEvents(VstEvents *events)
 void
 FooYC20VSTi::setParameter	(VstInt32 index, float value)
 {
+	std::cerr << "setParameter(" << index << ", " << value << ")" << std::endl;
+
 	Control *c = yc20->getControl(label_for_parameter[index]);
 	if (c == 0) {
 		std::cerr << "no parameter for index " << index << std::endl;
 	}
+
+	if (index == PARAM_PITCH) {
+		value -= 0.5;
+		value *= 2.0;
+	}
+	std::cerr << "  zone: " << c->getZone() << std::endl;
 	*c->getZone() = value;
 }
 
 float
 FooYC20VSTi::getParameter	(VstInt32 index)
 {
+	std::cerr << "getParameter(" << index << ")" << std::endl;
+
 	Control *c = yc20->getControl(label_for_parameter[index]);
 	if (c == 0) {
 		std::cerr << "no parameter for index " << index << std::endl;
 		return -999.9;
 	}
-	return *c->getZone();
+	
+	float value = *c->getZone();
+	if (index == PARAM_PITCH) {
+		value /= 2.0;
+		value += 0.5;
+	}
+	return value;
 }
 
 void
@@ -264,10 +316,16 @@ FooYC20VSTi::getParameterName	(VstInt32 index, char *ptr)
 void
 FooYC20VSTi::getParameterDisplay(VstInt32 index, char *ptr)
 {
+	std::cerr << "getParameterDisplay(" << index << ", " << (int)ptr << ")" << std::endl;
 	Control *c = yc20->getControl(label_for_parameter[index]);
 	if (c == 0) {
 		std::cerr << "no parameter for index " << index << std::endl;
 	}
-	snprintf(ptr, kVstMaxParamStrLen, "%f", *c->getZone()); // TODO: is this the correct length
+	float value = *c->getZone();
+	if (index == PARAM_PITCH) {
+		value -= 0.5;
+		value *= 2.0;
+	}
+	snprintf(ptr, kVstMaxParamStrLen, "%.2f", value); // TODO: is this the correct length?
 }
 
