@@ -69,17 +69,6 @@ int main(int argc, char **argv)
 	}
 	processor.activate();
 
-	/* Debug output: print control values
-	std::map<std::string, Control *> controls = processor.getControls();
-	
-	for (std::map<std::string, Control *>::iterator i = controls.begin(); i !=  controls.end(); ++i) {
-		Control *c = i->second;
-
-		std::cout << i->first << " = " << *c->getZone() << std::endl;
-
-	}
-	*/
-
 	run = true;
 	signal(SIGINT, exit_cli);
 
