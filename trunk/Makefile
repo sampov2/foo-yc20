@@ -66,7 +66,7 @@ OBJS_VSTI=src/vsti.o src/foo-yc20.o
 src/vsti.o: CFLAGS_use = $(CFLAGS_X) -I$(VSTSDK) -I$(VSTSDK)/public.sdk/source/vst2.x 
 
 vsti: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/vsti.def
-	$(CXX) -Wall -s -shared -static src/vsti.def $(VSTFLAGS) $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) -o FooYC20.dll
+	$(CXX) -Wall -s -shared -mwindows -static src/vsti.def $(VSTFLAGS) $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) -o FooYC20.dll
 
 $(BIN): $(OBJ)
 

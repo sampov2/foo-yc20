@@ -32,10 +32,22 @@ class FooYC20VSTi : public AudioEffectX
 		FooYC20VSTi  (audioMasterCallback, VstInt32, VstInt32);
 		~FooYC20VSTi ();
 
+		bool getProductString	(char *);
+		bool getVendorString	(char *);
+		bool getEffectName	(char *);
+		VstInt32 getVendorVersion () {return 1;}
+
+		void setProgramName	(char *);
+		void getProgramName	(char *);
+		bool getProgramNameIndexed(VstInt32, VstInt32, char*);
+
 		void setSampleRate	(float sampleRate);
 		void process		(float **, float **, VstInt32);
 		void processReplacing	(float **, float **, VstInt32);
-		VstIntPtr dispatcher	(VstInt32, VstInt32, VstInt32, void *, float);
+		VstInt32 processEvents(VstEvents*);
+
+//		VstIntPtr dispatcher	(VstInt32, VstInt32, VstInt32, void *, float);
+
 		void setParameter	(VstInt32, float);
 		float getParameter	(VstInt32);
 		void getParameterName	(VstInt32, char *);
@@ -45,6 +57,9 @@ class FooYC20VSTi : public AudioEffectX
 		VstEvents* events;			// midi events
 		
 		std::string label_for_parameter[NUM_PARAMS];
+
+	private:
+		char programName[32];
 };
 
 
@@ -74,6 +89,22 @@ AEffect *createFooYC20VSTi(audioMasterCallback audioMaster)
 #endif
 
 
+bool FooYC20VSTi::getProductString(char* text) { strcpy(text, "Foo YC20"); return true; }
+bool FooYC20VSTi::getVendorString(char* text)  { strcpy(text, "Sampo Savolainen"); return true; }
+bool FooYC20VSTi::getEffectName(char* name)    { strcpy(name, "YC20 emulation"); return true; }
+
+void FooYC20VSTi::setProgramName(char *name)   { strcpy(programName, name); }
+void FooYC20VSTi::getProgramName(char *name)   { strcpy(name, programName); }
+bool FooYC20VSTi::getProgramNameIndexed (VstInt32 category, VstInt32 index, char* name)
+{
+	if (index == 0) 
+	{
+	    strcpy(name, programName);
+	    return true;
+	}
+	return false;
+}
+
 
 FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstInt32 params)
 	: AudioEffectX(callback, programs, params)
@@ -83,8 +114,12 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 	
 	setNumInputs (0);
 	setNumOutputs (2);
-
 	canProcessReplacing();
+	isSynth();
+
+	setProgram(0);
+
+	strcpy(programName, "Foo YC20 Organ");
 
 	label_for_parameter[0] = "pitch";
 	label_for_parameter[1] = "volume";
@@ -117,15 +152,23 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 	label_for_parameter[22] = "percussive";
 
 	yc20 = new YC20Processor();
+
+	dsp *tmp = createDSP();
+        tmp->init(getSampleRate());
+
+	yc20->setDSP(tmp);
+
+	std::cerr << "Constructed FooYC20VSTi" << std::endl;
 }
 
 void
 FooYC20VSTi::setSampleRate (float sampleRate) 
 {
+	std::cerr << "Called setSampleRate(" << sampleRate << ")" << std::endl;
+	AudioEffectX::setSampleRate(sampleRate);
+
 	dsp *tmp = yc20->getDSP();
-	if (tmp != NULL) {
-		delete tmp;
-	}
+	delete tmp;
 	
 
 	tmp = createDSP();
@@ -155,10 +198,38 @@ FooYC20VSTi::processReplacing	(float **input, float **output, VstInt32 nframes)
 
 }
 
-VstIntPtr
-FooYC20VSTi::dispatcher		(VstInt32 opCode, VstInt32 index, VstInt32 value, void *ptr, float opt)
+VstInt32
+FooYC20VSTi::processEvents(VstEvents *events)
 {
-	return -1;
+	for (VstInt32 i=0; i<events->numEvents; i++) {
+		if((events->events[i])->type != kVstMidiType) continue;
+		VstMidiEvent* event = (VstMidiEvent*)events->events[i];
+		uint8_t* data = (uint8_t *)event->midiData;
+
+		float value = 0;
+		int key = -1;
+
+		switch ( (data[0]) & 0xf0 ) {
+		case 0x90:
+			if (data[2] == 0) {
+				value = 0.0;
+			} else {
+				value = 1;
+			}
+			key = data[1] - 36;
+			break;
+		case 0x80:
+			value = 0.0;
+			key = data[1] - 36;
+			break;
+		}
+		if (key >= 0 && key < 61) {
+			yc20->setKey(key, value);
+		}
+
+	}
+
+	return 1;
 }
 
 void
@@ -185,7 +256,9 @@ FooYC20VSTi::getParameter	(VstInt32 index)
 void
 FooYC20VSTi::getParameterName	(VstInt32 index, char *ptr)
 {
+	std::cerr << "getParameterName(" << index << ") = '";
 	vst_strncpy(ptr, label_for_parameter[index].c_str(), kVstMaxParamStrLen);
+	std::cerr << ptr << "'" << std::endl;
 }
 
 void
