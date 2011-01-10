@@ -97,26 +97,6 @@ inline float square_polyblep_precalc(float ph, float ph_, float ph__, float prec
 }
 
 
-inline float square_wave(float f)
-{
-	f -= 0.5f;
-
-	uint32_t *int_ptr = (uint32_t *)&f;
-	uint32_t i = *int_ptr;
-
-
-	i &= (1 << 31) ;
-	i = i >> 31;
-
-	f = (float)i;
-
-	f -= 0.5f;
-	f *= 2.0f;
-	
-	return f;
-}
-
-
 #ifdef __cplusplus
 }
 #endif
