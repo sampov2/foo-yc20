@@ -75,12 +75,11 @@ YC20Processor::addVerticalSlider(const char* label, float* zone, float init, flo
 
 	Control *tmp = controlPerLabel[name];
 
-	if (tmp == NULL) {
+	if (tmp == 0) {
 		std::cerr << "ERROR: no Control for DSP label " << name << std::endl;
 		return;
 	}
 
-	//std::cerr << "Connected control " << label << " to CC " << (int)tmp->getCC() << std::endl;
 	tmp->setZone(zone);
 }
 
@@ -106,21 +105,21 @@ YC20Processor::doControlChange(int cc, int value)
 
 	Control *control = controlPerCC[cc];
 
-	if (control == NULL) {
-		std::cerr << "No control for CC " << cc << std::endl;
+	if (control == 0) {
+		//std::cerr << "No control for CC " << cc << std::endl;
 		return;
 	}
 
 	control->setValueFromCC(value);
 
-	if (ui != NULL) {
+	if (ui != 0) {
 		ui->queueExpose(cc);
 	}
 }
 
 YC20Processor::YC20Processor()
-	: processor(NULL)
-	, ui(NULL)
+	: processor(0)
+	, ui(0)
 {
 	controlPerLabel["pitch"]       = new Control(5, -1.0, 1.0);
 	controlPerLabel["volume"]      = new Control(7);
@@ -163,13 +162,16 @@ YC20Processor::~YC20Processor()
 	for (std::map<std::string, Control *>::iterator i = controlPerLabel.begin(); i !=  controlPerLabel.end(); ++i) {
 		delete i->second;
 	}
-	if (ui != NULL) {
+
+	if (ui != 0) {
 		delete ui;
+		ui = 0;
 	}
-	if (processor != NULL) {
+
+	if (processor != 0) {
 		delete processor;
+		processor = 0;
 	}
-	
 }
 
 
