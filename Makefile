@@ -80,7 +80,7 @@ clean: cb
 	rm -f $(OBJS_DSP_STANDALONE) $(OBJS_DSP_PLUGIN)
 
 cb:
-	rm -f foo-yc20 foo-yc20-cli $(LV2_PLUGIN) $(LV2_UI)
+	rm -f foo-yc20 foo-yc20-cli $(LV2_PLUGIN) $(LV2_UI) FooYC20.dll
 	rm -f $(OBJS_FOO_YC20) $(OBJS_FOO_YC20_CLI) $(OBJS_LV2) $(OBJS_LV2_UI) $(OBJS_VSTI)
 	
 
