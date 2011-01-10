@@ -56,6 +56,8 @@ cp -n src/configuration.cpp \
       src/main-gui.cpp \
       src/polyblep.cpp \
       src/yc20-jack.cpp \
+      src/vsti.cpp \
+      src/vsti.def \
       $BUILDDIR/src
 
 cp -n src/foo-yc20.lv2/foo-yc20.ttl \
