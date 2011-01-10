@@ -27,6 +27,7 @@
 #include <audioeffectx.cpp>
 
 #include <foo-yc20.h>
+//#include <foo-yc20-ui2.h>
 
 #define NUM_PARAMS 23
 
@@ -77,6 +78,42 @@ class FooYC20VSTi : public AudioEffectX
 		std::string label_for_parameter[NUM_PARAMS];
 		char programName[kVstMaxNameLen+1];
 };
+
+/* Disabled for now
+class YC20AEffEditor : public AEffEditor
+{
+	public:
+		YC20AEffEditor(AudioEffect* fx) : AEffEditor(fx), gui(0) {
+			_rect.left = 0;
+			_rect.top = 0;
+			_rect.right = 1280;
+			_rect.bottom = 200;
+		};
+
+		bool getRect(ERect **rect) {*rect = &_rect; return true; };
+
+		bool open(void *ptr) { AEffEditor::open(ptr); createGUI(); return true; };
+		void close() { deleteGUI(); AEffEditor::close(); };
+	private:
+
+		void createGUI()
+		{
+			gui = new YC20UI2();
+
+		};
+
+		void deleteGUI()
+		{
+			delete gui;
+			gui = 0;
+		};
+
+		ERect _rect;
+		YC20UI2 *gui;
+
+
+};
+*/
 
 AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
@@ -220,6 +257,8 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 
 	yc20->setDSP(tmp);
 
+	//setEditor( new YC20AEffEditor(this) );
+
 	//std::cerr << "Constructed FooYC20VSTi" << std::endl;
 }
 
@@ -264,6 +303,11 @@ FooYC20VSTi::~FooYC20VSTi()
 	//std::cerr << "~FooYC20VSTi() (yc20 = " << yc20 << ")" << std::endl;
 	delete yc20;
 	yc20 = 0;
+
+	if (editor) {
+		delete editor;
+		editor = 0;
+	}
 }
 
 void
