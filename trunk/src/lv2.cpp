@@ -133,7 +133,6 @@ static void connect_port_FooYC20 (
 	//std::cerr << "port: " << port << ", c: " << c << " (data: " << data_location << ")" << std::endl;
 
 	handle->controlParameters[c] = (float*)data_location;
-	c->setZone( (float*)data_location);
 }
 
 static void activate_FooYC20 (LV2_Handle instance)
