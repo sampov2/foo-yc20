@@ -20,6 +20,21 @@
   <defs
      id="defs4">
     <linearGradient
+       id="linearGradient3776">
+      <stop
+         id="stop3778"
+         offset="0"
+         style="stop-color:#1215d7;stop-opacity:1;" />
+      <stop
+         style="stop-color:#311eae;stop-opacity:1;"
+         offset="0.5"
+         id="stop3780" />
+      <stop
+         id="stop3782"
+         offset="1"
+         style="stop-color:#053286;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
        id="linearGradient4747">
       <stop
          style="stop-color:#de080a;stop-opacity:1;"
@@ -455,6 +470,15 @@
          d="m 708.40104,586.92106 10.79601,-0.34724 3.81964,-9.50175 7.35517,1.19956 1.86247,-3.88278 -1.67307,-2.77792 -7.51301,0.18941 -3.25143,8.5863 -3.34613,-0.0316 -0.4735,-9.69115 -7.00794,2.08344 -0.56821,14.1737 z"
          id="path4882" />
     </clipPath>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3776"
+       id="linearGradient3774"
+       gradientUnits="userSpaceOnUse"
+       x1="490"
+       y1="453.09949"
+       x2="497.5"
+       y2="652.17059" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -464,10 +488,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="781.93233"
+     inkscape:cx="754.77571"
      inkscape:cy="166.24404"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer2"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -658,38 +682,39 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
      inkscape:groupmode="layer"
      id="layer2"
-     inkscape:label="Background"
-     style="display:inline"
+     inkscape:label="Background blue"
+     style="display:none"
      sodipodi:insensitive="true">
     <rect
-       style="fill:url(#linearGradient4753);fill-opacity:1;stroke:none;display:inline"
+       style="fill:url(#linearGradient3774);fill-opacity:1;stroke:none;display:inline"
        id="rect2816-6-2"
        width="1279.9387"
        height="199.97301"
        x="-134.729"
-       y="453.12646" />
+       y="453.12646"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
   <g
+     style="display:inline"
+     inkscape:label="Background red"
+     id="g3770"
      inkscape:groupmode="layer"
-     id="layer5"
-     inkscape:label="Screenshot"
-     style="display:none"
      sodipodi:insensitive="true">
-    <image
-       style="display:inline"
-       y="453.09921"
-       x="-124.79077"
-       id="image2962"
-       height="200"
-       width="1280"
-       xlink:href="file:///home/v2/Desktop/Screenshot-Foo%20YC20.png" />
+    <rect
+       y="453.12646"
+       x="-134.729"
+       height="199.97301"
+       width="1279.9387"
+       id="rect3772"
+       style="fill:url(#linearGradient4753);fill-opacity:1;stroke:none;display:inline" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -1057,13 +1082,13 @@
     <text
        xml:space="preserve"
        style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:0.01176471;stroke:none;display:inline;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch"
-       x="841.96216"
-       y="642.06909"
+       x="522.24884"
+       y="646.10968"
        id="text2995"><tspan
          sodipodi:role="line"
          id="tspan2997"
-         x="841.96216"
-         y="642.06909">©Sampo Savolainen 2010-2011</tspan></text>
+         x="522.24884"
+         y="646.10968">Foo-YC20 released under GPLv3 ©Sampo Savolainen 2010-2011</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
