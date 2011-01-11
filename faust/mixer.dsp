@@ -58,7 +58,8 @@ volume_slider = hslider("volume", 0.1, 0.0, 1.0, 0.01);
 declick(n) = (_ * (n-1) / n)  + (_ /n);
 
 manual_bass_vol = manual_bass_slider : (declick(50) ~ _);
-volume          = volume_slider : (declick(50) ~ _);
+volume_curve(v) = 1-(1-v)*(1+v);
+volume          = volume_slider : volume_curve : (declick(50) ~ _);
 
 volume_control  = *(0.001 + 0.05 * volume);
 
