@@ -68,9 +68,10 @@ ChangeLog:
 1.1.0 => 1.2.0 (???)
 	- (Windows and OS X releases)
 	- LV2
+	- Improved volume control curve
+	- Fixed bug with 4' drawbar bleed
 	- More subtle hover highlights
 	- Switch from gtkmm to straight gtk
-	- Fixed bug with 4' drawbar bleed
 
 1.0.0 => 1.1.0 (December 8th 2010)
 	- Optimized band limiting scheme
