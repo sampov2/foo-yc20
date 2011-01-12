@@ -17,12 +17,14 @@ SRCDIR=${BUILDDIR}/../../trunk/
 ### compile foo-yc20
 cd $SRCDIR
 if [ ! -x foo-yc20 -o -n "$RECOMPILE" ]; then
+
   ### use local GTK installations if any
   if test -d $HOME/gtk/inst/; then
     export PKG_CONFIG_PATH=$HOME/gtk/inst/lib/pkgconfig/:$PKG_CONFIG_PATH
   fi
 
   CFLAGS="-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386" \
+  CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5" \
   LDFLAGS_YC20="-arch i386 -arch ppc" \
   LDFLAGS_YC20_CLI="-arch i386 -arch ppc" \
   make clean foo-yc20 \
