@@ -20,6 +20,10 @@
 #include <foo-yc20-ui.h>
 #include <foo-yc20-os.h>
 
+#ifdef __APPLE__
+#include <igemacintegration/gtkosxapplication.h>
+#endif
+
 void quit_callback(GtkWidget *widget, gpointer data)
 {
 	gtk_main_quit();
@@ -28,6 +32,9 @@ void quit_callback(GtkWidget *widget, gpointer data)
 int main(int argc, char **argv)
 {
 	gtk_init(&argc, &argv);
+#ifdef __APPLE__
+	GtkOSXApplication *osxApp = (GtkOSXApplication*) g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
+#endif
 
 	std::string version(VERSION_STR);
 	std::string svn_revision("$Revision: 106 $");
@@ -49,6 +56,24 @@ int main(int argc, char **argv)
 
 	g_signal_connect (main_window, "destroy", G_CALLBACK(quit_callback), NULL);
 
+#ifdef __APPLE__
+	GtkWidget *menu;
+	GtkWidget *menu_bar;
+	GtkWidget *menu_item;
+
+	menu = gtk_menu_new();
+
+	menu_item = gtk_menu_item_new_with_label ("Quit");
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
+	g_signal_connect (G_OBJECT(menu_item), "activate", G_CALLBACK(quit_callback), NULL);
+
+	menu_bar = gtk_menu_bar_new ();
+	gtk_osxapplication_set_menu_bar(osxApp, GTK_MENU_SHELL(menu_bar));
+
+	gtk_widget_show (menu);
+	gtk_widget_show (menu_bar);
+	gtk_widget_show (menu_item);
+#endif
 	// Connect to Jack
 	YC20Jack processor;
 	processor.connect();
@@ -87,6 +112,9 @@ int main(int argc, char **argv)
 
 
 	// RUN!
+#ifdef __APPLE__
+	gtk_osxapplication_ready(osxApp);
+#endif
 	gtk_main();
 
 	processor.deactivate();
