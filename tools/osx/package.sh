@@ -25,8 +25,7 @@ if [ ! -x foo-yc20 -o -n "$RECOMPILE" ]; then
 
   CFLAGS="-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386" \
   CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5" \
-  LDFLAGS_YC20="-arch i386 -arch ppc" \
-  LDFLAGS_YC20_CLI="-arch i386 -arch ppc" \
+  LDFLAGS_YC20="-arch i386 -arch ppc -ligemacintegration" \
   make clean foo-yc20 \
   || exit
 fi
