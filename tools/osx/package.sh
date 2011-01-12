@@ -17,7 +17,6 @@ SRCDIR=${BUILDDIR}/../../trunk/
 ### compile foo-yc20
 cd $SRCDIR
 if [ ! -x foo-yc20 -o -n "$RECOMPILE" ]; then
-
   ### use local GTK installations if any
   if test -d $HOME/gtk/inst/; then
     export PKG_CONFIG_PATH=$HOME/gtk/inst/lib/pkgconfig/:$PKG_CONFIG_PATH
