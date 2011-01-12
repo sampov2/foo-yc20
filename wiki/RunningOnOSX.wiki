@@ -1,0 +1,33 @@
+#summary Quick tutorial to get Foo YC20 running on OS X
+#labels Phase-Deploy
+
+= Foo YC20 on OS X =
+
+Foo YC20 for OS X is a Jack application. Jack is a handy mechanism to route audio to and from applications. This allows patching together a virtual studio from separate audio programs.
+
+= Installing Jack =
+
+The easiest way to get Jack running on OS X is to install [http://www.jackosx.com/ JackPilot]. Select the correct installer for your specific version of OS X. then follow the install instructions. Finally, the installer asks to restart your computer. After installation, you will find JackPilot in the Applications under a directory called jack/.
+
+= Running jack =
+
+When you start JackPilot, you will be presented with the main interface. The first time you start you will also see the preferences dialog. You can select a sampling rate, the audio device to use etc. The buffer size parameter is crucial as it defines the latency of the system. The lower the value, the faster response you will get.
+
+Before starting Foo YC20, you need to start jack using the main JackPilot interface.
+
+= Making connections =
+
+To control the organ and to hear the output, you need to do connections. These connections are kind of like connecting gear together using cables. However with Jack, these cables are virtual. You can open the routing dialog from the JackPilot main interface. There you can connect the output of the organ to your soundcard (or another program) and you can connect your MIDI keyboard to the organs MIDI input.
+
+
+You can find more information in the documentation that is installed with JackPilot.
+
+= FAQ =
+
+*Q:* Why Jack?
+
+*A:* Foo YC20 is developed on Linux. In the Linux audio ecosystem, Jack is the de-facto method of low-latency audio. The OS X release is done based on this work and thus this it inherits 
+
+*Q:* I don't have a MIDI keyboard, but I'd like to try this.
+
+*A:* You can try a virtual MIDI keyboard. One open source option is [http://vmpk.sourceforge.net/ vmpk].
