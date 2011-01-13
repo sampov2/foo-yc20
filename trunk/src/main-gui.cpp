@@ -21,6 +21,7 @@
 #include <foo-yc20-os.h>
 
 #ifdef __APPLE__
+#include <gdk/gdkkeysyms.h>
 #include <igemacintegration/gtkosxapplication.h>
 #endif
 
@@ -32,8 +33,10 @@ void quit_callback(GtkWidget *widget, gpointer data)
 int main(int argc, char **argv)
 {
 	gtk_init(&argc, &argv);
+
 #ifdef __APPLE__
-	GtkOSXApplication *osxApp = (GtkOSXApplication*) g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
+	GtkOSXApplication *osxApp = (GtkOSXApplication*) 
+		g_object_new(GTK_TYPE_OSX_APPLICATION, NULL);
 #endif
 
 	std::string version(VERSION_STR);
@@ -59,21 +62,26 @@ int main(int argc, char **argv)
 #ifdef __APPLE__
 	GtkWidget *menu;
 	GtkWidget *menu_bar;
-	GtkWidget *menu_item;
+	GtkWidget *quit_item;
+	GtkAccelGroup *accel_group;
 
 	menu = gtk_menu_new();
-
-	menu_item = gtk_menu_item_new_with_label ("Quit");
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), menu_item);
-	g_signal_connect (G_OBJECT(menu_item), "activate", G_CALLBACK(quit_callback), NULL);
-
 	menu_bar = gtk_menu_bar_new ();
-	gtk_osxapplication_set_menu_bar(osxApp, GTK_MENU_SHELL(menu_bar));
+	accel_group = gtk_accel_group_new();
+	gtk_window_add_accel_group(GTK_WINDOW(main_window), accel_group);
 
-	gtk_widget_show (menu);
-	gtk_widget_show (menu_bar);
-	gtk_widget_show (menu_item);
+	quit_item = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
+	gtk_widget_add_accelerator(quit_item, "activate", accel_group, 
+		GDK_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE); 
+
+	gtk_menu_shell_append(GTK_MENU_SHELL (menu), quit_item);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu);
+	g_signal_connect (G_OBJECT(quit_item), "activate", 
+		G_CALLBACK(quit_callback), NULL);
+
+	gtk_osxapplication_set_menu_bar(osxApp, GTK_MENU_SHELL(menu_bar));
 #endif
+
 	// Connect to Jack
 	YC20Jack processor;
 	processor.connect();
