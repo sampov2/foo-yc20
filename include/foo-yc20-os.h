@@ -42,7 +42,12 @@
 #ifdef __WIN32__
 //#warning "Selected WIN32 directories"
 
-#define DEFAULT_CONFIG_DIR std::string(getenv("HOMEPATH")) + "\\foo-yc20"
+#define DEFAULT_CONFIG_DIR \
+  std::string( \
+    getenv("HOMEPATH")?getenv("HOMEPATH"): \
+      (getenv("HOME")?getenv("HOME"):"") \
+  ) + "\\foo-yc20"
+
 // this is wrong, but we will live
 #define INSTALL_LOCATION PREFIX_STR SHARE_DIR
 #endif
