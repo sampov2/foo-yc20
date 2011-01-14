@@ -23,9 +23,9 @@ if [ ! -x foo-yc20 -o -n "$RECOMPILE" ]; then
     export PKG_CONFIG_PATH=$HOME/gtk/inst/lib/pkgconfig/:$PKG_CONFIG_PATH
   fi
 
-  CFLAGS="-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386" \
+  CFLAGS="-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -arch x86_64" \
   CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5" \
-  LDFLAGS_YC20="-arch i386 -arch ppc -ligemacintegration" \
+  LDFLAGS_YC20="-arch i386 -arch ppc -arch x86_64 -ligemacintegration" \
   make clean foo-yc20 \
   || exit
 fi
@@ -150,6 +150,7 @@ echo "------------------------------------"
 mkdir -p $LIBS_PATH
 rm -f ${LIBS_PATH}/*.dylib
 
+##############################################################################
 ### add libs the executable depends on:
 update_executable
 
@@ -166,21 +167,6 @@ while [ "X$MORELIBS" != "X" ]; do
 done
 
 update_executable
-
-
-##############################################################################
-# stript 64bit versions from frameworks. 
-echo 
-echo "stripping 64bit versions from dylibs/frameworks"
-cd $LIBS_PATH || exit 1
-cd ..
-mv Frameworks fwold
-mkdir Frameworks
-for file in $(ls fwold); do
-  lipo fwold/$file -remove x86_64 -output Frameworks/$file || \
-  cp fwold/$file Frameworks/$file
-done
-rm -rf fwold
 
 ##############################################################################
 # create wrapper script
