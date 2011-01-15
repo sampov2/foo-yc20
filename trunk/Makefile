@@ -53,13 +53,13 @@ foo-yc20-cli: $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE)
 OBJS_LV2=src/lv2.o src/foo-yc20.o
 
 $(LV2_PLUGIN): $(OBJS_LV2) $(OBJS_DSP_PLUGIN)
-	$(CXX) $(OBJS_LV2) $(OBJS_DSP_PLUGIN) -fPIC -shared -o $(LV2_PLUGIN)
+	$(CXX) $(OBJS_LV2) $(OBJS_DSP_PLUGIN) -fPIC -shared -o $(LV2_PLUGIN) $(LDFLAGS_YC20_LV2)
 
 ## LV2 UI
 OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
 
 $(LV2_UI): $(OBJS_LV2_UI)
-	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtk+-2.0` -o $(LV2_UI)
+	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtk+-2.0` -o $(LV2_UI) $(LDFLAGS_YC20_LV2)
 
 ## VSTi - only compiles for windows with MinGW32
 OBJS_VSTI=src/vsti.o src/vstplugmain.o src/foo-yc20.o
