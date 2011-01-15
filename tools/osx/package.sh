@@ -1,9 +1,9 @@
 #!/bin/sh
 #
 # usage:
-#   ./package-osx [version-number]
+#   ./package.sh [version-number]
 # to force a rebuild (if the executable already exists):
-#   REBUILD=1 ./package-osx [version-number]
+#   RECOMPILE=1 ./package.sh [version-number]
 #
 # The version-number is optional as it only changes the name of 
 # the final .dmg file which can also be set with the
