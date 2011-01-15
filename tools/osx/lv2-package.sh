@@ -35,8 +35,8 @@ cd $BUILDDIR
 ##############################################################################
 follow_dependencies () {
     libname=$1
-    cd "${TARGET_DIR}/"
-    dependencies=`otool -arch all -L "$libname"  | egrep '\/(opt|usr)\/local\/lib' | awk '{print $1}'`
+    cd "${TARGET_DIR}"
+    dependencies=`otool -arch all -L "$libname"  | egrep '\/((opt|usr)\/local\/lib|gtk\/inst\/lib)' | awk '{print $1}'`
     for l in $dependencies; do
         depname=`basename $l`
         deppath=`dirname $l`
@@ -47,11 +47,11 @@ follow_dependencies () {
 }
 
 update_links () {
-    libname=$1
-    libpath=$2
+    libname=`basename $1`
+    libfullpath=$1
     for n in `ls ${TARGET_DIR}/*.dylib 2>/dev/null`; do
         install_name_tool \
-            -change "$libpath/$libname" \
+            -change "$libfullpath" \
             @loader_path/$libname \
             "$n"
     done
@@ -67,15 +67,16 @@ deploy_lib () {
             install_name_tool \
                 -id @loader_path/$libname \
                 "${TARGET_DIR}/$libname"
+	    export LIBDEPS="$LIBDEPS ${libpath}/${libname}"
+            export INSTALLED="$INSTALLED $libname"
             follow_dependencies $libname
         fi
-        export INSTALLED="$INSTALLED $libname"
     fi
-    update_links $libname $libpath
 }
 
 update_executable() {
     echo "updating ${TARGET}"
+    export LIBDEPS=""
     LIBS=`otool -arch all -L "$TARGET" | egrep '\/((opt|usr)\/local\/lib|gtk\/inst\/lib)' | awk '{print $1}'`
     for l in $LIBS; do
         libname=`basename $l`
@@ -86,6 +87,9 @@ update_executable() {
             @loader_path/$libname \
             "$TARGET"
     done
+    for n in $LIBDEPS; do
+        update_links $n
+    done;
 }
 
 ###############################################################################

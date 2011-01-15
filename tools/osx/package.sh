@@ -44,7 +44,7 @@ fi
 follow_dependencies () {
     libname=$1
     cd "${TARGET_BUILD_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks"
-    dependencies=`otool -arch all -L "$libname"  | egrep '\/(opt|usr)\/local\/lib' | awk '{print $1}'`
+    dependencies=`otool -arch all -L "$libname"  | egrep '\/((opt|usr)\/local\/lib|gtk\/inst\/lib)' | awk '{print $1}'`
     for l in $dependencies; do
         depname=`basename $l`
         deppath=`dirname $l`
