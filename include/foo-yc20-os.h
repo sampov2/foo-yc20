@@ -36,7 +36,12 @@
 //#warning "Selected OS X directories"
 
 #define DEFAULT_CONFIG_DIR std::string(getenv("HOME")) + "/Library/Application Support/foo-yc20/"
+
+#ifdef OSXLV2 // OSX LV2
+#define INSTALL_LOCATION PREFIX_STR SHARE_DIR
+#else // OSX app bundle
 #define INSTALL_LOCATION "../Resources/"
+#endif
 #endif
 
 #ifdef __WIN32__
