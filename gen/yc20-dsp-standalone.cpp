@@ -1535,7 +1535,7 @@ class mydsp : public dsp{
 		for (int i=0; i<4; i++) fRec307_perm[i]=0;
 		fslider20 = 0.0f;
 		fslider21 = 0.5f;
-		fslider22 = 0.1f;
+		fslider22 = 0.5f;
 		for (int i=0; i<4; i++) fRec308_perm[i]=0;
 	}
 	virtual void init(int samplingFreq) {
@@ -1653,7 +1653,7 @@ class mydsp : public dsp{
 		interface->addHorizontalSlider("percussive", &fslider5, 1.0f, 0.0f, 1.0f, 0.25f);
 		interface->addHorizontalSlider("pitch", &fslider1, 0.0f, -1.0f, 1.0f, 0.05f);
 		interface->addHorizontalSlider("realism", &fslider0, 0.0f, 0.0f, 1.0f, 0.25f);
-		interface->addHorizontalSlider("volume", &fslider22, 0.1f, 0.0f, 1.0f, 0.01f);
+		interface->addHorizontalSlider("volume", &fslider22, 0.5f, 0.0f, 1.0f, 0.01f);
 		interface->closeBox();
 	}
 	virtual void compute (int fullcount, FAUSTFLOAT** input, FAUSTFLOAT** output) {
@@ -3283,8 +3283,7 @@ class mydsp : public dsp{
 		float 	fSlow118 = fslider21;
 		float 	fSlow119 = (fSlow118 * (1 + (fSlow118 * ((2.81f * fSlow118) - 2.81f))));
 		float 	fSlow120 = (1 - fSlow104);
-		float 	fSlow121 = fslider22;
-		float 	fSlow122 = (0.02f * (1 - ((1 + fSlow121) * (1 - fSlow121))));
+		float 	fSlow121 = (0.02f * faustpower<2>(fslider22));
 		float* 	fRec308 = &fRec308_tmp[4];
 		int index;
 		for (index = 0; index <= fullcount - 32; index += 32) {
@@ -3294,7 +3293,7 @@ class mydsp : public dsp{
 			FAUSTFLOAT* output1 = &output[1][index];
 			FAUSTFLOAT* output2 = &output[2][index];
 			// SECTION : 1
-			// LOOP 0x2b1b2c0
+			// LOOP 0x2af5e90
 			// pre processing
 			for (int i=0; i<4; i++) fRec5_tmp[i]=fRec5_perm[i];
 			// exec code
@@ -3305,14 +3304,14 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec5_perm[i]=fRec5_tmp[count+i];
 			
 			// SECTION : 2
-			// LOOP 0x2b1a750
+			// LOOP 0x2af5320
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec1[i] = ((fSlow7 * sinf((6.283185307179586f * fRec5[i]))) + fSlow5);
 			}
 			
 			// SECTION : 3
-			// LOOP 0x2b198f0
+			// LOOP 0x2af4480
 			// pre processing
 			for (int i=0; i<4; i++) fRec4_tmp[i]=fRec4_perm[i];
 			// exec code
@@ -3323,7 +3322,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec4_perm[i]=fRec4_tmp[count+i];
 			
-			// LOOP 0x2b328c0
+			// LOOP 0x2b0d4b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec13_tmp[i]=fRec13_perm[i];
 			// exec code
@@ -3334,7 +3333,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec13_perm[i]=fRec13_tmp[count+i];
 			
-			// LOOP 0x2b46b60
+			// LOOP 0x2b21740
 			// pre processing
 			for (int i=0; i<4; i++) fRec21_tmp[i]=fRec21_perm[i];
 			// exec code
@@ -3345,7 +3344,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec21_perm[i]=fRec21_tmp[count+i];
 			
-			// LOOP 0x2b5a950
+			// LOOP 0x2b35530
 			// pre processing
 			for (int i=0; i<4; i++) fRec29_tmp[i]=fRec29_perm[i];
 			// exec code
@@ -3356,7 +3355,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec29_perm[i]=fRec29_tmp[count+i];
 			
-			// LOOP 0x2b6eaa0
+			// LOOP 0x2b49680
 			// pre processing
 			for (int i=0; i<4; i++) fRec37_tmp[i]=fRec37_perm[i];
 			// exec code
@@ -3367,7 +3366,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec37_perm[i]=fRec37_tmp[count+i];
 			
-			// LOOP 0x2b82a30
+			// LOOP 0x2b5d610
 			// pre processing
 			for (int i=0; i<4; i++) fRec45_tmp[i]=fRec45_perm[i];
 			// exec code
@@ -3378,7 +3377,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec45_perm[i]=fRec45_tmp[count+i];
 			
-			// LOOP 0x2b94c00
+			// LOOP 0x2b6f810
 			// pre processing
 			for (int i=0; i<4; i++) fRec52_tmp[i]=fRec52_perm[i];
 			// exec code
@@ -3389,7 +3388,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec52_perm[i]=fRec52_tmp[count+i];
 			
-			// LOOP 0x2ba68c0
+			// LOOP 0x2b814d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec59_tmp[i]=fRec59_perm[i];
 			// exec code
@@ -3400,7 +3399,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec59_perm[i]=fRec59_tmp[count+i];
 			
-			// LOOP 0x2bb8540
+			// LOOP 0x2b93160
 			// pre processing
 			for (int i=0; i<4; i++) fRec66_tmp[i]=fRec66_perm[i];
 			// exec code
@@ -3411,7 +3410,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec66_perm[i]=fRec66_tmp[count+i];
 			
-			// LOOP 0x2bca200
+			// LOOP 0x2ba4e20
 			// pre processing
 			for (int i=0; i<4; i++) fRec73_tmp[i]=fRec73_perm[i];
 			// exec code
@@ -3422,7 +3421,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec73_perm[i]=fRec73_tmp[count+i];
 			
-			// LOOP 0x2bdbf80
+			// LOOP 0x2bb6ba0
 			// pre processing
 			for (int i=0; i<4; i++) fRec80_tmp[i]=fRec80_perm[i];
 			// exec code
@@ -3433,7 +3432,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec80_perm[i]=fRec80_tmp[count+i];
 			
-			// LOOP 0x2bede20
+			// LOOP 0x2bc8a30
 			// pre processing
 			for (int i=0; i<4; i++) fRec87_tmp[i]=fRec87_perm[i];
 			// exec code
@@ -3445,80 +3444,80 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec87_perm[i]=fRec87_tmp[count+i];
 			
 			// SECTION : 4
-			// LOOP 0x2b197e0
+			// LOOP 0x2af4370
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec3[i] = (fRec4[i] - fRec4[i-1]);
 			}
 			
-			// LOOP 0x2b327b0
+			// LOOP 0x2b0d3a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec18[i] = (fRec13[i] - fRec13[i-1]);
 			}
 			
-			// LOOP 0x2b46a50
+			// LOOP 0x2b21630
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec33[i] = (fRec21[i] - fRec21[i-1]);
 			}
 			
-			// LOOP 0x2b5a840
+			// LOOP 0x2b35420
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec48[i] = (fRec29[i] - fRec29[i-1]);
 			}
 			
-			// LOOP 0x2b6e990
+			// LOOP 0x2b49570
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec63[i] = (fRec37[i] - fRec37[i-1]);
 			}
 			
-			// LOOP 0x2b82920
+			// LOOP 0x2b5d500
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec78[i] = (fRec45[i] - fRec45[i-1]);
 			}
 			
-			// LOOP 0x2b94af0
+			// LOOP 0x2b6f700
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec91[i] = (fRec52[i] - fRec52[i-1]);
 			}
 			
-			// LOOP 0x2ba67b0
+			// LOOP 0x2b813c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec104[i] = (fRec59[i] - fRec59[i-1]);
 			}
 			
-			// LOOP 0x2bb8430
+			// LOOP 0x2b93050
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec117[i] = (fRec66[i] - fRec66[i-1]);
 			}
 			
-			// LOOP 0x2bca0f0
+			// LOOP 0x2ba4d10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec130[i] = (fRec73[i] - fRec73[i-1]);
 			}
 			
-			// LOOP 0x2bdbe70
+			// LOOP 0x2bb6a90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec143[i] = (fRec80[i] - fRec80[i-1]);
 			}
 			
-			// LOOP 0x2bedd10
+			// LOOP 0x2bc8920
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec156[i] = (fRec87[i] - fRec87[i-1]);
 			}
 			
 			// SECTION : 5
-			// LOOP 0x2b19060
+			// LOOP 0x2af3bf0
 			// pre processing
 			for (int i=0; i<4; i++) iRec3_tmp[i]=iRec3_perm[i];
 			// exec code
@@ -3528,7 +3527,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec3_perm[i]=iRec3_tmp[count+i];
 			
-			// LOOP 0x2b320d0
+			// LOOP 0x2b0ccc0
 			// pre processing
 			for (int i=0; i<4; i++) iRec12_tmp[i]=iRec12_perm[i];
 			// exec code
@@ -3538,7 +3537,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec12_perm[i]=iRec12_tmp[count+i];
 			
-			// LOOP 0x2b46370
+			// LOOP 0x2b20f50
 			// pre processing
 			for (int i=0; i<4; i++) iRec20_tmp[i]=iRec20_perm[i];
 			// exec code
@@ -3548,7 +3547,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec20_perm[i]=iRec20_tmp[count+i];
 			
-			// LOOP 0x2b5a160
+			// LOOP 0x2b34d40
 			// pre processing
 			for (int i=0; i<4; i++) iRec28_tmp[i]=iRec28_perm[i];
 			// exec code
@@ -3558,7 +3557,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec28_perm[i]=iRec28_tmp[count+i];
 			
-			// LOOP 0x2b6e2b0
+			// LOOP 0x2b48e90
 			// pre processing
 			for (int i=0; i<4; i++) iRec36_tmp[i]=iRec36_perm[i];
 			// exec code
@@ -3568,7 +3567,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec36_perm[i]=iRec36_tmp[count+i];
 			
-			// LOOP 0x2b82240
+			// LOOP 0x2b5ce20
 			// pre processing
 			for (int i=0; i<4; i++) iRec44_tmp[i]=iRec44_perm[i];
 			// exec code
@@ -3578,7 +3577,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec44_perm[i]=iRec44_tmp[count+i];
 			
-			// LOOP 0x2b94410
+			// LOOP 0x2b6f020
 			// pre processing
 			for (int i=0; i<4; i++) iRec51_tmp[i]=iRec51_perm[i];
 			// exec code
@@ -3588,7 +3587,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec51_perm[i]=iRec51_tmp[count+i];
 			
-			// LOOP 0x2ba60d0
+			// LOOP 0x2b80ce0
 			// pre processing
 			for (int i=0; i<4; i++) iRec58_tmp[i]=iRec58_perm[i];
 			// exec code
@@ -3598,7 +3597,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec58_perm[i]=iRec58_tmp[count+i];
 			
-			// LOOP 0x2bb7d50
+			// LOOP 0x2b92970
 			// pre processing
 			for (int i=0; i<4; i++) iRec65_tmp[i]=iRec65_perm[i];
 			// exec code
@@ -3608,7 +3607,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec65_perm[i]=iRec65_tmp[count+i];
 			
-			// LOOP 0x2bc9a10
+			// LOOP 0x2ba4630
 			// pre processing
 			for (int i=0; i<4; i++) iRec72_tmp[i]=iRec72_perm[i];
 			// exec code
@@ -3618,7 +3617,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec72_perm[i]=iRec72_tmp[count+i];
 			
-			// LOOP 0x2bdb7e0
+			// LOOP 0x2bb6400
 			// pre processing
 			for (int i=0; i<4; i++) iRec79_tmp[i]=iRec79_perm[i];
 			// exec code
@@ -3628,7 +3627,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec79_perm[i]=iRec79_tmp[count+i];
 			
-			// LOOP 0x2bed680
+			// LOOP 0x2bc8290
 			// pre processing
 			for (int i=0; i<4; i++) iRec86_tmp[i]=iRec86_perm[i];
 			// exec code
@@ -3639,7 +3638,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec86_perm[i]=iRec86_tmp[count+i];
 			
 			// SECTION : 6
-			// LOOP 0x2b18f20
+			// LOOP 0x2af3ab0
 			// pre processing
 			for (int i=0; i<4; i++) fYec0_tmp[i]=fYec0_perm[i];
 			// exec code
@@ -3649,7 +3648,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec0_perm[i]=fYec0_tmp[count+i];
 			
-			// LOOP 0x2b31f90
+			// LOOP 0x2b0cb80
 			// pre processing
 			for (int i=0; i<4; i++) fYec6_tmp[i]=fYec6_perm[i];
 			// exec code
@@ -3659,7 +3658,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec6_perm[i]=fYec6_tmp[count+i];
 			
-			// LOOP 0x2b46230
+			// LOOP 0x2b20e10
 			// pre processing
 			for (int i=0; i<4; i++) fYec12_tmp[i]=fYec12_perm[i];
 			// exec code
@@ -3669,7 +3668,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec12_perm[i]=fYec12_tmp[count+i];
 			
-			// LOOP 0x2b5a020
+			// LOOP 0x2b34c00
 			// pre processing
 			for (int i=0; i<4; i++) fYec18_tmp[i]=fYec18_perm[i];
 			// exec code
@@ -3679,7 +3678,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec18_perm[i]=fYec18_tmp[count+i];
 			
-			// LOOP 0x2b6e170
+			// LOOP 0x2b48d50
 			// pre processing
 			for (int i=0; i<4; i++) fYec24_tmp[i]=fYec24_perm[i];
 			// exec code
@@ -3689,7 +3688,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec24_perm[i]=fYec24_tmp[count+i];
 			
-			// LOOP 0x2b82100
+			// LOOP 0x2b5cce0
 			// pre processing
 			for (int i=0; i<4; i++) fYec30_tmp[i]=fYec30_perm[i];
 			// exec code
@@ -3699,7 +3698,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec30_perm[i]=fYec30_tmp[count+i];
 			
-			// LOOP 0x2b942d0
+			// LOOP 0x2b6eee0
 			// pre processing
 			for (int i=0; i<4; i++) fYec35_tmp[i]=fYec35_perm[i];
 			// exec code
@@ -3709,7 +3708,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec35_perm[i]=fYec35_tmp[count+i];
 			
-			// LOOP 0x2ba5f90
+			// LOOP 0x2b80ba0
 			// pre processing
 			for (int i=0; i<4; i++) fYec40_tmp[i]=fYec40_perm[i];
 			// exec code
@@ -3719,7 +3718,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec40_perm[i]=fYec40_tmp[count+i];
 			
-			// LOOP 0x2bb7c10
+			// LOOP 0x2b92830
 			// pre processing
 			for (int i=0; i<4; i++) fYec45_tmp[i]=fYec45_perm[i];
 			// exec code
@@ -3729,7 +3728,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec45_perm[i]=fYec45_tmp[count+i];
 			
-			// LOOP 0x2bc98d0
+			// LOOP 0x2ba44f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec50_tmp[i]=fYec50_perm[i];
 			// exec code
@@ -3739,7 +3738,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec50_perm[i]=fYec50_tmp[count+i];
 			
-			// LOOP 0x2bdb6a0
+			// LOOP 0x2bb62c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec55_tmp[i]=fYec55_perm[i];
 			// exec code
@@ -3749,7 +3748,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec55_perm[i]=fYec55_tmp[count+i];
 			
-			// LOOP 0x2bed540
+			// LOOP 0x2bc8150
 			// pre processing
 			for (int i=0; i<4; i++) fYec60_tmp[i]=fYec60_perm[i];
 			// exec code
@@ -3760,152 +3759,152 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec60_perm[i]=fYec60_tmp[count+i];
 			
 			// SECTION : 7
-			// LOOP 0x2b18de0
+			// LOOP 0x2af3970
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec4[i] = (0.5f * fYec0[i]);
 			}
 			
-			// LOOP 0x2b21fd0
+			// LOOP 0x2afcb20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec5[i] = (0.5f * fYec0[i-1]);
 			}
 			
-			// LOOP 0x2b31e50
+			// LOOP 0x2b0ca40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec19[i] = (0.5f * fYec6[i]);
 			}
 			
-			// LOOP 0x2b36550
+			// LOOP 0x2b11140
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec20[i] = (0.5f * fYec6[i-1]);
 			}
 			
-			// LOOP 0x2b460f0
+			// LOOP 0x2b20cd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec34[i] = (0.5f * fYec12[i]);
 			}
 			
-			// LOOP 0x2b4a740
+			// LOOP 0x2b25320
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec35[i] = (0.5f * fYec12[i-1]);
 			}
 			
-			// LOOP 0x2b59ee0
+			// LOOP 0x2b34ac0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec49[i] = (0.5f * fYec18[i]);
 			}
 			
-			// LOOP 0x2b5e590
+			// LOOP 0x2b39170
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec50[i] = (0.5f * fYec18[i-1]);
 			}
 			
-			// LOOP 0x2b6e030
+			// LOOP 0x2b48c10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec64[i] = (0.5f * fYec24[i]);
 			}
 			
-			// LOOP 0x2b726e0
+			// LOOP 0x2b4d2c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec65[i] = (0.5f * fYec24[i-1]);
 			}
 			
-			// LOOP 0x2b81fc0
+			// LOOP 0x2b5cba0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec79[i] = (0.5f * fYec30[i]);
 			}
 			
-			// LOOP 0x2b86670
+			// LOOP 0x2b61280
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec80[i] = (0.5f * fYec30[i-1]);
 			}
 			
-			// LOOP 0x2b94190
+			// LOOP 0x2b6eda0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec92[i] = (0.5f * fYec35[i]);
 			}
 			
-			// LOOP 0x2b98840
+			// LOOP 0x2b73450
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec93[i] = (0.5f * fYec35[i-1]);
 			}
 			
-			// LOOP 0x2ba5e50
+			// LOOP 0x2b80a60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec105[i] = (0.5f * fYec40[i]);
 			}
 			
-			// LOOP 0x2baa660
+			// LOOP 0x2b85270
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec106[i] = (0.5f * fYec40[i-1]);
 			}
 			
-			// LOOP 0x2bb7ad0
+			// LOOP 0x2b926f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec118[i] = (0.5f * fYec45[i]);
 			}
 			
-			// LOOP 0x2bbc180
+			// LOOP 0x2b96da0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec119[i] = (0.5f * fYec45[i-1]);
 			}
 			
-			// LOOP 0x2bc9790
+			// LOOP 0x2ba43b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec131[i] = (0.5f * fYec50[i]);
 			}
 			
-			// LOOP 0x2bcde40
+			// LOOP 0x2ba8a60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec132[i] = (0.5f * fYec50[i-1]);
 			}
 			
-			// LOOP 0x2bdb560
+			// LOOP 0x2bb6180
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec144[i] = (0.5f * fYec55[i]);
 			}
 			
-			// LOOP 0x2bdfb70
+			// LOOP 0x2bba790
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec145[i] = (0.5f * fYec55[i-1]);
 			}
 			
-			// LOOP 0x2bed400
+			// LOOP 0x2bc8010
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec157[i] = (0.5f * fYec60[i]);
 			}
 			
-			// LOOP 0x2bf1a10
+			// LOOP 0x2bcc620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec158[i] = (0.5f * fYec60[i-1]);
 			}
 			
 			// SECTION : 8
-			// LOOP 0x2b21990
+			// LOOP 0x2afc4e0
 			// pre processing
 			for (int i=0; i<4; i++) iRec6_tmp[i]=iRec6_perm[i];
 			// exec code
@@ -3915,7 +3914,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec6_perm[i]=iRec6_tmp[count+i];
 			
-			// LOOP 0x2b35f50
+			// LOOP 0x2b10b40
 			// pre processing
 			for (int i=0; i<4; i++) iRec14_tmp[i]=iRec14_perm[i];
 			// exec code
@@ -3925,7 +3924,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec14_perm[i]=iRec14_tmp[count+i];
 			
-			// LOOP 0x2b4a140
+			// LOOP 0x2b24d20
 			// pre processing
 			for (int i=0; i<4; i++) iRec22_tmp[i]=iRec22_perm[i];
 			// exec code
@@ -3935,7 +3934,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec22_perm[i]=iRec22_tmp[count+i];
 			
-			// LOOP 0x2b5df90
+			// LOOP 0x2b38b70
 			// pre processing
 			for (int i=0; i<4; i++) iRec30_tmp[i]=iRec30_perm[i];
 			// exec code
@@ -3945,7 +3944,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec30_perm[i]=iRec30_tmp[count+i];
 			
-			// LOOP 0x2b720e0
+			// LOOP 0x2b4ccc0
 			// pre processing
 			for (int i=0; i<4; i++) iRec38_tmp[i]=iRec38_perm[i];
 			// exec code
@@ -3955,7 +3954,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec38_perm[i]=iRec38_tmp[count+i];
 			
-			// LOOP 0x2b86070
+			// LOOP 0x2b60c80
 			// pre processing
 			for (int i=0; i<4; i++) iRec46_tmp[i]=iRec46_perm[i];
 			// exec code
@@ -3965,7 +3964,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec46_perm[i]=iRec46_tmp[count+i];
 			
-			// LOOP 0x2b98240
+			// LOOP 0x2b72e50
 			// pre processing
 			for (int i=0; i<4; i++) iRec53_tmp[i]=iRec53_perm[i];
 			// exec code
@@ -3975,7 +3974,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec53_perm[i]=iRec53_tmp[count+i];
 			
-			// LOOP 0x2baa060
+			// LOOP 0x2b84c70
 			// pre processing
 			for (int i=0; i<4; i++) iRec60_tmp[i]=iRec60_perm[i];
 			// exec code
@@ -3985,7 +3984,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec60_perm[i]=iRec60_tmp[count+i];
 			
-			// LOOP 0x2bbbb80
+			// LOOP 0x2b967a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec67_tmp[i]=iRec67_perm[i];
 			// exec code
@@ -3995,7 +3994,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec67_perm[i]=iRec67_tmp[count+i];
 			
-			// LOOP 0x2bcd840
+			// LOOP 0x2ba8460
 			// pre processing
 			for (int i=0; i<4; i++) iRec74_tmp[i]=iRec74_perm[i];
 			// exec code
@@ -4005,7 +4004,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec74_perm[i]=iRec74_tmp[count+i];
 			
-			// LOOP 0x2bdf570
+			// LOOP 0x2bba190
 			// pre processing
 			for (int i=0; i<4; i++) iRec81_tmp[i]=iRec81_perm[i];
 			// exec code
@@ -4015,7 +4014,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec81_perm[i]=iRec81_tmp[count+i];
 			
-			// LOOP 0x2bf1410
+			// LOOP 0x2bcc020
 			// pre processing
 			for (int i=0; i<4; i++) iRec88_tmp[i]=iRec88_perm[i];
 			// exec code
@@ -4026,7 +4025,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec88_perm[i]=iRec88_tmp[count+i];
 			
 			// SECTION : 9
-			// LOOP 0x2b18ca0
+			// LOOP 0x2af3830
 			// pre processing
 			for (int i=0; i<4; i++) fYec1_tmp[i]=fYec1_perm[i];
 			// exec code
@@ -4036,7 +4035,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec1_perm[i]=fYec1_tmp[count+i];
 			
-			// LOOP 0x2b31d10
+			// LOOP 0x2b0c900
 			// pre processing
 			for (int i=0; i<4; i++) fYec7_tmp[i]=fYec7_perm[i];
 			// exec code
@@ -4046,7 +4045,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec7_perm[i]=fYec7_tmp[count+i];
 			
-			// LOOP 0x2b45fb0
+			// LOOP 0x2b20b90
 			// pre processing
 			for (int i=0; i<4; i++) fYec13_tmp[i]=fYec13_perm[i];
 			// exec code
@@ -4056,7 +4055,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec13_perm[i]=fYec13_tmp[count+i];
 			
-			// LOOP 0x2b59da0
+			// LOOP 0x2b34980
 			// pre processing
 			for (int i=0; i<4; i++) fYec19_tmp[i]=fYec19_perm[i];
 			// exec code
@@ -4066,7 +4065,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec19_perm[i]=fYec19_tmp[count+i];
 			
-			// LOOP 0x2b6def0
+			// LOOP 0x2b48ad0
 			// pre processing
 			for (int i=0; i<4; i++) fYec25_tmp[i]=fYec25_perm[i];
 			// exec code
@@ -4076,7 +4075,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec25_perm[i]=fYec25_tmp[count+i];
 			
-			// LOOP 0x2b81e80
+			// LOOP 0x2b5ca60
 			// pre processing
 			for (int i=0; i<4; i++) fYec31_tmp[i]=fYec31_perm[i];
 			// exec code
@@ -4086,7 +4085,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec31_perm[i]=fYec31_tmp[count+i];
 			
-			// LOOP 0x2b94050
+			// LOOP 0x2b6ec60
 			// pre processing
 			for (int i=0; i<4; i++) fYec36_tmp[i]=fYec36_perm[i];
 			// exec code
@@ -4096,7 +4095,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec36_perm[i]=fYec36_tmp[count+i];
 			
-			// LOOP 0x2ba5d10
+			// LOOP 0x2b80920
 			// pre processing
 			for (int i=0; i<4; i++) fYec41_tmp[i]=fYec41_perm[i];
 			// exec code
@@ -4106,7 +4105,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec41_perm[i]=fYec41_tmp[count+i];
 			
-			// LOOP 0x2bb7990
+			// LOOP 0x2b925b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec46_tmp[i]=fYec46_perm[i];
 			// exec code
@@ -4116,7 +4115,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec46_perm[i]=fYec46_tmp[count+i];
 			
-			// LOOP 0x2bc9650
+			// LOOP 0x2ba4270
 			// pre processing
 			for (int i=0; i<4; i++) fYec51_tmp[i]=fYec51_perm[i];
 			// exec code
@@ -4126,7 +4125,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec51_perm[i]=fYec51_tmp[count+i];
 			
-			// LOOP 0x2bdb420
+			// LOOP 0x2bb6040
 			// pre processing
 			for (int i=0; i<4; i++) fYec56_tmp[i]=fYec56_perm[i];
 			// exec code
@@ -4136,7 +4135,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec56_perm[i]=fYec56_tmp[count+i];
 			
-			// LOOP 0x2bed2c0
+			// LOOP 0x2bc7ed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec61_tmp[i]=fYec61_perm[i];
 			// exec code
@@ -4147,152 +4146,152 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec61_perm[i]=fYec61_tmp[count+i];
 			
 			// SECTION : 10
-			// LOOP 0x2b18b60
+			// LOOP 0x2af36f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec6[i] = (0.5f * fYec1[i]);
 			}
 			
-			// LOOP 0x2b242b0
+			// LOOP 0x2afeea0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec7[i] = (0.5f * fYec1[i-1]);
 			}
 			
-			// LOOP 0x2b31bd0
+			// LOOP 0x2b0c7c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec21[i] = (0.5f * fYec7[i]);
 			}
 			
-			// LOOP 0x2b388a0
+			// LOOP 0x2b13490
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec22[i] = (0.5f * fYec7[i-1]);
 			}
 			
-			// LOOP 0x2b45e70
+			// LOOP 0x2b20a50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec36[i] = (0.5f * fYec13[i]);
 			}
 			
-			// LOOP 0x2b4cac0
+			// LOOP 0x2b276a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec37[i] = (0.5f * fYec13[i-1]);
 			}
 			
-			// LOOP 0x2b59c60
+			// LOOP 0x2b34840
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec51[i] = (0.5f * fYec19[i]);
 			}
 			
-			// LOOP 0x2b60910
+			// LOOP 0x2b3b4f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec52[i] = (0.5f * fYec19[i-1]);
 			}
 			
-			// LOOP 0x2b6ddb0
+			// LOOP 0x2b48990
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec66[i] = (0.5f * fYec25[i]);
 			}
 			
-			// LOOP 0x2b74a60
+			// LOOP 0x2b4f640
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec67[i] = (0.5f * fYec25[i-1]);
 			}
 			
-			// LOOP 0x2b81d40
+			// LOOP 0x2b5c920
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec81[i] = (0.5f * fYec31[i]);
 			}
 			
-			// LOOP 0x2b889f0
+			// LOOP 0x2b63600
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec82[i] = (0.5f * fYec31[i-1]);
 			}
 			
-			// LOOP 0x2b93f10
+			// LOOP 0x2b6eb20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec94[i] = (0.5f * fYec36[i]);
 			}
 			
-			// LOOP 0x2b9abc0
+			// LOOP 0x2b757d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec95[i] = (0.5f * fYec36[i-1]);
 			}
 			
-			// LOOP 0x2ba5bd0
+			// LOOP 0x2b807e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec107[i] = (0.5f * fYec41[i]);
 			}
 			
-			// LOOP 0x2bac9e0
+			// LOOP 0x2b875f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec108[i] = (0.5f * fYec41[i-1]);
 			}
 			
-			// LOOP 0x2bb7850
+			// LOOP 0x2b92470
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec120[i] = (0.5f * fYec46[i]);
 			}
 			
-			// LOOP 0x2bbe500
+			// LOOP 0x2b99120
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec121[i] = (0.5f * fYec46[i-1]);
 			}
 			
-			// LOOP 0x2bc9510
+			// LOOP 0x2ba4130
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec133[i] = (0.5f * fYec51[i]);
 			}
 			
-			// LOOP 0x2bd01c0
+			// LOOP 0x2baade0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec134[i] = (0.5f * fYec51[i-1]);
 			}
 			
-			// LOOP 0x2bdb2e0
+			// LOOP 0x2bb5f00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec146[i] = (0.5f * fYec56[i]);
 			}
 			
-			// LOOP 0x2be1ef0
+			// LOOP 0x2bbcb10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec147[i] = (0.5f * fYec56[i-1]);
 			}
 			
-			// LOOP 0x2bed180
+			// LOOP 0x2bc7d90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec159[i] = (0.5f * fYec61[i]);
 			}
 			
-			// LOOP 0x2bf3d90
+			// LOOP 0x2bce9a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec160[i] = (0.5f * fYec61[i-1]);
 			}
 			
 			// SECTION : 11
-			// LOOP 0x2b23c70
+			// LOOP 0x2afe860
 			// pre processing
 			for (int i=0; i<4; i++) iRec7_tmp[i]=iRec7_perm[i];
 			// exec code
@@ -4302,7 +4301,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec7_perm[i]=iRec7_tmp[count+i];
 			
-			// LOOP 0x2b382a0
+			// LOOP 0x2b12e90
 			// pre processing
 			for (int i=0; i<4; i++) iRec15_tmp[i]=iRec15_perm[i];
 			// exec code
@@ -4312,7 +4311,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec15_perm[i]=iRec15_tmp[count+i];
 			
-			// LOOP 0x2b4c4c0
+			// LOOP 0x2b270a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec23_tmp[i]=iRec23_perm[i];
 			// exec code
@@ -4322,7 +4321,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec23_perm[i]=iRec23_tmp[count+i];
 			
-			// LOOP 0x2b60310
+			// LOOP 0x2b3aef0
 			// pre processing
 			for (int i=0; i<4; i++) iRec31_tmp[i]=iRec31_perm[i];
 			// exec code
@@ -4332,7 +4331,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec31_perm[i]=iRec31_tmp[count+i];
 			
-			// LOOP 0x2b74460
+			// LOOP 0x2b4f040
 			// pre processing
 			for (int i=0; i<4; i++) iRec39_tmp[i]=iRec39_perm[i];
 			// exec code
@@ -4342,7 +4341,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec39_perm[i]=iRec39_tmp[count+i];
 			
-			// LOOP 0x2b883f0
+			// LOOP 0x2b63000
 			// pre processing
 			for (int i=0; i<4; i++) iRec47_tmp[i]=iRec47_perm[i];
 			// exec code
@@ -4352,7 +4351,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec47_perm[i]=iRec47_tmp[count+i];
 			
-			// LOOP 0x2b9a5c0
+			// LOOP 0x2b751d0
 			// pre processing
 			for (int i=0; i<4; i++) iRec54_tmp[i]=iRec54_perm[i];
 			// exec code
@@ -4362,7 +4361,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec54_perm[i]=iRec54_tmp[count+i];
 			
-			// LOOP 0x2bac3e0
+			// LOOP 0x2b86ff0
 			// pre processing
 			for (int i=0; i<4; i++) iRec61_tmp[i]=iRec61_perm[i];
 			// exec code
@@ -4372,7 +4371,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec61_perm[i]=iRec61_tmp[count+i];
 			
-			// LOOP 0x2bbdf00
+			// LOOP 0x2b98b20
 			// pre processing
 			for (int i=0; i<4; i++) iRec68_tmp[i]=iRec68_perm[i];
 			// exec code
@@ -4382,7 +4381,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec68_perm[i]=iRec68_tmp[count+i];
 			
-			// LOOP 0x2bcfbc0
+			// LOOP 0x2baa7e0
 			// pre processing
 			for (int i=0; i<4; i++) iRec75_tmp[i]=iRec75_perm[i];
 			// exec code
@@ -4392,7 +4391,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec75_perm[i]=iRec75_tmp[count+i];
 			
-			// LOOP 0x2be18f0
+			// LOOP 0x2bbc510
 			// pre processing
 			for (int i=0; i<4; i++) iRec82_tmp[i]=iRec82_perm[i];
 			// exec code
@@ -4402,7 +4401,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec82_perm[i]=iRec82_tmp[count+i];
 			
-			// LOOP 0x2bf3790
+			// LOOP 0x2bce3a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec89_tmp[i]=iRec89_perm[i];
 			// exec code
@@ -4413,7 +4412,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec89_perm[i]=iRec89_tmp[count+i];
 			
 			// SECTION : 12
-			// LOOP 0x2b18a20
+			// LOOP 0x2af35b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec2_tmp[i]=fYec2_perm[i];
 			// exec code
@@ -4423,7 +4422,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec2_perm[i]=fYec2_tmp[count+i];
 			
-			// LOOP 0x2b31a90
+			// LOOP 0x2b0c680
 			// pre processing
 			for (int i=0; i<4; i++) fYec8_tmp[i]=fYec8_perm[i];
 			// exec code
@@ -4433,7 +4432,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec8_perm[i]=fYec8_tmp[count+i];
 			
-			// LOOP 0x2b45d30
+			// LOOP 0x2b20910
 			// pre processing
 			for (int i=0; i<4; i++) fYec14_tmp[i]=fYec14_perm[i];
 			// exec code
@@ -4443,7 +4442,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec14_perm[i]=fYec14_tmp[count+i];
 			
-			// LOOP 0x2b59b20
+			// LOOP 0x2b34700
 			// pre processing
 			for (int i=0; i<4; i++) fYec20_tmp[i]=fYec20_perm[i];
 			// exec code
@@ -4453,7 +4452,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec20_perm[i]=fYec20_tmp[count+i];
 			
-			// LOOP 0x2b6dc70
+			// LOOP 0x2b48850
 			// pre processing
 			for (int i=0; i<4; i++) fYec26_tmp[i]=fYec26_perm[i];
 			// exec code
@@ -4463,7 +4462,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec26_perm[i]=fYec26_tmp[count+i];
 			
-			// LOOP 0x2b81c00
+			// LOOP 0x2b5c7e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec32_tmp[i]=fYec32_perm[i];
 			// exec code
@@ -4473,7 +4472,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec32_perm[i]=fYec32_tmp[count+i];
 			
-			// LOOP 0x2b93dd0
+			// LOOP 0x2b6e9e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec37_tmp[i]=fYec37_perm[i];
 			// exec code
@@ -4483,7 +4482,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec37_perm[i]=fYec37_tmp[count+i];
 			
-			// LOOP 0x2ba5a90
+			// LOOP 0x2b806a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec42_tmp[i]=fYec42_perm[i];
 			// exec code
@@ -4493,7 +4492,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec42_perm[i]=fYec42_tmp[count+i];
 			
-			// LOOP 0x2bb7710
+			// LOOP 0x2b92330
 			// pre processing
 			for (int i=0; i<4; i++) fYec47_tmp[i]=fYec47_perm[i];
 			// exec code
@@ -4503,7 +4502,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec47_perm[i]=fYec47_tmp[count+i];
 			
-			// LOOP 0x2bc93d0
+			// LOOP 0x2ba3ff0
 			// pre processing
 			for (int i=0; i<4; i++) fYec52_tmp[i]=fYec52_perm[i];
 			// exec code
@@ -4513,7 +4512,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec52_perm[i]=fYec52_tmp[count+i];
 			
-			// LOOP 0x2bdb1a0
+			// LOOP 0x2bb5dc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec57_tmp[i]=fYec57_perm[i];
 			// exec code
@@ -4523,7 +4522,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec57_perm[i]=fYec57_tmp[count+i];
 			
-			// LOOP 0x2bed040
+			// LOOP 0x2bc7c50
 			// pre processing
 			for (int i=0; i<4; i++) fYec62_tmp[i]=fYec62_perm[i];
 			// exec code
@@ -4534,152 +4533,152 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec62_perm[i]=fYec62_tmp[count+i];
 			
 			// SECTION : 13
-			// LOOP 0x2b188e0
+			// LOOP 0x2af3470
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec8[i] = (0.5f * fYec2[i]);
 			}
 			
-			// LOOP 0x2b26590
+			// LOOP 0x2b01180
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec9[i] = (0.5f * fYec2[i-1]);
 			}
 			
-			// LOOP 0x2b31950
+			// LOOP 0x2b0c540
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec23[i] = (0.5f * fYec8[i]);
 			}
 			
-			// LOOP 0x2b3abf0
+			// LOOP 0x2b157e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec24[i] = (0.5f * fYec8[i-1]);
 			}
 			
-			// LOOP 0x2b45bf0
+			// LOOP 0x2b207d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec38[i] = (0.5f * fYec14[i]);
 			}
 			
-			// LOOP 0x2b4ee40
+			// LOOP 0x2b29a20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec39[i] = (0.5f * fYec14[i-1]);
 			}
 			
-			// LOOP 0x2b599e0
+			// LOOP 0x2b345c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec53[i] = (0.5f * fYec20[i]);
 			}
 			
-			// LOOP 0x2b62c90
+			// LOOP 0x2b3d870
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec54[i] = (0.5f * fYec20[i-1]);
 			}
 			
-			// LOOP 0x2b6db30
+			// LOOP 0x2b48710
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec68[i] = (0.5f * fYec26[i]);
 			}
 			
-			// LOOP 0x2b76de0
+			// LOOP 0x2b519c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec69[i] = (0.5f * fYec26[i-1]);
 			}
 			
-			// LOOP 0x2b81ac0
+			// LOOP 0x2b5c6a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec83[i] = (0.5f * fYec32[i]);
 			}
 			
-			// LOOP 0x2b8ad70
+			// LOOP 0x2b65980
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec84[i] = (0.5f * fYec32[i-1]);
 			}
 			
-			// LOOP 0x2b93c90
+			// LOOP 0x2b6e8a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec96[i] = (0.5f * fYec37[i]);
 			}
 			
-			// LOOP 0x2b9cf40
+			// LOOP 0x2b77b50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec97[i] = (0.5f * fYec37[i-1]);
 			}
 			
-			// LOOP 0x2ba5950
+			// LOOP 0x2b80560
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec109[i] = (0.5f * fYec42[i]);
 			}
 			
-			// LOOP 0x2baed60
+			// LOOP 0x2b89970
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec110[i] = (0.5f * fYec42[i-1]);
 			}
 			
-			// LOOP 0x2bb75d0
+			// LOOP 0x2b921f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec122[i] = (0.5f * fYec47[i]);
 			}
 			
-			// LOOP 0x2bc0880
+			// LOOP 0x2b9b4a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec123[i] = (0.5f * fYec47[i-1]);
 			}
 			
-			// LOOP 0x2bc9290
+			// LOOP 0x2ba3eb0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec135[i] = (0.5f * fYec52[i]);
 			}
 			
-			// LOOP 0x2bd2540
+			// LOOP 0x2bad160
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec136[i] = (0.5f * fYec52[i-1]);
 			}
 			
-			// LOOP 0x2bdb060
+			// LOOP 0x2bb5c80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec148[i] = (0.5f * fYec57[i]);
 			}
 			
-			// LOOP 0x2be4270
+			// LOOP 0x2bbee90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec149[i] = (0.5f * fYec57[i-1]);
 			}
 			
-			// LOOP 0x2becf00
+			// LOOP 0x2bc7b10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec161[i] = (0.5f * fYec62[i]);
 			}
 			
-			// LOOP 0x2bf6110
+			// LOOP 0x2bd0d20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec162[i] = (0.5f * fYec62[i-1]);
 			}
 			
 			// SECTION : 14
-			// LOOP 0x2b25f50
+			// LOOP 0x2b00b40
 			// pre processing
 			for (int i=0; i<4; i++) iRec8_tmp[i]=iRec8_perm[i];
 			// exec code
@@ -4689,7 +4688,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec8_perm[i]=iRec8_tmp[count+i];
 			
-			// LOOP 0x2b3a5f0
+			// LOOP 0x2b151e0
 			// pre processing
 			for (int i=0; i<4; i++) iRec16_tmp[i]=iRec16_perm[i];
 			// exec code
@@ -4699,7 +4698,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec16_perm[i]=iRec16_tmp[count+i];
 			
-			// LOOP 0x2b4e840
+			// LOOP 0x2b29420
 			// pre processing
 			for (int i=0; i<4; i++) iRec24_tmp[i]=iRec24_perm[i];
 			// exec code
@@ -4709,7 +4708,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec24_perm[i]=iRec24_tmp[count+i];
 			
-			// LOOP 0x2b62690
+			// LOOP 0x2b3d270
 			// pre processing
 			for (int i=0; i<4; i++) iRec32_tmp[i]=iRec32_perm[i];
 			// exec code
@@ -4719,7 +4718,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec32_perm[i]=iRec32_tmp[count+i];
 			
-			// LOOP 0x2b767e0
+			// LOOP 0x2b513c0
 			// pre processing
 			for (int i=0; i<4; i++) iRec40_tmp[i]=iRec40_perm[i];
 			// exec code
@@ -4729,7 +4728,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec40_perm[i]=iRec40_tmp[count+i];
 			
-			// LOOP 0x2b8a770
+			// LOOP 0x2b65380
 			// pre processing
 			for (int i=0; i<4; i++) iRec48_tmp[i]=iRec48_perm[i];
 			// exec code
@@ -4739,7 +4738,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec48_perm[i]=iRec48_tmp[count+i];
 			
-			// LOOP 0x2b9c940
+			// LOOP 0x2b77550
 			// pre processing
 			for (int i=0; i<4; i++) iRec55_tmp[i]=iRec55_perm[i];
 			// exec code
@@ -4749,7 +4748,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec55_perm[i]=iRec55_tmp[count+i];
 			
-			// LOOP 0x2bae760
+			// LOOP 0x2b89370
 			// pre processing
 			for (int i=0; i<4; i++) iRec62_tmp[i]=iRec62_perm[i];
 			// exec code
@@ -4759,7 +4758,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec62_perm[i]=iRec62_tmp[count+i];
 			
-			// LOOP 0x2bc0280
+			// LOOP 0x2b9aea0
 			// pre processing
 			for (int i=0; i<4; i++) iRec69_tmp[i]=iRec69_perm[i];
 			// exec code
@@ -4769,7 +4768,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec69_perm[i]=iRec69_tmp[count+i];
 			
-			// LOOP 0x2bd1f40
+			// LOOP 0x2bacb60
 			// pre processing
 			for (int i=0; i<4; i++) iRec76_tmp[i]=iRec76_perm[i];
 			// exec code
@@ -4779,7 +4778,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec76_perm[i]=iRec76_tmp[count+i];
 			
-			// LOOP 0x2be3c70
+			// LOOP 0x2bbe890
 			// pre processing
 			for (int i=0; i<4; i++) iRec83_tmp[i]=iRec83_perm[i];
 			// exec code
@@ -4789,7 +4788,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec83_perm[i]=iRec83_tmp[count+i];
 			
-			// LOOP 0x2bf5b10
+			// LOOP 0x2bd0720
 			// pre processing
 			for (int i=0; i<4; i++) iRec90_tmp[i]=iRec90_perm[i];
 			// exec code
@@ -4800,7 +4799,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec90_perm[i]=iRec90_tmp[count+i];
 			
 			// SECTION : 15
-			// LOOP 0x2b187a0
+			// LOOP 0x2af3330
 			// pre processing
 			for (int i=0; i<4; i++) fYec3_tmp[i]=fYec3_perm[i];
 			// exec code
@@ -4810,7 +4809,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec3_perm[i]=fYec3_tmp[count+i];
 			
-			// LOOP 0x2b31810
+			// LOOP 0x2b0c400
 			// pre processing
 			for (int i=0; i<4; i++) fYec9_tmp[i]=fYec9_perm[i];
 			// exec code
@@ -4820,7 +4819,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec9_perm[i]=fYec9_tmp[count+i];
 			
-			// LOOP 0x2b45ab0
+			// LOOP 0x2b20690
 			// pre processing
 			for (int i=0; i<4; i++) fYec15_tmp[i]=fYec15_perm[i];
 			// exec code
@@ -4830,7 +4829,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec15_perm[i]=fYec15_tmp[count+i];
 			
-			// LOOP 0x2b598a0
+			// LOOP 0x2b34480
 			// pre processing
 			for (int i=0; i<4; i++) fYec21_tmp[i]=fYec21_perm[i];
 			// exec code
@@ -4840,7 +4839,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec21_perm[i]=fYec21_tmp[count+i];
 			
-			// LOOP 0x2b6d9f0
+			// LOOP 0x2b485d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec27_tmp[i]=fYec27_perm[i];
 			// exec code
@@ -4850,7 +4849,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec27_perm[i]=fYec27_tmp[count+i];
 			
-			// LOOP 0x2b81980
+			// LOOP 0x2b5c560
 			// pre processing
 			for (int i=0; i<4; i++) fYec33_tmp[i]=fYec33_perm[i];
 			// exec code
@@ -4860,7 +4859,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec33_perm[i]=fYec33_tmp[count+i];
 			
-			// LOOP 0x2b93b50
+			// LOOP 0x2b6e760
 			// pre processing
 			for (int i=0; i<4; i++) fYec38_tmp[i]=fYec38_perm[i];
 			// exec code
@@ -4870,7 +4869,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec38_perm[i]=fYec38_tmp[count+i];
 			
-			// LOOP 0x2ba5810
+			// LOOP 0x2b80420
 			// pre processing
 			for (int i=0; i<4; i++) fYec43_tmp[i]=fYec43_perm[i];
 			// exec code
@@ -4880,7 +4879,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec43_perm[i]=fYec43_tmp[count+i];
 			
-			// LOOP 0x2bb7490
+			// LOOP 0x2b920b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec48_tmp[i]=fYec48_perm[i];
 			// exec code
@@ -4890,7 +4889,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec48_perm[i]=fYec48_tmp[count+i];
 			
-			// LOOP 0x2bc9150
+			// LOOP 0x2ba3d70
 			// pre processing
 			for (int i=0; i<4; i++) fYec53_tmp[i]=fYec53_perm[i];
 			// exec code
@@ -4900,7 +4899,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec53_perm[i]=fYec53_tmp[count+i];
 			
-			// LOOP 0x2bdaf20
+			// LOOP 0x2bb5b40
 			// pre processing
 			for (int i=0; i<4; i++) fYec58_tmp[i]=fYec58_perm[i];
 			// exec code
@@ -4910,7 +4909,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec58_perm[i]=fYec58_tmp[count+i];
 			
-			// LOOP 0x2becdc0
+			// LOOP 0x2bc79d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec63_tmp[i]=fYec63_perm[i];
 			// exec code
@@ -4921,152 +4920,152 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec63_perm[i]=fYec63_tmp[count+i];
 			
 			// SECTION : 16
-			// LOOP 0x2b18660
+			// LOOP 0x2af31f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec10[i] = (0.5f * fYec3[i]);
 			}
 			
-			// LOOP 0x2b288d0
+			// LOOP 0x2b034c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec11[i] = (0.5f * fYec3[i-1]);
 			}
 			
-			// LOOP 0x2b316d0
+			// LOOP 0x2b0c2c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec25[i] = (0.5f * fYec9[i]);
 			}
 			
-			// LOOP 0x2b3cf40
+			// LOOP 0x2b17b30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec26[i] = (0.5f * fYec9[i-1]);
 			}
 			
-			// LOOP 0x2b45970
+			// LOOP 0x2b20550
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec40[i] = (0.5f * fYec15[i]);
 			}
 			
-			// LOOP 0x2b511c0
+			// LOOP 0x2b2bda0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec41[i] = (0.5f * fYec15[i-1]);
 			}
 			
-			// LOOP 0x2b59760
+			// LOOP 0x2b34340
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec55[i] = (0.5f * fYec21[i]);
 			}
 			
-			// LOOP 0x2b65020
+			// LOOP 0x2b3fc00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec56[i] = (0.5f * fYec21[i-1]);
 			}
 			
-			// LOOP 0x2b6d8b0
+			// LOOP 0x2b48490
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec70[i] = (0.5f * fYec27[i]);
 			}
 			
-			// LOOP 0x2b79160
+			// LOOP 0x2b53d40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec71[i] = (0.5f * fYec27[i-1]);
 			}
 			
-			// LOOP 0x2b81840
+			// LOOP 0x2b5c420
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec85[i] = (0.5f * fYec33[i]);
 			}
 			
-			// LOOP 0x2b8d540
+			// LOOP 0x2b68150
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec86[i] = (0.5f * fYec33[i-1]);
 			}
 			
-			// LOOP 0x2b93a10
+			// LOOP 0x2b6e620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec98[i] = (0.5f * fYec38[i]);
 			}
 			
-			// LOOP 0x2b9f710
+			// LOOP 0x2b7a320
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec99[i] = (0.5f * fYec38[i-1]);
 			}
 			
-			// LOOP 0x2ba56d0
+			// LOOP 0x2b802e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec111[i] = (0.5f * fYec43[i]);
 			}
 			
-			// LOOP 0x2bb1540
+			// LOOP 0x2b8c150
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec112[i] = (0.5f * fYec43[i-1]);
 			}
 			
-			// LOOP 0x2bb7350
+			// LOOP 0x2b91f70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec124[i] = (0.5f * fYec48[i]);
 			}
 			
-			// LOOP 0x2bc3060
+			// LOOP 0x2b9dc80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec125[i] = (0.5f * fYec48[i-1]);
 			}
 			
-			// LOOP 0x2bc9010
+			// LOOP 0x2ba3c30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec137[i] = (0.5f * fYec53[i]);
 			}
 			
-			// LOOP 0x2bd4d20
+			// LOOP 0x2baf940
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec138[i] = (0.5f * fYec53[i-1]);
 			}
 			
-			// LOOP 0x2bdade0
+			// LOOP 0x2bb5a00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec150[i] = (0.5f * fYec58[i]);
 			}
 			
-			// LOOP 0x2be6a50
+			// LOOP 0x2bc1670
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec151[i] = (0.5f * fYec58[i-1]);
 			}
 			
-			// LOOP 0x2becc80
+			// LOOP 0x2bc7890
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec163[i] = (0.5f * fYec63[i]);
 			}
 			
-			// LOOP 0x2bf88f0
+			// LOOP 0x2bd3500
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec164[i] = (0.5f * fYec63[i-1]);
 			}
 			
 			// SECTION : 17
-			// LOOP 0x2b28290
+			// LOOP 0x2b02e80
 			// pre processing
 			for (int i=0; i<4; i++) iRec9_tmp[i]=iRec9_perm[i];
 			// exec code
@@ -5076,7 +5075,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec9_perm[i]=iRec9_tmp[count+i];
 			
-			// LOOP 0x2b3c940
+			// LOOP 0x2b17530
 			// pre processing
 			for (int i=0; i<4; i++) iRec17_tmp[i]=iRec17_perm[i];
 			// exec code
@@ -5086,7 +5085,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec17_perm[i]=iRec17_tmp[count+i];
 			
-			// LOOP 0x2b50bc0
+			// LOOP 0x2b2b7a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec25_tmp[i]=iRec25_perm[i];
 			// exec code
@@ -5096,7 +5095,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec25_perm[i]=iRec25_tmp[count+i];
 			
-			// LOOP 0x2b64a20
+			// LOOP 0x2b3f600
 			// pre processing
 			for (int i=0; i<4; i++) iRec33_tmp[i]=iRec33_perm[i];
 			// exec code
@@ -5106,7 +5105,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec33_perm[i]=iRec33_tmp[count+i];
 			
-			// LOOP 0x2b78b60
+			// LOOP 0x2b53740
 			// pre processing
 			for (int i=0; i<4; i++) iRec41_tmp[i]=iRec41_perm[i];
 			// exec code
@@ -5116,7 +5115,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec41_perm[i]=iRec41_tmp[count+i];
 			
-			// LOOP 0x2d7d750
+			// LOOP 0x2d582c0
 			// pre processing
 			for (int i=0; i<4; i++) iRec189_tmp[i]=iRec189_perm[i];
 			// exec code
@@ -5126,7 +5125,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec189_perm[i]=iRec189_tmp[count+i];
 			
-			// LOOP 0x2d881d0
+			// LOOP 0x2d62d40
 			// pre processing
 			for (int i=0; i<4; i++) iRec194_tmp[i]=iRec194_perm[i];
 			// exec code
@@ -5136,7 +5135,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec194_perm[i]=iRec194_tmp[count+i];
 			
-			// LOOP 0x2d92600
+			// LOOP 0x2d6d170
 			// pre processing
 			for (int i=0; i<4; i++) iRec199_tmp[i]=iRec199_perm[i];
 			// exec code
@@ -5146,7 +5145,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec199_perm[i]=iRec199_tmp[count+i];
 			
-			// LOOP 0x2d9ca60
+			// LOOP 0x2d775a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec204_tmp[i]=iRec204_perm[i];
 			// exec code
@@ -5156,7 +5155,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec204_perm[i]=iRec204_tmp[count+i];
 			
-			// LOOP 0x2da6f90
+			// LOOP 0x2d81ad0
 			// pre processing
 			for (int i=0; i<4; i++) iRec209_tmp[i]=iRec209_perm[i];
 			// exec code
@@ -5166,7 +5165,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec209_perm[i]=iRec209_tmp[count+i];
 			
-			// LOOP 0x2db1480
+			// LOOP 0x2d8bfc0
 			// pre processing
 			for (int i=0; i<4; i++) iRec214_tmp[i]=iRec214_perm[i];
 			// exec code
@@ -5176,7 +5175,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec214_perm[i]=iRec214_tmp[count+i];
 			
-			// LOOP 0x2dbb950
+			// LOOP 0x2d96470
 			// pre processing
 			for (int i=0; i<4; i++) iRec219_tmp[i]=iRec219_perm[i];
 			// exec code
@@ -5187,7 +5186,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec219_perm[i]=iRec219_tmp[count+i];
 			
 			// SECTION : 18
-			// LOOP 0x2b18520
+			// LOOP 0x2af30b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec4_tmp[i]=fYec4_perm[i];
 			// exec code
@@ -5197,7 +5196,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec4_perm[i]=fYec4_tmp[count+i];
 			
-			// LOOP 0x2b31590
+			// LOOP 0x2b0c180
 			// pre processing
 			for (int i=0; i<4; i++) fYec10_tmp[i]=fYec10_perm[i];
 			// exec code
@@ -5207,7 +5206,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec10_perm[i]=fYec10_tmp[count+i];
 			
-			// LOOP 0x2b45830
+			// LOOP 0x2b20410
 			// pre processing
 			for (int i=0; i<4; i++) fYec16_tmp[i]=fYec16_perm[i];
 			// exec code
@@ -5217,7 +5216,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec16_perm[i]=fYec16_tmp[count+i];
 			
-			// LOOP 0x2b59620
+			// LOOP 0x2b34200
 			// pre processing
 			for (int i=0; i<4; i++) fYec22_tmp[i]=fYec22_perm[i];
 			// exec code
@@ -5227,7 +5226,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec22_perm[i]=fYec22_tmp[count+i];
 			
-			// LOOP 0x2b6d770
+			// LOOP 0x2b48350
 			// pre processing
 			for (int i=0; i<4; i++) fYec28_tmp[i]=fYec28_perm[i];
 			// exec code
@@ -5237,7 +5236,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec28_perm[i]=fYec28_tmp[count+i];
 			
-			// LOOP 0x2d7d5b0
+			// LOOP 0x2d58120
 			// pre processing
 			for (int i=0; i<4; i++) fYec132_tmp[i]=fYec132_perm[i];
 			// exec code
@@ -5247,7 +5246,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec132_perm[i]=fYec132_tmp[count+i];
 			
-			// LOOP 0x2d88030
+			// LOOP 0x2d62ba0
 			// pre processing
 			for (int i=0; i<4; i++) fYec136_tmp[i]=fYec136_perm[i];
 			// exec code
@@ -5257,7 +5256,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec136_perm[i]=fYec136_tmp[count+i];
 			
-			// LOOP 0x2d92460
+			// LOOP 0x2d6cfd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec140_tmp[i]=fYec140_perm[i];
 			// exec code
@@ -5267,7 +5266,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec140_perm[i]=fYec140_tmp[count+i];
 			
-			// LOOP 0x2d9c8c0
+			// LOOP 0x2d77400
 			// pre processing
 			for (int i=0; i<4; i++) fYec144_tmp[i]=fYec144_perm[i];
 			// exec code
@@ -5277,7 +5276,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec144_perm[i]=fYec144_tmp[count+i];
 			
-			// LOOP 0x2da6df0
+			// LOOP 0x2d81930
 			// pre processing
 			for (int i=0; i<4; i++) fYec148_tmp[i]=fYec148_perm[i];
 			// exec code
@@ -5287,7 +5286,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec148_perm[i]=fYec148_tmp[count+i];
 			
-			// LOOP 0x2db12e0
+			// LOOP 0x2d8be20
 			// pre processing
 			for (int i=0; i<4; i++) fYec152_tmp[i]=fYec152_perm[i];
 			// exec code
@@ -5297,7 +5296,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec152_perm[i]=fYec152_tmp[count+i];
 			
-			// LOOP 0x2dbb7b0
+			// LOOP 0x2d962d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec156_tmp[i]=fYec156_perm[i];
 			// exec code
@@ -5308,236 +5307,236 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec156_perm[i]=fYec156_tmp[count+i];
 			
 			// SECTION : 19
-			// LOOP 0x2b183e0
+			// LOOP 0x2af2f70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec12[i] = (0.5f * fYec4[i]);
 			}
 			
-			// LOOP 0x2b2b190
+			// LOOP 0x2b05d80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec13[i] = (0.5f * fYec4[i-1]);
 			}
 			
-			// LOOP 0x2b31450
+			// LOOP 0x2b0c040
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec27[i] = (0.5f * fYec10[i]);
 			}
 			
-			// LOOP 0x2b3f700
+			// LOOP 0x2b1a2f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec28[i] = (0.5f * fYec10[i-1]);
 			}
 			
-			// LOOP 0x2b456f0
+			// LOOP 0x2b202d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec42[i] = (0.5f * fYec16[i]);
 			}
 			
-			// LOOP 0x2b53990
+			// LOOP 0x2b2e570
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec43[i] = (0.5f * fYec16[i-1]);
 			}
 			
-			// LOOP 0x2b594e0
+			// LOOP 0x2b340c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec57[i] = (0.5f * fYec22[i]);
 			}
 			
-			// LOOP 0x2b677f0
+			// LOOP 0x2b423d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec58[i] = (0.5f * fYec22[i-1]);
 			}
 			
-			// LOOP 0x2b6d630
+			// LOOP 0x2b48210
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec72[i] = (0.5f * fYec28[i]);
 			}
 			
-			// LOOP 0x2b7b930
+			// LOOP 0x2b56510
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec73[i] = (0.5f * fYec28[i-1]);
 			}
 			
-			// LOOP 0x2b8e1c0
+			// LOOP 0x2b68dd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec87[i] = ((1 + fRec45[i]) - fRec45[i-1]);
 			}
 			
-			// LOOP 0x2ba0390
+			// LOOP 0x2b7afa0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec100[i] = ((1 + fRec52[i]) - fRec52[i-1]);
 			}
 			
-			// LOOP 0x2bb21c0
+			// LOOP 0x2b8cdd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec113[i] = ((1 + fRec59[i]) - fRec59[i-1]);
 			}
 			
-			// LOOP 0x2bc3ce0
+			// LOOP 0x2b9e900
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec126[i] = ((1 + fRec66[i]) - fRec66[i-1]);
 			}
 			
-			// LOOP 0x2bd59a0
+			// LOOP 0x2bb05c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec139[i] = ((1 + fRec73[i]) - fRec73[i-1]);
 			}
 			
-			// LOOP 0x2d7d470
+			// LOOP 0x2d57fe0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec272[i] = (0.5f * fYec132[i]);
 			}
 			
-			// LOOP 0x2d7fb30
+			// LOOP 0x2d5a6a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec273[i] = (0.5f * fYec132[i-1]);
 			}
 			
-			// LOOP 0x2d87ef0
+			// LOOP 0x2d62a60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec277[i] = (0.5f * fYec136[i]);
 			}
 			
-			// LOOP 0x2d8a5b0
+			// LOOP 0x2d65120
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec278[i] = (0.5f * fYec136[i-1]);
 			}
 			
-			// LOOP 0x2d92320
+			// LOOP 0x2d6ce90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec282[i] = (0.5f * fYec140[i]);
 			}
 			
-			// LOOP 0x2d94970
+			// LOOP 0x2d6f550
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec283[i] = (0.5f * fYec140[i-1]);
 			}
 			
-			// LOOP 0x2d9c780
+			// LOOP 0x2d772c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec287[i] = (0.5f * fYec144[i]);
 			}
 			
-			// LOOP 0x2d9ee40
+			// LOOP 0x2d79980
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec288[i] = (0.5f * fYec144[i-1]);
 			}
 			
-			// LOOP 0x2da6cb0
+			// LOOP 0x2d817f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec292[i] = (0.5f * fYec148[i]);
 			}
 			
-			// LOOP 0x2da9370
+			// LOOP 0x2d83eb0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec293[i] = (0.5f * fYec148[i-1]);
 			}
 			
-			// LOOP 0x2db11a0
+			// LOOP 0x2d8bce0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec297[i] = (0.5f * fYec152[i]);
 			}
 			
-			// LOOP 0x2db3860
+			// LOOP 0x2d8e3a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec298[i] = (0.5f * fYec152[i-1]);
 			}
 			
-			// LOOP 0x2dbb670
+			// LOOP 0x2d96190
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec302[i] = (0.5f * fYec156[i]);
 			}
 			
-			// LOOP 0x2dbdd30
+			// LOOP 0x2d98850
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec303[i] = (0.5f * fYec156[i-1]);
 			}
 			
 			// SECTION : 20
-			// LOOP 0x2b2be60
+			// LOOP 0x2b06a50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec14[i] = ((1 + fRec4[i]) - fRec4[i-1]);
 			}
 			
-			// LOOP 0x2b40380
+			// LOOP 0x2b1af70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec29[i] = ((1 + fRec13[i]) - fRec13[i-1]);
 			}
 			
-			// LOOP 0x2b8ded0
+			// LOOP 0x2b68ae0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec88[i] = saw_polyblep_fast(fRec45[i], fRec45[i-1], fRec45[i-2], ((int((fZec87[i] > 1.0f)))?fZec78[i]:fZec87[i]));
 			}
 			
-			// LOOP 0x2ba00a0
+			// LOOP 0x2b7acb0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec101[i] = saw_polyblep_fast(fRec52[i], fRec52[i-1], fRec52[i-2], ((int((fZec100[i] > 1.0f)))?fZec91[i]:fZec100[i]));
 			}
 			
-			// LOOP 0x2bb1ed0
+			// LOOP 0x2b8cae0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec114[i] = saw_polyblep_fast(fRec59[i], fRec59[i-1], fRec59[i-2], ((int((fZec113[i] > 1.0f)))?fZec104[i]:fZec113[i]));
 			}
 			
-			// LOOP 0x2bc39f0
+			// LOOP 0x2b9e610
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec127[i] = saw_polyblep_fast(fRec66[i], fRec66[i-1], fRec66[i-2], ((int((fZec126[i] > 1.0f)))?fZec117[i]:fZec126[i]));
 			}
 			
-			// LOOP 0x2bd56b0
+			// LOOP 0x2bb02d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec140[i] = saw_polyblep_fast(fRec73[i], fRec73[i-1], fRec73[i-2], ((int((fZec139[i] > 1.0f)))?fZec130[i]:fZec139[i]));
 			}
 			
-			// LOOP 0x2be7690
+			// LOOP 0x2bc2250
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec152[i] = ((1 + fRec80[i]) - fRec80[i-1]);
 			}
 			
-			// LOOP 0x2bf9570
+			// LOOP 0x2bd4180
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec165[i] = ((1 + fRec87[i]) - fRec87[i-1]);
 			}
 			
-			// LOOP 0x2c1b3d0
+			// LOOP 0x2bf5fd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec70_tmp[i]=fYec70_perm[i];
 			// exec code
@@ -5547,7 +5546,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec70_perm[i]=fYec70_tmp[count+i];
 			
-			// LOOP 0x2c20bd0
+			// LOOP 0x2bfb7d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec71_tmp[i]=fYec71_perm[i];
 			// exec code
@@ -5557,7 +5556,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec71_perm[i]=fYec71_tmp[count+i];
 			
-			// LOOP 0x2c26a40
+			// LOOP 0x2c01640
 			// pre processing
 			for (int i=0; i<4; i++) fYec72_tmp[i]=fYec72_perm[i];
 			// exec code
@@ -5567,7 +5566,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec72_perm[i]=fYec72_tmp[count+i];
 			
-			// LOOP 0x2c2c110
+			// LOOP 0x2c06ce0
 			// pre processing
 			for (int i=0; i<4; i++) fYec73_tmp[i]=fYec73_perm[i];
 			// exec code
@@ -5577,7 +5576,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec73_perm[i]=fYec73_tmp[count+i];
 			
-			// LOOP 0x2c319e0
+			// LOOP 0x2c0c5b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec74_tmp[i]=fYec74_perm[i];
 			// exec code
@@ -5587,7 +5586,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec74_perm[i]=fYec74_tmp[count+i];
 			
-			// LOOP 0x2d7f530
+			// LOOP 0x2d5a0a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec190_tmp[i]=iRec190_perm[i];
 			// exec code
@@ -5597,7 +5596,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec190_perm[i]=iRec190_tmp[count+i];
 			
-			// LOOP 0x2d89fb0
+			// LOOP 0x2d64b20
 			// pre processing
 			for (int i=0; i<4; i++) iRec195_tmp[i]=iRec195_perm[i];
 			// exec code
@@ -5607,7 +5606,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec195_perm[i]=iRec195_tmp[count+i];
 			
-			// LOOP 0x2d94340
+			// LOOP 0x2d6ef50
 			// pre processing
 			for (int i=0; i<4; i++) iRec200_tmp[i]=iRec200_perm[i];
 			// exec code
@@ -5617,7 +5616,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec200_perm[i]=iRec200_tmp[count+i];
 			
-			// LOOP 0x2d9e840
+			// LOOP 0x2d79380
 			// pre processing
 			for (int i=0; i<4; i++) iRec205_tmp[i]=iRec205_perm[i];
 			// exec code
@@ -5627,7 +5626,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec205_perm[i]=iRec205_tmp[count+i];
 			
-			// LOOP 0x2da8d70
+			// LOOP 0x2d838b0
 			// pre processing
 			for (int i=0; i<4; i++) iRec210_tmp[i]=iRec210_perm[i];
 			// exec code
@@ -5637,7 +5636,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec210_perm[i]=iRec210_tmp[count+i];
 			
-			// LOOP 0x2db3260
+			// LOOP 0x2d8dda0
 			// pre processing
 			for (int i=0; i<4; i++) iRec215_tmp[i]=iRec215_perm[i];
 			// exec code
@@ -5647,7 +5646,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec215_perm[i]=iRec215_tmp[count+i];
 			
-			// LOOP 0x2dbd730
+			// LOOP 0x2d98250
 			// pre processing
 			for (int i=0; i<4; i++) iRec220_tmp[i]=iRec220_perm[i];
 			// exec code
@@ -5657,7 +5656,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec220_perm[i]=iRec220_tmp[count+i];
 			
-			// LOOP 0x2dc5c20
+			// LOOP 0x2da0740
 			// pre processing
 			for (int i=0; i<4; i++) iRec224_tmp[i]=iRec224_perm[i];
 			// exec code
@@ -5667,7 +5666,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec224_perm[i]=iRec224_tmp[count+i];
 			
-			// LOOP 0x2dcdb10
+			// LOOP 0x2da8630
 			// pre processing
 			for (int i=0; i<4; i++) iRec228_tmp[i]=iRec228_perm[i];
 			// exec code
@@ -5677,7 +5676,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec228_perm[i]=iRec228_tmp[count+i];
 			
-			// LOOP 0x2dd5d80
+			// LOOP 0x2db08a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec232_tmp[i]=iRec232_perm[i];
 			// exec code
@@ -5687,7 +5686,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec232_perm[i]=iRec232_tmp[count+i];
 			
-			// LOOP 0x2dddcd0
+			// LOOP 0x2db87f0
 			// pre processing
 			for (int i=0; i<4; i++) iRec236_tmp[i]=iRec236_perm[i];
 			// exec code
@@ -5697,7 +5696,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec236_perm[i]=iRec236_tmp[count+i];
 			
-			// LOOP 0x2de5c70
+			// LOOP 0x2dc0790
 			// pre processing
 			for (int i=0; i<4; i++) iRec240_tmp[i]=iRec240_perm[i];
 			// exec code
@@ -5708,49 +5707,49 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec240_perm[i]=iRec240_tmp[count+i];
 			
 			// SECTION : 21
-			// LOOP 0x2b2bb70
+			// LOOP 0x2b06760
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec15[i] = saw_polyblep_fast(fRec4[i], fRec4[i-1], fRec4[i-2], ((int((fZec14[i] > 1.0f)))?fZec3[i]:fZec14[i]));
 			}
 			
-			// LOOP 0x2b40090
+			// LOOP 0x2b1ac80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec30[i] = saw_polyblep_fast(fRec13[i], fRec13[i-1], fRec13[i-2], ((int((fZec29[i] > 1.0f)))?fZec18[i]:fZec29[i]));
 			}
 			
-			// LOOP 0x2b54610
+			// LOOP 0x2b2f1f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec44[i] = ((1 + fRec21[i]) - fRec21[i-1]);
 			}
 			
-			// LOOP 0x2b68470
+			// LOOP 0x2b43050
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec59[i] = ((1 + fRec29[i]) - fRec29[i-1]);
 			}
 			
-			// LOOP 0x2b7c5b0
+			// LOOP 0x2b57190
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec74[i] = ((1 + fRec37[i]) - fRec37[i-1]);
 			}
 			
-			// LOOP 0x2be73a0
+			// LOOP 0x2bc1fc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec153[i] = saw_polyblep_fast(fRec80[i], fRec80[i-1], fRec80[i-2], ((int((fZec152[i] > 1.0f)))?fZec143[i]:fZec152[i]));
 			}
 			
-			// LOOP 0x2bf9280
+			// LOOP 0x2bd3e90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec166[i] = saw_polyblep_fast(fRec87[i], fRec87[i-1], fRec87[i-2], ((int((fZec165[i] > 1.0f)))?fZec156[i]:fZec165[i]));
 			}
 			
-			// LOOP 0x2c1ae80
+			// LOOP 0x2bf5a80
 			// pre processing
 			for (int i=0; i<4; i++) fRec102_tmp[i]=fRec102_perm[i];
 			// exec code
@@ -5760,7 +5759,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec102_perm[i]=fRec102_tmp[count+i];
 			
-			// LOOP 0x2c20680
+			// LOOP 0x2bfb280
 			// pre processing
 			for (int i=0; i<4; i++) fRec104_tmp[i]=fRec104_perm[i];
 			// exec code
@@ -5770,7 +5769,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec104_perm[i]=fRec104_tmp[count+i];
 			
-			// LOOP 0x2c264f0
+			// LOOP 0x2c010f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec106_tmp[i]=fRec106_perm[i];
 			// exec code
@@ -5780,7 +5779,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec106_perm[i]=fRec106_tmp[count+i];
 			
-			// LOOP 0x2c2bbc0
+			// LOOP 0x2c06790
 			// pre processing
 			for (int i=0; i<4; i++) fRec108_tmp[i]=fRec108_perm[i];
 			// exec code
@@ -5790,7 +5789,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec108_perm[i]=fRec108_tmp[count+i];
 			
-			// LOOP 0x2c31490
+			// LOOP 0x2c0c060
 			// pre processing
 			for (int i=0; i<4; i++) fRec110_tmp[i]=fRec110_perm[i];
 			// exec code
@@ -5800,7 +5799,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec110_perm[i]=fRec110_tmp[count+i];
 			
-			// LOOP 0x2c36ff0
+			// LOOP 0x2c11bc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec75_tmp[i]=fYec75_perm[i];
 			// exec code
@@ -5810,7 +5809,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec75_perm[i]=fYec75_tmp[count+i];
 			
-			// LOOP 0x2c3cb00
+			// LOOP 0x2c176d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec76_tmp[i]=fYec76_perm[i];
 			// exec code
@@ -5820,7 +5819,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec76_perm[i]=fYec76_tmp[count+i];
 			
-			// LOOP 0x2c428e0
+			// LOOP 0x2c1d4b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec77_tmp[i]=fYec77_perm[i];
 			// exec code
@@ -5830,7 +5829,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec77_perm[i]=fYec77_tmp[count+i];
 			
-			// LOOP 0x2c47e00
+			// LOOP 0x2c229d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec78_tmp[i]=fYec78_perm[i];
 			// exec code
@@ -5840,7 +5839,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec78_perm[i]=fYec78_tmp[count+i];
 			
-			// LOOP 0x2d7d330
+			// LOOP 0x2d57ea0
 			// pre processing
 			for (int i=0; i<4; i++) fYec133_tmp[i]=fYec133_perm[i];
 			// exec code
@@ -5850,7 +5849,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec133_perm[i]=fYec133_tmp[count+i];
 			
-			// LOOP 0x2d87db0
+			// LOOP 0x2d62920
 			// pre processing
 			for (int i=0; i<4; i++) fYec137_tmp[i]=fYec137_perm[i];
 			// exec code
@@ -5860,7 +5859,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec137_perm[i]=fYec137_tmp[count+i];
 			
-			// LOOP 0x2d921e0
+			// LOOP 0x2d6cd50
 			// pre processing
 			for (int i=0; i<4; i++) fYec141_tmp[i]=fYec141_perm[i];
 			// exec code
@@ -5870,7 +5869,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec141_perm[i]=fYec141_tmp[count+i];
 			
-			// LOOP 0x2d9c640
+			// LOOP 0x2d77180
 			// pre processing
 			for (int i=0; i<4; i++) fYec145_tmp[i]=fYec145_perm[i];
 			// exec code
@@ -5880,7 +5879,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec145_perm[i]=fYec145_tmp[count+i];
 			
-			// LOOP 0x2da6b70
+			// LOOP 0x2d816b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec149_tmp[i]=fYec149_perm[i];
 			// exec code
@@ -5890,7 +5889,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec149_perm[i]=fYec149_tmp[count+i];
 			
-			// LOOP 0x2db1060
+			// LOOP 0x2d8bba0
 			// pre processing
 			for (int i=0; i<4; i++) fYec153_tmp[i]=fYec153_perm[i];
 			// exec code
@@ -5900,7 +5899,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec153_perm[i]=fYec153_tmp[count+i];
 			
-			// LOOP 0x2dbb530
+			// LOOP 0x2d96050
 			// pre processing
 			for (int i=0; i<4; i++) fYec157_tmp[i]=fYec157_perm[i];
 			// exec code
@@ -5910,7 +5909,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec157_perm[i]=fYec157_tmp[count+i];
 			
-			// LOOP 0x2dc5a80
+			// LOOP 0x2da05a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec160_tmp[i]=fYec160_perm[i];
 			// exec code
@@ -5920,7 +5919,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec160_perm[i]=fYec160_tmp[count+i];
 			
-			// LOOP 0x2dcd970
+			// LOOP 0x2da8490
 			// pre processing
 			for (int i=0; i<4; i++) fYec163_tmp[i]=fYec163_perm[i];
 			// exec code
@@ -5930,7 +5929,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec163_perm[i]=fYec163_tmp[count+i];
 			
-			// LOOP 0x2dd5be0
+			// LOOP 0x2db0700
 			// pre processing
 			for (int i=0; i<4; i++) fYec166_tmp[i]=fYec166_perm[i];
 			// exec code
@@ -5940,7 +5939,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec166_perm[i]=fYec166_tmp[count+i];
 			
-			// LOOP 0x2dddb30
+			// LOOP 0x2db8650
 			// pre processing
 			for (int i=0; i<4; i++) fYec169_tmp[i]=fYec169_perm[i];
 			// exec code
@@ -5950,7 +5949,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec169_perm[i]=fYec169_tmp[count+i];
 			
-			// LOOP 0x2de5ad0
+			// LOOP 0x2dc05f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec172_tmp[i]=fYec172_perm[i];
 			// exec code
@@ -5961,25 +5960,25 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec172_perm[i]=fYec172_tmp[count+i];
 			
 			// SECTION : 22
-			// LOOP 0x2b54320
+			// LOOP 0x2b2ef00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec45[i] = saw_polyblep_fast(fRec21[i], fRec21[i-1], fRec21[i-2], ((int((fZec44[i] > 1.0f)))?fZec33[i]:fZec44[i]));
 			}
 			
-			// LOOP 0x2b68180
+			// LOOP 0x2b42d60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec60[i] = saw_polyblep_fast(fRec29[i], fRec29[i-1], fRec29[i-2], ((int((fZec59[i] > 1.0f)))?fZec48[i]:fZec59[i]));
 			}
 			
-			// LOOP 0x2b7c2c0
+			// LOOP 0x2b56ea0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec75[i] = saw_polyblep_fast(fRec37[i], fRec37[i-1], fRec37[i-2], ((int((fZec74[i] > 1.0f)))?fZec63[i]:fZec74[i]));
 			}
 			
-			// LOOP 0x2c1a990
+			// LOOP 0x2bf5590
 			// pre processing
 			for (int i=0; i<4; i++) fRec101_tmp[i]=fRec101_perm[i];
 			// exec code
@@ -5989,7 +5988,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec101_perm[i]=fRec101_tmp[count+i];
 			
-			// LOOP 0x2c20190
+			// LOOP 0x2bfad90
 			// pre processing
 			for (int i=0; i<4; i++) fRec103_tmp[i]=fRec103_perm[i];
 			// exec code
@@ -5999,7 +5998,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec103_perm[i]=fRec103_tmp[count+i];
 			
-			// LOOP 0x2c26000
+			// LOOP 0x2c00c00
 			// pre processing
 			for (int i=0; i<4; i++) fRec105_tmp[i]=fRec105_perm[i];
 			// exec code
@@ -6009,7 +6008,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec105_perm[i]=fRec105_tmp[count+i];
 			
-			// LOOP 0x2c2b6d0
+			// LOOP 0x2c062a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec107_tmp[i]=fRec107_perm[i];
 			// exec code
@@ -6019,7 +6018,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec107_perm[i]=fRec107_tmp[count+i];
 			
-			// LOOP 0x2c30fa0
+			// LOOP 0x2c0bb70
 			// pre processing
 			for (int i=0; i<4; i++) fRec109_tmp[i]=fRec109_perm[i];
 			// exec code
@@ -6029,7 +6028,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec109_perm[i]=fRec109_tmp[count+i];
 			
-			// LOOP 0x2c36aa0
+			// LOOP 0x2c11670
 			// pre processing
 			for (int i=0; i<4; i++) fRec112_tmp[i]=fRec112_perm[i];
 			// exec code
@@ -6039,7 +6038,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec112_perm[i]=fRec112_tmp[count+i];
 			
-			// LOOP 0x2c3c5b0
+			// LOOP 0x2c17180
 			// pre processing
 			for (int i=0; i<4; i++) fRec114_tmp[i]=fRec114_perm[i];
 			// exec code
@@ -6049,7 +6048,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec114_perm[i]=fRec114_tmp[count+i];
 			
-			// LOOP 0x2c42390
+			// LOOP 0x2c1cf60
 			// pre processing
 			for (int i=0; i<4; i++) fRec116_tmp[i]=fRec116_perm[i];
 			// exec code
@@ -6059,7 +6058,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec116_perm[i]=fRec116_tmp[count+i];
 			
-			// LOOP 0x2c478b0
+			// LOOP 0x2c22480
 			// pre processing
 			for (int i=0; i<4; i++) fRec118_tmp[i]=fRec118_perm[i];
 			// exec code
@@ -6069,7 +6068,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec118_perm[i]=fRec118_tmp[count+i];
 			
-			// LOOP 0x2c4e1f0
+			// LOOP 0x2c28de0
 			// pre processing
 			for (int i=0; i<4; i++) fYec79_tmp[i]=fYec79_perm[i];
 			// exec code
@@ -6079,7 +6078,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec79_perm[i]=fYec79_tmp[count+i];
 			
-			// LOOP 0x2c53970
+			// LOOP 0x2c2e560
 			// pre processing
 			for (int i=0; i<4; i++) fYec80_tmp[i]=fYec80_perm[i];
 			// exec code
@@ -6089,7 +6088,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec80_perm[i]=fYec80_tmp[count+i];
 			
-			// LOOP 0x2c59d10
+			// LOOP 0x2c34900
 			// pre processing
 			for (int i=0; i<4; i++) fYec81_tmp[i]=fYec81_perm[i];
 			// exec code
@@ -6099,7 +6098,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec81_perm[i]=fYec81_tmp[count+i];
 			
-			// LOOP 0x2c602d0
+			// LOOP 0x2c3aec0
 			// pre processing
 			for (int i=0; i<4; i++) fYec82_tmp[i]=fYec82_perm[i];
 			// exec code
@@ -6109,152 +6108,152 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec82_perm[i]=fYec82_tmp[count+i];
 			
-			// LOOP 0x2d7d1f0
+			// LOOP 0x2d57d60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec274[i] = (0.5f * fYec133[i]);
 			}
 			
-			// LOOP 0x2d81ed0
+			// LOOP 0x2d5ca40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec275[i] = (0.5f * fYec133[i-1]);
 			}
 			
-			// LOOP 0x2d87c70
+			// LOOP 0x2d627e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec279[i] = (0.5f * fYec137[i]);
 			}
 			
-			// LOOP 0x2d8c950
+			// LOOP 0x2d674c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec280[i] = (0.5f * fYec137[i-1]);
 			}
 			
-			// LOOP 0x2d920a0
+			// LOOP 0x2d6cc10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec284[i] = (0.5f * fYec141[i]);
 			}
 			
-			// LOOP 0x2d96db0
+			// LOOP 0x2d718f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec285[i] = (0.5f * fYec141[i-1]);
 			}
 			
-			// LOOP 0x2d9c500
+			// LOOP 0x2d77040
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec289[i] = (0.5f * fYec145[i]);
 			}
 			
-			// LOOP 0x2da11e0
+			// LOOP 0x2d7bd20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec290[i] = (0.5f * fYec145[i-1]);
 			}
 			
-			// LOOP 0x2da6a30
+			// LOOP 0x2d81570
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec294[i] = (0.5f * fYec149[i]);
 			}
 			
-			// LOOP 0x2dab710
+			// LOOP 0x2d86250
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec295[i] = (0.5f * fYec149[i-1]);
 			}
 			
-			// LOOP 0x2db0f20
+			// LOOP 0x2d8ba60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec299[i] = (0.5f * fYec153[i]);
 			}
 			
-			// LOOP 0x2db5b20
+			// LOOP 0x2d90660
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec300[i] = (0.5f * fYec153[i-1]);
 			}
 			
-			// LOOP 0x2dbb3f0
+			// LOOP 0x2d95f10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec304[i] = (0.5f * fYec157[i]);
 			}
 			
-			// LOOP 0x2dc00d0
+			// LOOP 0x2d9abf0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec305[i] = (0.5f * fYec157[i-1]);
 			}
 			
-			// LOOP 0x2dc5940
+			// LOOP 0x2da0460
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec307[i] = (0.5f * fYec160[i]);
 			}
 			
-			// LOOP 0x2dc8000
+			// LOOP 0x2da2b20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec308[i] = (0.5f * fYec160[i-1]);
 			}
 			
-			// LOOP 0x2dcd830
+			// LOOP 0x2da8350
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec310[i] = (0.5f * fYec163[i]);
 			}
 			
-			// LOOP 0x2dcfef0
+			// LOOP 0x2daaa10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec311[i] = (0.5f * fYec163[i-1]);
 			}
 			
-			// LOOP 0x2dd5aa0
+			// LOOP 0x2db05c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec313[i] = (0.5f * fYec166[i]);
 			}
 			
-			// LOOP 0x2dd8160
+			// LOOP 0x2db2c80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec314[i] = (0.5f * fYec166[i-1]);
 			}
 			
-			// LOOP 0x2ddd9f0
+			// LOOP 0x2db8510
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec316[i] = (0.5f * fYec169[i]);
 			}
 			
-			// LOOP 0x2de00b0
+			// LOOP 0x2dbabd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec317[i] = (0.5f * fYec169[i-1]);
 			}
 			
-			// LOOP 0x2de5990
+			// LOOP 0x2dc04b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec319[i] = (0.5f * fYec172[i]);
 			}
 			
-			// LOOP 0x2de8050
+			// LOOP 0x2dc2b70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec320[i] = (0.5f * fYec172[i-1]);
 			}
 			
 			// SECTION : 23
-			// LOOP 0x2c365b0
+			// LOOP 0x2c11180
 			// pre processing
 			for (int i=0; i<4; i++) fRec111_tmp[i]=fRec111_perm[i];
 			// exec code
@@ -6264,7 +6263,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec111_perm[i]=fRec111_tmp[count+i];
 			
-			// LOOP 0x2c3c0c0
+			// LOOP 0x2c16c90
 			// pre processing
 			for (int i=0; i<4; i++) fRec113_tmp[i]=fRec113_perm[i];
 			// exec code
@@ -6274,7 +6273,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec113_perm[i]=fRec113_tmp[count+i];
 			
-			// LOOP 0x2c41ea0
+			// LOOP 0x2c1ca70
 			// pre processing
 			for (int i=0; i<4; i++) fRec115_tmp[i]=fRec115_perm[i];
 			// exec code
@@ -6284,7 +6283,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec115_perm[i]=fRec115_tmp[count+i];
 			
-			// LOOP 0x2c473c0
+			// LOOP 0x2c21f90
 			// pre processing
 			for (int i=0; i<4; i++) fRec117_tmp[i]=fRec117_perm[i];
 			// exec code
@@ -6294,7 +6293,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec117_perm[i]=fRec117_tmp[count+i];
 			
-			// LOOP 0x2c4dca0
+			// LOOP 0x2c28890
 			// pre processing
 			for (int i=0; i<4; i++) fRec120_tmp[i]=fRec120_perm[i];
 			// exec code
@@ -6304,7 +6303,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec120_perm[i]=fRec120_tmp[count+i];
 			
-			// LOOP 0x2c53420
+			// LOOP 0x2c2e010
 			// pre processing
 			for (int i=0; i<4; i++) fRec122_tmp[i]=fRec122_perm[i];
 			// exec code
@@ -6314,7 +6313,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec122_perm[i]=fRec122_tmp[count+i];
 			
-			// LOOP 0x2c597c0
+			// LOOP 0x2c343b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec124_tmp[i]=fRec124_perm[i];
 			// exec code
@@ -6324,7 +6323,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec124_perm[i]=fRec124_tmp[count+i];
 			
-			// LOOP 0x2c5fd80
+			// LOOP 0x2c3a970
 			// pre processing
 			for (int i=0; i<4; i++) fRec126_tmp[i]=fRec126_perm[i];
 			// exec code
@@ -6334,7 +6333,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec126_perm[i]=fRec126_tmp[count+i];
 			
-			// LOOP 0x2c65ff0
+			// LOOP 0x2c40be0
 			// pre processing
 			for (int i=0; i<4; i++) fYec83_tmp[i]=fYec83_perm[i];
 			// exec code
@@ -6344,7 +6343,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec83_perm[i]=fYec83_tmp[count+i];
 			
-			// LOOP 0x2c6c8b0
+			// LOOP 0x2c473f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec84_tmp[i]=fYec84_perm[i];
 			// exec code
@@ -6354,7 +6353,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec84_perm[i]=fYec84_tmp[count+i];
 			
-			// LOOP 0x2c72540
+			// LOOP 0x2c4d120
 			// pre processing
 			for (int i=0; i<4; i++) fYec85_tmp[i]=fYec85_perm[i];
 			// exec code
@@ -6364,7 +6363,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec85_perm[i]=fYec85_tmp[count+i];
 			
-			// LOOP 0x2c78490
+			// LOOP 0x2c53070
 			// pre processing
 			for (int i=0; i<4; i++) fYec86_tmp[i]=fYec86_perm[i];
 			// exec code
@@ -6374,7 +6373,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec86_perm[i]=fYec86_tmp[count+i];
 			
-			// LOOP 0x2c7de10
+			// LOOP 0x2c589f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec87_tmp[i]=fYec87_perm[i];
 			// exec code
@@ -6384,7 +6383,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec87_perm[i]=fYec87_tmp[count+i];
 			
-			// LOOP 0x2c84050
+			// LOOP 0x2c5ec30
 			// pre processing
 			for (int i=0; i<4; i++) fYec88_tmp[i]=fYec88_perm[i];
 			// exec code
@@ -6394,7 +6393,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec88_perm[i]=fYec88_tmp[count+i];
 			
-			// LOOP 0x2c8a5f0
+			// LOOP 0x2c651d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec89_tmp[i]=fYec89_perm[i];
 			// exec code
@@ -6404,7 +6403,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec89_perm[i]=fYec89_tmp[count+i];
 			
-			// LOOP 0x2c8ff20
+			// LOOP 0x2c6aaf0
 			// pre processing
 			for (int i=0; i<4; i++) fYec90_tmp[i]=fYec90_perm[i];
 			// exec code
@@ -6414,7 +6413,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec90_perm[i]=fYec90_tmp[count+i];
 			
-			// LOOP 0x2c96b70
+			// LOOP 0x2c71740
 			// pre processing
 			for (int i=0; i<4; i++) fYec91_tmp[i]=fYec91_perm[i];
 			// exec code
@@ -6424,7 +6423,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec91_perm[i]=fYec91_tmp[count+i];
 			
-			// LOOP 0x2c9c7a0
+			// LOOP 0x2c77370
 			// pre processing
 			for (int i=0; i<4; i++) fYec92_tmp[i]=fYec92_perm[i];
 			// exec code
@@ -6434,7 +6433,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec92_perm[i]=fYec92_tmp[count+i];
 			
-			// LOOP 0x2ca3450
+			// LOOP 0x2c7e020
 			// pre processing
 			for (int i=0; i<4; i++) fYec93_tmp[i]=fYec93_perm[i];
 			// exec code
@@ -6444,7 +6443,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec93_perm[i]=fYec93_tmp[count+i];
 			
-			// LOOP 0x2caa3c0
+			// LOOP 0x2c84f90
 			// pre processing
 			for (int i=0; i<4; i++) fYec94_tmp[i]=fYec94_perm[i];
 			// exec code
@@ -6454,7 +6453,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec94_perm[i]=fYec94_tmp[count+i];
 			
-			// LOOP 0x2cb0670
+			// LOOP 0x2c8b240
 			// pre processing
 			for (int i=0; i<4; i++) fYec95_tmp[i]=fYec95_perm[i];
 			// exec code
@@ -6464,7 +6463,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec95_perm[i]=fYec95_tmp[count+i];
 			
-			// LOOP 0x2cb7980
+			// LOOP 0x2c92550
 			// pre processing
 			for (int i=0; i<4; i++) fYec96_tmp[i]=fYec96_perm[i];
 			// exec code
@@ -6474,7 +6473,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec96_perm[i]=fYec96_tmp[count+i];
 			
-			// LOOP 0x2cbdc10
+			// LOOP 0x2c987e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec97_tmp[i]=fYec97_perm[i];
 			// exec code
@@ -6484,7 +6483,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec97_perm[i]=fYec97_tmp[count+i];
 			
-			// LOOP 0x2cc4200
+			// LOOP 0x2c9edd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec98_tmp[i]=fYec98_perm[i];
 			// exec code
@@ -6494,7 +6493,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec98_perm[i]=fYec98_tmp[count+i];
 			
-			// LOOP 0x2cc9ef0
+			// LOOP 0x2ca4ac0
 			// pre processing
 			for (int i=0; i<4; i++) fYec99_tmp[i]=fYec99_perm[i];
 			// exec code
@@ -6504,7 +6503,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec99_perm[i]=fYec99_tmp[count+i];
 			
-			// LOOP 0x2cd0890
+			// LOOP 0x2cab460
 			// pre processing
 			for (int i=0; i<4; i++) fYec100_tmp[i]=fYec100_perm[i];
 			// exec code
@@ -6514,7 +6513,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec100_perm[i]=fYec100_tmp[count+i];
 			
-			// LOOP 0x2cd7600
+			// LOOP 0x2cb21d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec101_tmp[i]=fYec101_perm[i];
 			// exec code
@@ -6524,7 +6523,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec101_perm[i]=fYec101_tmp[count+i];
 			
-			// LOOP 0x2cdd320
+			// LOOP 0x2cb7ef0
 			// pre processing
 			for (int i=0; i<4; i++) fYec102_tmp[i]=fYec102_perm[i];
 			// exec code
@@ -6534,7 +6533,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec102_perm[i]=fYec102_tmp[count+i];
 			
-			// LOOP 0x2ce47f0
+			// LOOP 0x2cbf3c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec103_tmp[i]=fYec103_perm[i];
 			// exec code
@@ -6544,7 +6543,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec103_perm[i]=fYec103_tmp[count+i];
 			
-			// LOOP 0x2cea8d0
+			// LOOP 0x2cc54a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec104_tmp[i]=fYec104_perm[i];
 			// exec code
@@ -6554,7 +6553,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec104_perm[i]=fYec104_tmp[count+i];
 			
-			// LOOP 0x2cf1ec0
+			// LOOP 0x2ccca90
 			// pre processing
 			for (int i=0; i<4; i++) fYec105_tmp[i]=fYec105_perm[i];
 			// exec code
@@ -6564,7 +6563,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec105_perm[i]=fYec105_tmp[count+i];
 			
-			// LOOP 0x2cf93a0
+			// LOOP 0x2cd3f70
 			// pre processing
 			for (int i=0; i<4; i++) fYec106_tmp[i]=fYec106_perm[i];
 			// exec code
@@ -6574,7 +6573,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec106_perm[i]=fYec106_tmp[count+i];
 			
-			// LOOP 0x2cfee80
+			// LOOP 0x2cd9a50
 			// pre processing
 			for (int i=0; i<4; i++) fYec108_tmp[i]=fYec108_perm[i];
 			// exec code
@@ -6584,7 +6583,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec108_perm[i]=fYec108_tmp[count+i];
 			
-			// LOOP 0x2d06100
+			// LOOP 0x2ce0cd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec110_tmp[i]=fYec110_perm[i];
 			// exec code
@@ -6594,7 +6593,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec110_perm[i]=fYec110_tmp[count+i];
 			
-			// LOOP 0x2d0be80
+			// LOOP 0x2ce6a50
 			// pre processing
 			for (int i=0; i<4; i++) fYec112_tmp[i]=fYec112_perm[i];
 			// exec code
@@ -6604,7 +6603,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec112_perm[i]=fYec112_tmp[count+i];
 			
-			// LOOP 0x2d12030
+			// LOOP 0x2cecc00
 			// pre processing
 			for (int i=0; i<4; i++) fYec114_tmp[i]=fYec114_perm[i];
 			// exec code
@@ -6614,7 +6613,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec114_perm[i]=fYec114_tmp[count+i];
 			
-			// LOOP 0x2d17250
+			// LOOP 0x2cf1e20
 			// pre processing
 			for (int i=0; i<4; i++) fYec116_tmp[i]=fYec116_perm[i];
 			// exec code
@@ -6624,7 +6623,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec116_perm[i]=fYec116_tmp[count+i];
 			
-			// LOOP 0x2d1d800
+			// LOOP 0x2cf83d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec118_tmp[i]=fYec118_perm[i];
 			// exec code
@@ -6634,7 +6633,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec118_perm[i]=fYec118_tmp[count+i];
 			
-			// LOOP 0x2d24250
+			// LOOP 0x2cfee20
 			// pre processing
 			for (int i=0; i<4; i++) fYec120_tmp[i]=fYec120_perm[i];
 			// exec code
@@ -6644,13 +6643,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec120_perm[i]=fYec120_tmp[count+i];
 			
-			// LOOP 0x2d27330
+			// LOOP 0x2d01f00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec218[i] = (fRec109[i] + (fRec107[i] + (fRec105[i] + (fRec101[i] + fRec103[i]))));
 			}
 			
-			// LOOP 0x2d461b0
+			// LOOP 0x2d20d50
 			// pre processing
 			for (int i=0; i<4; i++) fYec123_tmp[i]=fYec123_perm[i];
 			// exec code
@@ -6660,7 +6659,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec123_perm[i]=fYec123_tmp[count+i];
 			
-			// LOOP 0x2d4d070
+			// LOOP 0x2d27c10
 			// pre processing
 			for (int i=0; i<4; i++) fYec125_tmp[i]=fYec125_perm[i];
 			// exec code
@@ -6670,7 +6669,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec125_perm[i]=fYec125_tmp[count+i];
 			
-			// LOOP 0x2d50540
+			// LOOP 0x2d2b0e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec127_tmp[i]=fYec127_perm[i];
 			// exec code
@@ -6680,7 +6679,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec127_perm[i]=fYec127_tmp[count+i];
 			
-			// LOOP 0x2d53ac0
+			// LOOP 0x2d2e5c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec129_tmp[i]=fYec129_perm[i];
 			// exec code
@@ -6690,7 +6689,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec129_perm[i]=fYec129_tmp[count+i];
 			
-			// LOOP 0x2d818d0
+			// LOOP 0x2d5c440
 			// pre processing
 			for (int i=0; i<4; i++) iRec191_tmp[i]=iRec191_perm[i];
 			// exec code
@@ -6700,7 +6699,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec191_perm[i]=iRec191_tmp[count+i];
 			
-			// LOOP 0x2d8c350
+			// LOOP 0x2d66ec0
 			// pre processing
 			for (int i=0; i<4; i++) iRec196_tmp[i]=iRec196_perm[i];
 			// exec code
@@ -6710,7 +6709,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec196_perm[i]=iRec196_tmp[count+i];
 			
-			// LOOP 0x2d967b0
+			// LOOP 0x2d712f0
 			// pre processing
 			for (int i=0; i<4; i++) iRec201_tmp[i]=iRec201_perm[i];
 			// exec code
@@ -6720,7 +6719,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec201_perm[i]=iRec201_tmp[count+i];
 			
-			// LOOP 0x2da0be0
+			// LOOP 0x2d7b720
 			// pre processing
 			for (int i=0; i<4; i++) iRec206_tmp[i]=iRec206_perm[i];
 			// exec code
@@ -6730,7 +6729,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec206_perm[i]=iRec206_tmp[count+i];
 			
-			// LOOP 0x2dab110
+			// LOOP 0x2d85c50
 			// pre processing
 			for (int i=0; i<4; i++) iRec211_tmp[i]=iRec211_perm[i];
 			// exec code
@@ -6740,7 +6739,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec211_perm[i]=iRec211_tmp[count+i];
 			
-			// LOOP 0x2db5520
+			// LOOP 0x2d8ffe0
 			// pre processing
 			for (int i=0; i<4; i++) iRec216_tmp[i]=iRec216_perm[i];
 			// exec code
@@ -6750,7 +6749,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec216_perm[i]=iRec216_tmp[count+i];
 			
-			// LOOP 0x2dbfad0
+			// LOOP 0x2d9a5f0
 			// pre processing
 			for (int i=0; i<4; i++) iRec221_tmp[i]=iRec221_perm[i];
 			// exec code
@@ -6760,7 +6759,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec221_perm[i]=iRec221_tmp[count+i];
 			
-			// LOOP 0x2dc7a00
+			// LOOP 0x2da2520
 			// pre processing
 			for (int i=0; i<4; i++) iRec225_tmp[i]=iRec225_perm[i];
 			// exec code
@@ -6770,7 +6769,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec225_perm[i]=iRec225_tmp[count+i];
 			
-			// LOOP 0x2dcf8f0
+			// LOOP 0x2daa410
 			// pre processing
 			for (int i=0; i<4; i++) iRec229_tmp[i]=iRec229_perm[i];
 			// exec code
@@ -6780,7 +6779,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec229_perm[i]=iRec229_tmp[count+i];
 			
-			// LOOP 0x2dd7b60
+			// LOOP 0x2db2680
 			// pre processing
 			for (int i=0; i<4; i++) iRec233_tmp[i]=iRec233_perm[i];
 			// exec code
@@ -6790,7 +6789,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec233_perm[i]=iRec233_tmp[count+i];
 			
-			// LOOP 0x2ddfab0
+			// LOOP 0x2dba5d0
 			// pre processing
 			for (int i=0; i<4; i++) iRec237_tmp[i]=iRec237_perm[i];
 			// exec code
@@ -6800,7 +6799,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec237_perm[i]=iRec237_tmp[count+i];
 			
-			// LOOP 0x2de7a50
+			// LOOP 0x2dc2570
 			// pre processing
 			for (int i=0; i<4; i++) iRec241_tmp[i]=iRec241_perm[i];
 			// exec code
@@ -6811,7 +6810,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec241_perm[i]=iRec241_tmp[count+i];
 			
 			// SECTION : 24
-			// LOOP 0x2c4d7b0
+			// LOOP 0x2c283a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec119_tmp[i]=fRec119_perm[i];
 			// exec code
@@ -6821,7 +6820,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec119_perm[i]=fRec119_tmp[count+i];
 			
-			// LOOP 0x2c52f30
+			// LOOP 0x2c2db20
 			// pre processing
 			for (int i=0; i<4; i++) fRec121_tmp[i]=fRec121_perm[i];
 			// exec code
@@ -6831,7 +6830,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec121_perm[i]=fRec121_tmp[count+i];
 			
-			// LOOP 0x2c592d0
+			// LOOP 0x2c33ec0
 			// pre processing
 			for (int i=0; i<4; i++) fRec123_tmp[i]=fRec123_perm[i];
 			// exec code
@@ -6841,7 +6840,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec123_perm[i]=fRec123_tmp[count+i];
 			
-			// LOOP 0x2c5f890
+			// LOOP 0x2c3a480
 			// pre processing
 			for (int i=0; i<4; i++) fRec125_tmp[i]=fRec125_perm[i];
 			// exec code
@@ -6851,7 +6850,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec125_perm[i]=fRec125_tmp[count+i];
 			
-			// LOOP 0x2c65aa0
+			// LOOP 0x2c40690
 			// pre processing
 			for (int i=0; i<4; i++) fRec128_tmp[i]=fRec128_perm[i];
 			// exec code
@@ -6861,7 +6860,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec128_perm[i]=fRec128_tmp[count+i];
 			
-			// LOOP 0x2c6c360
+			// LOOP 0x2c46ea0
 			// pre processing
 			for (int i=0; i<4; i++) fRec130_tmp[i]=fRec130_perm[i];
 			// exec code
@@ -6871,7 +6870,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec130_perm[i]=fRec130_tmp[count+i];
 			
-			// LOOP 0x2c71ff0
+			// LOOP 0x2c4cbd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec132_tmp[i]=fRec132_perm[i];
 			// exec code
@@ -6881,7 +6880,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec132_perm[i]=fRec132_tmp[count+i];
 			
-			// LOOP 0x2c77f40
+			// LOOP 0x2c52b20
 			// pre processing
 			for (int i=0; i<4; i++) fRec134_tmp[i]=fRec134_perm[i];
 			// exec code
@@ -6891,7 +6890,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec134_perm[i]=fRec134_tmp[count+i];
 			
-			// LOOP 0x2c7d8c0
+			// LOOP 0x2c584a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec136_tmp[i]=fRec136_perm[i];
 			// exec code
@@ -6901,7 +6900,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec136_perm[i]=fRec136_tmp[count+i];
 			
-			// LOOP 0x2c83b00
+			// LOOP 0x2c5e6e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec138_tmp[i]=fRec138_perm[i];
 			// exec code
@@ -6911,7 +6910,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec138_perm[i]=fRec138_tmp[count+i];
 			
-			// LOOP 0x2c8a0a0
+			// LOOP 0x2c64c80
 			// pre processing
 			for (int i=0; i<4; i++) fRec140_tmp[i]=fRec140_perm[i];
 			// exec code
@@ -6921,7 +6920,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec140_perm[i]=fRec140_tmp[count+i];
 			
-			// LOOP 0x2c8f9d0
+			// LOOP 0x2c6a5a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec142_tmp[i]=fRec142_perm[i];
 			// exec code
@@ -6931,7 +6930,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec142_perm[i]=fRec142_tmp[count+i];
 			
-			// LOOP 0x2c96620
+			// LOOP 0x2c711f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec144_tmp[i]=fRec144_perm[i];
 			// exec code
@@ -6941,7 +6940,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec144_perm[i]=fRec144_tmp[count+i];
 			
-			// LOOP 0x2c9c250
+			// LOOP 0x2c76e20
 			// pre processing
 			for (int i=0; i<4; i++) fRec146_tmp[i]=fRec146_perm[i];
 			// exec code
@@ -6951,7 +6950,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec146_perm[i]=fRec146_tmp[count+i];
 			
-			// LOOP 0x2ca2f00
+			// LOOP 0x2c7dad0
 			// pre processing
 			for (int i=0; i<4; i++) fRec148_tmp[i]=fRec148_perm[i];
 			// exec code
@@ -6961,7 +6960,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec148_perm[i]=fRec148_tmp[count+i];
 			
-			// LOOP 0x2ca9e70
+			// LOOP 0x2c84a40
 			// pre processing
 			for (int i=0; i<4; i++) fRec150_tmp[i]=fRec150_perm[i];
 			// exec code
@@ -6971,7 +6970,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec150_perm[i]=fRec150_tmp[count+i];
 			
-			// LOOP 0x2cb0120
+			// LOOP 0x2c8acf0
 			// pre processing
 			for (int i=0; i<4; i++) fRec152_tmp[i]=fRec152_perm[i];
 			// exec code
@@ -6981,7 +6980,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec152_perm[i]=fRec152_tmp[count+i];
 			
-			// LOOP 0x2cb7430
+			// LOOP 0x2c92000
 			// pre processing
 			for (int i=0; i<4; i++) fRec154_tmp[i]=fRec154_perm[i];
 			// exec code
@@ -6991,7 +6990,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec154_perm[i]=fRec154_tmp[count+i];
 			
-			// LOOP 0x2cbd6c0
+			// LOOP 0x2c98290
 			// pre processing
 			for (int i=0; i<4; i++) fRec156_tmp[i]=fRec156_perm[i];
 			// exec code
@@ -7001,7 +7000,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec156_perm[i]=fRec156_tmp[count+i];
 			
-			// LOOP 0x2cc3cb0
+			// LOOP 0x2c9e880
 			// pre processing
 			for (int i=0; i<4; i++) fRec158_tmp[i]=fRec158_perm[i];
 			// exec code
@@ -7011,7 +7010,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec158_perm[i]=fRec158_tmp[count+i];
 			
-			// LOOP 0x2cc99a0
+			// LOOP 0x2ca4570
 			// pre processing
 			for (int i=0; i<4; i++) fRec160_tmp[i]=fRec160_perm[i];
 			// exec code
@@ -7021,7 +7020,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec160_perm[i]=fRec160_tmp[count+i];
 			
-			// LOOP 0x2cd0340
+			// LOOP 0x2caaf10
 			// pre processing
 			for (int i=0; i<4; i++) fRec162_tmp[i]=fRec162_perm[i];
 			// exec code
@@ -7031,7 +7030,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec162_perm[i]=fRec162_tmp[count+i];
 			
-			// LOOP 0x2cd32d0
+			// LOOP 0x2cadea0
 			// pre processing
 			for (int i=0; i<4; i++) fVec48_tmp[i]=fVec48_perm[i];
 			// exec code
@@ -7041,7 +7040,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec48_perm[i]=fVec48_tmp[count+i];
 			
-			// LOOP 0x2cd70b0
+			// LOOP 0x2cb1c80
 			// pre processing
 			for (int i=0; i<4; i++) fRec164_tmp[i]=fRec164_perm[i];
 			// exec code
@@ -7051,7 +7050,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec164_perm[i]=fRec164_tmp[count+i];
 			
-			// LOOP 0x2cd9ff0
+			// LOOP 0x2cb4bc0
 			// pre processing
 			for (int i=0; i<4; i++) fVec49_tmp[i]=fVec49_perm[i];
 			// exec code
@@ -7061,7 +7060,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec49_perm[i]=fVec49_tmp[count+i];
 			
-			// LOOP 0x2cdcdd0
+			// LOOP 0x2cb79a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec166_tmp[i]=fRec166_perm[i];
 			// exec code
@@ -7071,7 +7070,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec166_perm[i]=fRec166_tmp[count+i];
 			
-			// LOOP 0x2ce0080
+			// LOOP 0x2cbac50
 			// pre processing
 			for (int i=0; i<4; i++) fVec50_tmp[i]=fVec50_perm[i];
 			// exec code
@@ -7081,7 +7080,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec50_perm[i]=fVec50_tmp[count+i];
 			
-			// LOOP 0x2ce42a0
+			// LOOP 0x2cbee70
 			// pre processing
 			for (int i=0; i<4; i++) fRec168_tmp[i]=fRec168_perm[i];
 			// exec code
@@ -7091,7 +7090,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec168_perm[i]=fRec168_tmp[count+i];
 			
-			// LOOP 0x2ce7210
+			// LOOP 0x2cc1de0
 			// pre processing
 			for (int i=0; i<4; i++) fVec51_tmp[i]=fVec51_perm[i];
 			// exec code
@@ -7101,7 +7100,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec51_perm[i]=fVec51_tmp[count+i];
 			
-			// LOOP 0x2cea380
+			// LOOP 0x2cc4f50
 			// pre processing
 			for (int i=0; i<4; i++) fRec170_tmp[i]=fRec170_perm[i];
 			// exec code
@@ -7111,7 +7110,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec170_perm[i]=fRec170_tmp[count+i];
 			
-			// LOOP 0x2ced2f0
+			// LOOP 0x2cc7ec0
 			// pre processing
 			for (int i=0; i<4; i++) fVec52_tmp[i]=fVec52_perm[i];
 			// exec code
@@ -7121,7 +7120,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec52_perm[i]=fVec52_tmp[count+i];
 			
-			// LOOP 0x2cf1970
+			// LOOP 0x2ccc540
 			// pre processing
 			for (int i=0; i<4; i++) fRec172_tmp[i]=fRec172_perm[i];
 			// exec code
@@ -7131,7 +7130,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec172_perm[i]=fRec172_tmp[count+i];
 			
-			// LOOP 0x2cf48e0
+			// LOOP 0x2ccf4b0
 			// pre processing
 			for (int i=0; i<4; i++) fVec53_tmp[i]=fVec53_perm[i];
 			// exec code
@@ -7141,7 +7140,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec53_perm[i]=fVec53_tmp[count+i];
 			
-			// LOOP 0x2cf9290
+			// LOOP 0x2cd3e60
 			// pre processing
 			for (int i=0; i<4; i++) fYec107_tmp[i]=fYec107_perm[i];
 			// exec code
@@ -7151,7 +7150,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec107_perm[i]=fYec107_tmp[count+i];
 			
-			// LOOP 0x2cfb820
+			// LOOP 0x2cd63f0
 			// pre processing
 			for (int i=0; i<4; i++) fVec54_tmp[i]=fVec54_perm[i];
 			// exec code
@@ -7161,7 +7160,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec54_perm[i]=fVec54_tmp[count+i];
 			
-			// LOOP 0x2cfed70
+			// LOOP 0x2cd9940
 			// pre processing
 			for (int i=0; i<4; i++) fYec109_tmp[i]=fYec109_perm[i];
 			// exec code
@@ -7171,7 +7170,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec109_perm[i]=fYec109_tmp[count+i];
 			
-			// LOOP 0x2d01200
+			// LOOP 0x2cdbdd0
 			// pre processing
 			for (int i=0; i<4; i++) fVec55_tmp[i]=fVec55_perm[i];
 			// exec code
@@ -7181,7 +7180,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec55_perm[i]=fVec55_tmp[count+i];
 			
-			// LOOP 0x2d05ff0
+			// LOOP 0x2ce0bc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec111_tmp[i]=fYec111_perm[i];
 			// exec code
@@ -7191,7 +7190,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec111_perm[i]=fYec111_tmp[count+i];
 			
-			// LOOP 0x2d08480
+			// LOOP 0x2ce3050
 			// pre processing
 			for (int i=0; i<4; i++) fVec56_tmp[i]=fVec56_perm[i];
 			// exec code
@@ -7201,7 +7200,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec56_perm[i]=fVec56_tmp[count+i];
 			
-			// LOOP 0x2d0bd70
+			// LOOP 0x2ce6940
 			// pre processing
 			for (int i=0; i<4; i++) fYec113_tmp[i]=fYec113_perm[i];
 			// exec code
@@ -7211,7 +7210,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec113_perm[i]=fYec113_tmp[count+i];
 			
-			// LOOP 0x2d0e200
+			// LOOP 0x2ce8dd0
 			// pre processing
 			for (int i=0; i<4; i++) fVec57_tmp[i]=fVec57_perm[i];
 			// exec code
@@ -7221,7 +7220,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec57_perm[i]=fVec57_tmp[count+i];
 			
-			// LOOP 0x2d11f20
+			// LOOP 0x2cecaf0
 			// pre processing
 			for (int i=0; i<4; i++) fYec115_tmp[i]=fYec115_perm[i];
 			// exec code
@@ -7231,7 +7230,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec115_perm[i]=fYec115_tmp[count+i];
 			
-			// LOOP 0x2d143b0
+			// LOOP 0x2ceef80
 			// pre processing
 			for (int i=0; i<4; i++) fVec58_tmp[i]=fVec58_perm[i];
 			// exec code
@@ -7241,7 +7240,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec58_perm[i]=fVec58_tmp[count+i];
 			
-			// LOOP 0x2d17140
+			// LOOP 0x2cf1d10
 			// pre processing
 			for (int i=0; i<4; i++) fYec117_tmp[i]=fYec117_perm[i];
 			// exec code
@@ -7251,7 +7250,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec117_perm[i]=fYec117_tmp[count+i];
 			
-			// LOOP 0x2d195d0
+			// LOOP 0x2cf41a0
 			// pre processing
 			for (int i=0; i<4; i++) fVec59_tmp[i]=fVec59_perm[i];
 			// exec code
@@ -7261,7 +7260,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec59_perm[i]=fVec59_tmp[count+i];
 			
-			// LOOP 0x2d1d6f0
+			// LOOP 0x2cf82c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec119_tmp[i]=fYec119_perm[i];
 			// exec code
@@ -7271,7 +7270,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec119_perm[i]=fYec119_tmp[count+i];
 			
-			// LOOP 0x2d1fb80
+			// LOOP 0x2cfa750
 			// pre processing
 			for (int i=0; i<4; i++) fVec60_tmp[i]=fVec60_perm[i];
 			// exec code
@@ -7281,7 +7280,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec60_perm[i]=fVec60_tmp[count+i];
 			
-			// LOOP 0x2d24140
+			// LOOP 0x2cfed10
 			// pre processing
 			for (int i=0; i<4; i++) fYec121_tmp[i]=fYec121_perm[i];
 			// exec code
@@ -7291,13 +7290,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec121_perm[i]=fYec121_tmp[count+i];
 			
-			// LOOP 0x2d271f0
+			// LOOP 0x2d01dc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec219[i] = (fRec117[i] + (fRec115[i] + (fRec113[i] + (fRec111[i] + fZec218[i]))));
 			}
 			
-			// LOOP 0x2d456a0
+			// LOOP 0x2d20240
 			// pre processing
 			for (int i=0; i<4; i++) fYec124_tmp[i]=fYec124_perm[i];
 			// exec code
@@ -7307,7 +7306,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec124_perm[i]=fYec124_tmp[count+i];
 			
-			// LOOP 0x2d4cf60
+			// LOOP 0x2d27b00
 			// pre processing
 			for (int i=0; i<4; i++) fYec126_tmp[i]=fYec126_perm[i];
 			// exec code
@@ -7317,7 +7316,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec126_perm[i]=fYec126_tmp[count+i];
 			
-			// LOOP 0x2d50430
+			// LOOP 0x2d2afd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec128_tmp[i]=fYec128_perm[i];
 			// exec code
@@ -7327,7 +7326,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec128_perm[i]=fYec128_tmp[count+i];
 			
-			// LOOP 0x2d539b0
+			// LOOP 0x2d2e4b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec130_tmp[i]=fYec130_perm[i];
 			// exec code
@@ -7337,7 +7336,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec130_perm[i]=fYec130_tmp[count+i];
 			
-			// LOOP 0x2d7d0b0
+			// LOOP 0x2d57c20
 			// pre processing
 			for (int i=0; i<4; i++) fYec134_tmp[i]=fYec134_perm[i];
 			// exec code
@@ -7347,7 +7346,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec134_perm[i]=fYec134_tmp[count+i];
 			
-			// LOOP 0x2d87b30
+			// LOOP 0x2d626a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec138_tmp[i]=fYec138_perm[i];
 			// exec code
@@ -7357,7 +7356,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec138_perm[i]=fYec138_tmp[count+i];
 			
-			// LOOP 0x2d91f60
+			// LOOP 0x2d6cad0
 			// pre processing
 			for (int i=0; i<4; i++) fYec142_tmp[i]=fYec142_perm[i];
 			// exec code
@@ -7367,7 +7366,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec142_perm[i]=fYec142_tmp[count+i];
 			
-			// LOOP 0x2d9c3c0
+			// LOOP 0x2d76f00
 			// pre processing
 			for (int i=0; i<4; i++) fYec146_tmp[i]=fYec146_perm[i];
 			// exec code
@@ -7377,7 +7376,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec146_perm[i]=fYec146_tmp[count+i];
 			
-			// LOOP 0x2da68f0
+			// LOOP 0x2d81430
 			// pre processing
 			for (int i=0; i<4; i++) fYec150_tmp[i]=fYec150_perm[i];
 			// exec code
@@ -7387,7 +7386,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec150_perm[i]=fYec150_tmp[count+i];
 			
-			// LOOP 0x2db0de0
+			// LOOP 0x2d8b920
 			// pre processing
 			for (int i=0; i<4; i++) fYec154_tmp[i]=fYec154_perm[i];
 			// exec code
@@ -7397,7 +7396,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec154_perm[i]=fYec154_tmp[count+i];
 			
-			// LOOP 0x2dbb2b0
+			// LOOP 0x2d95dd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec158_tmp[i]=fYec158_perm[i];
 			// exec code
@@ -7407,7 +7406,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec158_perm[i]=fYec158_tmp[count+i];
 			
-			// LOOP 0x2dc5800
+			// LOOP 0x2da0320
 			// pre processing
 			for (int i=0; i<4; i++) fYec161_tmp[i]=fYec161_perm[i];
 			// exec code
@@ -7417,7 +7416,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec161_perm[i]=fYec161_tmp[count+i];
 			
-			// LOOP 0x2dcd6f0
+			// LOOP 0x2da8210
 			// pre processing
 			for (int i=0; i<4; i++) fYec164_tmp[i]=fYec164_perm[i];
 			// exec code
@@ -7427,7 +7426,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec164_perm[i]=fYec164_tmp[count+i];
 			
-			// LOOP 0x2dd5960
+			// LOOP 0x2db0480
 			// pre processing
 			for (int i=0; i<4; i++) fYec167_tmp[i]=fYec167_perm[i];
 			// exec code
@@ -7437,7 +7436,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec167_perm[i]=fYec167_tmp[count+i];
 			
-			// LOOP 0x2ddd8b0
+			// LOOP 0x2db83d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec170_tmp[i]=fYec170_perm[i];
 			// exec code
@@ -7447,7 +7446,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec170_perm[i]=fYec170_tmp[count+i];
 			
-			// LOOP 0x2de5850
+			// LOOP 0x2dc0370
 			// pre processing
 			for (int i=0; i<4; i++) fYec173_tmp[i]=fYec173_perm[i];
 			// exec code
@@ -7458,7 +7457,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec173_perm[i]=fYec173_tmp[count+i];
 			
 			// SECTION : 25
-			// LOOP 0x2b16440
+			// LOOP 0x2af0fd0
 			// pre processing
 			for (int i=0; i<4; i++) fVec0_tmp[i]=fVec0_perm[i];
 			// exec code
@@ -7468,7 +7467,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec0_perm[i]=fVec0_tmp[count+i];
 			
-			// LOOP 0x2b2f190
+			// LOOP 0x2b09d80
 			// pre processing
 			for (int i=0; i<4; i++) fVec1_tmp[i]=fVec1_perm[i];
 			// exec code
@@ -7478,7 +7477,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec1_perm[i]=fVec1_tmp[count+i];
 			
-			// LOOP 0x2b431b0
+			// LOOP 0x2b1dd90
 			// pre processing
 			for (int i=0; i<4; i++) fVec2_tmp[i]=fVec2_perm[i];
 			// exec code
@@ -7488,7 +7487,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec2_perm[i]=fVec2_tmp[count+i];
 			
-			// LOOP 0x2b570e0
+			// LOOP 0x2b31cc0
 			// pre processing
 			for (int i=0; i<4; i++) fVec3_tmp[i]=fVec3_perm[i];
 			// exec code
@@ -7498,7 +7497,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec3_perm[i]=fVec3_tmp[count+i];
 			
-			// LOOP 0x2b6b040
+			// LOOP 0x2b45c20
 			// pre processing
 			for (int i=0; i<4; i++) fVec4_tmp[i]=fVec4_perm[i];
 			// exec code
@@ -7508,7 +7507,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec4_perm[i]=fVec4_tmp[count+i];
 			
-			// LOOP 0x2b7f150
+			// LOOP 0x2b59d30
 			// pre processing
 			for (int i=0; i<4; i++) fVec5_tmp[i]=fVec5_perm[i];
 			// exec code
@@ -7518,7 +7517,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec5_perm[i]=fVec5_tmp[count+i];
 			
-			// LOOP 0x2b915f0
+			// LOOP 0x2b6c200
 			// pre processing
 			for (int i=0; i<4; i++) fVec6_tmp[i]=fVec6_perm[i];
 			// exec code
@@ -7528,7 +7527,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec6_perm[i]=fVec6_tmp[count+i];
 			
-			// LOOP 0x2ba3000
+			// LOOP 0x2b7dc10
 			// pre processing
 			for (int i=0; i<4; i++) fVec7_tmp[i]=fVec7_perm[i];
 			// exec code
@@ -7538,7 +7537,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec7_perm[i]=fVec7_tmp[count+i];
 			
-			// LOOP 0x2bb4e90
+			// LOOP 0x2b8fab0
 			// pre processing
 			for (int i=0; i<4; i++) fVec8_tmp[i]=fVec8_perm[i];
 			// exec code
@@ -7548,7 +7547,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec8_perm[i]=fVec8_tmp[count+i];
 			
-			// LOOP 0x2bc6a00
+			// LOOP 0x2ba15d0
 			// pre processing
 			for (int i=0; i<4; i++) fVec9_tmp[i]=fVec9_perm[i];
 			// exec code
@@ -7558,7 +7557,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec9_perm[i]=fVec9_tmp[count+i];
 			
-			// LOOP 0x2bd8a70
+			// LOOP 0x2bb3690
 			// pre processing
 			for (int i=0; i<4; i++) fVec10_tmp[i]=fVec10_perm[i];
 			// exec code
@@ -7568,7 +7567,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec10_perm[i]=fVec10_tmp[count+i];
 			
-			// LOOP 0x2bea4d0
+			// LOOP 0x2bc50e0
 			// pre processing
 			for (int i=0; i<4; i++) fVec11_tmp[i]=fVec11_perm[i];
 			// exec code
@@ -7578,7 +7577,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec11_perm[i]=fVec11_tmp[count+i];
 			
-			// LOOP 0x2bfc3a0
+			// LOOP 0x2bd6fb0
 			// pre processing
 			for (int i=0; i<4; i++) fVec12_tmp[i]=fVec12_perm[i];
 			// exec code
@@ -7588,7 +7587,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec12_perm[i]=fVec12_tmp[count+i];
 			
-			// LOOP 0x2c017f0
+			// LOOP 0x2bdc400
 			// pre processing
 			for (int i=0; i<4; i++) fVec13_tmp[i]=fVec13_perm[i];
 			// exec code
@@ -7598,7 +7597,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec13_perm[i]=fVec13_tmp[count+i];
 			
-			// LOOP 0x2c06c60
+			// LOOP 0x2be1870
 			// pre processing
 			for (int i=0; i<4; i++) fVec14_tmp[i]=fVec14_perm[i];
 			// exec code
@@ -7608,7 +7607,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec14_perm[i]=fVec14_tmp[count+i];
 			
-			// LOOP 0x2c0c420
+			// LOOP 0x2be7020
 			// pre processing
 			for (int i=0; i<4; i++) fVec15_tmp[i]=fVec15_perm[i];
 			// exec code
@@ -7618,7 +7617,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec15_perm[i]=fVec15_tmp[count+i];
 			
-			// LOOP 0x2c11710
+			// LOOP 0x2bec310
 			// pre processing
 			for (int i=0; i<4; i++) fVec16_tmp[i]=fVec16_perm[i];
 			// exec code
@@ -7628,7 +7627,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec16_perm[i]=fVec16_tmp[count+i];
 			
-			// LOOP 0x2c18600
+			// LOOP 0x2bf3200
 			// pre processing
 			for (int i=0; i<4; i++) fVec17_tmp[i]=fVec17_perm[i];
 			// exec code
@@ -7638,7 +7637,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec17_perm[i]=fVec17_tmp[count+i];
 			
-			// LOOP 0x2c1e600
+			// LOOP 0x2bf9200
 			// pre processing
 			for (int i=0; i<4; i++) fVec18_tmp[i]=fVec18_perm[i];
 			// exec code
@@ -7648,7 +7647,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec18_perm[i]=fVec18_tmp[count+i];
 			
-			// LOOP 0x2c23b20
+			// LOOP 0x2bfe720
 			// pre processing
 			for (int i=0; i<4; i++) fVec19_tmp[i]=fVec19_perm[i];
 			// exec code
@@ -7658,7 +7657,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec19_perm[i]=fVec19_tmp[count+i];
 			
-			// LOOP 0x2c299b0
+			// LOOP 0x2c045d0
 			// pre processing
 			for (int i=0; i<4; i++) fVec20_tmp[i]=fVec20_perm[i];
 			// exec code
@@ -7668,7 +7667,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec20_perm[i]=fVec20_tmp[count+i];
 			
-			// LOOP 0x2c2f140
+			// LOOP 0x2c09d10
 			// pre processing
 			for (int i=0; i<4; i++) fVec21_tmp[i]=fVec21_perm[i];
 			// exec code
@@ -7678,7 +7677,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec21_perm[i]=fVec21_tmp[count+i];
 			
-			// LOOP 0x2c34760
+			// LOOP 0x2c0f330
 			// pre processing
 			for (int i=0; i<4; i++) fVec22_tmp[i]=fVec22_perm[i];
 			// exec code
@@ -7688,7 +7687,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec22_perm[i]=fVec22_tmp[count+i];
 			
-			// LOOP 0x2c39a30
+			// LOOP 0x2c14600
 			// pre processing
 			for (int i=0; i<4; i++) fVec23_tmp[i]=fVec23_perm[i];
 			// exec code
@@ -7698,7 +7697,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec23_perm[i]=fVec23_tmp[count+i];
 			
-			// LOOP 0x2c3f540
+			// LOOP 0x2c1a110
 			// pre processing
 			for (int i=0; i<4; i++) fVec24_tmp[i]=fVec24_perm[i];
 			// exec code
@@ -7708,7 +7707,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec24_perm[i]=fVec24_tmp[count+i];
 			
-			// LOOP 0x2c452d0
+			// LOOP 0x2c1fea0
 			// pre processing
 			for (int i=0; i<4; i++) fVec25_tmp[i]=fVec25_perm[i];
 			// exec code
@@ -7718,7 +7717,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec25_perm[i]=fVec25_tmp[count+i];
 			
-			// LOOP 0x2c4ab60
+			// LOOP 0x2c256c0
 			// pre processing
 			for (int i=0; i<4; i++) fVec26_tmp[i]=fVec26_perm[i];
 			// exec code
@@ -7728,7 +7727,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec26_perm[i]=fVec26_tmp[count+i];
 			
-			// LOOP 0x2c50c00
+			// LOOP 0x2c2b7f0
 			// pre processing
 			for (int i=0; i<4; i++) fVec27_tmp[i]=fVec27_perm[i];
 			// exec code
@@ -7738,7 +7737,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec27_perm[i]=fVec27_tmp[count+i];
 			
-			// LOOP 0x2c56380
+			// LOOP 0x2c30f70
 			// pre processing
 			for (int i=0; i<4; i++) fVec28_tmp[i]=fVec28_perm[i];
 			// exec code
@@ -7748,7 +7747,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec28_perm[i]=fVec28_tmp[count+i];
 			
-			// LOOP 0x2c5c720
+			// LOOP 0x2c37310
 			// pre processing
 			for (int i=0; i<4; i++) fVec29_tmp[i]=fVec29_perm[i];
 			// exec code
@@ -7758,7 +7757,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec29_perm[i]=fVec29_tmp[count+i];
 			
-			// LOOP 0x2c62ff0
+			// LOOP 0x2c3dbe0
 			// pre processing
 			for (int i=0; i<4; i++) fVec30_tmp[i]=fVec30_perm[i];
 			// exec code
@@ -7768,7 +7767,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec30_perm[i]=fVec30_tmp[count+i];
 			
-			// LOOP 0x2c655b0
+			// LOOP 0x2c401a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec127_tmp[i]=fRec127_perm[i];
 			// exec code
@@ -7778,7 +7777,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec127_perm[i]=fRec127_tmp[count+i];
 			
-			// LOOP 0x2c68a10
+			// LOOP 0x2c43600
 			// pre processing
 			for (int i=0; i<4; i++) fVec31_tmp[i]=fVec31_perm[i];
 			// exec code
@@ -7788,7 +7787,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec31_perm[i]=fVec31_tmp[count+i];
 			
-			// LOOP 0x2c6be70
+			// LOOP 0x2c469b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec129_tmp[i]=fRec129_perm[i];
 			// exec code
@@ -7798,7 +7797,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec129_perm[i]=fRec129_tmp[count+i];
 			
-			// LOOP 0x2c6f2f0
+			// LOOP 0x2c49ed0
 			// pre processing
 			for (int i=0; i<4; i++) fVec32_tmp[i]=fVec32_perm[i];
 			// exec code
@@ -7808,7 +7807,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec32_perm[i]=fVec32_tmp[count+i];
 			
-			// LOOP 0x2c71b00
+			// LOOP 0x2c4c6e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec131_tmp[i]=fRec131_perm[i];
 			// exec code
@@ -7818,7 +7817,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec131_perm[i]=fRec131_tmp[count+i];
 			
-			// LOOP 0x2c74f80
+			// LOOP 0x2c4fb60
 			// pre processing
 			for (int i=0; i<4; i++) fVec33_tmp[i]=fVec33_perm[i];
 			// exec code
@@ -7828,7 +7827,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec33_perm[i]=fVec33_tmp[count+i];
 			
-			// LOOP 0x2c77a50
+			// LOOP 0x2c52630
 			// pre processing
 			for (int i=0; i<4; i++) fRec133_tmp[i]=fRec133_perm[i];
 			// exec code
@@ -7838,7 +7837,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec133_perm[i]=fRec133_tmp[count+i];
 			
-			// LOOP 0x2c7b220
+			// LOOP 0x2c55e00
 			// pre processing
 			for (int i=0; i<4; i++) fVec34_tmp[i]=fVec34_perm[i];
 			// exec code
@@ -7848,7 +7847,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec34_perm[i]=fVec34_tmp[count+i];
 			
-			// LOOP 0x2c7d3d0
+			// LOOP 0x2c57fb0
 			// pre processing
 			for (int i=0; i<4; i++) fRec135_tmp[i]=fRec135_perm[i];
 			// exec code
@@ -7858,7 +7857,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec135_perm[i]=fRec135_tmp[count+i];
 			
-			// LOOP 0x2c80850
+			// LOOP 0x2c5b430
 			// pre processing
 			for (int i=0; i<4; i++) fVec35_tmp[i]=fVec35_perm[i];
 			// exec code
@@ -7868,7 +7867,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec35_perm[i]=fVec35_tmp[count+i];
 			
-			// LOOP 0x2c83610
+			// LOOP 0x2c5e1f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec137_tmp[i]=fRec137_perm[i];
 			// exec code
@@ -7878,7 +7877,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec137_perm[i]=fRec137_tmp[count+i];
 			
-			// LOOP 0x2c86a90
+			// LOOP 0x2c61670
 			// pre processing
 			for (int i=0; i<4; i++) fVec36_tmp[i]=fVec36_perm[i];
 			// exec code
@@ -7888,7 +7887,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec36_perm[i]=fVec36_tmp[count+i];
 			
-			// LOOP 0x2c89bb0
+			// LOOP 0x2c64790
 			// pre processing
 			for (int i=0; i<4; i++) fRec139_tmp[i]=fRec139_perm[i];
 			// exec code
@@ -7898,7 +7897,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec139_perm[i]=fRec139_tmp[count+i];
 			
-			// LOOP 0x2c8d000
+			// LOOP 0x2c67bd0
 			// pre processing
 			for (int i=0; i<4; i++) fVec37_tmp[i]=fVec37_perm[i];
 			// exec code
@@ -7908,7 +7907,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec37_perm[i]=fVec37_tmp[count+i];
 			
-			// LOOP 0x2c8f4e0
+			// LOOP 0x2c6a0b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec141_tmp[i]=fRec141_perm[i];
 			// exec code
@@ -7918,7 +7917,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec141_perm[i]=fRec141_tmp[count+i];
 			
-			// LOOP 0x2c92c70
+			// LOOP 0x2c6d840
 			// pre processing
 			for (int i=0; i<4; i++) fVec38_tmp[i]=fVec38_perm[i];
 			// exec code
@@ -7928,7 +7927,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec38_perm[i]=fVec38_tmp[count+i];
 			
-			// LOOP 0x2c96130
+			// LOOP 0x2c70d00
 			// pre processing
 			for (int i=0; i<4; i++) fRec143_tmp[i]=fRec143_perm[i];
 			// exec code
@@ -7938,7 +7937,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec143_perm[i]=fRec143_tmp[count+i];
 			
-			// LOOP 0x2c99580
+			// LOOP 0x2c74150
 			// pre processing
 			for (int i=0; i<4; i++) fVec39_tmp[i]=fVec39_perm[i];
 			// exec code
@@ -7948,7 +7947,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec39_perm[i]=fVec39_tmp[count+i];
 			
-			// LOOP 0x2c9bd60
+			// LOOP 0x2c76930
 			// pre processing
 			for (int i=0; i<4; i++) fRec145_tmp[i]=fRec145_perm[i];
 			// exec code
@@ -7958,7 +7957,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec145_perm[i]=fRec145_tmp[count+i];
 			
-			// LOOP 0x2c9f1b0
+			// LOOP 0x2c79d80
 			// pre processing
 			for (int i=0; i<4; i++) fVec40_tmp[i]=fVec40_perm[i];
 			// exec code
@@ -7968,7 +7967,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec40_perm[i]=fVec40_tmp[count+i];
 			
-			// LOOP 0x2ca2a10
+			// LOOP 0x2c7d5e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec147_tmp[i]=fRec147_perm[i];
 			// exec code
@@ -7978,7 +7977,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec147_perm[i]=fRec147_tmp[count+i];
 			
-			// LOOP 0x2ca5e60
+			// LOOP 0x2c80a30
 			// pre processing
 			for (int i=0; i<4; i++) fVec41_tmp[i]=fVec41_perm[i];
 			// exec code
@@ -7988,7 +7987,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec41_perm[i]=fVec41_tmp[count+i];
 			
-			// LOOP 0x2ca9980
+			// LOOP 0x2c84550
 			// pre processing
 			for (int i=0; i<4; i++) fRec149_tmp[i]=fRec149_perm[i];
 			// exec code
@@ -7998,7 +7997,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec149_perm[i]=fRec149_tmp[count+i];
 			
-			// LOOP 0x2cad110
+			// LOOP 0x2c87ce0
 			// pre processing
 			for (int i=0; i<4; i++) fVec42_tmp[i]=fVec42_perm[i];
 			// exec code
@@ -8008,7 +8007,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec42_perm[i]=fVec42_tmp[count+i];
 			
-			// LOOP 0x2cafc30
+			// LOOP 0x2c8a800
 			// pre processing
 			for (int i=0; i<4; i++) fRec151_tmp[i]=fRec151_perm[i];
 			// exec code
@@ -8018,7 +8017,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec151_perm[i]=fRec151_tmp[count+i];
 			
-			// LOOP 0x2cb3090
+			// LOOP 0x2c8dc60
 			// pre processing
 			for (int i=0; i<4; i++) fVec43_tmp[i]=fVec43_perm[i];
 			// exec code
@@ -8028,7 +8027,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec43_perm[i]=fVec43_tmp[count+i];
 			
-			// LOOP 0x2cb6f40
+			// LOOP 0x2c91b10
 			// pre processing
 			for (int i=0; i<4; i++) fRec153_tmp[i]=fRec153_perm[i];
 			// exec code
@@ -8038,7 +8037,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec153_perm[i]=fRec153_tmp[count+i];
 			
-			// LOOP 0x2cba3c0
+			// LOOP 0x2c94f90
 			// pre processing
 			for (int i=0; i<4; i++) fVec44_tmp[i]=fVec44_perm[i];
 			// exec code
@@ -8048,7 +8047,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec44_perm[i]=fVec44_tmp[count+i];
 			
-			// LOOP 0x2cbd1d0
+			// LOOP 0x2c97da0
 			// pre processing
 			for (int i=0; i<4; i++) fRec155_tmp[i]=fRec155_perm[i];
 			// exec code
@@ -8058,7 +8057,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec155_perm[i]=fRec155_tmp[count+i];
 			
-			// LOOP 0x2cc0650
+			// LOOP 0x2c9b220
 			// pre processing
 			for (int i=0; i<4; i++) fVec45_tmp[i]=fVec45_perm[i];
 			// exec code
@@ -8068,7 +8067,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec45_perm[i]=fVec45_tmp[count+i];
 			
-			// LOOP 0x2cc37c0
+			// LOOP 0x2c9e390
 			// pre processing
 			for (int i=0; i<4; i++) fRec157_tmp[i]=fRec157_perm[i];
 			// exec code
@@ -8078,7 +8077,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec157_perm[i]=fRec157_tmp[count+i];
 			
-			// LOOP 0x2cc6f80
+			// LOOP 0x2ca1b50
 			// pre processing
 			for (int i=0; i<4; i++) fVec46_tmp[i]=fVec46_perm[i];
 			// exec code
@@ -8088,7 +8087,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec46_perm[i]=fVec46_tmp[count+i];
 			
-			// LOOP 0x2cc94b0
+			// LOOP 0x2ca4080
 			// pre processing
 			for (int i=0; i<4; i++) fRec159_tmp[i]=fRec159_perm[i];
 			// exec code
@@ -8098,7 +8097,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec159_perm[i]=fRec159_tmp[count+i];
 			
-			// LOOP 0x2ccc930
+			// LOOP 0x2ca7500
 			// pre processing
 			for (int i=0; i<4; i++) fVec47_tmp[i]=fVec47_perm[i];
 			// exec code
@@ -8108,7 +8107,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec47_perm[i]=fVec47_tmp[count+i];
 			
-			// LOOP 0x2ccfe50
+			// LOOP 0x2caaa20
 			// pre processing
 			for (int i=0; i<4; i++) fRec161_tmp[i]=fRec161_perm[i];
 			// exec code
@@ -8118,13 +8117,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec161_perm[i]=fRec161_tmp[count+i];
 			
-			// LOOP 0x2cd31c0
+			// LOOP 0x2cadd90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec203[i] = (fSlow68 + (fVec48[i-3] + (fVec48[i-1] + fVec48[i-2])));
 			}
 			
-			// LOOP 0x2cd6bc0
+			// LOOP 0x2cb1790
 			// pre processing
 			for (int i=0; i<4; i++) fRec163_tmp[i]=fRec163_perm[i];
 			// exec code
@@ -8134,13 +8133,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec163_perm[i]=fRec163_tmp[count+i];
 			
-			// LOOP 0x2cd9ee0
+			// LOOP 0x2cb4ab0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec204[i] = (fSlow69 + (fVec49[i-3] + (fVec49[i-1] + fVec49[i-2])));
 			}
 			
-			// LOOP 0x2cdc8e0
+			// LOOP 0x2cb74b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec165_tmp[i]=fRec165_perm[i];
 			// exec code
@@ -8150,13 +8149,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec165_perm[i]=fRec165_tmp[count+i];
 			
-			// LOOP 0x2cdff70
+			// LOOP 0x2cbab40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec205[i] = (fSlow70 + (fVec50[i-3] + (fVec50[i-1] + fVec50[i-2])));
 			}
 			
-			// LOOP 0x2ce3db0
+			// LOOP 0x2cbe980
 			// pre processing
 			for (int i=0; i<4; i++) fRec167_tmp[i]=fRec167_perm[i];
 			// exec code
@@ -8166,13 +8165,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec167_perm[i]=fRec167_tmp[count+i];
 			
-			// LOOP 0x2ce7100
+			// LOOP 0x2cc1cd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec206[i] = (fSlow71 + (fVec51[i-3] + (fVec51[i-1] + fVec51[i-2])));
 			}
 			
-			// LOOP 0x2ce9e90
+			// LOOP 0x2cc4a60
 			// pre processing
 			for (int i=0; i<4; i++) fRec169_tmp[i]=fRec169_perm[i];
 			// exec code
@@ -8182,13 +8181,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec169_perm[i]=fRec169_tmp[count+i];
 			
-			// LOOP 0x2ced1e0
+			// LOOP 0x2cc7db0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec207[i] = (fSlow72 + (fVec52[i-3] + (fVec52[i-1] + fVec52[i-2])));
 			}
 			
-			// LOOP 0x2cf1480
+			// LOOP 0x2ccc050
 			// pre processing
 			for (int i=0; i<4; i++) fRec171_tmp[i]=fRec171_perm[i];
 			// exec code
@@ -8198,13 +8197,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec171_perm[i]=fRec171_tmp[count+i];
 			
-			// LOOP 0x2cf47d0
+			// LOOP 0x2ccf3a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec208[i] = (fSlow73 + (fVec53[i-3] + (fVec53[i-1] + fVec53[i-2])));
 			}
 			
-			// LOOP 0x2cf8da0
+			// LOOP 0x2cd3970
 			// pre processing
 			for (int i=0; i<4; i++) fRec173_tmp[i]=fRec173_perm[i];
 			// exec code
@@ -8214,13 +8213,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec173_perm[i]=fRec173_tmp[count+i];
 			
-			// LOOP 0x2cfb710
+			// LOOP 0x2cd62e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec209[i] = (fSlow74 + (fVec54[i-3] + (fVec54[i-1] + fVec54[i-2])));
 			}
 			
-			// LOOP 0x2cfe880
+			// LOOP 0x2cd9450
 			// pre processing
 			for (int i=0; i<4; i++) fRec174_tmp[i]=fRec174_perm[i];
 			// exec code
@@ -8230,13 +8229,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec174_perm[i]=fRec174_tmp[count+i];
 			
-			// LOOP 0x2d010f0
+			// LOOP 0x2cdbcc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec210[i] = (fSlow75 + (fVec55[i-3] + (fVec55[i-1] + fVec55[i-2])));
 			}
 			
-			// LOOP 0x2d05b00
+			// LOOP 0x2ce06d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec175_tmp[i]=fRec175_perm[i];
 			// exec code
@@ -8246,13 +8245,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec175_perm[i]=fRec175_tmp[count+i];
 			
-			// LOOP 0x2d08370
+			// LOOP 0x2ce2f40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec211[i] = (fSlow76 + (fVec56[i-3] + (fVec56[i-1] + fVec56[i-2])));
 			}
 			
-			// LOOP 0x2d0b880
+			// LOOP 0x2ce6450
 			// pre processing
 			for (int i=0; i<4; i++) fRec176_tmp[i]=fRec176_perm[i];
 			// exec code
@@ -8262,13 +8261,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec176_perm[i]=fRec176_tmp[count+i];
 			
-			// LOOP 0x2d0e0f0
+			// LOOP 0x2ce8cc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec212[i] = (fSlow77 + (fVec57[i-3] + (fVec57[i-1] + fVec57[i-2])));
 			}
 			
-			// LOOP 0x2d11a30
+			// LOOP 0x2cec600
 			// pre processing
 			for (int i=0; i<4; i++) fRec177_tmp[i]=fRec177_perm[i];
 			// exec code
@@ -8278,13 +8277,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec177_perm[i]=fRec177_tmp[count+i];
 			
-			// LOOP 0x2d142a0
+			// LOOP 0x2ceee70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec213[i] = (fSlow78 + (fVec58[i-3] + (fVec58[i-1] + fVec58[i-2])));
 			}
 			
-			// LOOP 0x2d16c50
+			// LOOP 0x2cf1820
 			// pre processing
 			for (int i=0; i<4; i++) fRec178_tmp[i]=fRec178_perm[i];
 			// exec code
@@ -8294,13 +8293,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec178_perm[i]=fRec178_tmp[count+i];
 			
-			// LOOP 0x2d194c0
+			// LOOP 0x2cf4090
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec214[i] = (fSlow79 + (fVec59[i-3] + (fVec59[i-1] + fVec59[i-2])));
 			}
 			
-			// LOOP 0x2d1d200
+			// LOOP 0x2cf7dd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec179_tmp[i]=fRec179_perm[i];
 			// exec code
@@ -8310,13 +8309,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec179_perm[i]=fRec179_tmp[count+i];
 			
-			// LOOP 0x2d1fa70
+			// LOOP 0x2cfa640
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec215[i] = (fSlow80 + (fVec60[i-3] + (fVec60[i-1] + fVec60[i-2])));
 			}
 			
-			// LOOP 0x2d23c50
+			// LOOP 0x2cfe820
 			// pre processing
 			for (int i=0; i<4; i++) fRec180_tmp[i]=fRec180_perm[i];
 			// exec code
@@ -8326,13 +8325,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec180_perm[i]=fRec180_tmp[count+i];
 			
-			// LOOP 0x2d270b0
+			// LOOP 0x2d01c80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec220[i] = (fRec125[i] + (fRec123[i] + (fRec121[i] + (fRec119[i] + fZec219[i]))));
 			}
 			
-			// LOOP 0x2d44850
+			// LOOP 0x2d1f3f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec182_tmp[i]=fRec182_perm[i];
 			// exec code
@@ -8342,7 +8341,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec182_perm[i]=fRec182_tmp[count+i];
 			
-			// LOOP 0x2d4c000
+			// LOOP 0x2d26ba0
 			// pre processing
 			for (int i=0; i<4; i++) fRec183_tmp[i]=fRec183_perm[i];
 			// exec code
@@ -8352,7 +8351,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec183_perm[i]=fRec183_tmp[count+i];
 			
-			// LOOP 0x2d4f470
+			// LOOP 0x2d2a010
 			// pre processing
 			for (int i=0; i<4; i++) fRec184_tmp[i]=fRec184_perm[i];
 			// exec code
@@ -8362,7 +8361,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec184_perm[i]=fRec184_tmp[count+i];
 			
-			// LOOP 0x2d528f0
+			// LOOP 0x2d2d410
 			// pre processing
 			for (int i=0; i<4; i++) fRec185_tmp[i]=fRec185_perm[i];
 			// exec code
@@ -8372,86 +8371,86 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec185_perm[i]=fRec185_tmp[count+i];
 			
-			// LOOP 0x2d7cf70
+			// LOOP 0x2d57ae0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec276[i] = (0.5f * fYec134[i]);
 			}
 			
-			// LOOP 0x2d879f0
+			// LOOP 0x2d62560
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec281[i] = (0.5f * fYec138[i]);
 			}
 			
-			// LOOP 0x2d91e20
+			// LOOP 0x2d6c990
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec286[i] = (0.5f * fYec142[i]);
 			}
 			
-			// LOOP 0x2d9c280
+			// LOOP 0x2d76dc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec291[i] = (0.5f * fYec146[i]);
 			}
 			
-			// LOOP 0x2da67b0
+			// LOOP 0x2d812f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec296[i] = (0.5f * fYec150[i]);
 			}
 			
-			// LOOP 0x2db0ca0
+			// LOOP 0x2d8b7e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec301[i] = (0.5f * fYec154[i]);
 			}
 			
-			// LOOP 0x2dbb170
+			// LOOP 0x2d95c90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec306[i] = (0.5f * fYec158[i]);
 			}
 			
-			// LOOP 0x2dc56c0
+			// LOOP 0x2da01e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec309[i] = (0.5f * fYec161[i]);
 			}
 			
-			// LOOP 0x2dcd5b0
+			// LOOP 0x2da80d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec312[i] = (0.5f * fYec164[i]);
 			}
 			
-			// LOOP 0x2dd5820
+			// LOOP 0x2db0340
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec315[i] = (0.5f * fYec167[i]);
 			}
 			
-			// LOOP 0x2ddd770
+			// LOOP 0x2db8290
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec318[i] = (0.5f * fYec170[i]);
 			}
 			
-			// LOOP 0x2de5710
+			// LOOP 0x2dc0230
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec321[i] = (0.5f * fYec173[i]);
 			}
 			
 			// SECTION : 26
-			// LOOP 0x2b16300
+			// LOOP 0x2af0e90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec0[i] = (fSlow2 + (fVec0[i-3] + (fVec0[i-1] + fVec0[i-2])));
 			}
 			
-			// LOOP 0x2b18180
+			// LOOP 0x2af2d10
 			// pre processing
 			for (int i=0; i<4; i++) fYec5_tmp[i]=fYec5_perm[i];
 			// exec code
@@ -8461,13 +8460,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec5_perm[i]=fYec5_tmp[count+i];
 			
-			// LOOP 0x2b2f080
+			// LOOP 0x2b09c70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec16[i] = (fSlow8 + (fVec1[i-3] + (fVec1[i-1] + fVec1[i-2])));
 			}
 			
-			// LOOP 0x2b312e0
+			// LOOP 0x2b0bed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec11_tmp[i]=fYec11_perm[i];
 			// exec code
@@ -8477,13 +8476,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec11_perm[i]=fYec11_tmp[count+i];
 			
-			// LOOP 0x2b430a0
+			// LOOP 0x2b1dc80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec31[i] = (fSlow10 + (fVec2[i-3] + (fVec2[i-1] + fVec2[i-2])));
 			}
 			
-			// LOOP 0x2b45580
+			// LOOP 0x2b20160
 			// pre processing
 			for (int i=0; i<4; i++) fYec17_tmp[i]=fYec17_perm[i];
 			// exec code
@@ -8493,13 +8492,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec17_perm[i]=fYec17_tmp[count+i];
 			
-			// LOOP 0x2b56fd0
+			// LOOP 0x2b31bb0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec46[i] = (fSlow12 + (fVec3[i-3] + (fVec3[i-1] + fVec3[i-2])));
 			}
 			
-			// LOOP 0x2b59370
+			// LOOP 0x2b33f50
 			// pre processing
 			for (int i=0; i<4; i++) fYec23_tmp[i]=fYec23_perm[i];
 			// exec code
@@ -8509,13 +8508,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec23_perm[i]=fYec23_tmp[count+i];
 			
-			// LOOP 0x2b6af30
+			// LOOP 0x2b45b10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec61[i] = (fSlow14 + (fVec4[i-3] + (fVec4[i-1] + fVec4[i-2])));
 			}
 			
-			// LOOP 0x2b6d4c0
+			// LOOP 0x2b480a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec29_tmp[i]=fYec29_perm[i];
 			// exec code
@@ -8525,13 +8524,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec29_perm[i]=fYec29_tmp[count+i];
 			
-			// LOOP 0x2b7f040
+			// LOOP 0x2b59c20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec76[i] = (fSlow16 + (fVec5[i-3] + (fVec5[i-1] + fVec5[i-2])));
 			}
 			
-			// LOOP 0x2b816d0
+			// LOOP 0x2b5c2b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec34_tmp[i]=fYec34_perm[i];
 			// exec code
@@ -8541,13 +8540,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec34_perm[i]=fYec34_tmp[count+i];
 			
-			// LOOP 0x2b914e0
+			// LOOP 0x2b6c0f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec89[i] = (fSlow18 + (fVec6[i-3] + (fVec6[i-1] + fVec6[i-2])));
 			}
 			
-			// LOOP 0x2b938a0
+			// LOOP 0x2b6e4b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec39_tmp[i]=fYec39_perm[i];
 			// exec code
@@ -8557,13 +8556,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec39_perm[i]=fYec39_tmp[count+i];
 			
-			// LOOP 0x2ba2ef0
+			// LOOP 0x2b7db00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec102[i] = (fSlow20 + (fVec7[i-3] + (fVec7[i-1] + fVec7[i-2])));
 			}
 			
-			// LOOP 0x2ba5560
+			// LOOP 0x2b80170
 			// pre processing
 			for (int i=0; i<4; i++) fYec44_tmp[i]=fYec44_perm[i];
 			// exec code
@@ -8573,13 +8572,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec44_perm[i]=fYec44_tmp[count+i];
 			
-			// LOOP 0x2bb4d80
+			// LOOP 0x2b8f9a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec115[i] = (fSlow22 + (fVec8[i-3] + (fVec8[i-1] + fVec8[i-2])));
 			}
 			
-			// LOOP 0x2bb71e0
+			// LOOP 0x2b91e00
 			// pre processing
 			for (int i=0; i<4; i++) fYec49_tmp[i]=fYec49_perm[i];
 			// exec code
@@ -8589,13 +8588,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec49_perm[i]=fYec49_tmp[count+i];
 			
-			// LOOP 0x2bc68f0
+			// LOOP 0x2ba14c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec128[i] = (fSlow24 + (fVec9[i-3] + (fVec9[i-1] + fVec9[i-2])));
 			}
 			
-			// LOOP 0x2bc8ea0
+			// LOOP 0x2ba3ac0
 			// pre processing
 			for (int i=0; i<4; i++) fYec54_tmp[i]=fYec54_perm[i];
 			// exec code
@@ -8605,493 +8604,493 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec54_perm[i]=fYec54_tmp[count+i];
 			
-			// LOOP 0x2bd8960
+			// LOOP 0x2bb3580
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec141[i] = (fSlow26 + (fVec10[i-3] + (fVec10[i-1] + fVec10[i-2])));
 			}
 			
-			// LOOP 0x2bea3c0
+			// LOOP 0x2bc4fd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec154[i] = (fSlow28 + (fVec11[i-3] + (fVec11[i-1] + fVec11[i-2])));
 			}
 			
-			// LOOP 0x2bfc290
+			// LOOP 0x2bd6ea0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec167[i] = (fSlow30 + (fVec12[i-3] + (fVec12[i-1] + fVec12[i-2])));
 			}
 			
-			// LOOP 0x2c013e0
+			// LOOP 0x2bdbff0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec168[i] = (fSlow31 + (fVec13[i-3] + (fVec13[i-1] + fVec13[i-2])));
 			}
 			
-			// LOOP 0x2c06800
+			// LOOP 0x2be1410
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec169[i] = (fSlow32 + (fVec14[i-3] + (fVec14[i-1] + fVec14[i-2])));
 			}
 			
-			// LOOP 0x2c0bf60
+			// LOOP 0x2be6b60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec170[i] = (fSlow33 + (fVec15[i-3] + (fVec15[i-1] + fVec15[i-2])));
 			}
 			
-			// LOOP 0x2c111f0
+			// LOOP 0x2bebdf0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec171[i] = (fSlow34 + (fVec16[i-3] + (fVec16[i-1] + fVec16[i-2])));
 			}
 			
-			// LOOP 0x2c18070
+			// LOOP 0x2bf2c70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec172[i] = (fSlow37 + (fVec17[i-3] + (fVec17[i-1] + fVec17[i-2])));
 			}
 			
-			// LOOP 0x2c1e010
+			// LOOP 0x2bf8c10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec173[i] = (fSlow38 + (fVec18[i-3] + (fVec18[i-1] + fVec18[i-2])));
 			}
 			
-			// LOOP 0x2c234e0
+			// LOOP 0x2bfe0e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec174[i] = (fSlow39 + (fVec19[i-3] + (fVec19[i-1] + fVec19[i-2])));
 			}
 			
-			// LOOP 0x2c29310
+			// LOOP 0x2c03f70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec175[i] = (fSlow40 + (fVec20[i-3] + (fVec20[i-1] + fVec20[i-2])));
 			}
 			
-			// LOOP 0x2c2ea40
+			// LOOP 0x2c09610
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec176[i] = (fSlow41 + (fVec21[i-3] + (fVec21[i-1] + fVec21[i-2])));
 			}
 			
-			// LOOP 0x2c34650
+			// LOOP 0x2c0f220
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec177[i] = (fSlow42 + (fVec22[i-3] + (fVec22[i-1] + fVec22[i-2])));
 			}
 			
-			// LOOP 0x2c39920
+			// LOOP 0x2c144f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec178[i] = (fSlow43 + (fVec23[i-3] + (fVec23[i-1] + fVec23[i-2])));
 			}
 			
-			// LOOP 0x2c3f430
+			// LOOP 0x2c1a000
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec179[i] = (fSlow44 + (fVec24[i-3] + (fVec24[i-1] + fVec24[i-2])));
 			}
 			
-			// LOOP 0x2c451c0
+			// LOOP 0x2c1fd90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec180[i] = (fSlow45 + (fVec25[i-3] + (fVec25[i-1] + fVec25[i-2])));
 			}
 			
-			// LOOP 0x2c4aa50
+			// LOOP 0x2c255b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec181[i] = (fSlow46 + (fVec26[i-3] + (fVec26[i-1] + fVec26[i-2])));
 			}
 			
-			// LOOP 0x2c50af0
+			// LOOP 0x2c2b6e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec182[i] = (fSlow47 + (fVec27[i-3] + (fVec27[i-1] + fVec27[i-2])));
 			}
 			
-			// LOOP 0x2c56270
+			// LOOP 0x2c30e60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec183[i] = (fSlow48 + (fVec28[i-3] + (fVec28[i-1] + fVec28[i-2])));
 			}
 			
-			// LOOP 0x2c5c610
+			// LOOP 0x2c37200
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec184[i] = (fSlow49 + (fVec29[i-3] + (fVec29[i-1] + fVec29[i-2])));
 			}
 			
-			// LOOP 0x2c62ee0
+			// LOOP 0x2c3dad0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec185[i] = (fSlow50 + (fVec30[i-3] + (fVec30[i-1] + fVec30[i-2])));
 			}
 			
-			// LOOP 0x2c68900
+			// LOOP 0x2c434f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec186[i] = (fSlow51 + (fVec31[i-3] + (fVec31[i-1] + fVec31[i-2])));
 			}
 			
-			// LOOP 0x2c6f1e0
+			// LOOP 0x2c49dc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec187[i] = (fSlow52 + (fVec32[i-3] + (fVec32[i-1] + fVec32[i-2])));
 			}
 			
-			// LOOP 0x2c74e70
+			// LOOP 0x2c4fa50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec188[i] = (fSlow53 + (fVec33[i-3] + (fVec33[i-1] + fVec33[i-2])));
 			}
 			
-			// LOOP 0x2c7b110
+			// LOOP 0x2c55cf0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec189[i] = (fSlow54 + (fVec34[i-3] + (fVec34[i-1] + fVec34[i-2])));
 			}
 			
-			// LOOP 0x2c80740
+			// LOOP 0x2c5b320
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec190[i] = (fSlow55 + (fVec35[i-3] + (fVec35[i-1] + fVec35[i-2])));
 			}
 			
-			// LOOP 0x2c86980
+			// LOOP 0x2c61560
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec191[i] = (fSlow56 + (fVec36[i-3] + (fVec36[i-1] + fVec36[i-2])));
 			}
 			
-			// LOOP 0x2c8cef0
+			// LOOP 0x2c67ac0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec192[i] = (fSlow57 + (fVec37[i-3] + (fVec37[i-1] + fVec37[i-2])));
 			}
 			
-			// LOOP 0x2c92b60
+			// LOOP 0x2c6d730
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec193[i] = (fSlow58 + (fVec38[i-3] + (fVec38[i-1] + fVec38[i-2])));
 			}
 			
-			// LOOP 0x2c99470
+			// LOOP 0x2c74040
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec194[i] = (fSlow59 + (fVec39[i-3] + (fVec39[i-1] + fVec39[i-2])));
 			}
 			
-			// LOOP 0x2c9f0a0
+			// LOOP 0x2c79c70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec195[i] = (fSlow60 + (fVec40[i-3] + (fVec40[i-1] + fVec40[i-2])));
 			}
 			
-			// LOOP 0x2ca5d50
+			// LOOP 0x2c80920
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec196[i] = (fSlow61 + (fVec41[i-3] + (fVec41[i-1] + fVec41[i-2])));
 			}
 			
-			// LOOP 0x2cad000
+			// LOOP 0x2c87bd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec197[i] = (fSlow62 + (fVec42[i-3] + (fVec42[i-1] + fVec42[i-2])));
 			}
 			
-			// LOOP 0x2cb2f80
+			// LOOP 0x2c8db50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec198[i] = (fSlow63 + (fVec43[i-3] + (fVec43[i-1] + fVec43[i-2])));
 			}
 			
-			// LOOP 0x2cba2b0
+			// LOOP 0x2c94e80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec199[i] = (fSlow64 + (fVec44[i-3] + (fVec44[i-1] + fVec44[i-2])));
 			}
 			
-			// LOOP 0x2cc0540
+			// LOOP 0x2c9b110
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec200[i] = (fSlow65 + (fVec45[i-3] + (fVec45[i-1] + fVec45[i-2])));
 			}
 			
-			// LOOP 0x2cc6e70
+			// LOOP 0x2ca1a40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec201[i] = (fSlow66 + (fVec46[i-3] + (fVec46[i-1] + fVec46[i-2])));
 			}
 			
-			// LOOP 0x2ccc820
+			// LOOP 0x2ca73f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec202[i] = (fSlow67 + (fVec47[i-3] + (fVec47[i-1] + fVec47[i-2])));
 			}
 			
-			// LOOP 0x2d26f70
+			// LOOP 0x2d01b40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec221[i] = (fRec133[i] + (fRec131[i] + (fRec129[i] + (fRec127[i] + fZec220[i]))));
 			}
 			
-			// LOOP 0x2d55e30
+			// LOOP 0x2d309a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec226[i] = (fRec173[i] * fZec203[i]);
 			}
 			
-			// LOOP 0x2d57010
+			// LOOP 0x2d31b80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec227[i] = (fRec174[i] * fZec204[i]);
 			}
 			
-			// LOOP 0x2d58260
+			// LOOP 0x2d32dd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec228[i] = (fRec175[i] * fZec205[i]);
 			}
 			
-			// LOOP 0x2d59520
+			// LOOP 0x2d34090
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec229[i] = (fRec176[i] * fZec206[i]);
 			}
 			
-			// LOOP 0x2d5a7d0
+			// LOOP 0x2d35340
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec230[i] = (fRec177[i] * fZec207[i]);
 			}
 			
-			// LOOP 0x2d5bab0
+			// LOOP 0x2d36620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec231[i] = (fRec178[i] * fZec208[i]);
 			}
 			
-			// LOOP 0x2d5cd40
+			// LOOP 0x2d378b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec232[i] = (fRec179[i] * fZec209[i]);
 			}
 			
-			// LOOP 0x2d5e080
+			// LOOP 0x2d38bf0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec233[i] = (fRec180[i] * fZec210[i]);
 			}
 			
-			// LOOP 0x2d5f3e0
+			// LOOP 0x2d39f50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec234[i] = (fRec182[i] * fZec211[i]);
 			}
 			
-			// LOOP 0x2d60770
+			// LOOP 0x2d3b2e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec235[i] = (fRec183[i] * fZec212[i]);
 			}
 			
-			// LOOP 0x2d61ab0
+			// LOOP 0x2d3c620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec236[i] = (fRec184[i] * fZec213[i]);
 			}
 			
-			// LOOP 0x2d62e20
+			// LOOP 0x2d3d990
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec237[i] = (fRec185[i] * fZec214[i]);
 			}
 			
-			// LOOP 0x2d641c0
+			// LOOP 0x2d3ed30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec238[i] = (fRec173[i] * fZec215[i]);
 			}
 			
-			// LOOP 0x2d67d20
+			// LOOP 0x2d42890
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec240[i] = (0.5f * fRec185[i]);
 			}
 			
-			// LOOP 0x2d68fa0
+			// LOOP 0x2d43b10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec241[i] = (0.5f * fRec184[i]);
 			}
 			
-			// LOOP 0x2d69550
+			// LOOP 0x2d440c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec242[i] = (0.5f * fRec183[i]);
 			}
 			
-			// LOOP 0x2d69b30
+			// LOOP 0x2d446a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec243[i] = (0.5f * fRec182[i]);
 			}
 			
-			// LOOP 0x2d6a110
+			// LOOP 0x2d44c80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec244[i] = (0.5f * fRec180[i]);
 			}
 			
-			// LOOP 0x2d6a6f0
+			// LOOP 0x2d45260
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec245[i] = (0.5f * fRec179[i]);
 			}
 			
-			// LOOP 0x2d6acd0
+			// LOOP 0x2d45840
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec246[i] = (0.5f * fRec178[i]);
 			}
 			
-			// LOOP 0x2d6b2b0
+			// LOOP 0x2d45e20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec247[i] = (0.5f * fRec177[i]);
 			}
 			
-			// LOOP 0x2d6b890
+			// LOOP 0x2d46400
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec248[i] = (0.5f * fRec176[i]);
 			}
 			
-			// LOOP 0x2d6be70
+			// LOOP 0x2d469e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec249[i] = (0.5f * fRec175[i]);
 			}
 			
-			// LOOP 0x2d6c450
+			// LOOP 0x2d46fc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec250[i] = (0.5f * fRec171[i]);
 			}
 			
-			// LOOP 0x2d6ca30
+			// LOOP 0x2d475a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec251[i] = (0.5f * fRec169[i]);
 			}
 			
-			// LOOP 0x2d6d010
+			// LOOP 0x2d47b80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec252[i] = (0.5f * fRec167[i]);
 			}
 			
-			// LOOP 0x2d6d5f0
+			// LOOP 0x2d48160
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec253[i] = (0.5f * fRec165[i]);
 			}
 			
-			// LOOP 0x2d6dbd0
+			// LOOP 0x2d48740
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec254[i] = (0.5f * fRec163[i]);
 			}
 			
-			// LOOP 0x2d6e1b0
+			// LOOP 0x2d48d20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec255[i] = (0.5f * fRec161[i]);
 			}
 			
-			// LOOP 0x2d6e790
+			// LOOP 0x2d49300
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec256[i] = (0.5f * fRec159[i]);
 			}
 			
-			// LOOP 0x2d6ed70
+			// LOOP 0x2d498e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec257[i] = (0.5f * fRec157[i]);
 			}
 			
-			// LOOP 0x2d6f350
+			// LOOP 0x2d49ec0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec258[i] = (0.5f * fRec155[i]);
 			}
 			
-			// LOOP 0x2d6f930
+			// LOOP 0x2d4a4a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec259[i] = (0.5f * fRec153[i]);
 			}
 			
-			// LOOP 0x2d6ff10
+			// LOOP 0x2d4aa80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec260[i] = (0.5f * fRec151[i]);
 			}
 			
-			// LOOP 0x2d704f0
+			// LOOP 0x2d4b060
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec261[i] = (0.5f * fRec149[i]);
 			}
 			
-			// LOOP 0x2d70ad0
+			// LOOP 0x2d4b640
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec262[i] = (0.5f * fRec147[i]);
 			}
 			
-			// LOOP 0x2d710b0
+			// LOOP 0x2d4bc20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec263[i] = (0.5f * fRec145[i]);
 			}
 			
-			// LOOP 0x2d71690
+			// LOOP 0x2d4c200
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec264[i] = (0.5f * fRec143[i]);
 			}
 			
-			// LOOP 0x2d71c70
+			// LOOP 0x2d4c7e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec265[i] = (0.5f * fRec141[i]);
 			}
 			
-			// LOOP 0x2d72250
+			// LOOP 0x2d4cdc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec266[i] = (0.5f * fRec139[i]);
 			}
 			
-			// LOOP 0x2d72830
+			// LOOP 0x2d4d3a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec267[i] = (0.5f * fRec137[i]);
 			}
 			
-			// LOOP 0x2d72e10
+			// LOOP 0x2d4d980
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec268[i] = (0.5f * fRec135[i]);
 			}
 			
-			// LOOP 0x2d7ce00
+			// LOOP 0x2d57970
 			// pre processing
 			for (int i=0; i<4; i++) fYec135_tmp[i]=fYec135_perm[i];
 			// exec code
@@ -9101,7 +9100,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec135_perm[i]=fYec135_tmp[count+i];
 			
-			// LOOP 0x2d87880
+			// LOOP 0x2d623f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec139_tmp[i]=fYec139_perm[i];
 			// exec code
@@ -9111,7 +9110,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec139_perm[i]=fYec139_tmp[count+i];
 			
-			// LOOP 0x2d91cb0
+			// LOOP 0x2d6c820
 			// pre processing
 			for (int i=0; i<4; i++) fYec143_tmp[i]=fYec143_perm[i];
 			// exec code
@@ -9121,7 +9120,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec143_perm[i]=fYec143_tmp[count+i];
 			
-			// LOOP 0x2d9c110
+			// LOOP 0x2d76c50
 			// pre processing
 			for (int i=0; i<4; i++) fYec147_tmp[i]=fYec147_perm[i];
 			// exec code
@@ -9131,7 +9130,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec147_perm[i]=fYec147_tmp[count+i];
 			
-			// LOOP 0x2da6640
+			// LOOP 0x2d81180
 			// pre processing
 			for (int i=0; i<4; i++) fYec151_tmp[i]=fYec151_perm[i];
 			// exec code
@@ -9141,7 +9140,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec151_perm[i]=fYec151_tmp[count+i];
 			
-			// LOOP 0x2db0b30
+			// LOOP 0x2d8b670
 			// pre processing
 			for (int i=0; i<4; i++) fYec155_tmp[i]=fYec155_perm[i];
 			// exec code
@@ -9151,7 +9150,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec155_perm[i]=fYec155_tmp[count+i];
 			
-			// LOOP 0x2dbb000
+			// LOOP 0x2d95b20
 			// pre processing
 			for (int i=0; i<4; i++) fYec159_tmp[i]=fYec159_perm[i];
 			// exec code
@@ -9161,7 +9160,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec159_perm[i]=fYec159_tmp[count+i];
 			
-			// LOOP 0x2dc5550
+			// LOOP 0x2da0070
 			// pre processing
 			for (int i=0; i<4; i++) fYec162_tmp[i]=fYec162_perm[i];
 			// exec code
@@ -9171,7 +9170,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec162_perm[i]=fYec162_tmp[count+i];
 			
-			// LOOP 0x2dcd440
+			// LOOP 0x2da7f60
 			// pre processing
 			for (int i=0; i<4; i++) fYec165_tmp[i]=fYec165_perm[i];
 			// exec code
@@ -9181,7 +9180,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec165_perm[i]=fYec165_tmp[count+i];
 			
-			// LOOP 0x2dd56b0
+			// LOOP 0x2db01d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec168_tmp[i]=fYec168_perm[i];
 			// exec code
@@ -9191,7 +9190,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec168_perm[i]=fYec168_tmp[count+i];
 			
-			// LOOP 0x2ddd600
+			// LOOP 0x2db8120
 			// pre processing
 			for (int i=0; i<4; i++) fYec171_tmp[i]=fYec171_perm[i];
 			// exec code
@@ -9201,7 +9200,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec171_perm[i]=fYec171_tmp[count+i];
 			
-			// LOOP 0x2de55a0
+			// LOOP 0x2dc00c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec174_tmp[i]=fYec174_perm[i];
 			// exec code
@@ -9211,7 +9210,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec174_perm[i]=fYec174_tmp[count+i];
 			
-			// LOOP 0x2ded580
+			// LOOP 0x2dc80a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec175_tmp[i]=fYec175_perm[i];
 			// exec code
@@ -9221,7 +9220,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec175_perm[i]=fYec175_tmp[count+i];
 			
-			// LOOP 0x2df12c0
+			// LOOP 0x2dcbde0
 			// pre processing
 			for (int i=0; i<4; i++) fYec176_tmp[i]=fYec176_perm[i];
 			// exec code
@@ -9231,7 +9230,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec176_perm[i]=fYec176_tmp[count+i];
 			
-			// LOOP 0x2df4b00
+			// LOOP 0x2dcf620
 			// pre processing
 			for (int i=0; i<4; i++) fYec177_tmp[i]=fYec177_perm[i];
 			// exec code
@@ -9241,7 +9240,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec177_perm[i]=fYec177_tmp[count+i];
 			
-			// LOOP 0x2df82f0
+			// LOOP 0x2dd2e10
 			// pre processing
 			for (int i=0; i<4; i++) fYec178_tmp[i]=fYec178_perm[i];
 			// exec code
@@ -9251,7 +9250,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec178_perm[i]=fYec178_tmp[count+i];
 			
-			// LOOP 0x2dfbc30
+			// LOOP 0x2dd6780
 			// pre processing
 			for (int i=0; i<4; i++) fYec179_tmp[i]=fYec179_perm[i];
 			// exec code
@@ -9261,7 +9260,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec179_perm[i]=fYec179_tmp[count+i];
 			
-			// LOOP 0x2dffb50
+			// LOOP 0x2dda6a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec180_tmp[i]=fYec180_perm[i];
 			// exec code
@@ -9271,7 +9270,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec180_perm[i]=fYec180_tmp[count+i];
 			
-			// LOOP 0x2e03170
+			// LOOP 0x2dddcc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec181_tmp[i]=fYec181_perm[i];
 			// exec code
@@ -9281,7 +9280,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec181_perm[i]=fYec181_tmp[count+i];
 			
-			// LOOP 0x2e066b0
+			// LOOP 0x2de1200
 			// pre processing
 			for (int i=0; i<4; i++) fYec182_tmp[i]=fYec182_perm[i];
 			// exec code
@@ -9291,7 +9290,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec182_perm[i]=fYec182_tmp[count+i];
 			
-			// LOOP 0x2e09d20
+			// LOOP 0x2de4870
 			// pre processing
 			for (int i=0; i<4; i++) fYec183_tmp[i]=fYec183_perm[i];
 			// exec code
@@ -9301,7 +9300,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec183_perm[i]=fYec183_tmp[count+i];
 			
-			// LOOP 0x2e0d610
+			// LOOP 0x2de8160
 			// pre processing
 			for (int i=0; i<4; i++) fYec184_tmp[i]=fYec184_perm[i];
 			// exec code
@@ -9311,7 +9310,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec184_perm[i]=fYec184_tmp[count+i];
 			
-			// LOOP 0x2e10d00
+			// LOOP 0x2deb850
 			// pre processing
 			for (int i=0; i<4; i++) fYec185_tmp[i]=fYec185_perm[i];
 			// exec code
@@ -9321,7 +9320,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec185_perm[i]=fYec185_tmp[count+i];
 			
-			// LOOP 0x2e143a0
+			// LOOP 0x2deeef0
 			// pre processing
 			for (int i=0; i<4; i++) fYec186_tmp[i]=fYec186_perm[i];
 			// exec code
@@ -9331,7 +9330,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec186_perm[i]=fYec186_tmp[count+i];
 			
-			// LOOP 0x2e17a70
+			// LOOP 0x2df25c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec187_tmp[i]=fYec187_perm[i];
 			// exec code
@@ -9341,7 +9340,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec187_perm[i]=fYec187_tmp[count+i];
 			
-			// LOOP 0x2e1b100
+			// LOOP 0x2df5c80
 			// pre processing
 			for (int i=0; i<4; i++) fYec188_tmp[i]=fYec188_perm[i];
 			// exec code
@@ -9351,7 +9350,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec188_perm[i]=fYec188_tmp[count+i];
 			
-			// LOOP 0x2e1e830
+			// LOOP 0x2df93b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec189_tmp[i]=fYec189_perm[i];
 			// exec code
@@ -9361,7 +9360,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec189_perm[i]=fYec189_tmp[count+i];
 			
-			// LOOP 0x2e21fb0
+			// LOOP 0x2dfcb30
 			// pre processing
 			for (int i=0; i<4; i++) fYec190_tmp[i]=fYec190_perm[i];
 			// exec code
@@ -9371,7 +9370,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec190_perm[i]=fYec190_tmp[count+i];
 			
-			// LOOP 0x2e25760
+			// LOOP 0x2e002e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec191_tmp[i]=fYec191_perm[i];
 			// exec code
@@ -9381,7 +9380,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec191_perm[i]=fYec191_tmp[count+i];
 			
-			// LOOP 0x2e28f60
+			// LOOP 0x2e03ae0
 			// pre processing
 			for (int i=0; i<4; i++) fYec192_tmp[i]=fYec192_perm[i];
 			// exec code
@@ -9391,7 +9390,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec192_perm[i]=fYec192_tmp[count+i];
 			
-			// LOOP 0x2e2c7a0
+			// LOOP 0x2e07320
 			// pre processing
 			for (int i=0; i<4; i++) fYec193_tmp[i]=fYec193_perm[i];
 			// exec code
@@ -9402,7 +9401,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec193_perm[i]=fYec193_tmp[count+i];
 			
 			// SECTION : 27
-			// LOOP 0x2b17d10
+			// LOOP 0x2af28a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec2_tmp[i]=fRec2_perm[i];
 			// exec code
@@ -9412,7 +9411,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec2_perm[i]=fRec2_tmp[count+i];
 			
-			// LOOP 0x2b30d90
+			// LOOP 0x2b0b980
 			// pre processing
 			for (int i=0; i<4; i++) fRec11_tmp[i]=fRec11_perm[i];
 			// exec code
@@ -9422,7 +9421,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec11_perm[i]=fRec11_tmp[count+i];
 			
-			// LOOP 0x2b45030
+			// LOOP 0x2b1fc10
 			// pre processing
 			for (int i=0; i<4; i++) fRec19_tmp[i]=fRec19_perm[i];
 			// exec code
@@ -9432,7 +9431,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec19_perm[i]=fRec19_tmp[count+i];
 			
-			// LOOP 0x2b58e20
+			// LOOP 0x2b33a00
 			// pre processing
 			for (int i=0; i<4; i++) fRec27_tmp[i]=fRec27_perm[i];
 			// exec code
@@ -9442,7 +9441,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec27_perm[i]=fRec27_tmp[count+i];
 			
-			// LOOP 0x2b6cf70
+			// LOOP 0x2b47b50
 			// pre processing
 			for (int i=0; i<4; i++) fRec35_tmp[i]=fRec35_perm[i];
 			// exec code
@@ -9452,7 +9451,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec35_perm[i]=fRec35_tmp[count+i];
 			
-			// LOOP 0x2b81180
+			// LOOP 0x2b5bd60
 			// pre processing
 			for (int i=0; i<4; i++) fRec43_tmp[i]=fRec43_perm[i];
 			// exec code
@@ -9462,7 +9461,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec43_perm[i]=fRec43_tmp[count+i];
 			
-			// LOOP 0x2b93350
+			// LOOP 0x2b6df60
 			// pre processing
 			for (int i=0; i<4; i++) fRec50_tmp[i]=fRec50_perm[i];
 			// exec code
@@ -9472,7 +9471,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec50_perm[i]=fRec50_tmp[count+i];
 			
-			// LOOP 0x2ba5000
+			// LOOP 0x2b7fd60
 			// pre processing
 			for (int i=0; i<4; i++) fRec57_tmp[i]=fRec57_perm[i];
 			// exec code
@@ -9482,7 +9481,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec57_perm[i]=fRec57_tmp[count+i];
 			
-			// LOOP 0x2bb6c90
+			// LOOP 0x2b918b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec64_tmp[i]=fRec64_perm[i];
 			// exec code
@@ -9492,7 +9491,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec64_perm[i]=fRec64_tmp[count+i];
 			
-			// LOOP 0x2bc8950
+			// LOOP 0x2ba3570
 			// pre processing
 			for (int i=0; i<4; i++) fRec71_tmp[i]=fRec71_perm[i];
 			// exec code
@@ -9502,7 +9501,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec71_perm[i]=fRec71_tmp[count+i];
 			
-			// LOOP 0x2bdac70
+			// LOOP 0x2bb5890
 			// pre processing
 			for (int i=0; i<4; i++) fYec59_tmp[i]=fYec59_perm[i];
 			// exec code
@@ -9512,7 +9511,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec59_perm[i]=fYec59_tmp[count+i];
 			
-			// LOOP 0x2becb10
+			// LOOP 0x2bc7720
 			// pre processing
 			for (int i=0; i<4; i++) fYec64_tmp[i]=fYec64_perm[i];
 			// exec code
@@ -9522,7 +9521,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec64_perm[i]=fYec64_tmp[count+i];
 			
-			// LOOP 0x2bfeb00
+			// LOOP 0x2bd9710
 			// pre processing
 			for (int i=0; i<4; i++) fYec65_tmp[i]=fYec65_perm[i];
 			// exec code
@@ -9532,7 +9531,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec65_perm[i]=fYec65_tmp[count+i];
 			
-			// LOOP 0x2c03be0
+			// LOOP 0x2bde7f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec66_tmp[i]=fYec66_perm[i];
 			// exec code
@@ -9542,7 +9541,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec66_perm[i]=fYec66_tmp[count+i];
 			
-			// LOOP 0x2c095e0
+			// LOOP 0x2be41e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec67_tmp[i]=fYec67_perm[i];
 			// exec code
@@ -9552,7 +9551,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec67_perm[i]=fYec67_tmp[count+i];
 			
-			// LOOP 0x2c0e910
+			// LOOP 0x2be9510
 			// pre processing
 			for (int i=0; i<4; i++) fYec68_tmp[i]=fYec68_perm[i];
 			// exec code
@@ -9562,7 +9561,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec68_perm[i]=fYec68_tmp[count+i];
 			
-			// LOOP 0x2c142d0
+			// LOOP 0x2beeed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec69_tmp[i]=fYec69_perm[i];
 			// exec code
@@ -9572,19 +9571,19 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec69_perm[i]=fYec69_tmp[count+i];
 			
-			// LOOP 0x2d33610
+			// LOOP 0x2d0e210
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec239[i] = (0.25f * (fZec238[i] + (fZec237[i] + (fZec236[i] + (fZec235[i] + (fZec234[i] + (fZec233[i] + (fZec232[i] + (fZec231[i] + (fZec230[i] + (fZec229[i] + (fZec228[i] + (fZec227[i] + (fZec226[i] + ((fRec185[i] * fZec202[i]) + ((fRec184[i] * fZec201[i]) + ((fRec183[i] * fZec200[i]) + ((fRec182[i] * fZec199[i]) + ((fRec180[i] * fZec198[i]) + ((fRec179[i] * fZec197[i]) + ((fRec178[i] * fZec196[i]) + ((fRec177[i] * fZec195[i]) + ((fRec176[i] * fZec194[i]) + ((fRec175[i] * fZec193[i]) + ((fRec174[i] * fZec192[i]) + ((fRec173[i] * fZec191[i]) + ((fRec171[i] * fZec190[i]) + ((fRec169[i] * fZec189[i]) + ((fRec167[i] * fZec188[i]) + ((fRec165[i] * fZec187[i]) + ((fRec163[i] * fZec186[i]) + ((fRec161[i] * fZec185[i]) + ((fRec159[i] * fZec184[i]) + ((fRec157[i] * fZec183[i]) + ((fRec155[i] * fZec182[i]) + ((fRec153[i] * fZec181[i]) + ((fRec151[i] * fZec180[i]) + ((fRec149[i] * fZec179[i]) + ((fRec147[i] * fZec178[i]) + ((fRec145[i] * fZec177[i]) + ((fRec143[i] * fZec176[i]) + ((fRec141[i] * fZec175[i]) + ((fRec139[i] * fZec174[i]) + ((fRec137[i] * fZec173[i]) + ((fRec135[i] * fZec172[i]) + (fSlow36 * ((fRec133[i] * fZec171[i]) + ((fRec131[i] * fZec170[i]) + ((fRec129[i] * fZec169[i]) + ((fRec127[i] * fZec168[i]) + ((fRec125[i] * fZec167[i]) + ((fRec123[i] * fZec154[i]) + ((fRec121[i] * fZec141[i]) + ((fRec119[i] * fZec128[i]) + ((fRec117[i] * fZec115[i]) + ((fRec115[i] * fZec102[i]) + ((fRec113[i] * fZec89[i]) + ((fRec111[i] * fZec76[i]) + ((fRec109[i] * fZec61[i]) + ((fRec107[i] * fZec46[i]) + ((fRec105[i] * fZec31[i]) + ((fRec103[i] * fZec16[i]) + (fRec101[i] * fZec0[i])))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2d657e0
+			// LOOP 0x2d40350
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec269[i] = ((2 * ((((((((((((fRec174[i] + (fRec173[i] + ((((((((((((((((((fZec268[i] + fZec267[i]) + fZec266[i]) + fZec265[i]) + fZec264[i]) + fZec263[i]) + fZec262[i]) + fZec261[i]) + fZec260[i]) + fZec259[i]) + fZec258[i]) + fZec257[i]) + fZec256[i]) + fZec255[i]) + fZec254[i]) + fZec253[i]) + fZec252[i]) + fZec251[i]) + fZec250[i]))) + fZec249[i]) + fZec248[i]) + fZec247[i]) + fZec246[i]) + fZec245[i]) + fZec244[i]) + fZec243[i]) + fZec242[i]) + fZec241[i]) + fZec240[i]) + (fSlow81 * fZec221[i]))) + (fRec185[i] + (fRec184[i] + (fRec183[i] + (fRec182[i] + (fRec180[i] + (fRec179[i] + (fRec178[i] + (fRec177[i] + (fRec176[i] + (fRec173[i] + fRec175[i])))))))))));
 			}
 			
-			// LOOP 0x2d7c8b0
+			// LOOP 0x2d57420
 			// pre processing
 			for (int i=0; i<4; i++) fRec188_tmp[i]=fRec188_perm[i];
 			// exec code
@@ -9594,7 +9593,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec188_perm[i]=fRec188_tmp[count+i];
 			
-			// LOOP 0x2d87330
+			// LOOP 0x2d61ea0
 			// pre processing
 			for (int i=0; i<4; i++) fRec193_tmp[i]=fRec193_perm[i];
 			// exec code
@@ -9604,7 +9603,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec193_perm[i]=fRec193_tmp[count+i];
 			
-			// LOOP 0x2d91760
+			// LOOP 0x2d6c2d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec198_tmp[i]=fRec198_perm[i];
 			// exec code
@@ -9614,7 +9613,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec198_perm[i]=fRec198_tmp[count+i];
 			
-			// LOOP 0x2d9bbc0
+			// LOOP 0x2d76700
 			// pre processing
 			for (int i=0; i<4; i++) fRec203_tmp[i]=fRec203_perm[i];
 			// exec code
@@ -9624,7 +9623,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec203_perm[i]=fRec203_tmp[count+i];
 			
-			// LOOP 0x2da60f0
+			// LOOP 0x2d80c30
 			// pre processing
 			for (int i=0; i<4; i++) fRec208_tmp[i]=fRec208_perm[i];
 			// exec code
@@ -9634,7 +9633,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec208_perm[i]=fRec208_tmp[count+i];
 			
-			// LOOP 0x2db05e0
+			// LOOP 0x2d8b120
 			// pre processing
 			for (int i=0; i<4; i++) fRec213_tmp[i]=fRec213_perm[i];
 			// exec code
@@ -9644,7 +9643,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec213_perm[i]=fRec213_tmp[count+i];
 			
-			// LOOP 0x2dbaab0
+			// LOOP 0x2d955d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec218_tmp[i]=fRec218_perm[i];
 			// exec code
@@ -9654,7 +9653,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec218_perm[i]=fRec218_tmp[count+i];
 			
-			// LOOP 0x2dc5000
+			// LOOP 0x2d9fb20
 			// pre processing
 			for (int i=0; i<4; i++) fRec223_tmp[i]=fRec223_perm[i];
 			// exec code
@@ -9664,7 +9663,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec223_perm[i]=fRec223_tmp[count+i];
 			
-			// LOOP 0x2dccef0
+			// LOOP 0x2da7a10
 			// pre processing
 			for (int i=0; i<4; i++) fRec227_tmp[i]=fRec227_perm[i];
 			// exec code
@@ -9674,7 +9673,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec227_perm[i]=fRec227_tmp[count+i];
 			
-			// LOOP 0x2dd5160
+			// LOOP 0x2dafc80
 			// pre processing
 			for (int i=0; i<4; i++) fRec231_tmp[i]=fRec231_perm[i];
 			// exec code
@@ -9684,7 +9683,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec231_perm[i]=fRec231_tmp[count+i];
 			
-			// LOOP 0x2ddd0b0
+			// LOOP 0x2db7bd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec235_tmp[i]=fRec235_perm[i];
 			// exec code
@@ -9694,7 +9693,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec235_perm[i]=fRec235_tmp[count+i];
 			
-			// LOOP 0x2de5050
+			// LOOP 0x2dbfb70
 			// pre processing
 			for (int i=0; i<4; i++) fRec239_tmp[i]=fRec239_perm[i];
 			// exec code
@@ -9704,7 +9703,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec239_perm[i]=fRec239_tmp[count+i];
 			
-			// LOOP 0x2ded030
+			// LOOP 0x2dc7b50
 			// pre processing
 			for (int i=0; i<4; i++) fRec243_tmp[i]=fRec243_perm[i];
 			// exec code
@@ -9714,7 +9713,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec243_perm[i]=fRec243_tmp[count+i];
 			
-			// LOOP 0x2df0d70
+			// LOOP 0x2dcb890
 			// pre processing
 			for (int i=0; i<4; i++) fRec245_tmp[i]=fRec245_perm[i];
 			// exec code
@@ -9724,7 +9723,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec245_perm[i]=fRec245_tmp[count+i];
 			
-			// LOOP 0x2df45b0
+			// LOOP 0x2dcf0d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec247_tmp[i]=fRec247_perm[i];
 			// exec code
@@ -9734,7 +9733,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec247_perm[i]=fRec247_tmp[count+i];
 			
-			// LOOP 0x2df7da0
+			// LOOP 0x2dd28c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec249_tmp[i]=fRec249_perm[i];
 			// exec code
@@ -9744,7 +9743,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec249_perm[i]=fRec249_tmp[count+i];
 			
-			// LOOP 0x2dfb6e0
+			// LOOP 0x2dd6230
 			// pre processing
 			for (int i=0; i<4; i++) fRec251_tmp[i]=fRec251_perm[i];
 			// exec code
@@ -9754,7 +9753,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec251_perm[i]=fRec251_tmp[count+i];
 			
-			// LOOP 0x2dff600
+			// LOOP 0x2dda150
 			// pre processing
 			for (int i=0; i<4; i++) fRec253_tmp[i]=fRec253_perm[i];
 			// exec code
@@ -9764,7 +9763,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec253_perm[i]=fRec253_tmp[count+i];
 			
-			// LOOP 0x2e02c20
+			// LOOP 0x2ddd770
 			// pre processing
 			for (int i=0; i<4; i++) fRec255_tmp[i]=fRec255_perm[i];
 			// exec code
@@ -9774,7 +9773,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec255_perm[i]=fRec255_tmp[count+i];
 			
-			// LOOP 0x2e06160
+			// LOOP 0x2de0cb0
 			// pre processing
 			for (int i=0; i<4; i++) fRec257_tmp[i]=fRec257_perm[i];
 			// exec code
@@ -9784,7 +9783,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec257_perm[i]=fRec257_tmp[count+i];
 			
-			// LOOP 0x2e097d0
+			// LOOP 0x2de4320
 			// pre processing
 			for (int i=0; i<4; i++) fRec259_tmp[i]=fRec259_perm[i];
 			// exec code
@@ -9794,7 +9793,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec259_perm[i]=fRec259_tmp[count+i];
 			
-			// LOOP 0x2e0d0c0
+			// LOOP 0x2de7c10
 			// pre processing
 			for (int i=0; i<4; i++) fRec261_tmp[i]=fRec261_perm[i];
 			// exec code
@@ -9804,7 +9803,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec261_perm[i]=fRec261_tmp[count+i];
 			
-			// LOOP 0x2e107b0
+			// LOOP 0x2deb300
 			// pre processing
 			for (int i=0; i<4; i++) fRec263_tmp[i]=fRec263_perm[i];
 			// exec code
@@ -9814,7 +9813,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec263_perm[i]=fRec263_tmp[count+i];
 			
-			// LOOP 0x2e13e50
+			// LOOP 0x2dee9a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec265_tmp[i]=fRec265_perm[i];
 			// exec code
@@ -9824,7 +9823,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec265_perm[i]=fRec265_tmp[count+i];
 			
-			// LOOP 0x2e17520
+			// LOOP 0x2df2070
 			// pre processing
 			for (int i=0; i<4; i++) fRec267_tmp[i]=fRec267_perm[i];
 			// exec code
@@ -9834,7 +9833,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec267_perm[i]=fRec267_tmp[count+i];
 			
-			// LOOP 0x2e1abb0
+			// LOOP 0x2df5730
 			// pre processing
 			for (int i=0; i<4; i++) fRec269_tmp[i]=fRec269_perm[i];
 			// exec code
@@ -9844,7 +9843,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec269_perm[i]=fRec269_tmp[count+i];
 			
-			// LOOP 0x2e1e2e0
+			// LOOP 0x2df8e60
 			// pre processing
 			for (int i=0; i<4; i++) fRec271_tmp[i]=fRec271_perm[i];
 			// exec code
@@ -9854,7 +9853,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec271_perm[i]=fRec271_tmp[count+i];
 			
-			// LOOP 0x2e21a60
+			// LOOP 0x2dfc5e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec273_tmp[i]=fRec273_perm[i];
 			// exec code
@@ -9864,7 +9863,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec273_perm[i]=fRec273_tmp[count+i];
 			
-			// LOOP 0x2e25210
+			// LOOP 0x2dffd90
 			// pre processing
 			for (int i=0; i<4; i++) fRec275_tmp[i]=fRec275_perm[i];
 			// exec code
@@ -9874,7 +9873,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec275_perm[i]=fRec275_tmp[count+i];
 			
-			// LOOP 0x2e28a10
+			// LOOP 0x2e03590
 			// pre processing
 			for (int i=0; i<4; i++) fRec277_tmp[i]=fRec277_perm[i];
 			// exec code
@@ -9884,7 +9883,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec277_perm[i]=fRec277_tmp[count+i];
 			
-			// LOOP 0x2e2c250
+			// LOOP 0x2e06dd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec279_tmp[i]=fRec279_perm[i];
 			// exec code
@@ -9895,7 +9894,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec279_perm[i]=fRec279_tmp[count+i];
 			
 			// SECTION : 28
-			// LOOP 0x2b17900
+			// LOOP 0x2af2490
 			// pre processing
 			for (int i=0; i<4; i++) fRec1_tmp[i]=fRec1_perm[i];
 			// exec code
@@ -9905,7 +9904,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec1_perm[i]=fRec1_tmp[count+i];
 			
-			// LOOP 0x2b308a0
+			// LOOP 0x2b0b490
 			// pre processing
 			for (int i=0; i<4; i++) fRec10_tmp[i]=fRec10_perm[i];
 			// exec code
@@ -9915,7 +9914,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec10_perm[i]=fRec10_tmp[count+i];
 			
-			// LOOP 0x2b44b40
+			// LOOP 0x2b1f720
 			// pre processing
 			for (int i=0; i<4; i++) fRec18_tmp[i]=fRec18_perm[i];
 			// exec code
@@ -9925,7 +9924,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec18_perm[i]=fRec18_tmp[count+i];
 			
-			// LOOP 0x2b58930
+			// LOOP 0x2b33510
 			// pre processing
 			for (int i=0; i<4; i++) fRec26_tmp[i]=fRec26_perm[i];
 			// exec code
@@ -9935,7 +9934,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec26_perm[i]=fRec26_tmp[count+i];
 			
-			// LOOP 0x2b6ca80
+			// LOOP 0x2b47660
 			// pre processing
 			for (int i=0; i<4; i++) fRec34_tmp[i]=fRec34_perm[i];
 			// exec code
@@ -9945,7 +9944,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec34_perm[i]=fRec34_tmp[count+i];
 			
-			// LOOP 0x2b80c90
+			// LOOP 0x2b5b870
 			// pre processing
 			for (int i=0; i<4; i++) fRec42_tmp[i]=fRec42_perm[i];
 			// exec code
@@ -9955,7 +9954,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec42_perm[i]=fRec42_tmp[count+i];
 			
-			// LOOP 0x2b92e60
+			// LOOP 0x2b6da70
 			// pre processing
 			for (int i=0; i<4; i++) fRec49_tmp[i]=fRec49_perm[i];
 			// exec code
@@ -9965,7 +9964,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec49_perm[i]=fRec49_tmp[count+i];
 			
-			// LOOP 0x2ba4c60
+			// LOOP 0x2b7f870
 			// pre processing
 			for (int i=0; i<4; i++) fRec56_tmp[i]=fRec56_perm[i];
 			// exec code
@@ -9975,7 +9974,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec56_perm[i]=fRec56_tmp[count+i];
 			
-			// LOOP 0x2bb67a0
+			// LOOP 0x2b913c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec63_tmp[i]=fRec63_perm[i];
 			// exec code
@@ -9985,7 +9984,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec63_perm[i]=fRec63_tmp[count+i];
 			
-			// LOOP 0x2bc8460
+			// LOOP 0x2ba3080
 			// pre processing
 			for (int i=0; i<4; i++) fRec70_tmp[i]=fRec70_perm[i];
 			// exec code
@@ -9995,7 +9994,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec70_perm[i]=fRec70_tmp[count+i];
 			
-			// LOOP 0x2bda720
+			// LOOP 0x2bb5340
 			// pre processing
 			for (int i=0; i<4; i++) fRec78_tmp[i]=fRec78_perm[i];
 			// exec code
@@ -10005,7 +10004,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec78_perm[i]=fRec78_tmp[count+i];
 			
-			// LOOP 0x2bec5c0
+			// LOOP 0x2bc71d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec85_tmp[i]=fRec85_perm[i];
 			// exec code
@@ -10015,7 +10014,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec85_perm[i]=fRec85_tmp[count+i];
 			
-			// LOOP 0x2bfe5b0
+			// LOOP 0x2bd91c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec92_tmp[i]=fRec92_perm[i];
 			// exec code
@@ -10025,7 +10024,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec92_perm[i]=fRec92_tmp[count+i];
 			
-			// LOOP 0x2c03690
+			// LOOP 0x2bde2a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec94_tmp[i]=fRec94_perm[i];
 			// exec code
@@ -10035,7 +10034,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec94_perm[i]=fRec94_tmp[count+i];
 			
-			// LOOP 0x2c09090
+			// LOOP 0x2be3c90
 			// pre processing
 			for (int i=0; i<4; i++) fRec96_tmp[i]=fRec96_perm[i];
 			// exec code
@@ -10045,7 +10044,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec96_perm[i]=fRec96_tmp[count+i];
 			
-			// LOOP 0x2c0e3c0
+			// LOOP 0x2be8fc0
 			// pre processing
 			for (int i=0; i<4; i++) fRec98_tmp[i]=fRec98_perm[i];
 			// exec code
@@ -10055,7 +10054,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec98_perm[i]=fRec98_tmp[count+i];
 			
-			// LOOP 0x2c13d80
+			// LOOP 0x2bee980
 			// pre processing
 			for (int i=0; i<4; i++) fRec100_tmp[i]=fRec100_perm[i];
 			// exec code
@@ -10065,13 +10064,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec100_perm[i]=fRec100_tmp[count+i];
 			
-			// LOOP 0x2d26e60
+			// LOOP 0x2d01a30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec222[i] = (fRec149[i] + (fRec147[i] + (fRec145[i] + (fRec143[i] + (fRec141[i] + (fRec139[i] + (fRec137[i] + (fRec135[i] + fZec221[i]))))))));
 			}
 			
-			// LOOP 0x2d33500
+			// LOOP 0x2d0e100
 			// pre processing
 			for (int i=0; i<4; i++) fYec131_tmp[i]=fYec131_perm[i];
 			// exec code
@@ -10081,7 +10080,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec131_perm[i]=fYec131_tmp[count+i];
 			
-			// LOOP 0x2d7c330
+			// LOOP 0x2d56ea0
 			// pre processing
 			for (int i=0; i<4; i++) fRec187_tmp[i]=fRec187_perm[i];
 			// exec code
@@ -10091,7 +10090,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec187_perm[i]=fRec187_tmp[count+i];
 			
-			// LOOP 0x2d86e60
+			// LOOP 0x2d619d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec192_tmp[i]=fRec192_perm[i];
 			// exec code
@@ -10101,7 +10100,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec192_perm[i]=fRec192_tmp[count+i];
 			
-			// LOOP 0x2d91270
+			// LOOP 0x2d6bde0
 			// pre processing
 			for (int i=0; i<4; i++) fRec197_tmp[i]=fRec197_perm[i];
 			// exec code
@@ -10111,7 +10110,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec197_perm[i]=fRec197_tmp[count+i];
 			
-			// LOOP 0x2d9b6d0
+			// LOOP 0x2d76210
 			// pre processing
 			for (int i=0; i<4; i++) fRec202_tmp[i]=fRec202_perm[i];
 			// exec code
@@ -10121,7 +10120,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec202_perm[i]=fRec202_tmp[count+i];
 			
-			// LOOP 0x2da5c00
+			// LOOP 0x2d80740
 			// pre processing
 			for (int i=0; i<4; i++) fRec207_tmp[i]=fRec207_perm[i];
 			// exec code
@@ -10131,7 +10130,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec207_perm[i]=fRec207_tmp[count+i];
 			
-			// LOOP 0x2db0110
+			// LOOP 0x2d8ac50
 			// pre processing
 			for (int i=0; i<4; i++) fRec212_tmp[i]=fRec212_perm[i];
 			// exec code
@@ -10141,7 +10140,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec212_perm[i]=fRec212_tmp[count+i];
 			
-			// LOOP 0x2dba610
+			// LOOP 0x2d95130
 			// pre processing
 			for (int i=0; i<4; i++) fRec217_tmp[i]=fRec217_perm[i];
 			// exec code
@@ -10151,7 +10150,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec217_perm[i]=fRec217_tmp[count+i];
 			
-			// LOOP 0x2dc4b80
+			// LOOP 0x2d9f6a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec222_tmp[i]=fRec222_perm[i];
 			// exec code
@@ -10161,7 +10160,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec222_perm[i]=fRec222_tmp[count+i];
 			
-			// LOOP 0x2dcca90
+			// LOOP 0x2da75b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec226_tmp[i]=fRec226_perm[i];
 			// exec code
@@ -10171,7 +10170,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec226_perm[i]=fRec226_tmp[count+i];
 			
-			// LOOP 0x2dd4d20
+			// LOOP 0x2daf840
 			// pre processing
 			for (int i=0; i<4; i++) fRec230_tmp[i]=fRec230_perm[i];
 			// exec code
@@ -10181,7 +10180,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec230_perm[i]=fRec230_tmp[count+i];
 			
-			// LOOP 0x2ddcc90
+			// LOOP 0x2db77b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec234_tmp[i]=fRec234_perm[i];
 			// exec code
@@ -10191,7 +10190,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec234_perm[i]=fRec234_tmp[count+i];
 			
-			// LOOP 0x2de4c40
+			// LOOP 0x2dbf760
 			// pre processing
 			for (int i=0; i<4; i++) fRec238_tmp[i]=fRec238_perm[i];
 			// exec code
@@ -10201,7 +10200,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec238_perm[i]=fRec238_tmp[count+i];
 			
-			// LOOP 0x2decc40
+			// LOOP 0x2dc7760
 			// pre processing
 			for (int i=0; i<4; i++) fRec242_tmp[i]=fRec242_perm[i];
 			// exec code
@@ -10211,7 +10210,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec242_perm[i]=fRec242_tmp[count+i];
 			
-			// LOOP 0x2df0580
+			// LOOP 0x2dcb0a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec244_tmp[i]=fRec244_perm[i];
 			// exec code
@@ -10221,7 +10220,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec244_perm[i]=fRec244_tmp[count+i];
 			
-			// LOOP 0x2df3d60
+			// LOOP 0x2dce880
 			// pre processing
 			for (int i=0; i<4; i++) fRec246_tmp[i]=fRec246_perm[i];
 			// exec code
@@ -10231,7 +10230,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec246_perm[i]=fRec246_tmp[count+i];
 			
-			// LOOP 0x2df74e0
+			// LOOP 0x2dd2060
 			// pre processing
 			for (int i=0; i<4; i++) fRec248_tmp[i]=fRec248_perm[i];
 			// exec code
@@ -10241,7 +10240,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec248_perm[i]=fRec248_tmp[count+i];
 			
-			// LOOP 0x2dfae40
+			// LOOP 0x2dd59f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec250_tmp[i]=fRec250_perm[i];
 			// exec code
@@ -10251,7 +10250,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec250_perm[i]=fRec250_tmp[count+i];
 			
-			// LOOP 0x2dfec50
+			// LOOP 0x2dd97a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec252_tmp[i]=fRec252_perm[i];
 			// exec code
@@ -10261,7 +10260,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec252_perm[i]=fRec252_tmp[count+i];
 			
-			// LOOP 0x2e02730
+			// LOOP 0x2ddd280
 			// pre processing
 			for (int i=0; i<4; i++) fRec254_tmp[i]=fRec254_perm[i];
 			// exec code
@@ -10271,7 +10270,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec254_perm[i]=fRec254_tmp[count+i];
 			
-			// LOOP 0x2e05c70
+			// LOOP 0x2de07c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec256_tmp[i]=fRec256_perm[i];
 			// exec code
@@ -10281,7 +10280,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec256_perm[i]=fRec256_tmp[count+i];
 			
-			// LOOP 0x2e092e0
+			// LOOP 0x2de3e30
 			// pre processing
 			for (int i=0; i<4; i++) fRec258_tmp[i]=fRec258_perm[i];
 			// exec code
@@ -10291,7 +10290,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec258_perm[i]=fRec258_tmp[count+i];
 			
-			// LOOP 0x2e0cbf0
+			// LOOP 0x2de7740
 			// pre processing
 			for (int i=0; i<4; i++) fRec260_tmp[i]=fRec260_perm[i];
 			// exec code
@@ -10301,7 +10300,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec260_perm[i]=fRec260_tmp[count+i];
 			
-			// LOOP 0x2e10310
+			// LOOP 0x2deae60
 			// pre processing
 			for (int i=0; i<4; i++) fRec262_tmp[i]=fRec262_perm[i];
 			// exec code
@@ -10311,7 +10310,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec262_perm[i]=fRec262_tmp[count+i];
 			
-			// LOOP 0x2e139d0
+			// LOOP 0x2dee520
 			// pre processing
 			for (int i=0; i<4; i++) fRec264_tmp[i]=fRec264_perm[i];
 			// exec code
@@ -10321,7 +10320,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec264_perm[i]=fRec264_tmp[count+i];
 			
-			// LOOP 0x2e170c0
+			// LOOP 0x2df1c10
 			// pre processing
 			for (int i=0; i<4; i++) fRec266_tmp[i]=fRec266_perm[i];
 			// exec code
@@ -10331,7 +10330,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec266_perm[i]=fRec266_tmp[count+i];
 			
-			// LOOP 0x2e1a770
+			// LOOP 0x2df52f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec268_tmp[i]=fRec268_perm[i];
 			// exec code
@@ -10341,7 +10340,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec268_perm[i]=fRec268_tmp[count+i];
 			
-			// LOOP 0x2e1ded0
+			// LOOP 0x2df8a50
 			// pre processing
 			for (int i=0; i<4; i++) fRec270_tmp[i]=fRec270_perm[i];
 			// exec code
@@ -10351,7 +10350,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec270_perm[i]=fRec270_tmp[count+i];
 			
-			// LOOP 0x2e21660
+			// LOOP 0x2dfc1e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec272_tmp[i]=fRec272_perm[i];
 			// exec code
@@ -10361,7 +10360,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec272_perm[i]=fRec272_tmp[count+i];
 			
-			// LOOP 0x2e24e20
+			// LOOP 0x2dff9a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec274_tmp[i]=fRec274_perm[i];
 			// exec code
@@ -10371,7 +10370,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec274_perm[i]=fRec274_tmp[count+i];
 			
-			// LOOP 0x2e281f0
+			// LOOP 0x2e02d70
 			// pre processing
 			for (int i=0; i<4; i++) fRec276_tmp[i]=fRec276_perm[i];
 			// exec code
@@ -10381,7 +10380,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec276_perm[i]=fRec276_tmp[count+i];
 			
-			// LOOP 0x2e2b9f0
+			// LOOP 0x2e06570
 			// pre processing
 			for (int i=0; i<4; i++) fRec278_tmp[i]=fRec278_perm[i];
 			// exec code
@@ -10392,7 +10391,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec278_perm[i]=fRec278_tmp[count+i];
 			
 			// SECTION : 29
-			// LOOP 0x2bda230
+			// LOOP 0x2bb4e50
 			// pre processing
 			for (int i=0; i<4; i++) fRec77_tmp[i]=fRec77_perm[i];
 			// exec code
@@ -10402,7 +10401,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec77_perm[i]=fRec77_tmp[count+i];
 			
-			// LOOP 0x2bec0d0
+			// LOOP 0x2bc6ce0
 			// pre processing
 			for (int i=0; i<4; i++) fRec84_tmp[i]=fRec84_perm[i];
 			// exec code
@@ -10412,7 +10411,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec84_perm[i]=fRec84_tmp[count+i];
 			
-			// LOOP 0x2bfe0c0
+			// LOOP 0x2bd8cd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec91_tmp[i]=fRec91_perm[i];
 			// exec code
@@ -10422,7 +10421,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec91_perm[i]=fRec91_tmp[count+i];
 			
-			// LOOP 0x2c031a0
+			// LOOP 0x2bdddb0
 			// pre processing
 			for (int i=0; i<4; i++) fRec93_tmp[i]=fRec93_perm[i];
 			// exec code
@@ -10432,7 +10431,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec93_perm[i]=fRec93_tmp[count+i];
 			
-			// LOOP 0x2c08ba0
+			// LOOP 0x2be37a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec95_tmp[i]=fRec95_perm[i];
 			// exec code
@@ -10442,7 +10441,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec95_perm[i]=fRec95_tmp[count+i];
 			
-			// LOOP 0x2c0ded0
+			// LOOP 0x2be8ad0
 			// pre processing
 			for (int i=0; i<4; i++) fRec97_tmp[i]=fRec97_perm[i];
 			// exec code
@@ -10452,7 +10451,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec97_perm[i]=fRec97_tmp[count+i];
 			
-			// LOOP 0x2c13890
+			// LOOP 0x2bee490
 			// pre processing
 			for (int i=0; i<4; i++) fRec99_tmp[i]=fRec99_perm[i];
 			// exec code
@@ -10462,13 +10461,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec99_perm[i]=fRec99_tmp[count+i];
 			
-			// LOOP 0x2d26d50
+			// LOOP 0x2d01920
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec223[i] = (fRec173[i] + (fRec171[i] + (fRec169[i] + (fRec167[i] + (fRec165[i] + (fRec163[i] + (fRec161[i] + (fRec159[i] + (fRec157[i] + (fRec155[i] + (fRec153[i] + (fRec151[i] + fZec222[i]))))))))))));
 			}
 			
-			// LOOP 0x2d32f80
+			// LOOP 0x2d0db80
 			// pre processing
 			for (int i=0; i<4; i++) fRec181_tmp[i]=fRec181_perm[i];
 			// exec code
@@ -10478,44 +10477,44 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec181_perm[i]=fRec181_tmp[count+i];
 			
-			// LOOP 0x2d7c190
+			// LOOP 0x2d56d00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec322[i] = ((fRec250[i] * fZec171[i]) + ((fRec248[i] * fZec170[i]) + ((fRec246[i] * fZec169[i]) + ((fRec244[i] * fZec168[i]) + ((fRec242[i] * fZec167[i]) + ((fRec238[i] * fZec154[i]) + ((fRec234[i] * fZec141[i]) + ((fRec230[i] * fZec128[i]) + ((fRec226[i] * fZec115[i]) + ((fRec222[i] * fZec102[i]) + ((fRec217[i] * fZec89[i]) + ((fRec212[i] * fZec76[i]) + ((fRec207[i] * fZec61[i]) + ((fRec202[i] * fZec46[i]) + ((fRec197[i] * fZec31[i]) + ((fRec192[i] * fZec16[i]) + (fRec187[i] * fZec0[i])))))))))))))))));
 			}
 			
-			// LOOP 0x2e61640
+			// LOOP 0x2e3c1c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec331[i] = ((fRec70[i] * fZec171[i]) + ((fRec63[i] * fZec170[i]) + ((fRec56[i] * fZec169[i]) + ((fRec49[i] * fZec168[i]) + ((fRec42[i] * fZec167[i]) + ((fRec34[i] * fZec154[i]) + ((fRec26[i] * fZec141[i]) + ((fRec18[i] * fZec128[i]) + ((fRec10[i] * fZec115[i]) + ((fRec1[i] * fZec102[i]) + ((fRec278[i] * fZec89[i]) + ((fRec276[i] * fZec76[i]) + ((fRec274[i] * fZec61[i]) + ((fRec272[i] * fZec46[i]) + ((fRec270[i] * fZec31[i]) + ((fRec268[i] * fZec16[i]) + (fRec266[i] * fZec0[i])))))))))))))))));
 			}
 			
-			// LOOP 0x2e66520
+			// LOOP 0x2e410a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec332[i] = ((fRec274[i] * fZec171[i]) + ((fRec272[i] * fZec170[i]) + ((fRec270[i] * fZec169[i]) + ((fRec268[i] * fZec168[i]) + ((fRec266[i] * fZec167[i]) + ((fRec264[i] * fZec154[i]) + ((fRec262[i] * fZec141[i]) + ((fRec260[i] * fZec128[i]) + ((fRec258[i] * fZec115[i]) + ((fRec256[i] * fZec102[i]) + ((fRec254[i] * fZec89[i]) + ((fRec252[i] * fZec76[i]) + ((fRec250[i] * fZec61[i]) + ((fRec248[i] * fZec46[i]) + ((fRec246[i] * fZec31[i]) + ((fRec244[i] * fZec16[i]) + (fRec242[i] * fZec0[i])))))))))))))))));
 			}
 			
 			// SECTION : 30
-			// LOOP 0x2d32e10
+			// LOOP 0x2d0da10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec270[i] = (0.002f * (fRec181[i] * fSlow1));
 			}
 			
-			// LOOP 0x2d7c050
+			// LOOP 0x2d56bc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec323[i] = (0.41975f * ((fRec125[i] * fZec215[i]) + ((fRec123[i] * fZec214[i]) + ((fRec121[i] * fZec213[i]) + ((fRec119[i] * fZec212[i]) + ((fRec117[i] * fZec211[i]) + ((fRec115[i] * fZec210[i]) + ((fRec113[i] * fZec209[i]) + ((fRec111[i] * fZec208[i]) + ((fRec109[i] * fZec207[i]) + ((fRec107[i] * fZec206[i]) + ((fRec105[i] * fZec205[i]) + ((fRec103[i] * fZec204[i]) + ((fRec101[i] * fZec203[i]) + ((fRec99[i] * fZec202[i]) + ((fRec97[i] * fZec201[i]) + ((fRec95[i] * fZec200[i]) + ((fRec93[i] * fZec199[i]) + ((fRec91[i] * fZec198[i]) + ((fRec84[i] * fZec197[i]) + ((fRec77[i] * fZec196[i]) + ((fRec70[i] * fZec195[i]) + ((fRec63[i] * fZec194[i]) + ((fRec56[i] * fZec193[i]) + ((fRec49[i] * fZec192[i]) + ((fRec42[i] * fZec191[i]) + ((fRec34[i] * fZec190[i]) + ((fRec26[i] * fZec189[i]) + ((fRec18[i] * fZec188[i]) + ((fRec10[i] * fZec187[i]) + ((fRec1[i] * fZec186[i]) + ((fRec278[i] * fZec185[i]) + ((fRec276[i] * fZec184[i]) + ((fRec274[i] * fZec183[i]) + ((fRec272[i] * fZec182[i]) + ((fRec270[i] * fZec181[i]) + ((fRec268[i] * fZec180[i]) + ((fRec266[i] * fZec179[i]) + ((fRec264[i] * fZec178[i]) + ((fRec262[i] * fZec177[i]) + ((fRec260[i] * fZec176[i]) + ((fRec258[i] * fZec175[i]) + ((fRec256[i] * fZec174[i]) + ((fRec254[i] * fZec173[i]) + ((fRec252[i] * fZec172[i]) + (fSlow36 * fZec322[i]))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2e3d5e0
+			// LOOP 0x2e18160
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec324[i] = (1.679f * ((fSlow36 * (fRec238[i] + (fRec234[i] + (fRec230[i] + (fRec226[i] + (fRec222[i] + (fRec217[i] + (fRec212[i] + (fRec207[i] + (fRec202[i] + (fRec197[i] + (fRec192[i] + (fRec187[i] + (fRec250[i] + (fRec248[i] + (fRec246[i] + (fRec242[i] + fRec244[i]))))))))))))))))) + (fRec264[i] + (fRec262[i] + (fRec260[i] + (fRec258[i] + (fRec256[i] + (fRec254[i] + (fRec252[i] + (fRec278[i] + (fRec276[i] + (fRec274[i] + (fRec272[i] + (fRec270[i] + (fRec268[i] + (fRec266[i] + (fRec34[i] + (fRec26[i] + (fRec18[i] + (fRec10[i] + (fRec1[i] + (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec42[i] + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + (fRec70[i] + fZec220[i])))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2e4fd70
+			// LOOP 0x2e2a8f0
 			// pre processing
 			for (int i=0; i<4; i++) iRec285_tmp[i]=iRec285_perm[i];
 			// exec code
@@ -10525,44 +10524,44 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec285_perm[i]=iRec285_tmp[count+i];
 			
-			// LOOP 0x2e7bb60
+			// LOOP 0x2e566e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec334[i] = (0.25f * ((fRec149[i] * fZec215[i]) + ((fRec147[i] * fZec214[i]) + ((fRec145[i] * fZec213[i]) + ((fRec143[i] * fZec212[i]) + ((fRec141[i] * fZec211[i]) + ((fRec139[i] * fZec210[i]) + ((fRec137[i] * fZec209[i]) + ((fRec135[i] * fZec208[i]) + ((fRec133[i] * fZec207[i]) + ((fRec131[i] * fZec206[i]) + ((fRec129[i] * fZec205[i]) + ((fRec127[i] * fZec204[i]) + ((fRec125[i] * fZec203[i]) + ((fRec123[i] * fZec202[i]) + ((fRec121[i] * fZec201[i]) + ((fRec119[i] * fZec200[i]) + ((fRec117[i] * fZec199[i]) + ((fRec115[i] * fZec198[i]) + ((fRec113[i] * fZec197[i]) + ((fRec111[i] * fZec196[i]) + ((fRec109[i] * fZec195[i]) + ((fRec107[i] * fZec194[i]) + ((fRec105[i] * fZec193[i]) + ((fRec103[i] * fZec192[i]) + ((fRec101[i] * fZec191[i]) + ((fRec99[i] * fZec190[i]) + ((fRec97[i] * fZec189[i]) + ((fRec95[i] * fZec188[i]) + ((fRec93[i] * fZec187[i]) + ((fRec91[i] * fZec186[i]) + ((fRec84[i] * fZec185[i]) + ((fRec77[i] * fZec184[i]) + ((fRec70[i] * fZec183[i]) + ((fRec63[i] * fZec182[i]) + ((fRec56[i] * fZec181[i]) + ((fRec49[i] * fZec180[i]) + ((fRec42[i] * fZec179[i]) + ((fRec34[i] * fZec178[i]) + ((fRec26[i] * fZec177[i]) + ((fRec18[i] * fZec176[i]) + ((fRec10[i] * fZec175[i]) + ((fRec1[i] * fZec174[i]) + ((fRec278[i] * fZec173[i]) + ((fRec276[i] * fZec172[i]) + (fSlow36 * fZec332[i]))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2e8dc30
+			// LOOP 0x2e687b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec335[i] = ((fSlow36 * (fRec264[i] + (fRec262[i] + (fRec260[i] + (fRec258[i] + (fRec256[i] + (fRec254[i] + (fRec252[i] + (fRec250[i] + (fRec248[i] + (fRec246[i] + (fRec244[i] + (fRec242[i] + (fRec274[i] + (fRec272[i] + (fRec270[i] + (fRec266[i] + fRec268[i]))))))))))))))))) + (fRec278[i] + (fRec276[i] + (fRec34[i] + (fRec26[i] + (fRec18[i] + (fRec10[i] + (fRec1[i] + (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec42[i] + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + (fRec70[i] + fZec222[i]))))))))))))))))))));
 			}
 			
-			// LOOP 0x2ea21e0
+			// LOOP 0x2e7cd60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec337[i] = (0.25f * (fZec238[i] + ((fRec171[i] * fZec214[i]) + ((fRec169[i] * fZec213[i]) + ((fRec167[i] * fZec212[i]) + ((fRec165[i] * fZec211[i]) + ((fRec163[i] * fZec210[i]) + ((fRec161[i] * fZec209[i]) + ((fRec159[i] * fZec208[i]) + ((fRec157[i] * fZec207[i]) + ((fRec155[i] * fZec206[i]) + ((fRec153[i] * fZec205[i]) + ((fRec151[i] * fZec204[i]) + ((fRec149[i] * fZec203[i]) + ((fRec147[i] * fZec202[i]) + ((fRec145[i] * fZec201[i]) + ((fRec143[i] * fZec200[i]) + ((fRec141[i] * fZec199[i]) + ((fRec139[i] * fZec198[i]) + ((fRec137[i] * fZec197[i]) + ((fRec135[i] * fZec196[i]) + ((fRec133[i] * fZec195[i]) + ((fRec131[i] * fZec194[i]) + ((fRec129[i] * fZec193[i]) + ((fRec127[i] * fZec192[i]) + ((fRec125[i] * fZec191[i]) + ((fRec123[i] * fZec190[i]) + ((fRec121[i] * fZec189[i]) + ((fRec119[i] * fZec188[i]) + ((fRec117[i] * fZec187[i]) + ((fRec115[i] * fZec186[i]) + ((fRec113[i] * fZec185[i]) + ((fRec111[i] * fZec184[i]) + ((fRec109[i] * fZec183[i]) + ((fRec107[i] * fZec182[i]) + ((fRec105[i] * fZec181[i]) + ((fRec103[i] * fZec180[i]) + ((fRec101[i] * fZec179[i]) + ((fRec99[i] * fZec178[i]) + ((fRec97[i] * fZec177[i]) + ((fRec95[i] * fZec176[i]) + ((fRec93[i] * fZec175[i]) + ((fRec91[i] * fZec174[i]) + ((fRec84[i] * fZec173[i]) + ((fRec77[i] * fZec172[i]) + (fSlow36 * fZec331[i]))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2eb3970
+			// LOOP 0x2e8e4f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec338[i] = ((fSlow36 * (fRec278[i] + (fRec276[i] + (fRec274[i] + (fRec272[i] + (fRec270[i] + (fRec268[i] + (fRec266[i] + (fRec34[i] + (fRec26[i] + (fRec18[i] + (fRec10[i] + (fRec1[i] + (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec70[i] + fRec42[i]))))))))))))))))) + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + fZec223[i]))))))));
 			}
 			
-			// LOOP 0x2ec65d0
+			// LOOP 0x2ea1150
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec340[i] = (0.25f * (fZec238[i] + (fZec237[i] + (fZec236[i] + (fZec235[i] + (fZec234[i] + (fZec233[i] + (fZec232[i] + (fZec231[i] + (fZec230[i] + (fZec229[i] + (fZec228[i] + (fZec227[i] + (fZec226[i] + ((fRec171[i] * fZec202[i]) + ((fRec169[i] * fZec201[i]) + ((fRec167[i] * fZec200[i]) + ((fRec165[i] * fZec199[i]) + ((fRec163[i] * fZec198[i]) + ((fRec161[i] * fZec197[i]) + ((fRec159[i] * fZec196[i]) + ((fRec157[i] * fZec195[i]) + ((fRec155[i] * fZec194[i]) + ((fRec153[i] * fZec193[i]) + ((fRec151[i] * fZec192[i]) + ((fRec149[i] * fZec191[i]) + ((fRec147[i] * fZec190[i]) + ((fRec145[i] * fZec189[i]) + ((fRec143[i] * fZec188[i]) + ((fRec141[i] * fZec187[i]) + ((fRec139[i] * fZec186[i]) + ((fRec137[i] * fZec185[i]) + ((fRec135[i] * fZec184[i]) + ((fRec133[i] * fZec183[i]) + ((fRec131[i] * fZec182[i]) + ((fRec129[i] * fZec181[i]) + ((fRec127[i] * fZec180[i]) + ((fRec125[i] * fZec179[i]) + ((fRec123[i] * fZec178[i]) + ((fRec121[i] * fZec177[i]) + ((fRec119[i] * fZec176[i]) + ((fRec117[i] * fZec175[i]) + ((fRec115[i] * fZec174[i]) + ((fRec113[i] * fZec173[i]) + ((fRec111[i] * fZec172[i]) + (fSlow36 * ((fRec109[i] * fZec171[i]) + ((fRec107[i] * fZec170[i]) + ((fRec105[i] * fZec169[i]) + ((fRec103[i] * fZec168[i]) + ((fRec101[i] * fZec167[i]) + ((fRec99[i] * fZec154[i]) + ((fRec97[i] * fZec141[i]) + ((fRec95[i] * fZec128[i]) + ((fRec93[i] * fZec115[i]) + ((fRec91[i] * fZec102[i]) + ((fRec84[i] * fZec89[i]) + ((fRec77[i] * fZec76[i]) + ((fRec70[i] * fZec61[i]) + ((fRec63[i] * fZec46[i]) + ((fRec56[i] * fZec31[i]) + ((fRec49[i] * fZec16[i]) + (fRec42[i] * fZec0[i])))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2edc7e0
+			// LOOP 0x2eb7360
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec341[i] = ((fSlow36 * (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec42[i] + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + (fRec70[i] + fZec218[i]))))))))))))) + (fRec185[i] + (fRec184[i] + (fRec183[i] + (fRec182[i] + (fRec180[i] + (fRec179[i] + (fRec178[i] + (fRec177[i] + (fRec176[i] + (fRec175[i] + (fRec174[i] + ((2 * fRec173[i]) + (fRec171[i] + (fRec169[i] + (fRec167[i] + (fRec165[i] + (fRec163[i] + (fRec161[i] + (fRec159[i] + (fRec157[i] + (fRec155[i] + (fRec153[i] + (fRec151[i] + (fRec149[i] + (fRec147[i] + (fRec145[i] + (fRec143[i] + (fRec141[i] + (fRec139[i] + (fRec137[i] + (fRec135[i] + (fRec133[i] + (fRec131[i] + (fRec129[i] + (fRec127[i] + (fRec125[i] + (fRec123[i] + (fRec121[i] + (fRec119[i] + (fRec117[i] + (fRec115[i] + (fRec111[i] + fRec113[i])))))))))))))))))))))))))))))))))))))))))));
 			}
 			
 			// SECTION : 31
-			// LOOP 0x2d7bf40
+			// LOOP 0x2d56ab0
 			// pre processing
 			for (int i=0; i<4; i++) fYec194_tmp[i]=fYec194_perm[i];
 			// exec code
@@ -10572,13 +10571,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec194_perm[i]=fYec194_tmp[count+i];
 			
-			// LOOP 0x2e4faa0
+			// LOOP 0x2e2a620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec326[i] = faustpower<2>(float(min(1.0f, max(-1.0f, (fZec270[i] + ((4.656612875245796e-16f * iRec285[i]) + fZec239[i]))))));
 			}
 			
-			// LOOP 0x2e7ba50
+			// LOOP 0x2e565d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec199_tmp[i]=fYec199_perm[i];
 			// exec code
@@ -10588,7 +10587,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec199_perm[i]=fYec199_tmp[count+i];
 			
-			// LOOP 0x2ea20d0
+			// LOOP 0x2e7cc50
 			// pre processing
 			for (int i=0; i<4; i++) fYec202_tmp[i]=fYec202_perm[i];
 			// exec code
@@ -10598,7 +10597,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec202_perm[i]=fYec202_tmp[count+i];
 			
-			// LOOP 0x2ec64c0
+			// LOOP 0x2ea1040
 			// pre processing
 			for (int i=0; i<4; i++) fYec205_tmp[i]=fYec205_perm[i];
 			// exec code
@@ -10609,7 +10608,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec205_perm[i]=fYec205_tmp[count+i];
 			
 			// SECTION : 32
-			// LOOP 0x2d7ba50
+			// LOOP 0x2d565c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec186_tmp[i]=fRec186_perm[i];
 			// exec code
@@ -10619,7 +10618,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec186_perm[i]=fRec186_tmp[count+i];
 			
-			// LOOP 0x2e4f490
+			// LOOP 0x2e2a010
 			// pre processing
 			for (int i=0; i<4; i++) fRec282_tmp[i]=fRec282_perm[i];
 			for (int i=0; i<4; i++) iRec283_tmp[i]=iRec283_perm[i];
@@ -10636,7 +10635,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec283_perm[i]=iRec283_tmp[count+i];
 			for (int i=0; i<4; i++) fRec282_perm[i]=fRec282_tmp[count+i];
 			
-			// LOOP 0x2e7b4d0
+			// LOOP 0x2e560f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec292_tmp[i]=fRec292_perm[i];
 			// exec code
@@ -10646,7 +10645,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec292_perm[i]=fRec292_tmp[count+i];
 			
-			// LOOP 0x2ea1b50
+			// LOOP 0x2e7c6d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec295_tmp[i]=fRec295_perm[i];
 			// exec code
@@ -10656,7 +10655,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec295_perm[i]=fRec295_tmp[count+i];
 			
-			// LOOP 0x2ec5f40
+			// LOOP 0x2ea0ac0
 			// pre processing
 			for (int i=0; i<4; i++) fRec298_tmp[i]=fRec298_perm[i];
 			// exec code
@@ -10667,19 +10666,19 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec298_perm[i]=fRec298_tmp[count+i];
 			
 			// SECTION : 33
-			// LOOP 0x2b161c0
+			// LOOP 0x2af0d50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec216[i] = ((fRec180[i] * fZec215[i]) + ((fRec179[i] * fZec214[i]) + ((fRec178[i] * fZec213[i]) + ((fRec177[i] * fZec212[i]) + ((fRec176[i] * fZec211[i]) + ((fRec175[i] * fZec210[i]) + ((fRec174[i] * fZec209[i]) + ((fRec173[i] * fZec208[i]) + ((fRec171[i] * fZec207[i]) + ((fRec169[i] * fZec206[i]) + ((fRec167[i] * fZec205[i]) + ((fRec165[i] * fZec204[i]) + ((fRec163[i] * fZec203[i]) + ((fRec161[i] * fZec202[i]) + ((fRec159[i] * fZec201[i]) + ((fRec157[i] * fZec200[i]) + ((fRec155[i] * fZec199[i]) + ((fRec153[i] * fZec198[i]) + ((fRec151[i] * fZec197[i]) + ((fRec149[i] * fZec196[i]) + ((fRec147[i] * fZec195[i]) + ((fRec145[i] * fZec194[i]) + ((fRec143[i] * fZec193[i]) + ((fRec141[i] * fZec192[i]) + ((fRec139[i] * fZec191[i]) + ((fRec137[i] * fZec190[i]) + ((fRec135[i] * fZec189[i]) + ((fRec133[i] * fZec188[i]) + ((fRec131[i] * fZec187[i]) + ((fRec129[i] * fZec186[i]) + ((fRec127[i] * fZec185[i]) + ((fRec125[i] * fZec184[i]) + ((fRec123[i] * fZec183[i]) + ((fRec121[i] * fZec182[i]) + ((fRec119[i] * fZec181[i]) + ((fRec117[i] * fZec180[i]) + ((fRec115[i] * fZec179[i]) + ((fRec113[i] * fZec178[i]) + ((fRec111[i] * fZec177[i]) + ((fRec109[i] * fZec176[i]) + ((fRec107[i] * fZec175[i]) + ((fRec105[i] * fZec174[i]) + ((fRec103[i] * fZec173[i]) + ((fRec101[i] * fZec172[i]) + (fSlow36 * ((fRec99[i] * fZec171[i]) + ((fRec97[i] * fZec170[i]) + ((fRec95[i] * fZec169[i]) + ((fRec93[i] * fZec168[i]) + ((fRec91[i] * fZec167[i]) + ((fRec84[i] * fZec154[i]) + ((fRec77[i] * fZec141[i]) + ((fRec70[i] * fZec128[i]) + ((fRec63[i] * fZec115[i]) + ((fRec56[i] * fZec102[i]) + ((fRec49[i] * fZec89[i]) + ((fRec42[i] * fZec76[i]) + ((fRec34[i] * fZec61[i]) + ((fRec26[i] * fZec46[i]) + ((fRec18[i] * fZec31[i]) + ((fRec10[i] * fZec16[i]) + (fRec1[i] * fZec0[i]))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2d7b940
+			// LOOP 0x2d564b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec325[i] = (fZec323[i] + (0.002f * (fRec186[i] * fSlow1)));
 			}
 			
-			// LOOP 0x2e4f350
+			// LOOP 0x2e29ed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec195_tmp[i]=fYec195_perm[i];
 			// exec code
@@ -10689,50 +10688,50 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec195_perm[i]=fYec195_tmp[count+i];
 			
-			// LOOP 0x2e7b360
+			// LOOP 0x2e55fe0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec336[i] = (fZec334[i] + (0.002f * (fRec292[i] * fSlow1)));
 			}
 			
-			// LOOP 0x2ea19e0
+			// LOOP 0x2e7c560
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec339[i] = (fZec337[i] + (0.002f * (fRec295[i] * fSlow1)));
 			}
 			
-			// LOOP 0x2ec5dd0
+			// LOOP 0x2ea0950
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec342[i] = (fZec340[i] + (0.002f * (fRec298[i] * fSlow1)));
 			}
 			
 			// SECTION : 34
-			// LOOP 0x2b16080
+			// LOOP 0x2af0c10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec217[i] = (0.25f * fZec216[i]);
 			}
 			
-			// LOOP 0x2d26c40
+			// LOOP 0x2d01810
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec224[i] = ((fSlow36 * (fRec34[i] + (fRec26[i] + (fRec18[i] + (fRec10[i] + (fRec1[i] + (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec42[i] + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec70[i] + fRec77[i]))))))))))))))))) + (fRec180[i] + (fRec179[i] + (fRec178[i] + (fRec177[i] + (fRec176[i] + (fRec175[i] + (fRec174[i] + fZec223[i]))))))));
 			}
 			
-			// LOOP 0x2e4f240
+			// LOOP 0x2e29dc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec328[i] = (2e+01f * fYec195[i]);
 			}
 			
-			// LOOP 0x2e55b30
+			// LOOP 0x2e306b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec329[i] = (2e+01f * fYec195[i-1]);
 			}
 			
-			// LOOP 0x2e73be0
+			// LOOP 0x2e4e760
 			// pre processing
 			for (int i=0; i<4; i++) fYec197_tmp[i]=fYec197_perm[i];
 			// exec code
@@ -10742,7 +10741,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec197_perm[i]=fYec197_tmp[count+i];
 			
-			// LOOP 0x2e7b220
+			// LOOP 0x2e55ed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec200_tmp[i]=fYec200_perm[i];
 			// exec code
@@ -10752,7 +10751,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec200_perm[i]=fYec200_tmp[count+i];
 			
-			// LOOP 0x2ea18d0
+			// LOOP 0x2e7c450
 			// pre processing
 			for (int i=0; i<4; i++) fYec203_tmp[i]=fYec203_perm[i];
 			// exec code
@@ -10762,7 +10761,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec203_perm[i]=fYec203_tmp[count+i];
 			
-			// LOOP 0x2ec5cc0
+			// LOOP 0x2ea0840
 			// pre processing
 			for (int i=0; i<4; i++) fYec206_tmp[i]=fYec206_perm[i];
 			// exec code
@@ -10773,7 +10772,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec206_perm[i]=fYec206_tmp[count+i];
 			
 			// SECTION : 35
-			// LOOP 0x2b15f70
+			// LOOP 0x2af0b00
 			// pre processing
 			for (int i=0; i<4; i++) fYec122_tmp[i]=fYec122_perm[i];
 			// exec code
@@ -10783,7 +10782,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec122_perm[i]=fYec122_tmp[count+i];
 			
-			// LOOP 0x2e4ee40
+			// LOOP 0x2e299c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec281_tmp[i]=fRec281_perm[i];
 			// exec code
@@ -10793,7 +10792,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec281_perm[i]=fRec281_tmp[count+i];
 			
-			// LOOP 0x2e73660
+			// LOOP 0x2e4e1e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec289_tmp[i]=fRec289_perm[i];
 			// exec code
@@ -10803,7 +10802,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec289_perm[i]=fRec289_tmp[count+i];
 			
-			// LOOP 0x2e7add0
+			// LOOP 0x2e55950
 			// pre processing
 			for (int i=0; i<4; i++) fRec291_tmp[i]=fRec291_perm[i];
 			// exec code
@@ -10813,7 +10812,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec291_perm[i]=fRec291_tmp[count+i];
 			
-			// LOOP 0x2ea1350
+			// LOOP 0x2e7bed0
 			// pre processing
 			for (int i=0; i<4; i++) fRec294_tmp[i]=fRec294_perm[i];
 			// exec code
@@ -10823,7 +10822,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec294_perm[i]=fRec294_tmp[count+i];
 			
-			// LOOP 0x2ec5740
+			// LOOP 0x2ea02c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec297_tmp[i]=fRec297_perm[i];
 			// exec code
@@ -10833,20 +10832,20 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec297_perm[i]=fRec297_tmp[count+i];
 			
-			// LOOP 0x2f21400
+			// LOOP 0x2efbf30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec344[i] = (0.25f * ((fRec177[i] * fZec215[i]) + ((fRec176[i] * fZec214[i]) + ((fRec175[i] * fZec213[i]) + ((fRec174[i] * fZec212[i]) + ((fRec173[i] * fZec211[i]) + ((fRec185[i] * fZec210[i]) + ((fRec184[i] * fZec209[i]) + ((fRec183[i] * fZec208[i]) + ((fRec182[i] * fZec207[i]) + ((fRec180[i] * fZec206[i]) + ((fRec179[i] * fZec205[i]) + ((fRec178[i] * fZec204[i]) + ((fRec177[i] * fZec203[i]) + ((fRec176[i] * fZec202[i]) + ((fRec175[i] * fZec201[i]) + ((fRec174[i] * fZec200[i]) + ((fRec173[i] * fZec199[i]) + ((fRec171[i] * fZec198[i]) + ((fRec169[i] * fZec197[i]) + ((fRec167[i] * fZec196[i]) + ((fRec165[i] * fZec195[i]) + ((fRec163[i] * fZec194[i]) + ((fRec161[i] * fZec193[i]) + ((fRec159[i] * fZec192[i]) + ((fRec157[i] * fZec191[i]) + ((fRec155[i] * fZec190[i]) + ((fRec153[i] * fZec189[i]) + ((fRec151[i] * fZec188[i]) + ((fRec149[i] * fZec187[i]) + ((fRec147[i] * fZec186[i]) + ((fRec145[i] * fZec185[i]) + ((fRec143[i] * fZec184[i]) + ((fRec141[i] * fZec183[i]) + ((fRec139[i] * fZec182[i]) + ((fRec137[i] * fZec181[i]) + ((fRec135[i] * fZec180[i]) + ((fRec133[i] * fZec179[i]) + ((fRec131[i] * fZec178[i]) + ((fRec129[i] * fZec177[i]) + ((fRec127[i] * fZec176[i]) + ((fRec125[i] * fZec175[i]) + ((fRec123[i] * fZec174[i]) + ((fRec121[i] * fZec173[i]) + ((fRec119[i] * fZec172[i]) + (fSlow36 * ((fRec117[i] * fZec171[i]) + ((fRec115[i] * fZec170[i]) + ((fRec113[i] * fZec169[i]) + ((fRec111[i] * fZec168[i]) + ((fRec109[i] * fZec167[i]) + ((fRec107[i] * fZec154[i]) + ((fRec105[i] * fZec141[i]) + ((fRec103[i] * fZec128[i]) + ((fRec101[i] * fZec115[i]) + ((fRec99[i] * fZec102[i]) + ((fRec97[i] * fZec89[i]) + ((fRec95[i] * fZec76[i]) + ((fRec93[i] * fZec61[i]) + ((fRec91[i] * fZec46[i]) + ((fRec84[i] * fZec31[i]) + ((fRec77[i] * fZec16[i]) + (fRec70[i] * fZec0[i])))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2f3a7e0
+			// LOOP 0x2f15310
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec345[i] = ((fRec177[i] + (fRec175[i] + fRec176[i])) + (2 * ((fZec240[i] + (fZec241[i] + (fZec242[i] + (fZec243[i] + (fZec244[i] + (fZec245[i] + (fZec246[i] + (fZec247[i] + (fZec248[i] + (fZec249[i] + (fRec174[i] + (fRec173[i] + (fZec250[i] + (fZec251[i] + (fZec252[i] + (fZec253[i] + (fZec254[i] + (fZec255[i] + (fZec256[i] + (fZec257[i] + (fZec258[i] + (fZec259[i] + (fZec260[i] + (fZec261[i] + (fZec262[i] + (fZec263[i] + (fZec264[i] + (fZec265[i] + (fZec266[i] + (fZec267[i] + (fZec268[i] + ((((((((0.5f * fRec119[i]) + (0.5f * fRec121[i])) + (0.5f * fRec123[i])) + (0.5f * fRec125[i])) + (0.5f * fRec127[i])) + (0.5f * fRec129[i])) + (0.5f * fRec131[i])) + (0.5f * fRec133[i]))))))))))))))))))))))))))))))))) + (fSlow81 * (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + (fRec70[i] + fZec219[i]))))))))))));
 			}
 			
 			// SECTION : 36
-			// LOOP 0x2b15b20
+			// LOOP 0x2af06b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec0_tmp[i]=fRec0_perm[i];
 			// exec code
@@ -10856,7 +10855,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec0_perm[i]=fRec0_tmp[count+i];
 			
-			// LOOP 0x2e4e290
+			// LOOP 0x2e28e10
 			// pre processing
 			for (int i=0; i<4; i++) fRec280_tmp[i]=fRec280_perm[i];
 			// exec code
@@ -10866,7 +10865,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec280_perm[i]=fRec280_tmp[count+i];
 			
-			// LOOP 0x2e73550
+			// LOOP 0x2e4e0d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec198_tmp[i]=fYec198_perm[i];
 			// exec code
@@ -10876,7 +10875,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec198_perm[i]=fYec198_tmp[count+i];
 			
-			// LOOP 0x2e7acc0
+			// LOOP 0x2e55840
 			// pre processing
 			for (int i=0; i<4; i++) fYec201_tmp[i]=fYec201_perm[i];
 			// exec code
@@ -10886,7 +10885,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec201_perm[i]=fYec201_tmp[count+i];
 			
-			// LOOP 0x2ea1240
+			// LOOP 0x2e7bdc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec204_tmp[i]=fYec204_perm[i];
 			// exec code
@@ -10896,7 +10895,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec204_perm[i]=fYec204_tmp[count+i];
 			
-			// LOOP 0x2ec5630
+			// LOOP 0x2ea01b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec207_tmp[i]=fYec207_perm[i];
 			// exec code
@@ -10906,7 +10905,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec207_perm[i]=fYec207_tmp[count+i];
 			
-			// LOOP 0x2f03f60
+			// LOOP 0x2edeaa0
 			// pre processing
 			for (int i=0; i<4; i++) fRec300_tmp[i]=fRec300_perm[i];
 			// exec code
@@ -10916,7 +10915,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec300_perm[i]=fRec300_tmp[count+i];
 			
-			// LOOP 0x2f05d20
+			// LOOP 0x2ee0860
 			// pre processing
 			for (int i=0; i<4; i++) fRec302_tmp[i]=fRec302_perm[i];
 			// exec code
@@ -10926,7 +10925,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec302_perm[i]=fRec302_tmp[count+i];
 			
-			// LOOP 0x2f07b20
+			// LOOP 0x2ee2660
 			// pre processing
 			for (int i=0; i<4; i++) fRec304_tmp[i]=fRec304_perm[i];
 			// exec code
@@ -10936,7 +10935,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec304_perm[i]=fRec304_tmp[count+i];
 			
-			// LOOP 0x2f09920
+			// LOOP 0x2ee4460
 			// pre processing
 			for (int i=0; i<4; i++) fRec306_tmp[i]=fRec306_perm[i];
 			// exec code
@@ -10946,7 +10945,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec306_perm[i]=fRec306_tmp[count+i];
 			
-			// LOOP 0x2f212f0
+			// LOOP 0x2efbe20
 			// pre processing
 			for (int i=0; i<4; i++) fYec208_tmp[i]=fYec208_perm[i];
 			// exec code
@@ -10957,19 +10956,19 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec208_perm[i]=fYec208_tmp[count+i];
 			
 			// SECTION : 37
-			// LOOP 0x2b14c10
+			// LOOP 0x2aef7a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec225[i] = (fRec0[i] * fSlow1);
 			}
 			
-			// LOOP 0x2d32cd0
+			// LOOP 0x2d0d8d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec271[i] = (fZec239[i] + fZec270[i]);
 			}
 			
-			// LOOP 0x2e4e140
+			// LOOP 0x2e28cc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec196_tmp[i]=fYec196_perm[i];
 			// exec code
@@ -10979,7 +10978,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec196_perm[i]=fYec196_tmp[count+i];
 			
-			// LOOP 0x2e5e020
+			// LOOP 0x2e38b40
 			// pre processing
 			for (int i=0; i<4; i++) fRec286_tmp[i]=fRec286_perm[i];
 			// exec code
@@ -10989,7 +10988,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec286_perm[i]=fRec286_tmp[count+i];
 			
-			// LOOP 0x2e61180
+			// LOOP 0x2e3bd00
 			// pre processing
 			for (int i=0; i<4; i++) fRec287_tmp[i]=fRec287_perm[i];
 			// exec code
@@ -10999,7 +10998,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec287_perm[i]=fRec287_tmp[count+i];
 			
-			// LOOP 0x2e73060
+			// LOOP 0x2e4dbe0
 			// pre processing
 			for (int i=0; i<4; i++) fRec288_tmp[i]=fRec288_perm[i];
 			// exec code
@@ -11009,7 +11008,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec288_perm[i]=fRec288_tmp[count+i];
 			
-			// LOOP 0x2e7a840
+			// LOOP 0x2e553c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec290_tmp[i]=fRec290_perm[i];
 			// exec code
@@ -11019,7 +11018,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec290_perm[i]=fRec290_tmp[count+i];
 			
-			// LOOP 0x2ea0dc0
+			// LOOP 0x2e7b940
 			// pre processing
 			for (int i=0; i<4; i++) fRec293_tmp[i]=fRec293_perm[i];
 			// exec code
@@ -11029,7 +11028,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec293_perm[i]=fRec293_tmp[count+i];
 			
-			// LOOP 0x2ec51b0
+			// LOOP 0x2e9fd30
 			// pre processing
 			for (int i=0; i<4; i++) fRec296_tmp[i]=fRec296_perm[i];
 			// exec code
@@ -11039,7 +11038,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec296_perm[i]=fRec296_tmp[count+i];
 			
-			// LOOP 0x2f03b00
+			// LOOP 0x2ede640
 			// pre processing
 			for (int i=0; i<4; i++) fRec299_tmp[i]=fRec299_perm[i];
 			// exec code
@@ -11049,7 +11048,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec299_perm[i]=fRec299_tmp[count+i];
 			
-			// LOOP 0x2f05870
+			// LOOP 0x2ee03b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec301_tmp[i]=fRec301_perm[i];
 			// exec code
@@ -11059,7 +11058,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec301_perm[i]=fRec301_tmp[count+i];
 			
-			// LOOP 0x2f07670
+			// LOOP 0x2ee21b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec303_tmp[i]=fRec303_perm[i];
 			// exec code
@@ -11069,7 +11068,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec303_perm[i]=fRec303_tmp[count+i];
 			
-			// LOOP 0x2f09470
+			// LOOP 0x2ee3fb0
 			// pre processing
 			for (int i=0; i<4; i++) fRec305_tmp[i]=fRec305_perm[i];
 			// exec code
@@ -11079,7 +11078,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec305_perm[i]=fRec305_tmp[count+i];
 			
-			// LOOP 0x2f20eb0
+			// LOOP 0x2efb9e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec307_tmp[i]=fRec307_perm[i];
 			// exec code
@@ -11089,61 +11088,61 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec307_perm[i]=fRec307_tmp[count+i];
 			
-			// LOOP 0x2f5f090
+			// LOOP 0x2f39bc0
 			// pre processing
 			for (int i=0; i<4; i++) fRec308_tmp[i]=fRec308_perm[i];
 			// exec code
 			for (int i=0; i<count; i++) {
-				fRec308[i] = (fSlow122 + (0.98f * fRec308[i-1]));
+				fRec308[i] = (fSlow121 + (0.98f * fRec308[i-1]));
 			}
 			// post processing
 			for (int i=0; i<4; i++) fRec308_perm[i]=fRec308_tmp[count+i];
 			
 			// SECTION : 38
-			// LOOP 0x2b14ad0
+			// LOOP 0x2aef660
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec330[i] = (fSlow83 * (max(fSlow82, (0.25f * (fYec196[i-4] + (fYec196[i-3] + (fYec196[i] + fYec196[i-2]))))) * ((0.5f * fZec325[i]) + (0.25f * ((fZec271[i] + fZec216[i]) + (0.008f * fZec225[i]))))));
 			}
 			
-			// LOOP 0x2e5df10
+			// LOOP 0x2e38a30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec333[i] = (fRec287[i] * (0.5f + (4.5f * fRec286[i])));
 			}
 			
-			// LOOP 0x2e72f50
+			// LOOP 0x2e4dad0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec343[i] = (fSlow105 * ((fSlow103 * (((fRec305[i] + fRec303[i]) + fRec301[i]) + fRec299[i])) + (fSlow102 * (((fRec296[i] + fRec293[i]) + fRec290[i]) + fRec288[i]))));
 			}
 			
-			// LOOP 0x2f0e3a0
+			// LOOP 0x2ee8ee0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec346[i] = (fSlow120 * ((fSlow119 * fZec271[i]) + ((fSlow117 * (fZec344[i] + (0.002f * (fRec307[i] * fSlow1)))) + ((fSlow115 * fZec342[i]) + ((fSlow113 * (fZec217[i] + (0.002f * fZec225[i]))) + ((fSlow111 * fZec339[i]) + ((fSlow109 * fZec325[i]) + (fSlow107 * fZec336[i]))))))));
 			}
 			
-			// LOOP 0x2f5ef80
+			// LOOP 0x2f39ab0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec347[i] = (0.001f + (0.05f * fRec308[i]));
 			}
 			
 			// SECTION : 39
-			// LOOP 0x2b14960
+			// LOOP 0x2aef4f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				output0[i] = (FAUSTFLOAT)(fZec347[i] * (fZec346[i] + (fZec343[i] + (fZec333[i] + fZec330[i]))));
 			}
 			
-			// LOOP 0x2f64010
+			// LOOP 0x2f3e6f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				output1[i] = (FAUSTFLOAT)(fZec347[i] * (fZec346[i] + (fZec330[i] + fZec343[i])));
 			}
 			
-			// LOOP 0x2f64650
+			// LOOP 0x2f3ed30
 			// exec code
 			for (int i=0; i<count; i++) {
 				output2[i] = (FAUSTFLOAT)(fZec333[i] * fZec347[i]);
@@ -11157,7 +11156,7 @@ class mydsp : public dsp{
 			FAUSTFLOAT* output1 = &output[1][index];
 			FAUSTFLOAT* output2 = &output[2][index];
 			// SECTION : 1
-			// LOOP 0x2b1b2c0
+			// LOOP 0x2af5e90
 			// pre processing
 			for (int i=0; i<4; i++) fRec5_tmp[i]=fRec5_perm[i];
 			// exec code
@@ -11168,14 +11167,14 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec5_perm[i]=fRec5_tmp[count+i];
 			
 			// SECTION : 2
-			// LOOP 0x2b1a750
+			// LOOP 0x2af5320
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec1[i] = ((fSlow7 * sinf((6.283185307179586f * fRec5[i]))) + fSlow5);
 			}
 			
 			// SECTION : 3
-			// LOOP 0x2b198f0
+			// LOOP 0x2af4480
 			// pre processing
 			for (int i=0; i<4; i++) fRec4_tmp[i]=fRec4_perm[i];
 			// exec code
@@ -11186,7 +11185,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec4_perm[i]=fRec4_tmp[count+i];
 			
-			// LOOP 0x2b328c0
+			// LOOP 0x2b0d4b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec13_tmp[i]=fRec13_perm[i];
 			// exec code
@@ -11197,7 +11196,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec13_perm[i]=fRec13_tmp[count+i];
 			
-			// LOOP 0x2b46b60
+			// LOOP 0x2b21740
 			// pre processing
 			for (int i=0; i<4; i++) fRec21_tmp[i]=fRec21_perm[i];
 			// exec code
@@ -11208,7 +11207,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec21_perm[i]=fRec21_tmp[count+i];
 			
-			// LOOP 0x2b5a950
+			// LOOP 0x2b35530
 			// pre processing
 			for (int i=0; i<4; i++) fRec29_tmp[i]=fRec29_perm[i];
 			// exec code
@@ -11219,7 +11218,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec29_perm[i]=fRec29_tmp[count+i];
 			
-			// LOOP 0x2b6eaa0
+			// LOOP 0x2b49680
 			// pre processing
 			for (int i=0; i<4; i++) fRec37_tmp[i]=fRec37_perm[i];
 			// exec code
@@ -11230,7 +11229,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec37_perm[i]=fRec37_tmp[count+i];
 			
-			// LOOP 0x2b82a30
+			// LOOP 0x2b5d610
 			// pre processing
 			for (int i=0; i<4; i++) fRec45_tmp[i]=fRec45_perm[i];
 			// exec code
@@ -11241,7 +11240,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec45_perm[i]=fRec45_tmp[count+i];
 			
-			// LOOP 0x2b94c00
+			// LOOP 0x2b6f810
 			// pre processing
 			for (int i=0; i<4; i++) fRec52_tmp[i]=fRec52_perm[i];
 			// exec code
@@ -11252,7 +11251,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec52_perm[i]=fRec52_tmp[count+i];
 			
-			// LOOP 0x2ba68c0
+			// LOOP 0x2b814d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec59_tmp[i]=fRec59_perm[i];
 			// exec code
@@ -11263,7 +11262,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec59_perm[i]=fRec59_tmp[count+i];
 			
-			// LOOP 0x2bb8540
+			// LOOP 0x2b93160
 			// pre processing
 			for (int i=0; i<4; i++) fRec66_tmp[i]=fRec66_perm[i];
 			// exec code
@@ -11274,7 +11273,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec66_perm[i]=fRec66_tmp[count+i];
 			
-			// LOOP 0x2bca200
+			// LOOP 0x2ba4e20
 			// pre processing
 			for (int i=0; i<4; i++) fRec73_tmp[i]=fRec73_perm[i];
 			// exec code
@@ -11285,7 +11284,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec73_perm[i]=fRec73_tmp[count+i];
 			
-			// LOOP 0x2bdbf80
+			// LOOP 0x2bb6ba0
 			// pre processing
 			for (int i=0; i<4; i++) fRec80_tmp[i]=fRec80_perm[i];
 			// exec code
@@ -11296,7 +11295,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec80_perm[i]=fRec80_tmp[count+i];
 			
-			// LOOP 0x2bede20
+			// LOOP 0x2bc8a30
 			// pre processing
 			for (int i=0; i<4; i++) fRec87_tmp[i]=fRec87_perm[i];
 			// exec code
@@ -11308,80 +11307,80 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec87_perm[i]=fRec87_tmp[count+i];
 			
 			// SECTION : 4
-			// LOOP 0x2b197e0
+			// LOOP 0x2af4370
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec3[i] = (fRec4[i] - fRec4[i-1]);
 			}
 			
-			// LOOP 0x2b327b0
+			// LOOP 0x2b0d3a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec18[i] = (fRec13[i] - fRec13[i-1]);
 			}
 			
-			// LOOP 0x2b46a50
+			// LOOP 0x2b21630
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec33[i] = (fRec21[i] - fRec21[i-1]);
 			}
 			
-			// LOOP 0x2b5a840
+			// LOOP 0x2b35420
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec48[i] = (fRec29[i] - fRec29[i-1]);
 			}
 			
-			// LOOP 0x2b6e990
+			// LOOP 0x2b49570
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec63[i] = (fRec37[i] - fRec37[i-1]);
 			}
 			
-			// LOOP 0x2b82920
+			// LOOP 0x2b5d500
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec78[i] = (fRec45[i] - fRec45[i-1]);
 			}
 			
-			// LOOP 0x2b94af0
+			// LOOP 0x2b6f700
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec91[i] = (fRec52[i] - fRec52[i-1]);
 			}
 			
-			// LOOP 0x2ba67b0
+			// LOOP 0x2b813c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec104[i] = (fRec59[i] - fRec59[i-1]);
 			}
 			
-			// LOOP 0x2bb8430
+			// LOOP 0x2b93050
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec117[i] = (fRec66[i] - fRec66[i-1]);
 			}
 			
-			// LOOP 0x2bca0f0
+			// LOOP 0x2ba4d10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec130[i] = (fRec73[i] - fRec73[i-1]);
 			}
 			
-			// LOOP 0x2bdbe70
+			// LOOP 0x2bb6a90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec143[i] = (fRec80[i] - fRec80[i-1]);
 			}
 			
-			// LOOP 0x2bedd10
+			// LOOP 0x2bc8920
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec156[i] = (fRec87[i] - fRec87[i-1]);
 			}
 			
 			// SECTION : 5
-			// LOOP 0x2b19060
+			// LOOP 0x2af3bf0
 			// pre processing
 			for (int i=0; i<4; i++) iRec3_tmp[i]=iRec3_perm[i];
 			// exec code
@@ -11391,7 +11390,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec3_perm[i]=iRec3_tmp[count+i];
 			
-			// LOOP 0x2b320d0
+			// LOOP 0x2b0ccc0
 			// pre processing
 			for (int i=0; i<4; i++) iRec12_tmp[i]=iRec12_perm[i];
 			// exec code
@@ -11401,7 +11400,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec12_perm[i]=iRec12_tmp[count+i];
 			
-			// LOOP 0x2b46370
+			// LOOP 0x2b20f50
 			// pre processing
 			for (int i=0; i<4; i++) iRec20_tmp[i]=iRec20_perm[i];
 			// exec code
@@ -11411,7 +11410,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec20_perm[i]=iRec20_tmp[count+i];
 			
-			// LOOP 0x2b5a160
+			// LOOP 0x2b34d40
 			// pre processing
 			for (int i=0; i<4; i++) iRec28_tmp[i]=iRec28_perm[i];
 			// exec code
@@ -11421,7 +11420,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec28_perm[i]=iRec28_tmp[count+i];
 			
-			// LOOP 0x2b6e2b0
+			// LOOP 0x2b48e90
 			// pre processing
 			for (int i=0; i<4; i++) iRec36_tmp[i]=iRec36_perm[i];
 			// exec code
@@ -11431,7 +11430,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec36_perm[i]=iRec36_tmp[count+i];
 			
-			// LOOP 0x2b82240
+			// LOOP 0x2b5ce20
 			// pre processing
 			for (int i=0; i<4; i++) iRec44_tmp[i]=iRec44_perm[i];
 			// exec code
@@ -11441,7 +11440,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec44_perm[i]=iRec44_tmp[count+i];
 			
-			// LOOP 0x2b94410
+			// LOOP 0x2b6f020
 			// pre processing
 			for (int i=0; i<4; i++) iRec51_tmp[i]=iRec51_perm[i];
 			// exec code
@@ -11451,7 +11450,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec51_perm[i]=iRec51_tmp[count+i];
 			
-			// LOOP 0x2ba60d0
+			// LOOP 0x2b80ce0
 			// pre processing
 			for (int i=0; i<4; i++) iRec58_tmp[i]=iRec58_perm[i];
 			// exec code
@@ -11461,7 +11460,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec58_perm[i]=iRec58_tmp[count+i];
 			
-			// LOOP 0x2bb7d50
+			// LOOP 0x2b92970
 			// pre processing
 			for (int i=0; i<4; i++) iRec65_tmp[i]=iRec65_perm[i];
 			// exec code
@@ -11471,7 +11470,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec65_perm[i]=iRec65_tmp[count+i];
 			
-			// LOOP 0x2bc9a10
+			// LOOP 0x2ba4630
 			// pre processing
 			for (int i=0; i<4; i++) iRec72_tmp[i]=iRec72_perm[i];
 			// exec code
@@ -11481,7 +11480,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec72_perm[i]=iRec72_tmp[count+i];
 			
-			// LOOP 0x2bdb7e0
+			// LOOP 0x2bb6400
 			// pre processing
 			for (int i=0; i<4; i++) iRec79_tmp[i]=iRec79_perm[i];
 			// exec code
@@ -11491,7 +11490,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec79_perm[i]=iRec79_tmp[count+i];
 			
-			// LOOP 0x2bed680
+			// LOOP 0x2bc8290
 			// pre processing
 			for (int i=0; i<4; i++) iRec86_tmp[i]=iRec86_perm[i];
 			// exec code
@@ -11502,7 +11501,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec86_perm[i]=iRec86_tmp[count+i];
 			
 			// SECTION : 6
-			// LOOP 0x2b18f20
+			// LOOP 0x2af3ab0
 			// pre processing
 			for (int i=0; i<4; i++) fYec0_tmp[i]=fYec0_perm[i];
 			// exec code
@@ -11512,7 +11511,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec0_perm[i]=fYec0_tmp[count+i];
 			
-			// LOOP 0x2b31f90
+			// LOOP 0x2b0cb80
 			// pre processing
 			for (int i=0; i<4; i++) fYec6_tmp[i]=fYec6_perm[i];
 			// exec code
@@ -11522,7 +11521,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec6_perm[i]=fYec6_tmp[count+i];
 			
-			// LOOP 0x2b46230
+			// LOOP 0x2b20e10
 			// pre processing
 			for (int i=0; i<4; i++) fYec12_tmp[i]=fYec12_perm[i];
 			// exec code
@@ -11532,7 +11531,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec12_perm[i]=fYec12_tmp[count+i];
 			
-			// LOOP 0x2b5a020
+			// LOOP 0x2b34c00
 			// pre processing
 			for (int i=0; i<4; i++) fYec18_tmp[i]=fYec18_perm[i];
 			// exec code
@@ -11542,7 +11541,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec18_perm[i]=fYec18_tmp[count+i];
 			
-			// LOOP 0x2b6e170
+			// LOOP 0x2b48d50
 			// pre processing
 			for (int i=0; i<4; i++) fYec24_tmp[i]=fYec24_perm[i];
 			// exec code
@@ -11552,7 +11551,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec24_perm[i]=fYec24_tmp[count+i];
 			
-			// LOOP 0x2b82100
+			// LOOP 0x2b5cce0
 			// pre processing
 			for (int i=0; i<4; i++) fYec30_tmp[i]=fYec30_perm[i];
 			// exec code
@@ -11562,7 +11561,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec30_perm[i]=fYec30_tmp[count+i];
 			
-			// LOOP 0x2b942d0
+			// LOOP 0x2b6eee0
 			// pre processing
 			for (int i=0; i<4; i++) fYec35_tmp[i]=fYec35_perm[i];
 			// exec code
@@ -11572,7 +11571,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec35_perm[i]=fYec35_tmp[count+i];
 			
-			// LOOP 0x2ba5f90
+			// LOOP 0x2b80ba0
 			// pre processing
 			for (int i=0; i<4; i++) fYec40_tmp[i]=fYec40_perm[i];
 			// exec code
@@ -11582,7 +11581,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec40_perm[i]=fYec40_tmp[count+i];
 			
-			// LOOP 0x2bb7c10
+			// LOOP 0x2b92830
 			// pre processing
 			for (int i=0; i<4; i++) fYec45_tmp[i]=fYec45_perm[i];
 			// exec code
@@ -11592,7 +11591,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec45_perm[i]=fYec45_tmp[count+i];
 			
-			// LOOP 0x2bc98d0
+			// LOOP 0x2ba44f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec50_tmp[i]=fYec50_perm[i];
 			// exec code
@@ -11602,7 +11601,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec50_perm[i]=fYec50_tmp[count+i];
 			
-			// LOOP 0x2bdb6a0
+			// LOOP 0x2bb62c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec55_tmp[i]=fYec55_perm[i];
 			// exec code
@@ -11612,7 +11611,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec55_perm[i]=fYec55_tmp[count+i];
 			
-			// LOOP 0x2bed540
+			// LOOP 0x2bc8150
 			// pre processing
 			for (int i=0; i<4; i++) fYec60_tmp[i]=fYec60_perm[i];
 			// exec code
@@ -11623,152 +11622,152 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec60_perm[i]=fYec60_tmp[count+i];
 			
 			// SECTION : 7
-			// LOOP 0x2b18de0
+			// LOOP 0x2af3970
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec4[i] = (0.5f * fYec0[i]);
 			}
 			
-			// LOOP 0x2b21fd0
+			// LOOP 0x2afcb20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec5[i] = (0.5f * fYec0[i-1]);
 			}
 			
-			// LOOP 0x2b31e50
+			// LOOP 0x2b0ca40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec19[i] = (0.5f * fYec6[i]);
 			}
 			
-			// LOOP 0x2b36550
+			// LOOP 0x2b11140
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec20[i] = (0.5f * fYec6[i-1]);
 			}
 			
-			// LOOP 0x2b460f0
+			// LOOP 0x2b20cd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec34[i] = (0.5f * fYec12[i]);
 			}
 			
-			// LOOP 0x2b4a740
+			// LOOP 0x2b25320
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec35[i] = (0.5f * fYec12[i-1]);
 			}
 			
-			// LOOP 0x2b59ee0
+			// LOOP 0x2b34ac0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec49[i] = (0.5f * fYec18[i]);
 			}
 			
-			// LOOP 0x2b5e590
+			// LOOP 0x2b39170
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec50[i] = (0.5f * fYec18[i-1]);
 			}
 			
-			// LOOP 0x2b6e030
+			// LOOP 0x2b48c10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec64[i] = (0.5f * fYec24[i]);
 			}
 			
-			// LOOP 0x2b726e0
+			// LOOP 0x2b4d2c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec65[i] = (0.5f * fYec24[i-1]);
 			}
 			
-			// LOOP 0x2b81fc0
+			// LOOP 0x2b5cba0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec79[i] = (0.5f * fYec30[i]);
 			}
 			
-			// LOOP 0x2b86670
+			// LOOP 0x2b61280
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec80[i] = (0.5f * fYec30[i-1]);
 			}
 			
-			// LOOP 0x2b94190
+			// LOOP 0x2b6eda0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec92[i] = (0.5f * fYec35[i]);
 			}
 			
-			// LOOP 0x2b98840
+			// LOOP 0x2b73450
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec93[i] = (0.5f * fYec35[i-1]);
 			}
 			
-			// LOOP 0x2ba5e50
+			// LOOP 0x2b80a60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec105[i] = (0.5f * fYec40[i]);
 			}
 			
-			// LOOP 0x2baa660
+			// LOOP 0x2b85270
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec106[i] = (0.5f * fYec40[i-1]);
 			}
 			
-			// LOOP 0x2bb7ad0
+			// LOOP 0x2b926f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec118[i] = (0.5f * fYec45[i]);
 			}
 			
-			// LOOP 0x2bbc180
+			// LOOP 0x2b96da0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec119[i] = (0.5f * fYec45[i-1]);
 			}
 			
-			// LOOP 0x2bc9790
+			// LOOP 0x2ba43b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec131[i] = (0.5f * fYec50[i]);
 			}
 			
-			// LOOP 0x2bcde40
+			// LOOP 0x2ba8a60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec132[i] = (0.5f * fYec50[i-1]);
 			}
 			
-			// LOOP 0x2bdb560
+			// LOOP 0x2bb6180
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec144[i] = (0.5f * fYec55[i]);
 			}
 			
-			// LOOP 0x2bdfb70
+			// LOOP 0x2bba790
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec145[i] = (0.5f * fYec55[i-1]);
 			}
 			
-			// LOOP 0x2bed400
+			// LOOP 0x2bc8010
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec157[i] = (0.5f * fYec60[i]);
 			}
 			
-			// LOOP 0x2bf1a10
+			// LOOP 0x2bcc620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec158[i] = (0.5f * fYec60[i-1]);
 			}
 			
 			// SECTION : 8
-			// LOOP 0x2b21990
+			// LOOP 0x2afc4e0
 			// pre processing
 			for (int i=0; i<4; i++) iRec6_tmp[i]=iRec6_perm[i];
 			// exec code
@@ -11778,7 +11777,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec6_perm[i]=iRec6_tmp[count+i];
 			
-			// LOOP 0x2b35f50
+			// LOOP 0x2b10b40
 			// pre processing
 			for (int i=0; i<4; i++) iRec14_tmp[i]=iRec14_perm[i];
 			// exec code
@@ -11788,7 +11787,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec14_perm[i]=iRec14_tmp[count+i];
 			
-			// LOOP 0x2b4a140
+			// LOOP 0x2b24d20
 			// pre processing
 			for (int i=0; i<4; i++) iRec22_tmp[i]=iRec22_perm[i];
 			// exec code
@@ -11798,7 +11797,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec22_perm[i]=iRec22_tmp[count+i];
 			
-			// LOOP 0x2b5df90
+			// LOOP 0x2b38b70
 			// pre processing
 			for (int i=0; i<4; i++) iRec30_tmp[i]=iRec30_perm[i];
 			// exec code
@@ -11808,7 +11807,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec30_perm[i]=iRec30_tmp[count+i];
 			
-			// LOOP 0x2b720e0
+			// LOOP 0x2b4ccc0
 			// pre processing
 			for (int i=0; i<4; i++) iRec38_tmp[i]=iRec38_perm[i];
 			// exec code
@@ -11818,7 +11817,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec38_perm[i]=iRec38_tmp[count+i];
 			
-			// LOOP 0x2b86070
+			// LOOP 0x2b60c80
 			// pre processing
 			for (int i=0; i<4; i++) iRec46_tmp[i]=iRec46_perm[i];
 			// exec code
@@ -11828,7 +11827,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec46_perm[i]=iRec46_tmp[count+i];
 			
-			// LOOP 0x2b98240
+			// LOOP 0x2b72e50
 			// pre processing
 			for (int i=0; i<4; i++) iRec53_tmp[i]=iRec53_perm[i];
 			// exec code
@@ -11838,7 +11837,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec53_perm[i]=iRec53_tmp[count+i];
 			
-			// LOOP 0x2baa060
+			// LOOP 0x2b84c70
 			// pre processing
 			for (int i=0; i<4; i++) iRec60_tmp[i]=iRec60_perm[i];
 			// exec code
@@ -11848,7 +11847,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec60_perm[i]=iRec60_tmp[count+i];
 			
-			// LOOP 0x2bbbb80
+			// LOOP 0x2b967a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec67_tmp[i]=iRec67_perm[i];
 			// exec code
@@ -11858,7 +11857,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec67_perm[i]=iRec67_tmp[count+i];
 			
-			// LOOP 0x2bcd840
+			// LOOP 0x2ba8460
 			// pre processing
 			for (int i=0; i<4; i++) iRec74_tmp[i]=iRec74_perm[i];
 			// exec code
@@ -11868,7 +11867,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec74_perm[i]=iRec74_tmp[count+i];
 			
-			// LOOP 0x2bdf570
+			// LOOP 0x2bba190
 			// pre processing
 			for (int i=0; i<4; i++) iRec81_tmp[i]=iRec81_perm[i];
 			// exec code
@@ -11878,7 +11877,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec81_perm[i]=iRec81_tmp[count+i];
 			
-			// LOOP 0x2bf1410
+			// LOOP 0x2bcc020
 			// pre processing
 			for (int i=0; i<4; i++) iRec88_tmp[i]=iRec88_perm[i];
 			// exec code
@@ -11889,7 +11888,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec88_perm[i]=iRec88_tmp[count+i];
 			
 			// SECTION : 9
-			// LOOP 0x2b18ca0
+			// LOOP 0x2af3830
 			// pre processing
 			for (int i=0; i<4; i++) fYec1_tmp[i]=fYec1_perm[i];
 			// exec code
@@ -11899,7 +11898,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec1_perm[i]=fYec1_tmp[count+i];
 			
-			// LOOP 0x2b31d10
+			// LOOP 0x2b0c900
 			// pre processing
 			for (int i=0; i<4; i++) fYec7_tmp[i]=fYec7_perm[i];
 			// exec code
@@ -11909,7 +11908,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec7_perm[i]=fYec7_tmp[count+i];
 			
-			// LOOP 0x2b45fb0
+			// LOOP 0x2b20b90
 			// pre processing
 			for (int i=0; i<4; i++) fYec13_tmp[i]=fYec13_perm[i];
 			// exec code
@@ -11919,7 +11918,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec13_perm[i]=fYec13_tmp[count+i];
 			
-			// LOOP 0x2b59da0
+			// LOOP 0x2b34980
 			// pre processing
 			for (int i=0; i<4; i++) fYec19_tmp[i]=fYec19_perm[i];
 			// exec code
@@ -11929,7 +11928,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec19_perm[i]=fYec19_tmp[count+i];
 			
-			// LOOP 0x2b6def0
+			// LOOP 0x2b48ad0
 			// pre processing
 			for (int i=0; i<4; i++) fYec25_tmp[i]=fYec25_perm[i];
 			// exec code
@@ -11939,7 +11938,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec25_perm[i]=fYec25_tmp[count+i];
 			
-			// LOOP 0x2b81e80
+			// LOOP 0x2b5ca60
 			// pre processing
 			for (int i=0; i<4; i++) fYec31_tmp[i]=fYec31_perm[i];
 			// exec code
@@ -11949,7 +11948,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec31_perm[i]=fYec31_tmp[count+i];
 			
-			// LOOP 0x2b94050
+			// LOOP 0x2b6ec60
 			// pre processing
 			for (int i=0; i<4; i++) fYec36_tmp[i]=fYec36_perm[i];
 			// exec code
@@ -11959,7 +11958,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec36_perm[i]=fYec36_tmp[count+i];
 			
-			// LOOP 0x2ba5d10
+			// LOOP 0x2b80920
 			// pre processing
 			for (int i=0; i<4; i++) fYec41_tmp[i]=fYec41_perm[i];
 			// exec code
@@ -11969,7 +11968,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec41_perm[i]=fYec41_tmp[count+i];
 			
-			// LOOP 0x2bb7990
+			// LOOP 0x2b925b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec46_tmp[i]=fYec46_perm[i];
 			// exec code
@@ -11979,7 +11978,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec46_perm[i]=fYec46_tmp[count+i];
 			
-			// LOOP 0x2bc9650
+			// LOOP 0x2ba4270
 			// pre processing
 			for (int i=0; i<4; i++) fYec51_tmp[i]=fYec51_perm[i];
 			// exec code
@@ -11989,7 +11988,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec51_perm[i]=fYec51_tmp[count+i];
 			
-			// LOOP 0x2bdb420
+			// LOOP 0x2bb6040
 			// pre processing
 			for (int i=0; i<4; i++) fYec56_tmp[i]=fYec56_perm[i];
 			// exec code
@@ -11999,7 +11998,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec56_perm[i]=fYec56_tmp[count+i];
 			
-			// LOOP 0x2bed2c0
+			// LOOP 0x2bc7ed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec61_tmp[i]=fYec61_perm[i];
 			// exec code
@@ -12010,152 +12009,152 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec61_perm[i]=fYec61_tmp[count+i];
 			
 			// SECTION : 10
-			// LOOP 0x2b18b60
+			// LOOP 0x2af36f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec6[i] = (0.5f * fYec1[i]);
 			}
 			
-			// LOOP 0x2b242b0
+			// LOOP 0x2afeea0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec7[i] = (0.5f * fYec1[i-1]);
 			}
 			
-			// LOOP 0x2b31bd0
+			// LOOP 0x2b0c7c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec21[i] = (0.5f * fYec7[i]);
 			}
 			
-			// LOOP 0x2b388a0
+			// LOOP 0x2b13490
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec22[i] = (0.5f * fYec7[i-1]);
 			}
 			
-			// LOOP 0x2b45e70
+			// LOOP 0x2b20a50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec36[i] = (0.5f * fYec13[i]);
 			}
 			
-			// LOOP 0x2b4cac0
+			// LOOP 0x2b276a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec37[i] = (0.5f * fYec13[i-1]);
 			}
 			
-			// LOOP 0x2b59c60
+			// LOOP 0x2b34840
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec51[i] = (0.5f * fYec19[i]);
 			}
 			
-			// LOOP 0x2b60910
+			// LOOP 0x2b3b4f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec52[i] = (0.5f * fYec19[i-1]);
 			}
 			
-			// LOOP 0x2b6ddb0
+			// LOOP 0x2b48990
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec66[i] = (0.5f * fYec25[i]);
 			}
 			
-			// LOOP 0x2b74a60
+			// LOOP 0x2b4f640
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec67[i] = (0.5f * fYec25[i-1]);
 			}
 			
-			// LOOP 0x2b81d40
+			// LOOP 0x2b5c920
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec81[i] = (0.5f * fYec31[i]);
 			}
 			
-			// LOOP 0x2b889f0
+			// LOOP 0x2b63600
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec82[i] = (0.5f * fYec31[i-1]);
 			}
 			
-			// LOOP 0x2b93f10
+			// LOOP 0x2b6eb20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec94[i] = (0.5f * fYec36[i]);
 			}
 			
-			// LOOP 0x2b9abc0
+			// LOOP 0x2b757d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec95[i] = (0.5f * fYec36[i-1]);
 			}
 			
-			// LOOP 0x2ba5bd0
+			// LOOP 0x2b807e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec107[i] = (0.5f * fYec41[i]);
 			}
 			
-			// LOOP 0x2bac9e0
+			// LOOP 0x2b875f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec108[i] = (0.5f * fYec41[i-1]);
 			}
 			
-			// LOOP 0x2bb7850
+			// LOOP 0x2b92470
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec120[i] = (0.5f * fYec46[i]);
 			}
 			
-			// LOOP 0x2bbe500
+			// LOOP 0x2b99120
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec121[i] = (0.5f * fYec46[i-1]);
 			}
 			
-			// LOOP 0x2bc9510
+			// LOOP 0x2ba4130
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec133[i] = (0.5f * fYec51[i]);
 			}
 			
-			// LOOP 0x2bd01c0
+			// LOOP 0x2baade0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec134[i] = (0.5f * fYec51[i-1]);
 			}
 			
-			// LOOP 0x2bdb2e0
+			// LOOP 0x2bb5f00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec146[i] = (0.5f * fYec56[i]);
 			}
 			
-			// LOOP 0x2be1ef0
+			// LOOP 0x2bbcb10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec147[i] = (0.5f * fYec56[i-1]);
 			}
 			
-			// LOOP 0x2bed180
+			// LOOP 0x2bc7d90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec159[i] = (0.5f * fYec61[i]);
 			}
 			
-			// LOOP 0x2bf3d90
+			// LOOP 0x2bce9a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec160[i] = (0.5f * fYec61[i-1]);
 			}
 			
 			// SECTION : 11
-			// LOOP 0x2b23c70
+			// LOOP 0x2afe860
 			// pre processing
 			for (int i=0; i<4; i++) iRec7_tmp[i]=iRec7_perm[i];
 			// exec code
@@ -12165,7 +12164,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec7_perm[i]=iRec7_tmp[count+i];
 			
-			// LOOP 0x2b382a0
+			// LOOP 0x2b12e90
 			// pre processing
 			for (int i=0; i<4; i++) iRec15_tmp[i]=iRec15_perm[i];
 			// exec code
@@ -12175,7 +12174,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec15_perm[i]=iRec15_tmp[count+i];
 			
-			// LOOP 0x2b4c4c0
+			// LOOP 0x2b270a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec23_tmp[i]=iRec23_perm[i];
 			// exec code
@@ -12185,7 +12184,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec23_perm[i]=iRec23_tmp[count+i];
 			
-			// LOOP 0x2b60310
+			// LOOP 0x2b3aef0
 			// pre processing
 			for (int i=0; i<4; i++) iRec31_tmp[i]=iRec31_perm[i];
 			// exec code
@@ -12195,7 +12194,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec31_perm[i]=iRec31_tmp[count+i];
 			
-			// LOOP 0x2b74460
+			// LOOP 0x2b4f040
 			// pre processing
 			for (int i=0; i<4; i++) iRec39_tmp[i]=iRec39_perm[i];
 			// exec code
@@ -12205,7 +12204,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec39_perm[i]=iRec39_tmp[count+i];
 			
-			// LOOP 0x2b883f0
+			// LOOP 0x2b63000
 			// pre processing
 			for (int i=0; i<4; i++) iRec47_tmp[i]=iRec47_perm[i];
 			// exec code
@@ -12215,7 +12214,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec47_perm[i]=iRec47_tmp[count+i];
 			
-			// LOOP 0x2b9a5c0
+			// LOOP 0x2b751d0
 			// pre processing
 			for (int i=0; i<4; i++) iRec54_tmp[i]=iRec54_perm[i];
 			// exec code
@@ -12225,7 +12224,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec54_perm[i]=iRec54_tmp[count+i];
 			
-			// LOOP 0x2bac3e0
+			// LOOP 0x2b86ff0
 			// pre processing
 			for (int i=0; i<4; i++) iRec61_tmp[i]=iRec61_perm[i];
 			// exec code
@@ -12235,7 +12234,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec61_perm[i]=iRec61_tmp[count+i];
 			
-			// LOOP 0x2bbdf00
+			// LOOP 0x2b98b20
 			// pre processing
 			for (int i=0; i<4; i++) iRec68_tmp[i]=iRec68_perm[i];
 			// exec code
@@ -12245,7 +12244,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec68_perm[i]=iRec68_tmp[count+i];
 			
-			// LOOP 0x2bcfbc0
+			// LOOP 0x2baa7e0
 			// pre processing
 			for (int i=0; i<4; i++) iRec75_tmp[i]=iRec75_perm[i];
 			// exec code
@@ -12255,7 +12254,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec75_perm[i]=iRec75_tmp[count+i];
 			
-			// LOOP 0x2be18f0
+			// LOOP 0x2bbc510
 			// pre processing
 			for (int i=0; i<4; i++) iRec82_tmp[i]=iRec82_perm[i];
 			// exec code
@@ -12265,7 +12264,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec82_perm[i]=iRec82_tmp[count+i];
 			
-			// LOOP 0x2bf3790
+			// LOOP 0x2bce3a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec89_tmp[i]=iRec89_perm[i];
 			// exec code
@@ -12276,7 +12275,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec89_perm[i]=iRec89_tmp[count+i];
 			
 			// SECTION : 12
-			// LOOP 0x2b18a20
+			// LOOP 0x2af35b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec2_tmp[i]=fYec2_perm[i];
 			// exec code
@@ -12286,7 +12285,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec2_perm[i]=fYec2_tmp[count+i];
 			
-			// LOOP 0x2b31a90
+			// LOOP 0x2b0c680
 			// pre processing
 			for (int i=0; i<4; i++) fYec8_tmp[i]=fYec8_perm[i];
 			// exec code
@@ -12296,7 +12295,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec8_perm[i]=fYec8_tmp[count+i];
 			
-			// LOOP 0x2b45d30
+			// LOOP 0x2b20910
 			// pre processing
 			for (int i=0; i<4; i++) fYec14_tmp[i]=fYec14_perm[i];
 			// exec code
@@ -12306,7 +12305,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec14_perm[i]=fYec14_tmp[count+i];
 			
-			// LOOP 0x2b59b20
+			// LOOP 0x2b34700
 			// pre processing
 			for (int i=0; i<4; i++) fYec20_tmp[i]=fYec20_perm[i];
 			// exec code
@@ -12316,7 +12315,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec20_perm[i]=fYec20_tmp[count+i];
 			
-			// LOOP 0x2b6dc70
+			// LOOP 0x2b48850
 			// pre processing
 			for (int i=0; i<4; i++) fYec26_tmp[i]=fYec26_perm[i];
 			// exec code
@@ -12326,7 +12325,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec26_perm[i]=fYec26_tmp[count+i];
 			
-			// LOOP 0x2b81c00
+			// LOOP 0x2b5c7e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec32_tmp[i]=fYec32_perm[i];
 			// exec code
@@ -12336,7 +12335,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec32_perm[i]=fYec32_tmp[count+i];
 			
-			// LOOP 0x2b93dd0
+			// LOOP 0x2b6e9e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec37_tmp[i]=fYec37_perm[i];
 			// exec code
@@ -12346,7 +12345,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec37_perm[i]=fYec37_tmp[count+i];
 			
-			// LOOP 0x2ba5a90
+			// LOOP 0x2b806a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec42_tmp[i]=fYec42_perm[i];
 			// exec code
@@ -12356,7 +12355,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec42_perm[i]=fYec42_tmp[count+i];
 			
-			// LOOP 0x2bb7710
+			// LOOP 0x2b92330
 			// pre processing
 			for (int i=0; i<4; i++) fYec47_tmp[i]=fYec47_perm[i];
 			// exec code
@@ -12366,7 +12365,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec47_perm[i]=fYec47_tmp[count+i];
 			
-			// LOOP 0x2bc93d0
+			// LOOP 0x2ba3ff0
 			// pre processing
 			for (int i=0; i<4; i++) fYec52_tmp[i]=fYec52_perm[i];
 			// exec code
@@ -12376,7 +12375,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec52_perm[i]=fYec52_tmp[count+i];
 			
-			// LOOP 0x2bdb1a0
+			// LOOP 0x2bb5dc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec57_tmp[i]=fYec57_perm[i];
 			// exec code
@@ -12386,7 +12385,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec57_perm[i]=fYec57_tmp[count+i];
 			
-			// LOOP 0x2bed040
+			// LOOP 0x2bc7c50
 			// pre processing
 			for (int i=0; i<4; i++) fYec62_tmp[i]=fYec62_perm[i];
 			// exec code
@@ -12397,152 +12396,152 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec62_perm[i]=fYec62_tmp[count+i];
 			
 			// SECTION : 13
-			// LOOP 0x2b188e0
+			// LOOP 0x2af3470
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec8[i] = (0.5f * fYec2[i]);
 			}
 			
-			// LOOP 0x2b26590
+			// LOOP 0x2b01180
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec9[i] = (0.5f * fYec2[i-1]);
 			}
 			
-			// LOOP 0x2b31950
+			// LOOP 0x2b0c540
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec23[i] = (0.5f * fYec8[i]);
 			}
 			
-			// LOOP 0x2b3abf0
+			// LOOP 0x2b157e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec24[i] = (0.5f * fYec8[i-1]);
 			}
 			
-			// LOOP 0x2b45bf0
+			// LOOP 0x2b207d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec38[i] = (0.5f * fYec14[i]);
 			}
 			
-			// LOOP 0x2b4ee40
+			// LOOP 0x2b29a20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec39[i] = (0.5f * fYec14[i-1]);
 			}
 			
-			// LOOP 0x2b599e0
+			// LOOP 0x2b345c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec53[i] = (0.5f * fYec20[i]);
 			}
 			
-			// LOOP 0x2b62c90
+			// LOOP 0x2b3d870
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec54[i] = (0.5f * fYec20[i-1]);
 			}
 			
-			// LOOP 0x2b6db30
+			// LOOP 0x2b48710
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec68[i] = (0.5f * fYec26[i]);
 			}
 			
-			// LOOP 0x2b76de0
+			// LOOP 0x2b519c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec69[i] = (0.5f * fYec26[i-1]);
 			}
 			
-			// LOOP 0x2b81ac0
+			// LOOP 0x2b5c6a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec83[i] = (0.5f * fYec32[i]);
 			}
 			
-			// LOOP 0x2b8ad70
+			// LOOP 0x2b65980
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec84[i] = (0.5f * fYec32[i-1]);
 			}
 			
-			// LOOP 0x2b93c90
+			// LOOP 0x2b6e8a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec96[i] = (0.5f * fYec37[i]);
 			}
 			
-			// LOOP 0x2b9cf40
+			// LOOP 0x2b77b50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec97[i] = (0.5f * fYec37[i-1]);
 			}
 			
-			// LOOP 0x2ba5950
+			// LOOP 0x2b80560
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec109[i] = (0.5f * fYec42[i]);
 			}
 			
-			// LOOP 0x2baed60
+			// LOOP 0x2b89970
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec110[i] = (0.5f * fYec42[i-1]);
 			}
 			
-			// LOOP 0x2bb75d0
+			// LOOP 0x2b921f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec122[i] = (0.5f * fYec47[i]);
 			}
 			
-			// LOOP 0x2bc0880
+			// LOOP 0x2b9b4a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec123[i] = (0.5f * fYec47[i-1]);
 			}
 			
-			// LOOP 0x2bc9290
+			// LOOP 0x2ba3eb0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec135[i] = (0.5f * fYec52[i]);
 			}
 			
-			// LOOP 0x2bd2540
+			// LOOP 0x2bad160
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec136[i] = (0.5f * fYec52[i-1]);
 			}
 			
-			// LOOP 0x2bdb060
+			// LOOP 0x2bb5c80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec148[i] = (0.5f * fYec57[i]);
 			}
 			
-			// LOOP 0x2be4270
+			// LOOP 0x2bbee90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec149[i] = (0.5f * fYec57[i-1]);
 			}
 			
-			// LOOP 0x2becf00
+			// LOOP 0x2bc7b10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec161[i] = (0.5f * fYec62[i]);
 			}
 			
-			// LOOP 0x2bf6110
+			// LOOP 0x2bd0d20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec162[i] = (0.5f * fYec62[i-1]);
 			}
 			
 			// SECTION : 14
-			// LOOP 0x2b25f50
+			// LOOP 0x2b00b40
 			// pre processing
 			for (int i=0; i<4; i++) iRec8_tmp[i]=iRec8_perm[i];
 			// exec code
@@ -12552,7 +12551,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec8_perm[i]=iRec8_tmp[count+i];
 			
-			// LOOP 0x2b3a5f0
+			// LOOP 0x2b151e0
 			// pre processing
 			for (int i=0; i<4; i++) iRec16_tmp[i]=iRec16_perm[i];
 			// exec code
@@ -12562,7 +12561,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec16_perm[i]=iRec16_tmp[count+i];
 			
-			// LOOP 0x2b4e840
+			// LOOP 0x2b29420
 			// pre processing
 			for (int i=0; i<4; i++) iRec24_tmp[i]=iRec24_perm[i];
 			// exec code
@@ -12572,7 +12571,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec24_perm[i]=iRec24_tmp[count+i];
 			
-			// LOOP 0x2b62690
+			// LOOP 0x2b3d270
 			// pre processing
 			for (int i=0; i<4; i++) iRec32_tmp[i]=iRec32_perm[i];
 			// exec code
@@ -12582,7 +12581,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec32_perm[i]=iRec32_tmp[count+i];
 			
-			// LOOP 0x2b767e0
+			// LOOP 0x2b513c0
 			// pre processing
 			for (int i=0; i<4; i++) iRec40_tmp[i]=iRec40_perm[i];
 			// exec code
@@ -12592,7 +12591,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec40_perm[i]=iRec40_tmp[count+i];
 			
-			// LOOP 0x2b8a770
+			// LOOP 0x2b65380
 			// pre processing
 			for (int i=0; i<4; i++) iRec48_tmp[i]=iRec48_perm[i];
 			// exec code
@@ -12602,7 +12601,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec48_perm[i]=iRec48_tmp[count+i];
 			
-			// LOOP 0x2b9c940
+			// LOOP 0x2b77550
 			// pre processing
 			for (int i=0; i<4; i++) iRec55_tmp[i]=iRec55_perm[i];
 			// exec code
@@ -12612,7 +12611,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec55_perm[i]=iRec55_tmp[count+i];
 			
-			// LOOP 0x2bae760
+			// LOOP 0x2b89370
 			// pre processing
 			for (int i=0; i<4; i++) iRec62_tmp[i]=iRec62_perm[i];
 			// exec code
@@ -12622,7 +12621,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec62_perm[i]=iRec62_tmp[count+i];
 			
-			// LOOP 0x2bc0280
+			// LOOP 0x2b9aea0
 			// pre processing
 			for (int i=0; i<4; i++) iRec69_tmp[i]=iRec69_perm[i];
 			// exec code
@@ -12632,7 +12631,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec69_perm[i]=iRec69_tmp[count+i];
 			
-			// LOOP 0x2bd1f40
+			// LOOP 0x2bacb60
 			// pre processing
 			for (int i=0; i<4; i++) iRec76_tmp[i]=iRec76_perm[i];
 			// exec code
@@ -12642,7 +12641,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec76_perm[i]=iRec76_tmp[count+i];
 			
-			// LOOP 0x2be3c70
+			// LOOP 0x2bbe890
 			// pre processing
 			for (int i=0; i<4; i++) iRec83_tmp[i]=iRec83_perm[i];
 			// exec code
@@ -12652,7 +12651,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec83_perm[i]=iRec83_tmp[count+i];
 			
-			// LOOP 0x2bf5b10
+			// LOOP 0x2bd0720
 			// pre processing
 			for (int i=0; i<4; i++) iRec90_tmp[i]=iRec90_perm[i];
 			// exec code
@@ -12663,7 +12662,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec90_perm[i]=iRec90_tmp[count+i];
 			
 			// SECTION : 15
-			// LOOP 0x2b187a0
+			// LOOP 0x2af3330
 			// pre processing
 			for (int i=0; i<4; i++) fYec3_tmp[i]=fYec3_perm[i];
 			// exec code
@@ -12673,7 +12672,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec3_perm[i]=fYec3_tmp[count+i];
 			
-			// LOOP 0x2b31810
+			// LOOP 0x2b0c400
 			// pre processing
 			for (int i=0; i<4; i++) fYec9_tmp[i]=fYec9_perm[i];
 			// exec code
@@ -12683,7 +12682,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec9_perm[i]=fYec9_tmp[count+i];
 			
-			// LOOP 0x2b45ab0
+			// LOOP 0x2b20690
 			// pre processing
 			for (int i=0; i<4; i++) fYec15_tmp[i]=fYec15_perm[i];
 			// exec code
@@ -12693,7 +12692,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec15_perm[i]=fYec15_tmp[count+i];
 			
-			// LOOP 0x2b598a0
+			// LOOP 0x2b34480
 			// pre processing
 			for (int i=0; i<4; i++) fYec21_tmp[i]=fYec21_perm[i];
 			// exec code
@@ -12703,7 +12702,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec21_perm[i]=fYec21_tmp[count+i];
 			
-			// LOOP 0x2b6d9f0
+			// LOOP 0x2b485d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec27_tmp[i]=fYec27_perm[i];
 			// exec code
@@ -12713,7 +12712,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec27_perm[i]=fYec27_tmp[count+i];
 			
-			// LOOP 0x2b81980
+			// LOOP 0x2b5c560
 			// pre processing
 			for (int i=0; i<4; i++) fYec33_tmp[i]=fYec33_perm[i];
 			// exec code
@@ -12723,7 +12722,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec33_perm[i]=fYec33_tmp[count+i];
 			
-			// LOOP 0x2b93b50
+			// LOOP 0x2b6e760
 			// pre processing
 			for (int i=0; i<4; i++) fYec38_tmp[i]=fYec38_perm[i];
 			// exec code
@@ -12733,7 +12732,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec38_perm[i]=fYec38_tmp[count+i];
 			
-			// LOOP 0x2ba5810
+			// LOOP 0x2b80420
 			// pre processing
 			for (int i=0; i<4; i++) fYec43_tmp[i]=fYec43_perm[i];
 			// exec code
@@ -12743,7 +12742,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec43_perm[i]=fYec43_tmp[count+i];
 			
-			// LOOP 0x2bb7490
+			// LOOP 0x2b920b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec48_tmp[i]=fYec48_perm[i];
 			// exec code
@@ -12753,7 +12752,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec48_perm[i]=fYec48_tmp[count+i];
 			
-			// LOOP 0x2bc9150
+			// LOOP 0x2ba3d70
 			// pre processing
 			for (int i=0; i<4; i++) fYec53_tmp[i]=fYec53_perm[i];
 			// exec code
@@ -12763,7 +12762,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec53_perm[i]=fYec53_tmp[count+i];
 			
-			// LOOP 0x2bdaf20
+			// LOOP 0x2bb5b40
 			// pre processing
 			for (int i=0; i<4; i++) fYec58_tmp[i]=fYec58_perm[i];
 			// exec code
@@ -12773,7 +12772,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec58_perm[i]=fYec58_tmp[count+i];
 			
-			// LOOP 0x2becdc0
+			// LOOP 0x2bc79d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec63_tmp[i]=fYec63_perm[i];
 			// exec code
@@ -12784,152 +12783,152 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec63_perm[i]=fYec63_tmp[count+i];
 			
 			// SECTION : 16
-			// LOOP 0x2b18660
+			// LOOP 0x2af31f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec10[i] = (0.5f * fYec3[i]);
 			}
 			
-			// LOOP 0x2b288d0
+			// LOOP 0x2b034c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec11[i] = (0.5f * fYec3[i-1]);
 			}
 			
-			// LOOP 0x2b316d0
+			// LOOP 0x2b0c2c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec25[i] = (0.5f * fYec9[i]);
 			}
 			
-			// LOOP 0x2b3cf40
+			// LOOP 0x2b17b30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec26[i] = (0.5f * fYec9[i-1]);
 			}
 			
-			// LOOP 0x2b45970
+			// LOOP 0x2b20550
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec40[i] = (0.5f * fYec15[i]);
 			}
 			
-			// LOOP 0x2b511c0
+			// LOOP 0x2b2bda0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec41[i] = (0.5f * fYec15[i-1]);
 			}
 			
-			// LOOP 0x2b59760
+			// LOOP 0x2b34340
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec55[i] = (0.5f * fYec21[i]);
 			}
 			
-			// LOOP 0x2b65020
+			// LOOP 0x2b3fc00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec56[i] = (0.5f * fYec21[i-1]);
 			}
 			
-			// LOOP 0x2b6d8b0
+			// LOOP 0x2b48490
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec70[i] = (0.5f * fYec27[i]);
 			}
 			
-			// LOOP 0x2b79160
+			// LOOP 0x2b53d40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec71[i] = (0.5f * fYec27[i-1]);
 			}
 			
-			// LOOP 0x2b81840
+			// LOOP 0x2b5c420
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec85[i] = (0.5f * fYec33[i]);
 			}
 			
-			// LOOP 0x2b8d540
+			// LOOP 0x2b68150
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec86[i] = (0.5f * fYec33[i-1]);
 			}
 			
-			// LOOP 0x2b93a10
+			// LOOP 0x2b6e620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec98[i] = (0.5f * fYec38[i]);
 			}
 			
-			// LOOP 0x2b9f710
+			// LOOP 0x2b7a320
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec99[i] = (0.5f * fYec38[i-1]);
 			}
 			
-			// LOOP 0x2ba56d0
+			// LOOP 0x2b802e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec111[i] = (0.5f * fYec43[i]);
 			}
 			
-			// LOOP 0x2bb1540
+			// LOOP 0x2b8c150
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec112[i] = (0.5f * fYec43[i-1]);
 			}
 			
-			// LOOP 0x2bb7350
+			// LOOP 0x2b91f70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec124[i] = (0.5f * fYec48[i]);
 			}
 			
-			// LOOP 0x2bc3060
+			// LOOP 0x2b9dc80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec125[i] = (0.5f * fYec48[i-1]);
 			}
 			
-			// LOOP 0x2bc9010
+			// LOOP 0x2ba3c30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec137[i] = (0.5f * fYec53[i]);
 			}
 			
-			// LOOP 0x2bd4d20
+			// LOOP 0x2baf940
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec138[i] = (0.5f * fYec53[i-1]);
 			}
 			
-			// LOOP 0x2bdade0
+			// LOOP 0x2bb5a00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec150[i] = (0.5f * fYec58[i]);
 			}
 			
-			// LOOP 0x2be6a50
+			// LOOP 0x2bc1670
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec151[i] = (0.5f * fYec58[i-1]);
 			}
 			
-			// LOOP 0x2becc80
+			// LOOP 0x2bc7890
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec163[i] = (0.5f * fYec63[i]);
 			}
 			
-			// LOOP 0x2bf88f0
+			// LOOP 0x2bd3500
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec164[i] = (0.5f * fYec63[i-1]);
 			}
 			
 			// SECTION : 17
-			// LOOP 0x2b28290
+			// LOOP 0x2b02e80
 			// pre processing
 			for (int i=0; i<4; i++) iRec9_tmp[i]=iRec9_perm[i];
 			// exec code
@@ -12939,7 +12938,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec9_perm[i]=iRec9_tmp[count+i];
 			
-			// LOOP 0x2b3c940
+			// LOOP 0x2b17530
 			// pre processing
 			for (int i=0; i<4; i++) iRec17_tmp[i]=iRec17_perm[i];
 			// exec code
@@ -12949,7 +12948,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec17_perm[i]=iRec17_tmp[count+i];
 			
-			// LOOP 0x2b50bc0
+			// LOOP 0x2b2b7a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec25_tmp[i]=iRec25_perm[i];
 			// exec code
@@ -12959,7 +12958,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec25_perm[i]=iRec25_tmp[count+i];
 			
-			// LOOP 0x2b64a20
+			// LOOP 0x2b3f600
 			// pre processing
 			for (int i=0; i<4; i++) iRec33_tmp[i]=iRec33_perm[i];
 			// exec code
@@ -12969,7 +12968,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec33_perm[i]=iRec33_tmp[count+i];
 			
-			// LOOP 0x2b78b60
+			// LOOP 0x2b53740
 			// pre processing
 			for (int i=0; i<4; i++) iRec41_tmp[i]=iRec41_perm[i];
 			// exec code
@@ -12979,7 +12978,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec41_perm[i]=iRec41_tmp[count+i];
 			
-			// LOOP 0x2d7d750
+			// LOOP 0x2d582c0
 			// pre processing
 			for (int i=0; i<4; i++) iRec189_tmp[i]=iRec189_perm[i];
 			// exec code
@@ -12989,7 +12988,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec189_perm[i]=iRec189_tmp[count+i];
 			
-			// LOOP 0x2d881d0
+			// LOOP 0x2d62d40
 			// pre processing
 			for (int i=0; i<4; i++) iRec194_tmp[i]=iRec194_perm[i];
 			// exec code
@@ -12999,7 +12998,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec194_perm[i]=iRec194_tmp[count+i];
 			
-			// LOOP 0x2d92600
+			// LOOP 0x2d6d170
 			// pre processing
 			for (int i=0; i<4; i++) iRec199_tmp[i]=iRec199_perm[i];
 			// exec code
@@ -13009,7 +13008,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec199_perm[i]=iRec199_tmp[count+i];
 			
-			// LOOP 0x2d9ca60
+			// LOOP 0x2d775a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec204_tmp[i]=iRec204_perm[i];
 			// exec code
@@ -13019,7 +13018,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec204_perm[i]=iRec204_tmp[count+i];
 			
-			// LOOP 0x2da6f90
+			// LOOP 0x2d81ad0
 			// pre processing
 			for (int i=0; i<4; i++) iRec209_tmp[i]=iRec209_perm[i];
 			// exec code
@@ -13029,7 +13028,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec209_perm[i]=iRec209_tmp[count+i];
 			
-			// LOOP 0x2db1480
+			// LOOP 0x2d8bfc0
 			// pre processing
 			for (int i=0; i<4; i++) iRec214_tmp[i]=iRec214_perm[i];
 			// exec code
@@ -13039,7 +13038,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec214_perm[i]=iRec214_tmp[count+i];
 			
-			// LOOP 0x2dbb950
+			// LOOP 0x2d96470
 			// pre processing
 			for (int i=0; i<4; i++) iRec219_tmp[i]=iRec219_perm[i];
 			// exec code
@@ -13050,7 +13049,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec219_perm[i]=iRec219_tmp[count+i];
 			
 			// SECTION : 18
-			// LOOP 0x2b18520
+			// LOOP 0x2af30b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec4_tmp[i]=fYec4_perm[i];
 			// exec code
@@ -13060,7 +13059,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec4_perm[i]=fYec4_tmp[count+i];
 			
-			// LOOP 0x2b31590
+			// LOOP 0x2b0c180
 			// pre processing
 			for (int i=0; i<4; i++) fYec10_tmp[i]=fYec10_perm[i];
 			// exec code
@@ -13070,7 +13069,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec10_perm[i]=fYec10_tmp[count+i];
 			
-			// LOOP 0x2b45830
+			// LOOP 0x2b20410
 			// pre processing
 			for (int i=0; i<4; i++) fYec16_tmp[i]=fYec16_perm[i];
 			// exec code
@@ -13080,7 +13079,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec16_perm[i]=fYec16_tmp[count+i];
 			
-			// LOOP 0x2b59620
+			// LOOP 0x2b34200
 			// pre processing
 			for (int i=0; i<4; i++) fYec22_tmp[i]=fYec22_perm[i];
 			// exec code
@@ -13090,7 +13089,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec22_perm[i]=fYec22_tmp[count+i];
 			
-			// LOOP 0x2b6d770
+			// LOOP 0x2b48350
 			// pre processing
 			for (int i=0; i<4; i++) fYec28_tmp[i]=fYec28_perm[i];
 			// exec code
@@ -13100,7 +13099,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec28_perm[i]=fYec28_tmp[count+i];
 			
-			// LOOP 0x2d7d5b0
+			// LOOP 0x2d58120
 			// pre processing
 			for (int i=0; i<4; i++) fYec132_tmp[i]=fYec132_perm[i];
 			// exec code
@@ -13110,7 +13109,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec132_perm[i]=fYec132_tmp[count+i];
 			
-			// LOOP 0x2d88030
+			// LOOP 0x2d62ba0
 			// pre processing
 			for (int i=0; i<4; i++) fYec136_tmp[i]=fYec136_perm[i];
 			// exec code
@@ -13120,7 +13119,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec136_perm[i]=fYec136_tmp[count+i];
 			
-			// LOOP 0x2d92460
+			// LOOP 0x2d6cfd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec140_tmp[i]=fYec140_perm[i];
 			// exec code
@@ -13130,7 +13129,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec140_perm[i]=fYec140_tmp[count+i];
 			
-			// LOOP 0x2d9c8c0
+			// LOOP 0x2d77400
 			// pre processing
 			for (int i=0; i<4; i++) fYec144_tmp[i]=fYec144_perm[i];
 			// exec code
@@ -13140,7 +13139,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec144_perm[i]=fYec144_tmp[count+i];
 			
-			// LOOP 0x2da6df0
+			// LOOP 0x2d81930
 			// pre processing
 			for (int i=0; i<4; i++) fYec148_tmp[i]=fYec148_perm[i];
 			// exec code
@@ -13150,7 +13149,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec148_perm[i]=fYec148_tmp[count+i];
 			
-			// LOOP 0x2db12e0
+			// LOOP 0x2d8be20
 			// pre processing
 			for (int i=0; i<4; i++) fYec152_tmp[i]=fYec152_perm[i];
 			// exec code
@@ -13160,7 +13159,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec152_perm[i]=fYec152_tmp[count+i];
 			
-			// LOOP 0x2dbb7b0
+			// LOOP 0x2d962d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec156_tmp[i]=fYec156_perm[i];
 			// exec code
@@ -13171,236 +13170,236 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec156_perm[i]=fYec156_tmp[count+i];
 			
 			// SECTION : 19
-			// LOOP 0x2b183e0
+			// LOOP 0x2af2f70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec12[i] = (0.5f * fYec4[i]);
 			}
 			
-			// LOOP 0x2b2b190
+			// LOOP 0x2b05d80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec13[i] = (0.5f * fYec4[i-1]);
 			}
 			
-			// LOOP 0x2b31450
+			// LOOP 0x2b0c040
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec27[i] = (0.5f * fYec10[i]);
 			}
 			
-			// LOOP 0x2b3f700
+			// LOOP 0x2b1a2f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec28[i] = (0.5f * fYec10[i-1]);
 			}
 			
-			// LOOP 0x2b456f0
+			// LOOP 0x2b202d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec42[i] = (0.5f * fYec16[i]);
 			}
 			
-			// LOOP 0x2b53990
+			// LOOP 0x2b2e570
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec43[i] = (0.5f * fYec16[i-1]);
 			}
 			
-			// LOOP 0x2b594e0
+			// LOOP 0x2b340c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec57[i] = (0.5f * fYec22[i]);
 			}
 			
-			// LOOP 0x2b677f0
+			// LOOP 0x2b423d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec58[i] = (0.5f * fYec22[i-1]);
 			}
 			
-			// LOOP 0x2b6d630
+			// LOOP 0x2b48210
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec72[i] = (0.5f * fYec28[i]);
 			}
 			
-			// LOOP 0x2b7b930
+			// LOOP 0x2b56510
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec73[i] = (0.5f * fYec28[i-1]);
 			}
 			
-			// LOOP 0x2b8e1c0
+			// LOOP 0x2b68dd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec87[i] = ((1 + fRec45[i]) - fRec45[i-1]);
 			}
 			
-			// LOOP 0x2ba0390
+			// LOOP 0x2b7afa0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec100[i] = ((1 + fRec52[i]) - fRec52[i-1]);
 			}
 			
-			// LOOP 0x2bb21c0
+			// LOOP 0x2b8cdd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec113[i] = ((1 + fRec59[i]) - fRec59[i-1]);
 			}
 			
-			// LOOP 0x2bc3ce0
+			// LOOP 0x2b9e900
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec126[i] = ((1 + fRec66[i]) - fRec66[i-1]);
 			}
 			
-			// LOOP 0x2bd59a0
+			// LOOP 0x2bb05c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec139[i] = ((1 + fRec73[i]) - fRec73[i-1]);
 			}
 			
-			// LOOP 0x2d7d470
+			// LOOP 0x2d57fe0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec272[i] = (0.5f * fYec132[i]);
 			}
 			
-			// LOOP 0x2d7fb30
+			// LOOP 0x2d5a6a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec273[i] = (0.5f * fYec132[i-1]);
 			}
 			
-			// LOOP 0x2d87ef0
+			// LOOP 0x2d62a60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec277[i] = (0.5f * fYec136[i]);
 			}
 			
-			// LOOP 0x2d8a5b0
+			// LOOP 0x2d65120
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec278[i] = (0.5f * fYec136[i-1]);
 			}
 			
-			// LOOP 0x2d92320
+			// LOOP 0x2d6ce90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec282[i] = (0.5f * fYec140[i]);
 			}
 			
-			// LOOP 0x2d94970
+			// LOOP 0x2d6f550
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec283[i] = (0.5f * fYec140[i-1]);
 			}
 			
-			// LOOP 0x2d9c780
+			// LOOP 0x2d772c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec287[i] = (0.5f * fYec144[i]);
 			}
 			
-			// LOOP 0x2d9ee40
+			// LOOP 0x2d79980
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec288[i] = (0.5f * fYec144[i-1]);
 			}
 			
-			// LOOP 0x2da6cb0
+			// LOOP 0x2d817f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec292[i] = (0.5f * fYec148[i]);
 			}
 			
-			// LOOP 0x2da9370
+			// LOOP 0x2d83eb0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec293[i] = (0.5f * fYec148[i-1]);
 			}
 			
-			// LOOP 0x2db11a0
+			// LOOP 0x2d8bce0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec297[i] = (0.5f * fYec152[i]);
 			}
 			
-			// LOOP 0x2db3860
+			// LOOP 0x2d8e3a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec298[i] = (0.5f * fYec152[i-1]);
 			}
 			
-			// LOOP 0x2dbb670
+			// LOOP 0x2d96190
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec302[i] = (0.5f * fYec156[i]);
 			}
 			
-			// LOOP 0x2dbdd30
+			// LOOP 0x2d98850
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec303[i] = (0.5f * fYec156[i-1]);
 			}
 			
 			// SECTION : 20
-			// LOOP 0x2b2be60
+			// LOOP 0x2b06a50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec14[i] = ((1 + fRec4[i]) - fRec4[i-1]);
 			}
 			
-			// LOOP 0x2b40380
+			// LOOP 0x2b1af70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec29[i] = ((1 + fRec13[i]) - fRec13[i-1]);
 			}
 			
-			// LOOP 0x2b8ded0
+			// LOOP 0x2b68ae0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec88[i] = saw_polyblep_fast(fRec45[i], fRec45[i-1], fRec45[i-2], ((int((fZec87[i] > 1.0f)))?fZec78[i]:fZec87[i]));
 			}
 			
-			// LOOP 0x2ba00a0
+			// LOOP 0x2b7acb0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec101[i] = saw_polyblep_fast(fRec52[i], fRec52[i-1], fRec52[i-2], ((int((fZec100[i] > 1.0f)))?fZec91[i]:fZec100[i]));
 			}
 			
-			// LOOP 0x2bb1ed0
+			// LOOP 0x2b8cae0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec114[i] = saw_polyblep_fast(fRec59[i], fRec59[i-1], fRec59[i-2], ((int((fZec113[i] > 1.0f)))?fZec104[i]:fZec113[i]));
 			}
 			
-			// LOOP 0x2bc39f0
+			// LOOP 0x2b9e610
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec127[i] = saw_polyblep_fast(fRec66[i], fRec66[i-1], fRec66[i-2], ((int((fZec126[i] > 1.0f)))?fZec117[i]:fZec126[i]));
 			}
 			
-			// LOOP 0x2bd56b0
+			// LOOP 0x2bb02d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec140[i] = saw_polyblep_fast(fRec73[i], fRec73[i-1], fRec73[i-2], ((int((fZec139[i] > 1.0f)))?fZec130[i]:fZec139[i]));
 			}
 			
-			// LOOP 0x2be7690
+			// LOOP 0x2bc2250
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec152[i] = ((1 + fRec80[i]) - fRec80[i-1]);
 			}
 			
-			// LOOP 0x2bf9570
+			// LOOP 0x2bd4180
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec165[i] = ((1 + fRec87[i]) - fRec87[i-1]);
 			}
 			
-			// LOOP 0x2c1b3d0
+			// LOOP 0x2bf5fd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec70_tmp[i]=fYec70_perm[i];
 			// exec code
@@ -13410,7 +13409,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec70_perm[i]=fYec70_tmp[count+i];
 			
-			// LOOP 0x2c20bd0
+			// LOOP 0x2bfb7d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec71_tmp[i]=fYec71_perm[i];
 			// exec code
@@ -13420,7 +13419,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec71_perm[i]=fYec71_tmp[count+i];
 			
-			// LOOP 0x2c26a40
+			// LOOP 0x2c01640
 			// pre processing
 			for (int i=0; i<4; i++) fYec72_tmp[i]=fYec72_perm[i];
 			// exec code
@@ -13430,7 +13429,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec72_perm[i]=fYec72_tmp[count+i];
 			
-			// LOOP 0x2c2c110
+			// LOOP 0x2c06ce0
 			// pre processing
 			for (int i=0; i<4; i++) fYec73_tmp[i]=fYec73_perm[i];
 			// exec code
@@ -13440,7 +13439,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec73_perm[i]=fYec73_tmp[count+i];
 			
-			// LOOP 0x2c319e0
+			// LOOP 0x2c0c5b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec74_tmp[i]=fYec74_perm[i];
 			// exec code
@@ -13450,7 +13449,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec74_perm[i]=fYec74_tmp[count+i];
 			
-			// LOOP 0x2d7f530
+			// LOOP 0x2d5a0a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec190_tmp[i]=iRec190_perm[i];
 			// exec code
@@ -13460,7 +13459,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec190_perm[i]=iRec190_tmp[count+i];
 			
-			// LOOP 0x2d89fb0
+			// LOOP 0x2d64b20
 			// pre processing
 			for (int i=0; i<4; i++) iRec195_tmp[i]=iRec195_perm[i];
 			// exec code
@@ -13470,7 +13469,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec195_perm[i]=iRec195_tmp[count+i];
 			
-			// LOOP 0x2d94340
+			// LOOP 0x2d6ef50
 			// pre processing
 			for (int i=0; i<4; i++) iRec200_tmp[i]=iRec200_perm[i];
 			// exec code
@@ -13480,7 +13479,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec200_perm[i]=iRec200_tmp[count+i];
 			
-			// LOOP 0x2d9e840
+			// LOOP 0x2d79380
 			// pre processing
 			for (int i=0; i<4; i++) iRec205_tmp[i]=iRec205_perm[i];
 			// exec code
@@ -13490,7 +13489,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec205_perm[i]=iRec205_tmp[count+i];
 			
-			// LOOP 0x2da8d70
+			// LOOP 0x2d838b0
 			// pre processing
 			for (int i=0; i<4; i++) iRec210_tmp[i]=iRec210_perm[i];
 			// exec code
@@ -13500,7 +13499,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec210_perm[i]=iRec210_tmp[count+i];
 			
-			// LOOP 0x2db3260
+			// LOOP 0x2d8dda0
 			// pre processing
 			for (int i=0; i<4; i++) iRec215_tmp[i]=iRec215_perm[i];
 			// exec code
@@ -13510,7 +13509,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec215_perm[i]=iRec215_tmp[count+i];
 			
-			// LOOP 0x2dbd730
+			// LOOP 0x2d98250
 			// pre processing
 			for (int i=0; i<4; i++) iRec220_tmp[i]=iRec220_perm[i];
 			// exec code
@@ -13520,7 +13519,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec220_perm[i]=iRec220_tmp[count+i];
 			
-			// LOOP 0x2dc5c20
+			// LOOP 0x2da0740
 			// pre processing
 			for (int i=0; i<4; i++) iRec224_tmp[i]=iRec224_perm[i];
 			// exec code
@@ -13530,7 +13529,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec224_perm[i]=iRec224_tmp[count+i];
 			
-			// LOOP 0x2dcdb10
+			// LOOP 0x2da8630
 			// pre processing
 			for (int i=0; i<4; i++) iRec228_tmp[i]=iRec228_perm[i];
 			// exec code
@@ -13540,7 +13539,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec228_perm[i]=iRec228_tmp[count+i];
 			
-			// LOOP 0x2dd5d80
+			// LOOP 0x2db08a0
 			// pre processing
 			for (int i=0; i<4; i++) iRec232_tmp[i]=iRec232_perm[i];
 			// exec code
@@ -13550,7 +13549,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec232_perm[i]=iRec232_tmp[count+i];
 			
-			// LOOP 0x2dddcd0
+			// LOOP 0x2db87f0
 			// pre processing
 			for (int i=0; i<4; i++) iRec236_tmp[i]=iRec236_perm[i];
 			// exec code
@@ -13560,7 +13559,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec236_perm[i]=iRec236_tmp[count+i];
 			
-			// LOOP 0x2de5c70
+			// LOOP 0x2dc0790
 			// pre processing
 			for (int i=0; i<4; i++) iRec240_tmp[i]=iRec240_perm[i];
 			// exec code
@@ -13571,49 +13570,49 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec240_perm[i]=iRec240_tmp[count+i];
 			
 			// SECTION : 21
-			// LOOP 0x2b2bb70
+			// LOOP 0x2b06760
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec15[i] = saw_polyblep_fast(fRec4[i], fRec4[i-1], fRec4[i-2], ((int((fZec14[i] > 1.0f)))?fZec3[i]:fZec14[i]));
 			}
 			
-			// LOOP 0x2b40090
+			// LOOP 0x2b1ac80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec30[i] = saw_polyblep_fast(fRec13[i], fRec13[i-1], fRec13[i-2], ((int((fZec29[i] > 1.0f)))?fZec18[i]:fZec29[i]));
 			}
 			
-			// LOOP 0x2b54610
+			// LOOP 0x2b2f1f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec44[i] = ((1 + fRec21[i]) - fRec21[i-1]);
 			}
 			
-			// LOOP 0x2b68470
+			// LOOP 0x2b43050
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec59[i] = ((1 + fRec29[i]) - fRec29[i-1]);
 			}
 			
-			// LOOP 0x2b7c5b0
+			// LOOP 0x2b57190
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec74[i] = ((1 + fRec37[i]) - fRec37[i-1]);
 			}
 			
-			// LOOP 0x2be73a0
+			// LOOP 0x2bc1fc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec153[i] = saw_polyblep_fast(fRec80[i], fRec80[i-1], fRec80[i-2], ((int((fZec152[i] > 1.0f)))?fZec143[i]:fZec152[i]));
 			}
 			
-			// LOOP 0x2bf9280
+			// LOOP 0x2bd3e90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec166[i] = saw_polyblep_fast(fRec87[i], fRec87[i-1], fRec87[i-2], ((int((fZec165[i] > 1.0f)))?fZec156[i]:fZec165[i]));
 			}
 			
-			// LOOP 0x2c1ae80
+			// LOOP 0x2bf5a80
 			// pre processing
 			for (int i=0; i<4; i++) fRec102_tmp[i]=fRec102_perm[i];
 			// exec code
@@ -13623,7 +13622,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec102_perm[i]=fRec102_tmp[count+i];
 			
-			// LOOP 0x2c20680
+			// LOOP 0x2bfb280
 			// pre processing
 			for (int i=0; i<4; i++) fRec104_tmp[i]=fRec104_perm[i];
 			// exec code
@@ -13633,7 +13632,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec104_perm[i]=fRec104_tmp[count+i];
 			
-			// LOOP 0x2c264f0
+			// LOOP 0x2c010f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec106_tmp[i]=fRec106_perm[i];
 			// exec code
@@ -13643,7 +13642,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec106_perm[i]=fRec106_tmp[count+i];
 			
-			// LOOP 0x2c2bbc0
+			// LOOP 0x2c06790
 			// pre processing
 			for (int i=0; i<4; i++) fRec108_tmp[i]=fRec108_perm[i];
 			// exec code
@@ -13653,7 +13652,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec108_perm[i]=fRec108_tmp[count+i];
 			
-			// LOOP 0x2c31490
+			// LOOP 0x2c0c060
 			// pre processing
 			for (int i=0; i<4; i++) fRec110_tmp[i]=fRec110_perm[i];
 			// exec code
@@ -13663,7 +13662,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec110_perm[i]=fRec110_tmp[count+i];
 			
-			// LOOP 0x2c36ff0
+			// LOOP 0x2c11bc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec75_tmp[i]=fYec75_perm[i];
 			// exec code
@@ -13673,7 +13672,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec75_perm[i]=fYec75_tmp[count+i];
 			
-			// LOOP 0x2c3cb00
+			// LOOP 0x2c176d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec76_tmp[i]=fYec76_perm[i];
 			// exec code
@@ -13683,7 +13682,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec76_perm[i]=fYec76_tmp[count+i];
 			
-			// LOOP 0x2c428e0
+			// LOOP 0x2c1d4b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec77_tmp[i]=fYec77_perm[i];
 			// exec code
@@ -13693,7 +13692,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec77_perm[i]=fYec77_tmp[count+i];
 			
-			// LOOP 0x2c47e00
+			// LOOP 0x2c229d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec78_tmp[i]=fYec78_perm[i];
 			// exec code
@@ -13703,7 +13702,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec78_perm[i]=fYec78_tmp[count+i];
 			
-			// LOOP 0x2d7d330
+			// LOOP 0x2d57ea0
 			// pre processing
 			for (int i=0; i<4; i++) fYec133_tmp[i]=fYec133_perm[i];
 			// exec code
@@ -13713,7 +13712,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec133_perm[i]=fYec133_tmp[count+i];
 			
-			// LOOP 0x2d87db0
+			// LOOP 0x2d62920
 			// pre processing
 			for (int i=0; i<4; i++) fYec137_tmp[i]=fYec137_perm[i];
 			// exec code
@@ -13723,7 +13722,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec137_perm[i]=fYec137_tmp[count+i];
 			
-			// LOOP 0x2d921e0
+			// LOOP 0x2d6cd50
 			// pre processing
 			for (int i=0; i<4; i++) fYec141_tmp[i]=fYec141_perm[i];
 			// exec code
@@ -13733,7 +13732,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec141_perm[i]=fYec141_tmp[count+i];
 			
-			// LOOP 0x2d9c640
+			// LOOP 0x2d77180
 			// pre processing
 			for (int i=0; i<4; i++) fYec145_tmp[i]=fYec145_perm[i];
 			// exec code
@@ -13743,7 +13742,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec145_perm[i]=fYec145_tmp[count+i];
 			
-			// LOOP 0x2da6b70
+			// LOOP 0x2d816b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec149_tmp[i]=fYec149_perm[i];
 			// exec code
@@ -13753,7 +13752,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec149_perm[i]=fYec149_tmp[count+i];
 			
-			// LOOP 0x2db1060
+			// LOOP 0x2d8bba0
 			// pre processing
 			for (int i=0; i<4; i++) fYec153_tmp[i]=fYec153_perm[i];
 			// exec code
@@ -13763,7 +13762,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec153_perm[i]=fYec153_tmp[count+i];
 			
-			// LOOP 0x2dbb530
+			// LOOP 0x2d96050
 			// pre processing
 			for (int i=0; i<4; i++) fYec157_tmp[i]=fYec157_perm[i];
 			// exec code
@@ -13773,7 +13772,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec157_perm[i]=fYec157_tmp[count+i];
 			
-			// LOOP 0x2dc5a80
+			// LOOP 0x2da05a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec160_tmp[i]=fYec160_perm[i];
 			// exec code
@@ -13783,7 +13782,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec160_perm[i]=fYec160_tmp[count+i];
 			
-			// LOOP 0x2dcd970
+			// LOOP 0x2da8490
 			// pre processing
 			for (int i=0; i<4; i++) fYec163_tmp[i]=fYec163_perm[i];
 			// exec code
@@ -13793,7 +13792,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec163_perm[i]=fYec163_tmp[count+i];
 			
-			// LOOP 0x2dd5be0
+			// LOOP 0x2db0700
 			// pre processing
 			for (int i=0; i<4; i++) fYec166_tmp[i]=fYec166_perm[i];
 			// exec code
@@ -13803,7 +13802,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec166_perm[i]=fYec166_tmp[count+i];
 			
-			// LOOP 0x2dddb30
+			// LOOP 0x2db8650
 			// pre processing
 			for (int i=0; i<4; i++) fYec169_tmp[i]=fYec169_perm[i];
 			// exec code
@@ -13813,7 +13812,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec169_perm[i]=fYec169_tmp[count+i];
 			
-			// LOOP 0x2de5ad0
+			// LOOP 0x2dc05f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec172_tmp[i]=fYec172_perm[i];
 			// exec code
@@ -13824,25 +13823,25 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec172_perm[i]=fYec172_tmp[count+i];
 			
 			// SECTION : 22
-			// LOOP 0x2b54320
+			// LOOP 0x2b2ef00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec45[i] = saw_polyblep_fast(fRec21[i], fRec21[i-1], fRec21[i-2], ((int((fZec44[i] > 1.0f)))?fZec33[i]:fZec44[i]));
 			}
 			
-			// LOOP 0x2b68180
+			// LOOP 0x2b42d60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec60[i] = saw_polyblep_fast(fRec29[i], fRec29[i-1], fRec29[i-2], ((int((fZec59[i] > 1.0f)))?fZec48[i]:fZec59[i]));
 			}
 			
-			// LOOP 0x2b7c2c0
+			// LOOP 0x2b56ea0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec75[i] = saw_polyblep_fast(fRec37[i], fRec37[i-1], fRec37[i-2], ((int((fZec74[i] > 1.0f)))?fZec63[i]:fZec74[i]));
 			}
 			
-			// LOOP 0x2c1a990
+			// LOOP 0x2bf5590
 			// pre processing
 			for (int i=0; i<4; i++) fRec101_tmp[i]=fRec101_perm[i];
 			// exec code
@@ -13852,7 +13851,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec101_perm[i]=fRec101_tmp[count+i];
 			
-			// LOOP 0x2c20190
+			// LOOP 0x2bfad90
 			// pre processing
 			for (int i=0; i<4; i++) fRec103_tmp[i]=fRec103_perm[i];
 			// exec code
@@ -13862,7 +13861,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec103_perm[i]=fRec103_tmp[count+i];
 			
-			// LOOP 0x2c26000
+			// LOOP 0x2c00c00
 			// pre processing
 			for (int i=0; i<4; i++) fRec105_tmp[i]=fRec105_perm[i];
 			// exec code
@@ -13872,7 +13871,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec105_perm[i]=fRec105_tmp[count+i];
 			
-			// LOOP 0x2c2b6d0
+			// LOOP 0x2c062a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec107_tmp[i]=fRec107_perm[i];
 			// exec code
@@ -13882,7 +13881,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec107_perm[i]=fRec107_tmp[count+i];
 			
-			// LOOP 0x2c30fa0
+			// LOOP 0x2c0bb70
 			// pre processing
 			for (int i=0; i<4; i++) fRec109_tmp[i]=fRec109_perm[i];
 			// exec code
@@ -13892,7 +13891,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec109_perm[i]=fRec109_tmp[count+i];
 			
-			// LOOP 0x2c36aa0
+			// LOOP 0x2c11670
 			// pre processing
 			for (int i=0; i<4; i++) fRec112_tmp[i]=fRec112_perm[i];
 			// exec code
@@ -13902,7 +13901,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec112_perm[i]=fRec112_tmp[count+i];
 			
-			// LOOP 0x2c3c5b0
+			// LOOP 0x2c17180
 			// pre processing
 			for (int i=0; i<4; i++) fRec114_tmp[i]=fRec114_perm[i];
 			// exec code
@@ -13912,7 +13911,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec114_perm[i]=fRec114_tmp[count+i];
 			
-			// LOOP 0x2c42390
+			// LOOP 0x2c1cf60
 			// pre processing
 			for (int i=0; i<4; i++) fRec116_tmp[i]=fRec116_perm[i];
 			// exec code
@@ -13922,7 +13921,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec116_perm[i]=fRec116_tmp[count+i];
 			
-			// LOOP 0x2c478b0
+			// LOOP 0x2c22480
 			// pre processing
 			for (int i=0; i<4; i++) fRec118_tmp[i]=fRec118_perm[i];
 			// exec code
@@ -13932,7 +13931,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec118_perm[i]=fRec118_tmp[count+i];
 			
-			// LOOP 0x2c4e1f0
+			// LOOP 0x2c28de0
 			// pre processing
 			for (int i=0; i<4; i++) fYec79_tmp[i]=fYec79_perm[i];
 			// exec code
@@ -13942,7 +13941,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec79_perm[i]=fYec79_tmp[count+i];
 			
-			// LOOP 0x2c53970
+			// LOOP 0x2c2e560
 			// pre processing
 			for (int i=0; i<4; i++) fYec80_tmp[i]=fYec80_perm[i];
 			// exec code
@@ -13952,7 +13951,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec80_perm[i]=fYec80_tmp[count+i];
 			
-			// LOOP 0x2c59d10
+			// LOOP 0x2c34900
 			// pre processing
 			for (int i=0; i<4; i++) fYec81_tmp[i]=fYec81_perm[i];
 			// exec code
@@ -13962,7 +13961,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec81_perm[i]=fYec81_tmp[count+i];
 			
-			// LOOP 0x2c602d0
+			// LOOP 0x2c3aec0
 			// pre processing
 			for (int i=0; i<4; i++) fYec82_tmp[i]=fYec82_perm[i];
 			// exec code
@@ -13972,152 +13971,152 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec82_perm[i]=fYec82_tmp[count+i];
 			
-			// LOOP 0x2d7d1f0
+			// LOOP 0x2d57d60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec274[i] = (0.5f * fYec133[i]);
 			}
 			
-			// LOOP 0x2d81ed0
+			// LOOP 0x2d5ca40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec275[i] = (0.5f * fYec133[i-1]);
 			}
 			
-			// LOOP 0x2d87c70
+			// LOOP 0x2d627e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec279[i] = (0.5f * fYec137[i]);
 			}
 			
-			// LOOP 0x2d8c950
+			// LOOP 0x2d674c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec280[i] = (0.5f * fYec137[i-1]);
 			}
 			
-			// LOOP 0x2d920a0
+			// LOOP 0x2d6cc10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec284[i] = (0.5f * fYec141[i]);
 			}
 			
-			// LOOP 0x2d96db0
+			// LOOP 0x2d718f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec285[i] = (0.5f * fYec141[i-1]);
 			}
 			
-			// LOOP 0x2d9c500
+			// LOOP 0x2d77040
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec289[i] = (0.5f * fYec145[i]);
 			}
 			
-			// LOOP 0x2da11e0
+			// LOOP 0x2d7bd20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec290[i] = (0.5f * fYec145[i-1]);
 			}
 			
-			// LOOP 0x2da6a30
+			// LOOP 0x2d81570
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec294[i] = (0.5f * fYec149[i]);
 			}
 			
-			// LOOP 0x2dab710
+			// LOOP 0x2d86250
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec295[i] = (0.5f * fYec149[i-1]);
 			}
 			
-			// LOOP 0x2db0f20
+			// LOOP 0x2d8ba60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec299[i] = (0.5f * fYec153[i]);
 			}
 			
-			// LOOP 0x2db5b20
+			// LOOP 0x2d90660
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec300[i] = (0.5f * fYec153[i-1]);
 			}
 			
-			// LOOP 0x2dbb3f0
+			// LOOP 0x2d95f10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec304[i] = (0.5f * fYec157[i]);
 			}
 			
-			// LOOP 0x2dc00d0
+			// LOOP 0x2d9abf0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec305[i] = (0.5f * fYec157[i-1]);
 			}
 			
-			// LOOP 0x2dc5940
+			// LOOP 0x2da0460
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec307[i] = (0.5f * fYec160[i]);
 			}
 			
-			// LOOP 0x2dc8000
+			// LOOP 0x2da2b20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec308[i] = (0.5f * fYec160[i-1]);
 			}
 			
-			// LOOP 0x2dcd830
+			// LOOP 0x2da8350
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec310[i] = (0.5f * fYec163[i]);
 			}
 			
-			// LOOP 0x2dcfef0
+			// LOOP 0x2daaa10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec311[i] = (0.5f * fYec163[i-1]);
 			}
 			
-			// LOOP 0x2dd5aa0
+			// LOOP 0x2db05c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec313[i] = (0.5f * fYec166[i]);
 			}
 			
-			// LOOP 0x2dd8160
+			// LOOP 0x2db2c80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec314[i] = (0.5f * fYec166[i-1]);
 			}
 			
-			// LOOP 0x2ddd9f0
+			// LOOP 0x2db8510
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec316[i] = (0.5f * fYec169[i]);
 			}
 			
-			// LOOP 0x2de00b0
+			// LOOP 0x2dbabd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec317[i] = (0.5f * fYec169[i-1]);
 			}
 			
-			// LOOP 0x2de5990
+			// LOOP 0x2dc04b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec319[i] = (0.5f * fYec172[i]);
 			}
 			
-			// LOOP 0x2de8050
+			// LOOP 0x2dc2b70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec320[i] = (0.5f * fYec172[i-1]);
 			}
 			
 			// SECTION : 23
-			// LOOP 0x2c365b0
+			// LOOP 0x2c11180
 			// pre processing
 			for (int i=0; i<4; i++) fRec111_tmp[i]=fRec111_perm[i];
 			// exec code
@@ -14127,7 +14126,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec111_perm[i]=fRec111_tmp[count+i];
 			
-			// LOOP 0x2c3c0c0
+			// LOOP 0x2c16c90
 			// pre processing
 			for (int i=0; i<4; i++) fRec113_tmp[i]=fRec113_perm[i];
 			// exec code
@@ -14137,7 +14136,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec113_perm[i]=fRec113_tmp[count+i];
 			
-			// LOOP 0x2c41ea0
+			// LOOP 0x2c1ca70
 			// pre processing
 			for (int i=0; i<4; i++) fRec115_tmp[i]=fRec115_perm[i];
 			// exec code
@@ -14147,7 +14146,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec115_perm[i]=fRec115_tmp[count+i];
 			
-			// LOOP 0x2c473c0
+			// LOOP 0x2c21f90
 			// pre processing
 			for (int i=0; i<4; i++) fRec117_tmp[i]=fRec117_perm[i];
 			// exec code
@@ -14157,7 +14156,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec117_perm[i]=fRec117_tmp[count+i];
 			
-			// LOOP 0x2c4dca0
+			// LOOP 0x2c28890
 			// pre processing
 			for (int i=0; i<4; i++) fRec120_tmp[i]=fRec120_perm[i];
 			// exec code
@@ -14167,7 +14166,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec120_perm[i]=fRec120_tmp[count+i];
 			
-			// LOOP 0x2c53420
+			// LOOP 0x2c2e010
 			// pre processing
 			for (int i=0; i<4; i++) fRec122_tmp[i]=fRec122_perm[i];
 			// exec code
@@ -14177,7 +14176,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec122_perm[i]=fRec122_tmp[count+i];
 			
-			// LOOP 0x2c597c0
+			// LOOP 0x2c343b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec124_tmp[i]=fRec124_perm[i];
 			// exec code
@@ -14187,7 +14186,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec124_perm[i]=fRec124_tmp[count+i];
 			
-			// LOOP 0x2c5fd80
+			// LOOP 0x2c3a970
 			// pre processing
 			for (int i=0; i<4; i++) fRec126_tmp[i]=fRec126_perm[i];
 			// exec code
@@ -14197,7 +14196,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec126_perm[i]=fRec126_tmp[count+i];
 			
-			// LOOP 0x2c65ff0
+			// LOOP 0x2c40be0
 			// pre processing
 			for (int i=0; i<4; i++) fYec83_tmp[i]=fYec83_perm[i];
 			// exec code
@@ -14207,7 +14206,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec83_perm[i]=fYec83_tmp[count+i];
 			
-			// LOOP 0x2c6c8b0
+			// LOOP 0x2c473f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec84_tmp[i]=fYec84_perm[i];
 			// exec code
@@ -14217,7 +14216,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec84_perm[i]=fYec84_tmp[count+i];
 			
-			// LOOP 0x2c72540
+			// LOOP 0x2c4d120
 			// pre processing
 			for (int i=0; i<4; i++) fYec85_tmp[i]=fYec85_perm[i];
 			// exec code
@@ -14227,7 +14226,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec85_perm[i]=fYec85_tmp[count+i];
 			
-			// LOOP 0x2c78490
+			// LOOP 0x2c53070
 			// pre processing
 			for (int i=0; i<4; i++) fYec86_tmp[i]=fYec86_perm[i];
 			// exec code
@@ -14237,7 +14236,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec86_perm[i]=fYec86_tmp[count+i];
 			
-			// LOOP 0x2c7de10
+			// LOOP 0x2c589f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec87_tmp[i]=fYec87_perm[i];
 			// exec code
@@ -14247,7 +14246,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec87_perm[i]=fYec87_tmp[count+i];
 			
-			// LOOP 0x2c84050
+			// LOOP 0x2c5ec30
 			// pre processing
 			for (int i=0; i<4; i++) fYec88_tmp[i]=fYec88_perm[i];
 			// exec code
@@ -14257,7 +14256,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec88_perm[i]=fYec88_tmp[count+i];
 			
-			// LOOP 0x2c8a5f0
+			// LOOP 0x2c651d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec89_tmp[i]=fYec89_perm[i];
 			// exec code
@@ -14267,7 +14266,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec89_perm[i]=fYec89_tmp[count+i];
 			
-			// LOOP 0x2c8ff20
+			// LOOP 0x2c6aaf0
 			// pre processing
 			for (int i=0; i<4; i++) fYec90_tmp[i]=fYec90_perm[i];
 			// exec code
@@ -14277,7 +14276,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec90_perm[i]=fYec90_tmp[count+i];
 			
-			// LOOP 0x2c96b70
+			// LOOP 0x2c71740
 			// pre processing
 			for (int i=0; i<4; i++) fYec91_tmp[i]=fYec91_perm[i];
 			// exec code
@@ -14287,7 +14286,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec91_perm[i]=fYec91_tmp[count+i];
 			
-			// LOOP 0x2c9c7a0
+			// LOOP 0x2c77370
 			// pre processing
 			for (int i=0; i<4; i++) fYec92_tmp[i]=fYec92_perm[i];
 			// exec code
@@ -14297,7 +14296,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec92_perm[i]=fYec92_tmp[count+i];
 			
-			// LOOP 0x2ca3450
+			// LOOP 0x2c7e020
 			// pre processing
 			for (int i=0; i<4; i++) fYec93_tmp[i]=fYec93_perm[i];
 			// exec code
@@ -14307,7 +14306,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec93_perm[i]=fYec93_tmp[count+i];
 			
-			// LOOP 0x2caa3c0
+			// LOOP 0x2c84f90
 			// pre processing
 			for (int i=0; i<4; i++) fYec94_tmp[i]=fYec94_perm[i];
 			// exec code
@@ -14317,7 +14316,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec94_perm[i]=fYec94_tmp[count+i];
 			
-			// LOOP 0x2cb0670
+			// LOOP 0x2c8b240
 			// pre processing
 			for (int i=0; i<4; i++) fYec95_tmp[i]=fYec95_perm[i];
 			// exec code
@@ -14327,7 +14326,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec95_perm[i]=fYec95_tmp[count+i];
 			
-			// LOOP 0x2cb7980
+			// LOOP 0x2c92550
 			// pre processing
 			for (int i=0; i<4; i++) fYec96_tmp[i]=fYec96_perm[i];
 			// exec code
@@ -14337,7 +14336,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec96_perm[i]=fYec96_tmp[count+i];
 			
-			// LOOP 0x2cbdc10
+			// LOOP 0x2c987e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec97_tmp[i]=fYec97_perm[i];
 			// exec code
@@ -14347,7 +14346,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec97_perm[i]=fYec97_tmp[count+i];
 			
-			// LOOP 0x2cc4200
+			// LOOP 0x2c9edd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec98_tmp[i]=fYec98_perm[i];
 			// exec code
@@ -14357,7 +14356,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec98_perm[i]=fYec98_tmp[count+i];
 			
-			// LOOP 0x2cc9ef0
+			// LOOP 0x2ca4ac0
 			// pre processing
 			for (int i=0; i<4; i++) fYec99_tmp[i]=fYec99_perm[i];
 			// exec code
@@ -14367,7 +14366,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec99_perm[i]=fYec99_tmp[count+i];
 			
-			// LOOP 0x2cd0890
+			// LOOP 0x2cab460
 			// pre processing
 			for (int i=0; i<4; i++) fYec100_tmp[i]=fYec100_perm[i];
 			// exec code
@@ -14377,7 +14376,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec100_perm[i]=fYec100_tmp[count+i];
 			
-			// LOOP 0x2cd7600
+			// LOOP 0x2cb21d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec101_tmp[i]=fYec101_perm[i];
 			// exec code
@@ -14387,7 +14386,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec101_perm[i]=fYec101_tmp[count+i];
 			
-			// LOOP 0x2cdd320
+			// LOOP 0x2cb7ef0
 			// pre processing
 			for (int i=0; i<4; i++) fYec102_tmp[i]=fYec102_perm[i];
 			// exec code
@@ -14397,7 +14396,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec102_perm[i]=fYec102_tmp[count+i];
 			
-			// LOOP 0x2ce47f0
+			// LOOP 0x2cbf3c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec103_tmp[i]=fYec103_perm[i];
 			// exec code
@@ -14407,7 +14406,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec103_perm[i]=fYec103_tmp[count+i];
 			
-			// LOOP 0x2cea8d0
+			// LOOP 0x2cc54a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec104_tmp[i]=fYec104_perm[i];
 			// exec code
@@ -14417,7 +14416,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec104_perm[i]=fYec104_tmp[count+i];
 			
-			// LOOP 0x2cf1ec0
+			// LOOP 0x2ccca90
 			// pre processing
 			for (int i=0; i<4; i++) fYec105_tmp[i]=fYec105_perm[i];
 			// exec code
@@ -14427,7 +14426,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec105_perm[i]=fYec105_tmp[count+i];
 			
-			// LOOP 0x2cf93a0
+			// LOOP 0x2cd3f70
 			// pre processing
 			for (int i=0; i<4; i++) fYec106_tmp[i]=fYec106_perm[i];
 			// exec code
@@ -14437,7 +14436,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec106_perm[i]=fYec106_tmp[count+i];
 			
-			// LOOP 0x2cfee80
+			// LOOP 0x2cd9a50
 			// pre processing
 			for (int i=0; i<4; i++) fYec108_tmp[i]=fYec108_perm[i];
 			// exec code
@@ -14447,7 +14446,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec108_perm[i]=fYec108_tmp[count+i];
 			
-			// LOOP 0x2d06100
+			// LOOP 0x2ce0cd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec110_tmp[i]=fYec110_perm[i];
 			// exec code
@@ -14457,7 +14456,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec110_perm[i]=fYec110_tmp[count+i];
 			
-			// LOOP 0x2d0be80
+			// LOOP 0x2ce6a50
 			// pre processing
 			for (int i=0; i<4; i++) fYec112_tmp[i]=fYec112_perm[i];
 			// exec code
@@ -14467,7 +14466,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec112_perm[i]=fYec112_tmp[count+i];
 			
-			// LOOP 0x2d12030
+			// LOOP 0x2cecc00
 			// pre processing
 			for (int i=0; i<4; i++) fYec114_tmp[i]=fYec114_perm[i];
 			// exec code
@@ -14477,7 +14476,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec114_perm[i]=fYec114_tmp[count+i];
 			
-			// LOOP 0x2d17250
+			// LOOP 0x2cf1e20
 			// pre processing
 			for (int i=0; i<4; i++) fYec116_tmp[i]=fYec116_perm[i];
 			// exec code
@@ -14487,7 +14486,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec116_perm[i]=fYec116_tmp[count+i];
 			
-			// LOOP 0x2d1d800
+			// LOOP 0x2cf83d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec118_tmp[i]=fYec118_perm[i];
 			// exec code
@@ -14497,7 +14496,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec118_perm[i]=fYec118_tmp[count+i];
 			
-			// LOOP 0x2d24250
+			// LOOP 0x2cfee20
 			// pre processing
 			for (int i=0; i<4; i++) fYec120_tmp[i]=fYec120_perm[i];
 			// exec code
@@ -14507,13 +14506,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec120_perm[i]=fYec120_tmp[count+i];
 			
-			// LOOP 0x2d27330
+			// LOOP 0x2d01f00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec218[i] = (fRec109[i] + (fRec107[i] + (fRec105[i] + (fRec101[i] + fRec103[i]))));
 			}
 			
-			// LOOP 0x2d461b0
+			// LOOP 0x2d20d50
 			// pre processing
 			for (int i=0; i<4; i++) fYec123_tmp[i]=fYec123_perm[i];
 			// exec code
@@ -14523,7 +14522,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec123_perm[i]=fYec123_tmp[count+i];
 			
-			// LOOP 0x2d4d070
+			// LOOP 0x2d27c10
 			// pre processing
 			for (int i=0; i<4; i++) fYec125_tmp[i]=fYec125_perm[i];
 			// exec code
@@ -14533,7 +14532,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec125_perm[i]=fYec125_tmp[count+i];
 			
-			// LOOP 0x2d50540
+			// LOOP 0x2d2b0e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec127_tmp[i]=fYec127_perm[i];
 			// exec code
@@ -14543,7 +14542,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec127_perm[i]=fYec127_tmp[count+i];
 			
-			// LOOP 0x2d53ac0
+			// LOOP 0x2d2e5c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec129_tmp[i]=fYec129_perm[i];
 			// exec code
@@ -14553,7 +14552,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec129_perm[i]=fYec129_tmp[count+i];
 			
-			// LOOP 0x2d818d0
+			// LOOP 0x2d5c440
 			// pre processing
 			for (int i=0; i<4; i++) iRec191_tmp[i]=iRec191_perm[i];
 			// exec code
@@ -14563,7 +14562,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec191_perm[i]=iRec191_tmp[count+i];
 			
-			// LOOP 0x2d8c350
+			// LOOP 0x2d66ec0
 			// pre processing
 			for (int i=0; i<4; i++) iRec196_tmp[i]=iRec196_perm[i];
 			// exec code
@@ -14573,7 +14572,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec196_perm[i]=iRec196_tmp[count+i];
 			
-			// LOOP 0x2d967b0
+			// LOOP 0x2d712f0
 			// pre processing
 			for (int i=0; i<4; i++) iRec201_tmp[i]=iRec201_perm[i];
 			// exec code
@@ -14583,7 +14582,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec201_perm[i]=iRec201_tmp[count+i];
 			
-			// LOOP 0x2da0be0
+			// LOOP 0x2d7b720
 			// pre processing
 			for (int i=0; i<4; i++) iRec206_tmp[i]=iRec206_perm[i];
 			// exec code
@@ -14593,7 +14592,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec206_perm[i]=iRec206_tmp[count+i];
 			
-			// LOOP 0x2dab110
+			// LOOP 0x2d85c50
 			// pre processing
 			for (int i=0; i<4; i++) iRec211_tmp[i]=iRec211_perm[i];
 			// exec code
@@ -14603,7 +14602,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec211_perm[i]=iRec211_tmp[count+i];
 			
-			// LOOP 0x2db5520
+			// LOOP 0x2d8ffe0
 			// pre processing
 			for (int i=0; i<4; i++) iRec216_tmp[i]=iRec216_perm[i];
 			// exec code
@@ -14613,7 +14612,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec216_perm[i]=iRec216_tmp[count+i];
 			
-			// LOOP 0x2dbfad0
+			// LOOP 0x2d9a5f0
 			// pre processing
 			for (int i=0; i<4; i++) iRec221_tmp[i]=iRec221_perm[i];
 			// exec code
@@ -14623,7 +14622,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec221_perm[i]=iRec221_tmp[count+i];
 			
-			// LOOP 0x2dc7a00
+			// LOOP 0x2da2520
 			// pre processing
 			for (int i=0; i<4; i++) iRec225_tmp[i]=iRec225_perm[i];
 			// exec code
@@ -14633,7 +14632,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec225_perm[i]=iRec225_tmp[count+i];
 			
-			// LOOP 0x2dcf8f0
+			// LOOP 0x2daa410
 			// pre processing
 			for (int i=0; i<4; i++) iRec229_tmp[i]=iRec229_perm[i];
 			// exec code
@@ -14643,7 +14642,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec229_perm[i]=iRec229_tmp[count+i];
 			
-			// LOOP 0x2dd7b60
+			// LOOP 0x2db2680
 			// pre processing
 			for (int i=0; i<4; i++) iRec233_tmp[i]=iRec233_perm[i];
 			// exec code
@@ -14653,7 +14652,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec233_perm[i]=iRec233_tmp[count+i];
 			
-			// LOOP 0x2ddfab0
+			// LOOP 0x2dba5d0
 			// pre processing
 			for (int i=0; i<4; i++) iRec237_tmp[i]=iRec237_perm[i];
 			// exec code
@@ -14663,7 +14662,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec237_perm[i]=iRec237_tmp[count+i];
 			
-			// LOOP 0x2de7a50
+			// LOOP 0x2dc2570
 			// pre processing
 			for (int i=0; i<4; i++) iRec241_tmp[i]=iRec241_perm[i];
 			// exec code
@@ -14674,7 +14673,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec241_perm[i]=iRec241_tmp[count+i];
 			
 			// SECTION : 24
-			// LOOP 0x2c4d7b0
+			// LOOP 0x2c283a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec119_tmp[i]=fRec119_perm[i];
 			// exec code
@@ -14684,7 +14683,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec119_perm[i]=fRec119_tmp[count+i];
 			
-			// LOOP 0x2c52f30
+			// LOOP 0x2c2db20
 			// pre processing
 			for (int i=0; i<4; i++) fRec121_tmp[i]=fRec121_perm[i];
 			// exec code
@@ -14694,7 +14693,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec121_perm[i]=fRec121_tmp[count+i];
 			
-			// LOOP 0x2c592d0
+			// LOOP 0x2c33ec0
 			// pre processing
 			for (int i=0; i<4; i++) fRec123_tmp[i]=fRec123_perm[i];
 			// exec code
@@ -14704,7 +14703,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec123_perm[i]=fRec123_tmp[count+i];
 			
-			// LOOP 0x2c5f890
+			// LOOP 0x2c3a480
 			// pre processing
 			for (int i=0; i<4; i++) fRec125_tmp[i]=fRec125_perm[i];
 			// exec code
@@ -14714,7 +14713,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec125_perm[i]=fRec125_tmp[count+i];
 			
-			// LOOP 0x2c65aa0
+			// LOOP 0x2c40690
 			// pre processing
 			for (int i=0; i<4; i++) fRec128_tmp[i]=fRec128_perm[i];
 			// exec code
@@ -14724,7 +14723,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec128_perm[i]=fRec128_tmp[count+i];
 			
-			// LOOP 0x2c6c360
+			// LOOP 0x2c46ea0
 			// pre processing
 			for (int i=0; i<4; i++) fRec130_tmp[i]=fRec130_perm[i];
 			// exec code
@@ -14734,7 +14733,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec130_perm[i]=fRec130_tmp[count+i];
 			
-			// LOOP 0x2c71ff0
+			// LOOP 0x2c4cbd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec132_tmp[i]=fRec132_perm[i];
 			// exec code
@@ -14744,7 +14743,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec132_perm[i]=fRec132_tmp[count+i];
 			
-			// LOOP 0x2c77f40
+			// LOOP 0x2c52b20
 			// pre processing
 			for (int i=0; i<4; i++) fRec134_tmp[i]=fRec134_perm[i];
 			// exec code
@@ -14754,7 +14753,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec134_perm[i]=fRec134_tmp[count+i];
 			
-			// LOOP 0x2c7d8c0
+			// LOOP 0x2c584a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec136_tmp[i]=fRec136_perm[i];
 			// exec code
@@ -14764,7 +14763,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec136_perm[i]=fRec136_tmp[count+i];
 			
-			// LOOP 0x2c83b00
+			// LOOP 0x2c5e6e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec138_tmp[i]=fRec138_perm[i];
 			// exec code
@@ -14774,7 +14773,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec138_perm[i]=fRec138_tmp[count+i];
 			
-			// LOOP 0x2c8a0a0
+			// LOOP 0x2c64c80
 			// pre processing
 			for (int i=0; i<4; i++) fRec140_tmp[i]=fRec140_perm[i];
 			// exec code
@@ -14784,7 +14783,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec140_perm[i]=fRec140_tmp[count+i];
 			
-			// LOOP 0x2c8f9d0
+			// LOOP 0x2c6a5a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec142_tmp[i]=fRec142_perm[i];
 			// exec code
@@ -14794,7 +14793,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec142_perm[i]=fRec142_tmp[count+i];
 			
-			// LOOP 0x2c96620
+			// LOOP 0x2c711f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec144_tmp[i]=fRec144_perm[i];
 			// exec code
@@ -14804,7 +14803,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec144_perm[i]=fRec144_tmp[count+i];
 			
-			// LOOP 0x2c9c250
+			// LOOP 0x2c76e20
 			// pre processing
 			for (int i=0; i<4; i++) fRec146_tmp[i]=fRec146_perm[i];
 			// exec code
@@ -14814,7 +14813,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec146_perm[i]=fRec146_tmp[count+i];
 			
-			// LOOP 0x2ca2f00
+			// LOOP 0x2c7dad0
 			// pre processing
 			for (int i=0; i<4; i++) fRec148_tmp[i]=fRec148_perm[i];
 			// exec code
@@ -14824,7 +14823,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec148_perm[i]=fRec148_tmp[count+i];
 			
-			// LOOP 0x2ca9e70
+			// LOOP 0x2c84a40
 			// pre processing
 			for (int i=0; i<4; i++) fRec150_tmp[i]=fRec150_perm[i];
 			// exec code
@@ -14834,7 +14833,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec150_perm[i]=fRec150_tmp[count+i];
 			
-			// LOOP 0x2cb0120
+			// LOOP 0x2c8acf0
 			// pre processing
 			for (int i=0; i<4; i++) fRec152_tmp[i]=fRec152_perm[i];
 			// exec code
@@ -14844,7 +14843,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec152_perm[i]=fRec152_tmp[count+i];
 			
-			// LOOP 0x2cb7430
+			// LOOP 0x2c92000
 			// pre processing
 			for (int i=0; i<4; i++) fRec154_tmp[i]=fRec154_perm[i];
 			// exec code
@@ -14854,7 +14853,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec154_perm[i]=fRec154_tmp[count+i];
 			
-			// LOOP 0x2cbd6c0
+			// LOOP 0x2c98290
 			// pre processing
 			for (int i=0; i<4; i++) fRec156_tmp[i]=fRec156_perm[i];
 			// exec code
@@ -14864,7 +14863,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec156_perm[i]=fRec156_tmp[count+i];
 			
-			// LOOP 0x2cc3cb0
+			// LOOP 0x2c9e880
 			// pre processing
 			for (int i=0; i<4; i++) fRec158_tmp[i]=fRec158_perm[i];
 			// exec code
@@ -14874,7 +14873,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec158_perm[i]=fRec158_tmp[count+i];
 			
-			// LOOP 0x2cc99a0
+			// LOOP 0x2ca4570
 			// pre processing
 			for (int i=0; i<4; i++) fRec160_tmp[i]=fRec160_perm[i];
 			// exec code
@@ -14884,7 +14883,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec160_perm[i]=fRec160_tmp[count+i];
 			
-			// LOOP 0x2cd0340
+			// LOOP 0x2caaf10
 			// pre processing
 			for (int i=0; i<4; i++) fRec162_tmp[i]=fRec162_perm[i];
 			// exec code
@@ -14894,7 +14893,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec162_perm[i]=fRec162_tmp[count+i];
 			
-			// LOOP 0x2cd32d0
+			// LOOP 0x2cadea0
 			// pre processing
 			for (int i=0; i<4; i++) fVec48_tmp[i]=fVec48_perm[i];
 			// exec code
@@ -14904,7 +14903,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec48_perm[i]=fVec48_tmp[count+i];
 			
-			// LOOP 0x2cd70b0
+			// LOOP 0x2cb1c80
 			// pre processing
 			for (int i=0; i<4; i++) fRec164_tmp[i]=fRec164_perm[i];
 			// exec code
@@ -14914,7 +14913,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec164_perm[i]=fRec164_tmp[count+i];
 			
-			// LOOP 0x2cd9ff0
+			// LOOP 0x2cb4bc0
 			// pre processing
 			for (int i=0; i<4; i++) fVec49_tmp[i]=fVec49_perm[i];
 			// exec code
@@ -14924,7 +14923,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec49_perm[i]=fVec49_tmp[count+i];
 			
-			// LOOP 0x2cdcdd0
+			// LOOP 0x2cb79a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec166_tmp[i]=fRec166_perm[i];
 			// exec code
@@ -14934,7 +14933,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec166_perm[i]=fRec166_tmp[count+i];
 			
-			// LOOP 0x2ce0080
+			// LOOP 0x2cbac50
 			// pre processing
 			for (int i=0; i<4; i++) fVec50_tmp[i]=fVec50_perm[i];
 			// exec code
@@ -14944,7 +14943,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec50_perm[i]=fVec50_tmp[count+i];
 			
-			// LOOP 0x2ce42a0
+			// LOOP 0x2cbee70
 			// pre processing
 			for (int i=0; i<4; i++) fRec168_tmp[i]=fRec168_perm[i];
 			// exec code
@@ -14954,7 +14953,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec168_perm[i]=fRec168_tmp[count+i];
 			
-			// LOOP 0x2ce7210
+			// LOOP 0x2cc1de0
 			// pre processing
 			for (int i=0; i<4; i++) fVec51_tmp[i]=fVec51_perm[i];
 			// exec code
@@ -14964,7 +14963,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec51_perm[i]=fVec51_tmp[count+i];
 			
-			// LOOP 0x2cea380
+			// LOOP 0x2cc4f50
 			// pre processing
 			for (int i=0; i<4; i++) fRec170_tmp[i]=fRec170_perm[i];
 			// exec code
@@ -14974,7 +14973,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec170_perm[i]=fRec170_tmp[count+i];
 			
-			// LOOP 0x2ced2f0
+			// LOOP 0x2cc7ec0
 			// pre processing
 			for (int i=0; i<4; i++) fVec52_tmp[i]=fVec52_perm[i];
 			// exec code
@@ -14984,7 +14983,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec52_perm[i]=fVec52_tmp[count+i];
 			
-			// LOOP 0x2cf1970
+			// LOOP 0x2ccc540
 			// pre processing
 			for (int i=0; i<4; i++) fRec172_tmp[i]=fRec172_perm[i];
 			// exec code
@@ -14994,7 +14993,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec172_perm[i]=fRec172_tmp[count+i];
 			
-			// LOOP 0x2cf48e0
+			// LOOP 0x2ccf4b0
 			// pre processing
 			for (int i=0; i<4; i++) fVec53_tmp[i]=fVec53_perm[i];
 			// exec code
@@ -15004,7 +15003,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec53_perm[i]=fVec53_tmp[count+i];
 			
-			// LOOP 0x2cf9290
+			// LOOP 0x2cd3e60
 			// pre processing
 			for (int i=0; i<4; i++) fYec107_tmp[i]=fYec107_perm[i];
 			// exec code
@@ -15014,7 +15013,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec107_perm[i]=fYec107_tmp[count+i];
 			
-			// LOOP 0x2cfb820
+			// LOOP 0x2cd63f0
 			// pre processing
 			for (int i=0; i<4; i++) fVec54_tmp[i]=fVec54_perm[i];
 			// exec code
@@ -15024,7 +15023,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec54_perm[i]=fVec54_tmp[count+i];
 			
-			// LOOP 0x2cfed70
+			// LOOP 0x2cd9940
 			// pre processing
 			for (int i=0; i<4; i++) fYec109_tmp[i]=fYec109_perm[i];
 			// exec code
@@ -15034,7 +15033,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec109_perm[i]=fYec109_tmp[count+i];
 			
-			// LOOP 0x2d01200
+			// LOOP 0x2cdbdd0
 			// pre processing
 			for (int i=0; i<4; i++) fVec55_tmp[i]=fVec55_perm[i];
 			// exec code
@@ -15044,7 +15043,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec55_perm[i]=fVec55_tmp[count+i];
 			
-			// LOOP 0x2d05ff0
+			// LOOP 0x2ce0bc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec111_tmp[i]=fYec111_perm[i];
 			// exec code
@@ -15054,7 +15053,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec111_perm[i]=fYec111_tmp[count+i];
 			
-			// LOOP 0x2d08480
+			// LOOP 0x2ce3050
 			// pre processing
 			for (int i=0; i<4; i++) fVec56_tmp[i]=fVec56_perm[i];
 			// exec code
@@ -15064,7 +15063,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec56_perm[i]=fVec56_tmp[count+i];
 			
-			// LOOP 0x2d0bd70
+			// LOOP 0x2ce6940
 			// pre processing
 			for (int i=0; i<4; i++) fYec113_tmp[i]=fYec113_perm[i];
 			// exec code
@@ -15074,7 +15073,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec113_perm[i]=fYec113_tmp[count+i];
 			
-			// LOOP 0x2d0e200
+			// LOOP 0x2ce8dd0
 			// pre processing
 			for (int i=0; i<4; i++) fVec57_tmp[i]=fVec57_perm[i];
 			// exec code
@@ -15084,7 +15083,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec57_perm[i]=fVec57_tmp[count+i];
 			
-			// LOOP 0x2d11f20
+			// LOOP 0x2cecaf0
 			// pre processing
 			for (int i=0; i<4; i++) fYec115_tmp[i]=fYec115_perm[i];
 			// exec code
@@ -15094,7 +15093,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec115_perm[i]=fYec115_tmp[count+i];
 			
-			// LOOP 0x2d143b0
+			// LOOP 0x2ceef80
 			// pre processing
 			for (int i=0; i<4; i++) fVec58_tmp[i]=fVec58_perm[i];
 			// exec code
@@ -15104,7 +15103,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec58_perm[i]=fVec58_tmp[count+i];
 			
-			// LOOP 0x2d17140
+			// LOOP 0x2cf1d10
 			// pre processing
 			for (int i=0; i<4; i++) fYec117_tmp[i]=fYec117_perm[i];
 			// exec code
@@ -15114,7 +15113,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec117_perm[i]=fYec117_tmp[count+i];
 			
-			// LOOP 0x2d195d0
+			// LOOP 0x2cf41a0
 			// pre processing
 			for (int i=0; i<4; i++) fVec59_tmp[i]=fVec59_perm[i];
 			// exec code
@@ -15124,7 +15123,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec59_perm[i]=fVec59_tmp[count+i];
 			
-			// LOOP 0x2d1d6f0
+			// LOOP 0x2cf82c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec119_tmp[i]=fYec119_perm[i];
 			// exec code
@@ -15134,7 +15133,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec119_perm[i]=fYec119_tmp[count+i];
 			
-			// LOOP 0x2d1fb80
+			// LOOP 0x2cfa750
 			// pre processing
 			for (int i=0; i<4; i++) fVec60_tmp[i]=fVec60_perm[i];
 			// exec code
@@ -15144,7 +15143,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec60_perm[i]=fVec60_tmp[count+i];
 			
-			// LOOP 0x2d24140
+			// LOOP 0x2cfed10
 			// pre processing
 			for (int i=0; i<4; i++) fYec121_tmp[i]=fYec121_perm[i];
 			// exec code
@@ -15154,13 +15153,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec121_perm[i]=fYec121_tmp[count+i];
 			
-			// LOOP 0x2d271f0
+			// LOOP 0x2d01dc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec219[i] = (fRec117[i] + (fRec115[i] + (fRec113[i] + (fRec111[i] + fZec218[i]))));
 			}
 			
-			// LOOP 0x2d456a0
+			// LOOP 0x2d20240
 			// pre processing
 			for (int i=0; i<4; i++) fYec124_tmp[i]=fYec124_perm[i];
 			// exec code
@@ -15170,7 +15169,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec124_perm[i]=fYec124_tmp[count+i];
 			
-			// LOOP 0x2d4cf60
+			// LOOP 0x2d27b00
 			// pre processing
 			for (int i=0; i<4; i++) fYec126_tmp[i]=fYec126_perm[i];
 			// exec code
@@ -15180,7 +15179,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec126_perm[i]=fYec126_tmp[count+i];
 			
-			// LOOP 0x2d50430
+			// LOOP 0x2d2afd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec128_tmp[i]=fYec128_perm[i];
 			// exec code
@@ -15190,7 +15189,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec128_perm[i]=fYec128_tmp[count+i];
 			
-			// LOOP 0x2d539b0
+			// LOOP 0x2d2e4b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec130_tmp[i]=fYec130_perm[i];
 			// exec code
@@ -15200,7 +15199,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec130_perm[i]=fYec130_tmp[count+i];
 			
-			// LOOP 0x2d7d0b0
+			// LOOP 0x2d57c20
 			// pre processing
 			for (int i=0; i<4; i++) fYec134_tmp[i]=fYec134_perm[i];
 			// exec code
@@ -15210,7 +15209,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec134_perm[i]=fYec134_tmp[count+i];
 			
-			// LOOP 0x2d87b30
+			// LOOP 0x2d626a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec138_tmp[i]=fYec138_perm[i];
 			// exec code
@@ -15220,7 +15219,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec138_perm[i]=fYec138_tmp[count+i];
 			
-			// LOOP 0x2d91f60
+			// LOOP 0x2d6cad0
 			// pre processing
 			for (int i=0; i<4; i++) fYec142_tmp[i]=fYec142_perm[i];
 			// exec code
@@ -15230,7 +15229,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec142_perm[i]=fYec142_tmp[count+i];
 			
-			// LOOP 0x2d9c3c0
+			// LOOP 0x2d76f00
 			// pre processing
 			for (int i=0; i<4; i++) fYec146_tmp[i]=fYec146_perm[i];
 			// exec code
@@ -15240,7 +15239,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec146_perm[i]=fYec146_tmp[count+i];
 			
-			// LOOP 0x2da68f0
+			// LOOP 0x2d81430
 			// pre processing
 			for (int i=0; i<4; i++) fYec150_tmp[i]=fYec150_perm[i];
 			// exec code
@@ -15250,7 +15249,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec150_perm[i]=fYec150_tmp[count+i];
 			
-			// LOOP 0x2db0de0
+			// LOOP 0x2d8b920
 			// pre processing
 			for (int i=0; i<4; i++) fYec154_tmp[i]=fYec154_perm[i];
 			// exec code
@@ -15260,7 +15259,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec154_perm[i]=fYec154_tmp[count+i];
 			
-			// LOOP 0x2dbb2b0
+			// LOOP 0x2d95dd0
 			// pre processing
 			for (int i=0; i<4; i++) fYec158_tmp[i]=fYec158_perm[i];
 			// exec code
@@ -15270,7 +15269,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec158_perm[i]=fYec158_tmp[count+i];
 			
-			// LOOP 0x2dc5800
+			// LOOP 0x2da0320
 			// pre processing
 			for (int i=0; i<4; i++) fYec161_tmp[i]=fYec161_perm[i];
 			// exec code
@@ -15280,7 +15279,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec161_perm[i]=fYec161_tmp[count+i];
 			
-			// LOOP 0x2dcd6f0
+			// LOOP 0x2da8210
 			// pre processing
 			for (int i=0; i<4; i++) fYec164_tmp[i]=fYec164_perm[i];
 			// exec code
@@ -15290,7 +15289,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec164_perm[i]=fYec164_tmp[count+i];
 			
-			// LOOP 0x2dd5960
+			// LOOP 0x2db0480
 			// pre processing
 			for (int i=0; i<4; i++) fYec167_tmp[i]=fYec167_perm[i];
 			// exec code
@@ -15300,7 +15299,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec167_perm[i]=fYec167_tmp[count+i];
 			
-			// LOOP 0x2ddd8b0
+			// LOOP 0x2db83d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec170_tmp[i]=fYec170_perm[i];
 			// exec code
@@ -15310,7 +15309,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec170_perm[i]=fYec170_tmp[count+i];
 			
-			// LOOP 0x2de5850
+			// LOOP 0x2dc0370
 			// pre processing
 			for (int i=0; i<4; i++) fYec173_tmp[i]=fYec173_perm[i];
 			// exec code
@@ -15321,7 +15320,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec173_perm[i]=fYec173_tmp[count+i];
 			
 			// SECTION : 25
-			// LOOP 0x2b16440
+			// LOOP 0x2af0fd0
 			// pre processing
 			for (int i=0; i<4; i++) fVec0_tmp[i]=fVec0_perm[i];
 			// exec code
@@ -15331,7 +15330,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec0_perm[i]=fVec0_tmp[count+i];
 			
-			// LOOP 0x2b2f190
+			// LOOP 0x2b09d80
 			// pre processing
 			for (int i=0; i<4; i++) fVec1_tmp[i]=fVec1_perm[i];
 			// exec code
@@ -15341,7 +15340,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec1_perm[i]=fVec1_tmp[count+i];
 			
-			// LOOP 0x2b431b0
+			// LOOP 0x2b1dd90
 			// pre processing
 			for (int i=0; i<4; i++) fVec2_tmp[i]=fVec2_perm[i];
 			// exec code
@@ -15351,7 +15350,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec2_perm[i]=fVec2_tmp[count+i];
 			
-			// LOOP 0x2b570e0
+			// LOOP 0x2b31cc0
 			// pre processing
 			for (int i=0; i<4; i++) fVec3_tmp[i]=fVec3_perm[i];
 			// exec code
@@ -15361,7 +15360,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec3_perm[i]=fVec3_tmp[count+i];
 			
-			// LOOP 0x2b6b040
+			// LOOP 0x2b45c20
 			// pre processing
 			for (int i=0; i<4; i++) fVec4_tmp[i]=fVec4_perm[i];
 			// exec code
@@ -15371,7 +15370,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec4_perm[i]=fVec4_tmp[count+i];
 			
-			// LOOP 0x2b7f150
+			// LOOP 0x2b59d30
 			// pre processing
 			for (int i=0; i<4; i++) fVec5_tmp[i]=fVec5_perm[i];
 			// exec code
@@ -15381,7 +15380,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec5_perm[i]=fVec5_tmp[count+i];
 			
-			// LOOP 0x2b915f0
+			// LOOP 0x2b6c200
 			// pre processing
 			for (int i=0; i<4; i++) fVec6_tmp[i]=fVec6_perm[i];
 			// exec code
@@ -15391,7 +15390,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec6_perm[i]=fVec6_tmp[count+i];
 			
-			// LOOP 0x2ba3000
+			// LOOP 0x2b7dc10
 			// pre processing
 			for (int i=0; i<4; i++) fVec7_tmp[i]=fVec7_perm[i];
 			// exec code
@@ -15401,7 +15400,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec7_perm[i]=fVec7_tmp[count+i];
 			
-			// LOOP 0x2bb4e90
+			// LOOP 0x2b8fab0
 			// pre processing
 			for (int i=0; i<4; i++) fVec8_tmp[i]=fVec8_perm[i];
 			// exec code
@@ -15411,7 +15410,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec8_perm[i]=fVec8_tmp[count+i];
 			
-			// LOOP 0x2bc6a00
+			// LOOP 0x2ba15d0
 			// pre processing
 			for (int i=0; i<4; i++) fVec9_tmp[i]=fVec9_perm[i];
 			// exec code
@@ -15421,7 +15420,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec9_perm[i]=fVec9_tmp[count+i];
 			
-			// LOOP 0x2bd8a70
+			// LOOP 0x2bb3690
 			// pre processing
 			for (int i=0; i<4; i++) fVec10_tmp[i]=fVec10_perm[i];
 			// exec code
@@ -15431,7 +15430,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec10_perm[i]=fVec10_tmp[count+i];
 			
-			// LOOP 0x2bea4d0
+			// LOOP 0x2bc50e0
 			// pre processing
 			for (int i=0; i<4; i++) fVec11_tmp[i]=fVec11_perm[i];
 			// exec code
@@ -15441,7 +15440,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec11_perm[i]=fVec11_tmp[count+i];
 			
-			// LOOP 0x2bfc3a0
+			// LOOP 0x2bd6fb0
 			// pre processing
 			for (int i=0; i<4; i++) fVec12_tmp[i]=fVec12_perm[i];
 			// exec code
@@ -15451,7 +15450,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec12_perm[i]=fVec12_tmp[count+i];
 			
-			// LOOP 0x2c017f0
+			// LOOP 0x2bdc400
 			// pre processing
 			for (int i=0; i<4; i++) fVec13_tmp[i]=fVec13_perm[i];
 			// exec code
@@ -15461,7 +15460,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec13_perm[i]=fVec13_tmp[count+i];
 			
-			// LOOP 0x2c06c60
+			// LOOP 0x2be1870
 			// pre processing
 			for (int i=0; i<4; i++) fVec14_tmp[i]=fVec14_perm[i];
 			// exec code
@@ -15471,7 +15470,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec14_perm[i]=fVec14_tmp[count+i];
 			
-			// LOOP 0x2c0c420
+			// LOOP 0x2be7020
 			// pre processing
 			for (int i=0; i<4; i++) fVec15_tmp[i]=fVec15_perm[i];
 			// exec code
@@ -15481,7 +15480,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec15_perm[i]=fVec15_tmp[count+i];
 			
-			// LOOP 0x2c11710
+			// LOOP 0x2bec310
 			// pre processing
 			for (int i=0; i<4; i++) fVec16_tmp[i]=fVec16_perm[i];
 			// exec code
@@ -15491,7 +15490,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec16_perm[i]=fVec16_tmp[count+i];
 			
-			// LOOP 0x2c18600
+			// LOOP 0x2bf3200
 			// pre processing
 			for (int i=0; i<4; i++) fVec17_tmp[i]=fVec17_perm[i];
 			// exec code
@@ -15501,7 +15500,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec17_perm[i]=fVec17_tmp[count+i];
 			
-			// LOOP 0x2c1e600
+			// LOOP 0x2bf9200
 			// pre processing
 			for (int i=0; i<4; i++) fVec18_tmp[i]=fVec18_perm[i];
 			// exec code
@@ -15511,7 +15510,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec18_perm[i]=fVec18_tmp[count+i];
 			
-			// LOOP 0x2c23b20
+			// LOOP 0x2bfe720
 			// pre processing
 			for (int i=0; i<4; i++) fVec19_tmp[i]=fVec19_perm[i];
 			// exec code
@@ -15521,7 +15520,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec19_perm[i]=fVec19_tmp[count+i];
 			
-			// LOOP 0x2c299b0
+			// LOOP 0x2c045d0
 			// pre processing
 			for (int i=0; i<4; i++) fVec20_tmp[i]=fVec20_perm[i];
 			// exec code
@@ -15531,7 +15530,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec20_perm[i]=fVec20_tmp[count+i];
 			
-			// LOOP 0x2c2f140
+			// LOOP 0x2c09d10
 			// pre processing
 			for (int i=0; i<4; i++) fVec21_tmp[i]=fVec21_perm[i];
 			// exec code
@@ -15541,7 +15540,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec21_perm[i]=fVec21_tmp[count+i];
 			
-			// LOOP 0x2c34760
+			// LOOP 0x2c0f330
 			// pre processing
 			for (int i=0; i<4; i++) fVec22_tmp[i]=fVec22_perm[i];
 			// exec code
@@ -15551,7 +15550,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec22_perm[i]=fVec22_tmp[count+i];
 			
-			// LOOP 0x2c39a30
+			// LOOP 0x2c14600
 			// pre processing
 			for (int i=0; i<4; i++) fVec23_tmp[i]=fVec23_perm[i];
 			// exec code
@@ -15561,7 +15560,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec23_perm[i]=fVec23_tmp[count+i];
 			
-			// LOOP 0x2c3f540
+			// LOOP 0x2c1a110
 			// pre processing
 			for (int i=0; i<4; i++) fVec24_tmp[i]=fVec24_perm[i];
 			// exec code
@@ -15571,7 +15570,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec24_perm[i]=fVec24_tmp[count+i];
 			
-			// LOOP 0x2c452d0
+			// LOOP 0x2c1fea0
 			// pre processing
 			for (int i=0; i<4; i++) fVec25_tmp[i]=fVec25_perm[i];
 			// exec code
@@ -15581,7 +15580,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec25_perm[i]=fVec25_tmp[count+i];
 			
-			// LOOP 0x2c4ab60
+			// LOOP 0x2c256c0
 			// pre processing
 			for (int i=0; i<4; i++) fVec26_tmp[i]=fVec26_perm[i];
 			// exec code
@@ -15591,7 +15590,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec26_perm[i]=fVec26_tmp[count+i];
 			
-			// LOOP 0x2c50c00
+			// LOOP 0x2c2b7f0
 			// pre processing
 			for (int i=0; i<4; i++) fVec27_tmp[i]=fVec27_perm[i];
 			// exec code
@@ -15601,7 +15600,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec27_perm[i]=fVec27_tmp[count+i];
 			
-			// LOOP 0x2c56380
+			// LOOP 0x2c30f70
 			// pre processing
 			for (int i=0; i<4; i++) fVec28_tmp[i]=fVec28_perm[i];
 			// exec code
@@ -15611,7 +15610,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec28_perm[i]=fVec28_tmp[count+i];
 			
-			// LOOP 0x2c5c720
+			// LOOP 0x2c37310
 			// pre processing
 			for (int i=0; i<4; i++) fVec29_tmp[i]=fVec29_perm[i];
 			// exec code
@@ -15621,7 +15620,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec29_perm[i]=fVec29_tmp[count+i];
 			
-			// LOOP 0x2c62ff0
+			// LOOP 0x2c3dbe0
 			// pre processing
 			for (int i=0; i<4; i++) fVec30_tmp[i]=fVec30_perm[i];
 			// exec code
@@ -15631,7 +15630,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec30_perm[i]=fVec30_tmp[count+i];
 			
-			// LOOP 0x2c655b0
+			// LOOP 0x2c401a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec127_tmp[i]=fRec127_perm[i];
 			// exec code
@@ -15641,7 +15640,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec127_perm[i]=fRec127_tmp[count+i];
 			
-			// LOOP 0x2c68a10
+			// LOOP 0x2c43600
 			// pre processing
 			for (int i=0; i<4; i++) fVec31_tmp[i]=fVec31_perm[i];
 			// exec code
@@ -15651,7 +15650,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec31_perm[i]=fVec31_tmp[count+i];
 			
-			// LOOP 0x2c6be70
+			// LOOP 0x2c469b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec129_tmp[i]=fRec129_perm[i];
 			// exec code
@@ -15661,7 +15660,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec129_perm[i]=fRec129_tmp[count+i];
 			
-			// LOOP 0x2c6f2f0
+			// LOOP 0x2c49ed0
 			// pre processing
 			for (int i=0; i<4; i++) fVec32_tmp[i]=fVec32_perm[i];
 			// exec code
@@ -15671,7 +15670,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec32_perm[i]=fVec32_tmp[count+i];
 			
-			// LOOP 0x2c71b00
+			// LOOP 0x2c4c6e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec131_tmp[i]=fRec131_perm[i];
 			// exec code
@@ -15681,7 +15680,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec131_perm[i]=fRec131_tmp[count+i];
 			
-			// LOOP 0x2c74f80
+			// LOOP 0x2c4fb60
 			// pre processing
 			for (int i=0; i<4; i++) fVec33_tmp[i]=fVec33_perm[i];
 			// exec code
@@ -15691,7 +15690,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec33_perm[i]=fVec33_tmp[count+i];
 			
-			// LOOP 0x2c77a50
+			// LOOP 0x2c52630
 			// pre processing
 			for (int i=0; i<4; i++) fRec133_tmp[i]=fRec133_perm[i];
 			// exec code
@@ -15701,7 +15700,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec133_perm[i]=fRec133_tmp[count+i];
 			
-			// LOOP 0x2c7b220
+			// LOOP 0x2c55e00
 			// pre processing
 			for (int i=0; i<4; i++) fVec34_tmp[i]=fVec34_perm[i];
 			// exec code
@@ -15711,7 +15710,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec34_perm[i]=fVec34_tmp[count+i];
 			
-			// LOOP 0x2c7d3d0
+			// LOOP 0x2c57fb0
 			// pre processing
 			for (int i=0; i<4; i++) fRec135_tmp[i]=fRec135_perm[i];
 			// exec code
@@ -15721,7 +15720,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec135_perm[i]=fRec135_tmp[count+i];
 			
-			// LOOP 0x2c80850
+			// LOOP 0x2c5b430
 			// pre processing
 			for (int i=0; i<4; i++) fVec35_tmp[i]=fVec35_perm[i];
 			// exec code
@@ -15731,7 +15730,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec35_perm[i]=fVec35_tmp[count+i];
 			
-			// LOOP 0x2c83610
+			// LOOP 0x2c5e1f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec137_tmp[i]=fRec137_perm[i];
 			// exec code
@@ -15741,7 +15740,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec137_perm[i]=fRec137_tmp[count+i];
 			
-			// LOOP 0x2c86a90
+			// LOOP 0x2c61670
 			// pre processing
 			for (int i=0; i<4; i++) fVec36_tmp[i]=fVec36_perm[i];
 			// exec code
@@ -15751,7 +15750,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec36_perm[i]=fVec36_tmp[count+i];
 			
-			// LOOP 0x2c89bb0
+			// LOOP 0x2c64790
 			// pre processing
 			for (int i=0; i<4; i++) fRec139_tmp[i]=fRec139_perm[i];
 			// exec code
@@ -15761,7 +15760,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec139_perm[i]=fRec139_tmp[count+i];
 			
-			// LOOP 0x2c8d000
+			// LOOP 0x2c67bd0
 			// pre processing
 			for (int i=0; i<4; i++) fVec37_tmp[i]=fVec37_perm[i];
 			// exec code
@@ -15771,7 +15770,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec37_perm[i]=fVec37_tmp[count+i];
 			
-			// LOOP 0x2c8f4e0
+			// LOOP 0x2c6a0b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec141_tmp[i]=fRec141_perm[i];
 			// exec code
@@ -15781,7 +15780,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec141_perm[i]=fRec141_tmp[count+i];
 			
-			// LOOP 0x2c92c70
+			// LOOP 0x2c6d840
 			// pre processing
 			for (int i=0; i<4; i++) fVec38_tmp[i]=fVec38_perm[i];
 			// exec code
@@ -15791,7 +15790,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec38_perm[i]=fVec38_tmp[count+i];
 			
-			// LOOP 0x2c96130
+			// LOOP 0x2c70d00
 			// pre processing
 			for (int i=0; i<4; i++) fRec143_tmp[i]=fRec143_perm[i];
 			// exec code
@@ -15801,7 +15800,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec143_perm[i]=fRec143_tmp[count+i];
 			
-			// LOOP 0x2c99580
+			// LOOP 0x2c74150
 			// pre processing
 			for (int i=0; i<4; i++) fVec39_tmp[i]=fVec39_perm[i];
 			// exec code
@@ -15811,7 +15810,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec39_perm[i]=fVec39_tmp[count+i];
 			
-			// LOOP 0x2c9bd60
+			// LOOP 0x2c76930
 			// pre processing
 			for (int i=0; i<4; i++) fRec145_tmp[i]=fRec145_perm[i];
 			// exec code
@@ -15821,7 +15820,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec145_perm[i]=fRec145_tmp[count+i];
 			
-			// LOOP 0x2c9f1b0
+			// LOOP 0x2c79d80
 			// pre processing
 			for (int i=0; i<4; i++) fVec40_tmp[i]=fVec40_perm[i];
 			// exec code
@@ -15831,7 +15830,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec40_perm[i]=fVec40_tmp[count+i];
 			
-			// LOOP 0x2ca2a10
+			// LOOP 0x2c7d5e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec147_tmp[i]=fRec147_perm[i];
 			// exec code
@@ -15841,7 +15840,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec147_perm[i]=fRec147_tmp[count+i];
 			
-			// LOOP 0x2ca5e60
+			// LOOP 0x2c80a30
 			// pre processing
 			for (int i=0; i<4; i++) fVec41_tmp[i]=fVec41_perm[i];
 			// exec code
@@ -15851,7 +15850,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec41_perm[i]=fVec41_tmp[count+i];
 			
-			// LOOP 0x2ca9980
+			// LOOP 0x2c84550
 			// pre processing
 			for (int i=0; i<4; i++) fRec149_tmp[i]=fRec149_perm[i];
 			// exec code
@@ -15861,7 +15860,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec149_perm[i]=fRec149_tmp[count+i];
 			
-			// LOOP 0x2cad110
+			// LOOP 0x2c87ce0
 			// pre processing
 			for (int i=0; i<4; i++) fVec42_tmp[i]=fVec42_perm[i];
 			// exec code
@@ -15871,7 +15870,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec42_perm[i]=fVec42_tmp[count+i];
 			
-			// LOOP 0x2cafc30
+			// LOOP 0x2c8a800
 			// pre processing
 			for (int i=0; i<4; i++) fRec151_tmp[i]=fRec151_perm[i];
 			// exec code
@@ -15881,7 +15880,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec151_perm[i]=fRec151_tmp[count+i];
 			
-			// LOOP 0x2cb3090
+			// LOOP 0x2c8dc60
 			// pre processing
 			for (int i=0; i<4; i++) fVec43_tmp[i]=fVec43_perm[i];
 			// exec code
@@ -15891,7 +15890,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec43_perm[i]=fVec43_tmp[count+i];
 			
-			// LOOP 0x2cb6f40
+			// LOOP 0x2c91b10
 			// pre processing
 			for (int i=0; i<4; i++) fRec153_tmp[i]=fRec153_perm[i];
 			// exec code
@@ -15901,7 +15900,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec153_perm[i]=fRec153_tmp[count+i];
 			
-			// LOOP 0x2cba3c0
+			// LOOP 0x2c94f90
 			// pre processing
 			for (int i=0; i<4; i++) fVec44_tmp[i]=fVec44_perm[i];
 			// exec code
@@ -15911,7 +15910,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec44_perm[i]=fVec44_tmp[count+i];
 			
-			// LOOP 0x2cbd1d0
+			// LOOP 0x2c97da0
 			// pre processing
 			for (int i=0; i<4; i++) fRec155_tmp[i]=fRec155_perm[i];
 			// exec code
@@ -15921,7 +15920,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec155_perm[i]=fRec155_tmp[count+i];
 			
-			// LOOP 0x2cc0650
+			// LOOP 0x2c9b220
 			// pre processing
 			for (int i=0; i<4; i++) fVec45_tmp[i]=fVec45_perm[i];
 			// exec code
@@ -15931,7 +15930,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec45_perm[i]=fVec45_tmp[count+i];
 			
-			// LOOP 0x2cc37c0
+			// LOOP 0x2c9e390
 			// pre processing
 			for (int i=0; i<4; i++) fRec157_tmp[i]=fRec157_perm[i];
 			// exec code
@@ -15941,7 +15940,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec157_perm[i]=fRec157_tmp[count+i];
 			
-			// LOOP 0x2cc6f80
+			// LOOP 0x2ca1b50
 			// pre processing
 			for (int i=0; i<4; i++) fVec46_tmp[i]=fVec46_perm[i];
 			// exec code
@@ -15951,7 +15950,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec46_perm[i]=fVec46_tmp[count+i];
 			
-			// LOOP 0x2cc94b0
+			// LOOP 0x2ca4080
 			// pre processing
 			for (int i=0; i<4; i++) fRec159_tmp[i]=fRec159_perm[i];
 			// exec code
@@ -15961,7 +15960,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec159_perm[i]=fRec159_tmp[count+i];
 			
-			// LOOP 0x2ccc930
+			// LOOP 0x2ca7500
 			// pre processing
 			for (int i=0; i<4; i++) fVec47_tmp[i]=fVec47_perm[i];
 			// exec code
@@ -15971,7 +15970,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fVec47_perm[i]=fVec47_tmp[count+i];
 			
-			// LOOP 0x2ccfe50
+			// LOOP 0x2caaa20
 			// pre processing
 			for (int i=0; i<4; i++) fRec161_tmp[i]=fRec161_perm[i];
 			// exec code
@@ -15981,13 +15980,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec161_perm[i]=fRec161_tmp[count+i];
 			
-			// LOOP 0x2cd31c0
+			// LOOP 0x2cadd90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec203[i] = (fSlow68 + (fVec48[i-3] + (fVec48[i-1] + fVec48[i-2])));
 			}
 			
-			// LOOP 0x2cd6bc0
+			// LOOP 0x2cb1790
 			// pre processing
 			for (int i=0; i<4; i++) fRec163_tmp[i]=fRec163_perm[i];
 			// exec code
@@ -15997,13 +15996,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec163_perm[i]=fRec163_tmp[count+i];
 			
-			// LOOP 0x2cd9ee0
+			// LOOP 0x2cb4ab0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec204[i] = (fSlow69 + (fVec49[i-3] + (fVec49[i-1] + fVec49[i-2])));
 			}
 			
-			// LOOP 0x2cdc8e0
+			// LOOP 0x2cb74b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec165_tmp[i]=fRec165_perm[i];
 			// exec code
@@ -16013,13 +16012,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec165_perm[i]=fRec165_tmp[count+i];
 			
-			// LOOP 0x2cdff70
+			// LOOP 0x2cbab40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec205[i] = (fSlow70 + (fVec50[i-3] + (fVec50[i-1] + fVec50[i-2])));
 			}
 			
-			// LOOP 0x2ce3db0
+			// LOOP 0x2cbe980
 			// pre processing
 			for (int i=0; i<4; i++) fRec167_tmp[i]=fRec167_perm[i];
 			// exec code
@@ -16029,13 +16028,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec167_perm[i]=fRec167_tmp[count+i];
 			
-			// LOOP 0x2ce7100
+			// LOOP 0x2cc1cd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec206[i] = (fSlow71 + (fVec51[i-3] + (fVec51[i-1] + fVec51[i-2])));
 			}
 			
-			// LOOP 0x2ce9e90
+			// LOOP 0x2cc4a60
 			// pre processing
 			for (int i=0; i<4; i++) fRec169_tmp[i]=fRec169_perm[i];
 			// exec code
@@ -16045,13 +16044,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec169_perm[i]=fRec169_tmp[count+i];
 			
-			// LOOP 0x2ced1e0
+			// LOOP 0x2cc7db0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec207[i] = (fSlow72 + (fVec52[i-3] + (fVec52[i-1] + fVec52[i-2])));
 			}
 			
-			// LOOP 0x2cf1480
+			// LOOP 0x2ccc050
 			// pre processing
 			for (int i=0; i<4; i++) fRec171_tmp[i]=fRec171_perm[i];
 			// exec code
@@ -16061,13 +16060,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec171_perm[i]=fRec171_tmp[count+i];
 			
-			// LOOP 0x2cf47d0
+			// LOOP 0x2ccf3a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec208[i] = (fSlow73 + (fVec53[i-3] + (fVec53[i-1] + fVec53[i-2])));
 			}
 			
-			// LOOP 0x2cf8da0
+			// LOOP 0x2cd3970
 			// pre processing
 			for (int i=0; i<4; i++) fRec173_tmp[i]=fRec173_perm[i];
 			// exec code
@@ -16077,13 +16076,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec173_perm[i]=fRec173_tmp[count+i];
 			
-			// LOOP 0x2cfb710
+			// LOOP 0x2cd62e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec209[i] = (fSlow74 + (fVec54[i-3] + (fVec54[i-1] + fVec54[i-2])));
 			}
 			
-			// LOOP 0x2cfe880
+			// LOOP 0x2cd9450
 			// pre processing
 			for (int i=0; i<4; i++) fRec174_tmp[i]=fRec174_perm[i];
 			// exec code
@@ -16093,13 +16092,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec174_perm[i]=fRec174_tmp[count+i];
 			
-			// LOOP 0x2d010f0
+			// LOOP 0x2cdbcc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec210[i] = (fSlow75 + (fVec55[i-3] + (fVec55[i-1] + fVec55[i-2])));
 			}
 			
-			// LOOP 0x2d05b00
+			// LOOP 0x2ce06d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec175_tmp[i]=fRec175_perm[i];
 			// exec code
@@ -16109,13 +16108,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec175_perm[i]=fRec175_tmp[count+i];
 			
-			// LOOP 0x2d08370
+			// LOOP 0x2ce2f40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec211[i] = (fSlow76 + (fVec56[i-3] + (fVec56[i-1] + fVec56[i-2])));
 			}
 			
-			// LOOP 0x2d0b880
+			// LOOP 0x2ce6450
 			// pre processing
 			for (int i=0; i<4; i++) fRec176_tmp[i]=fRec176_perm[i];
 			// exec code
@@ -16125,13 +16124,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec176_perm[i]=fRec176_tmp[count+i];
 			
-			// LOOP 0x2d0e0f0
+			// LOOP 0x2ce8cc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec212[i] = (fSlow77 + (fVec57[i-3] + (fVec57[i-1] + fVec57[i-2])));
 			}
 			
-			// LOOP 0x2d11a30
+			// LOOP 0x2cec600
 			// pre processing
 			for (int i=0; i<4; i++) fRec177_tmp[i]=fRec177_perm[i];
 			// exec code
@@ -16141,13 +16140,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec177_perm[i]=fRec177_tmp[count+i];
 			
-			// LOOP 0x2d142a0
+			// LOOP 0x2ceee70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec213[i] = (fSlow78 + (fVec58[i-3] + (fVec58[i-1] + fVec58[i-2])));
 			}
 			
-			// LOOP 0x2d16c50
+			// LOOP 0x2cf1820
 			// pre processing
 			for (int i=0; i<4; i++) fRec178_tmp[i]=fRec178_perm[i];
 			// exec code
@@ -16157,13 +16156,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec178_perm[i]=fRec178_tmp[count+i];
 			
-			// LOOP 0x2d194c0
+			// LOOP 0x2cf4090
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec214[i] = (fSlow79 + (fVec59[i-3] + (fVec59[i-1] + fVec59[i-2])));
 			}
 			
-			// LOOP 0x2d1d200
+			// LOOP 0x2cf7dd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec179_tmp[i]=fRec179_perm[i];
 			// exec code
@@ -16173,13 +16172,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec179_perm[i]=fRec179_tmp[count+i];
 			
-			// LOOP 0x2d1fa70
+			// LOOP 0x2cfa640
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec215[i] = (fSlow80 + (fVec60[i-3] + (fVec60[i-1] + fVec60[i-2])));
 			}
 			
-			// LOOP 0x2d23c50
+			// LOOP 0x2cfe820
 			// pre processing
 			for (int i=0; i<4; i++) fRec180_tmp[i]=fRec180_perm[i];
 			// exec code
@@ -16189,13 +16188,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec180_perm[i]=fRec180_tmp[count+i];
 			
-			// LOOP 0x2d270b0
+			// LOOP 0x2d01c80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec220[i] = (fRec125[i] + (fRec123[i] + (fRec121[i] + (fRec119[i] + fZec219[i]))));
 			}
 			
-			// LOOP 0x2d44850
+			// LOOP 0x2d1f3f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec182_tmp[i]=fRec182_perm[i];
 			// exec code
@@ -16205,7 +16204,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec182_perm[i]=fRec182_tmp[count+i];
 			
-			// LOOP 0x2d4c000
+			// LOOP 0x2d26ba0
 			// pre processing
 			for (int i=0; i<4; i++) fRec183_tmp[i]=fRec183_perm[i];
 			// exec code
@@ -16215,7 +16214,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec183_perm[i]=fRec183_tmp[count+i];
 			
-			// LOOP 0x2d4f470
+			// LOOP 0x2d2a010
 			// pre processing
 			for (int i=0; i<4; i++) fRec184_tmp[i]=fRec184_perm[i];
 			// exec code
@@ -16225,7 +16224,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec184_perm[i]=fRec184_tmp[count+i];
 			
-			// LOOP 0x2d528f0
+			// LOOP 0x2d2d410
 			// pre processing
 			for (int i=0; i<4; i++) fRec185_tmp[i]=fRec185_perm[i];
 			// exec code
@@ -16235,86 +16234,86 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec185_perm[i]=fRec185_tmp[count+i];
 			
-			// LOOP 0x2d7cf70
+			// LOOP 0x2d57ae0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec276[i] = (0.5f * fYec134[i]);
 			}
 			
-			// LOOP 0x2d879f0
+			// LOOP 0x2d62560
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec281[i] = (0.5f * fYec138[i]);
 			}
 			
-			// LOOP 0x2d91e20
+			// LOOP 0x2d6c990
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec286[i] = (0.5f * fYec142[i]);
 			}
 			
-			// LOOP 0x2d9c280
+			// LOOP 0x2d76dc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec291[i] = (0.5f * fYec146[i]);
 			}
 			
-			// LOOP 0x2da67b0
+			// LOOP 0x2d812f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec296[i] = (0.5f * fYec150[i]);
 			}
 			
-			// LOOP 0x2db0ca0
+			// LOOP 0x2d8b7e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec301[i] = (0.5f * fYec154[i]);
 			}
 			
-			// LOOP 0x2dbb170
+			// LOOP 0x2d95c90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec306[i] = (0.5f * fYec158[i]);
 			}
 			
-			// LOOP 0x2dc56c0
+			// LOOP 0x2da01e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec309[i] = (0.5f * fYec161[i]);
 			}
 			
-			// LOOP 0x2dcd5b0
+			// LOOP 0x2da80d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec312[i] = (0.5f * fYec164[i]);
 			}
 			
-			// LOOP 0x2dd5820
+			// LOOP 0x2db0340
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec315[i] = (0.5f * fYec167[i]);
 			}
 			
-			// LOOP 0x2ddd770
+			// LOOP 0x2db8290
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec318[i] = (0.5f * fYec170[i]);
 			}
 			
-			// LOOP 0x2de5710
+			// LOOP 0x2dc0230
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec321[i] = (0.5f * fYec173[i]);
 			}
 			
 			// SECTION : 26
-			// LOOP 0x2b16300
+			// LOOP 0x2af0e90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec0[i] = (fSlow2 + (fVec0[i-3] + (fVec0[i-1] + fVec0[i-2])));
 			}
 			
-			// LOOP 0x2b18180
+			// LOOP 0x2af2d10
 			// pre processing
 			for (int i=0; i<4; i++) fYec5_tmp[i]=fYec5_perm[i];
 			// exec code
@@ -16324,13 +16323,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec5_perm[i]=fYec5_tmp[count+i];
 			
-			// LOOP 0x2b2f080
+			// LOOP 0x2b09c70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec16[i] = (fSlow8 + (fVec1[i-3] + (fVec1[i-1] + fVec1[i-2])));
 			}
 			
-			// LOOP 0x2b312e0
+			// LOOP 0x2b0bed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec11_tmp[i]=fYec11_perm[i];
 			// exec code
@@ -16340,13 +16339,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec11_perm[i]=fYec11_tmp[count+i];
 			
-			// LOOP 0x2b430a0
+			// LOOP 0x2b1dc80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec31[i] = (fSlow10 + (fVec2[i-3] + (fVec2[i-1] + fVec2[i-2])));
 			}
 			
-			// LOOP 0x2b45580
+			// LOOP 0x2b20160
 			// pre processing
 			for (int i=0; i<4; i++) fYec17_tmp[i]=fYec17_perm[i];
 			// exec code
@@ -16356,13 +16355,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec17_perm[i]=fYec17_tmp[count+i];
 			
-			// LOOP 0x2b56fd0
+			// LOOP 0x2b31bb0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec46[i] = (fSlow12 + (fVec3[i-3] + (fVec3[i-1] + fVec3[i-2])));
 			}
 			
-			// LOOP 0x2b59370
+			// LOOP 0x2b33f50
 			// pre processing
 			for (int i=0; i<4; i++) fYec23_tmp[i]=fYec23_perm[i];
 			// exec code
@@ -16372,13 +16371,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec23_perm[i]=fYec23_tmp[count+i];
 			
-			// LOOP 0x2b6af30
+			// LOOP 0x2b45b10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec61[i] = (fSlow14 + (fVec4[i-3] + (fVec4[i-1] + fVec4[i-2])));
 			}
 			
-			// LOOP 0x2b6d4c0
+			// LOOP 0x2b480a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec29_tmp[i]=fYec29_perm[i];
 			// exec code
@@ -16388,13 +16387,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec29_perm[i]=fYec29_tmp[count+i];
 			
-			// LOOP 0x2b7f040
+			// LOOP 0x2b59c20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec76[i] = (fSlow16 + (fVec5[i-3] + (fVec5[i-1] + fVec5[i-2])));
 			}
 			
-			// LOOP 0x2b816d0
+			// LOOP 0x2b5c2b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec34_tmp[i]=fYec34_perm[i];
 			// exec code
@@ -16404,13 +16403,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec34_perm[i]=fYec34_tmp[count+i];
 			
-			// LOOP 0x2b914e0
+			// LOOP 0x2b6c0f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec89[i] = (fSlow18 + (fVec6[i-3] + (fVec6[i-1] + fVec6[i-2])));
 			}
 			
-			// LOOP 0x2b938a0
+			// LOOP 0x2b6e4b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec39_tmp[i]=fYec39_perm[i];
 			// exec code
@@ -16420,13 +16419,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec39_perm[i]=fYec39_tmp[count+i];
 			
-			// LOOP 0x2ba2ef0
+			// LOOP 0x2b7db00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec102[i] = (fSlow20 + (fVec7[i-3] + (fVec7[i-1] + fVec7[i-2])));
 			}
 			
-			// LOOP 0x2ba5560
+			// LOOP 0x2b80170
 			// pre processing
 			for (int i=0; i<4; i++) fYec44_tmp[i]=fYec44_perm[i];
 			// exec code
@@ -16436,13 +16435,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec44_perm[i]=fYec44_tmp[count+i];
 			
-			// LOOP 0x2bb4d80
+			// LOOP 0x2b8f9a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec115[i] = (fSlow22 + (fVec8[i-3] + (fVec8[i-1] + fVec8[i-2])));
 			}
 			
-			// LOOP 0x2bb71e0
+			// LOOP 0x2b91e00
 			// pre processing
 			for (int i=0; i<4; i++) fYec49_tmp[i]=fYec49_perm[i];
 			// exec code
@@ -16452,13 +16451,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec49_perm[i]=fYec49_tmp[count+i];
 			
-			// LOOP 0x2bc68f0
+			// LOOP 0x2ba14c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec128[i] = (fSlow24 + (fVec9[i-3] + (fVec9[i-1] + fVec9[i-2])));
 			}
 			
-			// LOOP 0x2bc8ea0
+			// LOOP 0x2ba3ac0
 			// pre processing
 			for (int i=0; i<4; i++) fYec54_tmp[i]=fYec54_perm[i];
 			// exec code
@@ -16468,493 +16467,493 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec54_perm[i]=fYec54_tmp[count+i];
 			
-			// LOOP 0x2bd8960
+			// LOOP 0x2bb3580
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec141[i] = (fSlow26 + (fVec10[i-3] + (fVec10[i-1] + fVec10[i-2])));
 			}
 			
-			// LOOP 0x2bea3c0
+			// LOOP 0x2bc4fd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec154[i] = (fSlow28 + (fVec11[i-3] + (fVec11[i-1] + fVec11[i-2])));
 			}
 			
-			// LOOP 0x2bfc290
+			// LOOP 0x2bd6ea0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec167[i] = (fSlow30 + (fVec12[i-3] + (fVec12[i-1] + fVec12[i-2])));
 			}
 			
-			// LOOP 0x2c013e0
+			// LOOP 0x2bdbff0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec168[i] = (fSlow31 + (fVec13[i-3] + (fVec13[i-1] + fVec13[i-2])));
 			}
 			
-			// LOOP 0x2c06800
+			// LOOP 0x2be1410
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec169[i] = (fSlow32 + (fVec14[i-3] + (fVec14[i-1] + fVec14[i-2])));
 			}
 			
-			// LOOP 0x2c0bf60
+			// LOOP 0x2be6b60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec170[i] = (fSlow33 + (fVec15[i-3] + (fVec15[i-1] + fVec15[i-2])));
 			}
 			
-			// LOOP 0x2c111f0
+			// LOOP 0x2bebdf0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec171[i] = (fSlow34 + (fVec16[i-3] + (fVec16[i-1] + fVec16[i-2])));
 			}
 			
-			// LOOP 0x2c18070
+			// LOOP 0x2bf2c70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec172[i] = (fSlow37 + (fVec17[i-3] + (fVec17[i-1] + fVec17[i-2])));
 			}
 			
-			// LOOP 0x2c1e010
+			// LOOP 0x2bf8c10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec173[i] = (fSlow38 + (fVec18[i-3] + (fVec18[i-1] + fVec18[i-2])));
 			}
 			
-			// LOOP 0x2c234e0
+			// LOOP 0x2bfe0e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec174[i] = (fSlow39 + (fVec19[i-3] + (fVec19[i-1] + fVec19[i-2])));
 			}
 			
-			// LOOP 0x2c29310
+			// LOOP 0x2c03f70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec175[i] = (fSlow40 + (fVec20[i-3] + (fVec20[i-1] + fVec20[i-2])));
 			}
 			
-			// LOOP 0x2c2ea40
+			// LOOP 0x2c09610
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec176[i] = (fSlow41 + (fVec21[i-3] + (fVec21[i-1] + fVec21[i-2])));
 			}
 			
-			// LOOP 0x2c34650
+			// LOOP 0x2c0f220
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec177[i] = (fSlow42 + (fVec22[i-3] + (fVec22[i-1] + fVec22[i-2])));
 			}
 			
-			// LOOP 0x2c39920
+			// LOOP 0x2c144f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec178[i] = (fSlow43 + (fVec23[i-3] + (fVec23[i-1] + fVec23[i-2])));
 			}
 			
-			// LOOP 0x2c3f430
+			// LOOP 0x2c1a000
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec179[i] = (fSlow44 + (fVec24[i-3] + (fVec24[i-1] + fVec24[i-2])));
 			}
 			
-			// LOOP 0x2c451c0
+			// LOOP 0x2c1fd90
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec180[i] = (fSlow45 + (fVec25[i-3] + (fVec25[i-1] + fVec25[i-2])));
 			}
 			
-			// LOOP 0x2c4aa50
+			// LOOP 0x2c255b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec181[i] = (fSlow46 + (fVec26[i-3] + (fVec26[i-1] + fVec26[i-2])));
 			}
 			
-			// LOOP 0x2c50af0
+			// LOOP 0x2c2b6e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec182[i] = (fSlow47 + (fVec27[i-3] + (fVec27[i-1] + fVec27[i-2])));
 			}
 			
-			// LOOP 0x2c56270
+			// LOOP 0x2c30e60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec183[i] = (fSlow48 + (fVec28[i-3] + (fVec28[i-1] + fVec28[i-2])));
 			}
 			
-			// LOOP 0x2c5c610
+			// LOOP 0x2c37200
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec184[i] = (fSlow49 + (fVec29[i-3] + (fVec29[i-1] + fVec29[i-2])));
 			}
 			
-			// LOOP 0x2c62ee0
+			// LOOP 0x2c3dad0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec185[i] = (fSlow50 + (fVec30[i-3] + (fVec30[i-1] + fVec30[i-2])));
 			}
 			
-			// LOOP 0x2c68900
+			// LOOP 0x2c434f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec186[i] = (fSlow51 + (fVec31[i-3] + (fVec31[i-1] + fVec31[i-2])));
 			}
 			
-			// LOOP 0x2c6f1e0
+			// LOOP 0x2c49dc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec187[i] = (fSlow52 + (fVec32[i-3] + (fVec32[i-1] + fVec32[i-2])));
 			}
 			
-			// LOOP 0x2c74e70
+			// LOOP 0x2c4fa50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec188[i] = (fSlow53 + (fVec33[i-3] + (fVec33[i-1] + fVec33[i-2])));
 			}
 			
-			// LOOP 0x2c7b110
+			// LOOP 0x2c55cf0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec189[i] = (fSlow54 + (fVec34[i-3] + (fVec34[i-1] + fVec34[i-2])));
 			}
 			
-			// LOOP 0x2c80740
+			// LOOP 0x2c5b320
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec190[i] = (fSlow55 + (fVec35[i-3] + (fVec35[i-1] + fVec35[i-2])));
 			}
 			
-			// LOOP 0x2c86980
+			// LOOP 0x2c61560
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec191[i] = (fSlow56 + (fVec36[i-3] + (fVec36[i-1] + fVec36[i-2])));
 			}
 			
-			// LOOP 0x2c8cef0
+			// LOOP 0x2c67ac0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec192[i] = (fSlow57 + (fVec37[i-3] + (fVec37[i-1] + fVec37[i-2])));
 			}
 			
-			// LOOP 0x2c92b60
+			// LOOP 0x2c6d730
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec193[i] = (fSlow58 + (fVec38[i-3] + (fVec38[i-1] + fVec38[i-2])));
 			}
 			
-			// LOOP 0x2c99470
+			// LOOP 0x2c74040
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec194[i] = (fSlow59 + (fVec39[i-3] + (fVec39[i-1] + fVec39[i-2])));
 			}
 			
-			// LOOP 0x2c9f0a0
+			// LOOP 0x2c79c70
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec195[i] = (fSlow60 + (fVec40[i-3] + (fVec40[i-1] + fVec40[i-2])));
 			}
 			
-			// LOOP 0x2ca5d50
+			// LOOP 0x2c80920
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec196[i] = (fSlow61 + (fVec41[i-3] + (fVec41[i-1] + fVec41[i-2])));
 			}
 			
-			// LOOP 0x2cad000
+			// LOOP 0x2c87bd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec197[i] = (fSlow62 + (fVec42[i-3] + (fVec42[i-1] + fVec42[i-2])));
 			}
 			
-			// LOOP 0x2cb2f80
+			// LOOP 0x2c8db50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec198[i] = (fSlow63 + (fVec43[i-3] + (fVec43[i-1] + fVec43[i-2])));
 			}
 			
-			// LOOP 0x2cba2b0
+			// LOOP 0x2c94e80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec199[i] = (fSlow64 + (fVec44[i-3] + (fVec44[i-1] + fVec44[i-2])));
 			}
 			
-			// LOOP 0x2cc0540
+			// LOOP 0x2c9b110
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec200[i] = (fSlow65 + (fVec45[i-3] + (fVec45[i-1] + fVec45[i-2])));
 			}
 			
-			// LOOP 0x2cc6e70
+			// LOOP 0x2ca1a40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec201[i] = (fSlow66 + (fVec46[i-3] + (fVec46[i-1] + fVec46[i-2])));
 			}
 			
-			// LOOP 0x2ccc820
+			// LOOP 0x2ca73f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec202[i] = (fSlow67 + (fVec47[i-3] + (fVec47[i-1] + fVec47[i-2])));
 			}
 			
-			// LOOP 0x2d26f70
+			// LOOP 0x2d01b40
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec221[i] = (fRec133[i] + (fRec131[i] + (fRec129[i] + (fRec127[i] + fZec220[i]))));
 			}
 			
-			// LOOP 0x2d55e30
+			// LOOP 0x2d309a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec226[i] = (fRec173[i] * fZec203[i]);
 			}
 			
-			// LOOP 0x2d57010
+			// LOOP 0x2d31b80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec227[i] = (fRec174[i] * fZec204[i]);
 			}
 			
-			// LOOP 0x2d58260
+			// LOOP 0x2d32dd0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec228[i] = (fRec175[i] * fZec205[i]);
 			}
 			
-			// LOOP 0x2d59520
+			// LOOP 0x2d34090
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec229[i] = (fRec176[i] * fZec206[i]);
 			}
 			
-			// LOOP 0x2d5a7d0
+			// LOOP 0x2d35340
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec230[i] = (fRec177[i] * fZec207[i]);
 			}
 			
-			// LOOP 0x2d5bab0
+			// LOOP 0x2d36620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec231[i] = (fRec178[i] * fZec208[i]);
 			}
 			
-			// LOOP 0x2d5cd40
+			// LOOP 0x2d378b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec232[i] = (fRec179[i] * fZec209[i]);
 			}
 			
-			// LOOP 0x2d5e080
+			// LOOP 0x2d38bf0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec233[i] = (fRec180[i] * fZec210[i]);
 			}
 			
-			// LOOP 0x2d5f3e0
+			// LOOP 0x2d39f50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec234[i] = (fRec182[i] * fZec211[i]);
 			}
 			
-			// LOOP 0x2d60770
+			// LOOP 0x2d3b2e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec235[i] = (fRec183[i] * fZec212[i]);
 			}
 			
-			// LOOP 0x2d61ab0
+			// LOOP 0x2d3c620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec236[i] = (fRec184[i] * fZec213[i]);
 			}
 			
-			// LOOP 0x2d62e20
+			// LOOP 0x2d3d990
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec237[i] = (fRec185[i] * fZec214[i]);
 			}
 			
-			// LOOP 0x2d641c0
+			// LOOP 0x2d3ed30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec238[i] = (fRec173[i] * fZec215[i]);
 			}
 			
-			// LOOP 0x2d67d20
+			// LOOP 0x2d42890
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec240[i] = (0.5f * fRec185[i]);
 			}
 			
-			// LOOP 0x2d68fa0
+			// LOOP 0x2d43b10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec241[i] = (0.5f * fRec184[i]);
 			}
 			
-			// LOOP 0x2d69550
+			// LOOP 0x2d440c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec242[i] = (0.5f * fRec183[i]);
 			}
 			
-			// LOOP 0x2d69b30
+			// LOOP 0x2d446a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec243[i] = (0.5f * fRec182[i]);
 			}
 			
-			// LOOP 0x2d6a110
+			// LOOP 0x2d44c80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec244[i] = (0.5f * fRec180[i]);
 			}
 			
-			// LOOP 0x2d6a6f0
+			// LOOP 0x2d45260
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec245[i] = (0.5f * fRec179[i]);
 			}
 			
-			// LOOP 0x2d6acd0
+			// LOOP 0x2d45840
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec246[i] = (0.5f * fRec178[i]);
 			}
 			
-			// LOOP 0x2d6b2b0
+			// LOOP 0x2d45e20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec247[i] = (0.5f * fRec177[i]);
 			}
 			
-			// LOOP 0x2d6b890
+			// LOOP 0x2d46400
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec248[i] = (0.5f * fRec176[i]);
 			}
 			
-			// LOOP 0x2d6be70
+			// LOOP 0x2d469e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec249[i] = (0.5f * fRec175[i]);
 			}
 			
-			// LOOP 0x2d6c450
+			// LOOP 0x2d46fc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec250[i] = (0.5f * fRec171[i]);
 			}
 			
-			// LOOP 0x2d6ca30
+			// LOOP 0x2d475a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec251[i] = (0.5f * fRec169[i]);
 			}
 			
-			// LOOP 0x2d6d010
+			// LOOP 0x2d47b80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec252[i] = (0.5f * fRec167[i]);
 			}
 			
-			// LOOP 0x2d6d5f0
+			// LOOP 0x2d48160
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec253[i] = (0.5f * fRec165[i]);
 			}
 			
-			// LOOP 0x2d6dbd0
+			// LOOP 0x2d48740
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec254[i] = (0.5f * fRec163[i]);
 			}
 			
-			// LOOP 0x2d6e1b0
+			// LOOP 0x2d48d20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec255[i] = (0.5f * fRec161[i]);
 			}
 			
-			// LOOP 0x2d6e790
+			// LOOP 0x2d49300
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec256[i] = (0.5f * fRec159[i]);
 			}
 			
-			// LOOP 0x2d6ed70
+			// LOOP 0x2d498e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec257[i] = (0.5f * fRec157[i]);
 			}
 			
-			// LOOP 0x2d6f350
+			// LOOP 0x2d49ec0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec258[i] = (0.5f * fRec155[i]);
 			}
 			
-			// LOOP 0x2d6f930
+			// LOOP 0x2d4a4a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec259[i] = (0.5f * fRec153[i]);
 			}
 			
-			// LOOP 0x2d6ff10
+			// LOOP 0x2d4aa80
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec260[i] = (0.5f * fRec151[i]);
 			}
 			
-			// LOOP 0x2d704f0
+			// LOOP 0x2d4b060
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec261[i] = (0.5f * fRec149[i]);
 			}
 			
-			// LOOP 0x2d70ad0
+			// LOOP 0x2d4b640
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec262[i] = (0.5f * fRec147[i]);
 			}
 			
-			// LOOP 0x2d710b0
+			// LOOP 0x2d4bc20
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec263[i] = (0.5f * fRec145[i]);
 			}
 			
-			// LOOP 0x2d71690
+			// LOOP 0x2d4c200
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec264[i] = (0.5f * fRec143[i]);
 			}
 			
-			// LOOP 0x2d71c70
+			// LOOP 0x2d4c7e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec265[i] = (0.5f * fRec141[i]);
 			}
 			
-			// LOOP 0x2d72250
+			// LOOP 0x2d4cdc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec266[i] = (0.5f * fRec139[i]);
 			}
 			
-			// LOOP 0x2d72830
+			// LOOP 0x2d4d3a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec267[i] = (0.5f * fRec137[i]);
 			}
 			
-			// LOOP 0x2d72e10
+			// LOOP 0x2d4d980
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec268[i] = (0.5f * fRec135[i]);
 			}
 			
-			// LOOP 0x2d7ce00
+			// LOOP 0x2d57970
 			// pre processing
 			for (int i=0; i<4; i++) fYec135_tmp[i]=fYec135_perm[i];
 			// exec code
@@ -16964,7 +16963,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec135_perm[i]=fYec135_tmp[count+i];
 			
-			// LOOP 0x2d87880
+			// LOOP 0x2d623f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec139_tmp[i]=fYec139_perm[i];
 			// exec code
@@ -16974,7 +16973,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec139_perm[i]=fYec139_tmp[count+i];
 			
-			// LOOP 0x2d91cb0
+			// LOOP 0x2d6c820
 			// pre processing
 			for (int i=0; i<4; i++) fYec143_tmp[i]=fYec143_perm[i];
 			// exec code
@@ -16984,7 +16983,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec143_perm[i]=fYec143_tmp[count+i];
 			
-			// LOOP 0x2d9c110
+			// LOOP 0x2d76c50
 			// pre processing
 			for (int i=0; i<4; i++) fYec147_tmp[i]=fYec147_perm[i];
 			// exec code
@@ -16994,7 +16993,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec147_perm[i]=fYec147_tmp[count+i];
 			
-			// LOOP 0x2da6640
+			// LOOP 0x2d81180
 			// pre processing
 			for (int i=0; i<4; i++) fYec151_tmp[i]=fYec151_perm[i];
 			// exec code
@@ -17004,7 +17003,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec151_perm[i]=fYec151_tmp[count+i];
 			
-			// LOOP 0x2db0b30
+			// LOOP 0x2d8b670
 			// pre processing
 			for (int i=0; i<4; i++) fYec155_tmp[i]=fYec155_perm[i];
 			// exec code
@@ -17014,7 +17013,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec155_perm[i]=fYec155_tmp[count+i];
 			
-			// LOOP 0x2dbb000
+			// LOOP 0x2d95b20
 			// pre processing
 			for (int i=0; i<4; i++) fYec159_tmp[i]=fYec159_perm[i];
 			// exec code
@@ -17024,7 +17023,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec159_perm[i]=fYec159_tmp[count+i];
 			
-			// LOOP 0x2dc5550
+			// LOOP 0x2da0070
 			// pre processing
 			for (int i=0; i<4; i++) fYec162_tmp[i]=fYec162_perm[i];
 			// exec code
@@ -17034,7 +17033,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec162_perm[i]=fYec162_tmp[count+i];
 			
-			// LOOP 0x2dcd440
+			// LOOP 0x2da7f60
 			// pre processing
 			for (int i=0; i<4; i++) fYec165_tmp[i]=fYec165_perm[i];
 			// exec code
@@ -17044,7 +17043,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec165_perm[i]=fYec165_tmp[count+i];
 			
-			// LOOP 0x2dd56b0
+			// LOOP 0x2db01d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec168_tmp[i]=fYec168_perm[i];
 			// exec code
@@ -17054,7 +17053,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec168_perm[i]=fYec168_tmp[count+i];
 			
-			// LOOP 0x2ddd600
+			// LOOP 0x2db8120
 			// pre processing
 			for (int i=0; i<4; i++) fYec171_tmp[i]=fYec171_perm[i];
 			// exec code
@@ -17064,7 +17063,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec171_perm[i]=fYec171_tmp[count+i];
 			
-			// LOOP 0x2de55a0
+			// LOOP 0x2dc00c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec174_tmp[i]=fYec174_perm[i];
 			// exec code
@@ -17074,7 +17073,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec174_perm[i]=fYec174_tmp[count+i];
 			
-			// LOOP 0x2ded580
+			// LOOP 0x2dc80a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec175_tmp[i]=fYec175_perm[i];
 			// exec code
@@ -17084,7 +17083,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec175_perm[i]=fYec175_tmp[count+i];
 			
-			// LOOP 0x2df12c0
+			// LOOP 0x2dcbde0
 			// pre processing
 			for (int i=0; i<4; i++) fYec176_tmp[i]=fYec176_perm[i];
 			// exec code
@@ -17094,7 +17093,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec176_perm[i]=fYec176_tmp[count+i];
 			
-			// LOOP 0x2df4b00
+			// LOOP 0x2dcf620
 			// pre processing
 			for (int i=0; i<4; i++) fYec177_tmp[i]=fYec177_perm[i];
 			// exec code
@@ -17104,7 +17103,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec177_perm[i]=fYec177_tmp[count+i];
 			
-			// LOOP 0x2df82f0
+			// LOOP 0x2dd2e10
 			// pre processing
 			for (int i=0; i<4; i++) fYec178_tmp[i]=fYec178_perm[i];
 			// exec code
@@ -17114,7 +17113,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec178_perm[i]=fYec178_tmp[count+i];
 			
-			// LOOP 0x2dfbc30
+			// LOOP 0x2dd6780
 			// pre processing
 			for (int i=0; i<4; i++) fYec179_tmp[i]=fYec179_perm[i];
 			// exec code
@@ -17124,7 +17123,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec179_perm[i]=fYec179_tmp[count+i];
 			
-			// LOOP 0x2dffb50
+			// LOOP 0x2dda6a0
 			// pre processing
 			for (int i=0; i<4; i++) fYec180_tmp[i]=fYec180_perm[i];
 			// exec code
@@ -17134,7 +17133,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec180_perm[i]=fYec180_tmp[count+i];
 			
-			// LOOP 0x2e03170
+			// LOOP 0x2dddcc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec181_tmp[i]=fYec181_perm[i];
 			// exec code
@@ -17144,7 +17143,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec181_perm[i]=fYec181_tmp[count+i];
 			
-			// LOOP 0x2e066b0
+			// LOOP 0x2de1200
 			// pre processing
 			for (int i=0; i<4; i++) fYec182_tmp[i]=fYec182_perm[i];
 			// exec code
@@ -17154,7 +17153,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec182_perm[i]=fYec182_tmp[count+i];
 			
-			// LOOP 0x2e09d20
+			// LOOP 0x2de4870
 			// pre processing
 			for (int i=0; i<4; i++) fYec183_tmp[i]=fYec183_perm[i];
 			// exec code
@@ -17164,7 +17163,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec183_perm[i]=fYec183_tmp[count+i];
 			
-			// LOOP 0x2e0d610
+			// LOOP 0x2de8160
 			// pre processing
 			for (int i=0; i<4; i++) fYec184_tmp[i]=fYec184_perm[i];
 			// exec code
@@ -17174,7 +17173,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec184_perm[i]=fYec184_tmp[count+i];
 			
-			// LOOP 0x2e10d00
+			// LOOP 0x2deb850
 			// pre processing
 			for (int i=0; i<4; i++) fYec185_tmp[i]=fYec185_perm[i];
 			// exec code
@@ -17184,7 +17183,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec185_perm[i]=fYec185_tmp[count+i];
 			
-			// LOOP 0x2e143a0
+			// LOOP 0x2deeef0
 			// pre processing
 			for (int i=0; i<4; i++) fYec186_tmp[i]=fYec186_perm[i];
 			// exec code
@@ -17194,7 +17193,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec186_perm[i]=fYec186_tmp[count+i];
 			
-			// LOOP 0x2e17a70
+			// LOOP 0x2df25c0
 			// pre processing
 			for (int i=0; i<4; i++) fYec187_tmp[i]=fYec187_perm[i];
 			// exec code
@@ -17204,7 +17203,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec187_perm[i]=fYec187_tmp[count+i];
 			
-			// LOOP 0x2e1b100
+			// LOOP 0x2df5c80
 			// pre processing
 			for (int i=0; i<4; i++) fYec188_tmp[i]=fYec188_perm[i];
 			// exec code
@@ -17214,7 +17213,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec188_perm[i]=fYec188_tmp[count+i];
 			
-			// LOOP 0x2e1e830
+			// LOOP 0x2df93b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec189_tmp[i]=fYec189_perm[i];
 			// exec code
@@ -17224,7 +17223,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec189_perm[i]=fYec189_tmp[count+i];
 			
-			// LOOP 0x2e21fb0
+			// LOOP 0x2dfcb30
 			// pre processing
 			for (int i=0; i<4; i++) fYec190_tmp[i]=fYec190_perm[i];
 			// exec code
@@ -17234,7 +17233,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec190_perm[i]=fYec190_tmp[count+i];
 			
-			// LOOP 0x2e25760
+			// LOOP 0x2e002e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec191_tmp[i]=fYec191_perm[i];
 			// exec code
@@ -17244,7 +17243,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec191_perm[i]=fYec191_tmp[count+i];
 			
-			// LOOP 0x2e28f60
+			// LOOP 0x2e03ae0
 			// pre processing
 			for (int i=0; i<4; i++) fYec192_tmp[i]=fYec192_perm[i];
 			// exec code
@@ -17254,7 +17253,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec192_perm[i]=fYec192_tmp[count+i];
 			
-			// LOOP 0x2e2c7a0
+			// LOOP 0x2e07320
 			// pre processing
 			for (int i=0; i<4; i++) fYec193_tmp[i]=fYec193_perm[i];
 			// exec code
@@ -17265,7 +17264,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec193_perm[i]=fYec193_tmp[count+i];
 			
 			// SECTION : 27
-			// LOOP 0x2b17d10
+			// LOOP 0x2af28a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec2_tmp[i]=fRec2_perm[i];
 			// exec code
@@ -17275,7 +17274,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec2_perm[i]=fRec2_tmp[count+i];
 			
-			// LOOP 0x2b30d90
+			// LOOP 0x2b0b980
 			// pre processing
 			for (int i=0; i<4; i++) fRec11_tmp[i]=fRec11_perm[i];
 			// exec code
@@ -17285,7 +17284,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec11_perm[i]=fRec11_tmp[count+i];
 			
-			// LOOP 0x2b45030
+			// LOOP 0x2b1fc10
 			// pre processing
 			for (int i=0; i<4; i++) fRec19_tmp[i]=fRec19_perm[i];
 			// exec code
@@ -17295,7 +17294,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec19_perm[i]=fRec19_tmp[count+i];
 			
-			// LOOP 0x2b58e20
+			// LOOP 0x2b33a00
 			// pre processing
 			for (int i=0; i<4; i++) fRec27_tmp[i]=fRec27_perm[i];
 			// exec code
@@ -17305,7 +17304,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec27_perm[i]=fRec27_tmp[count+i];
 			
-			// LOOP 0x2b6cf70
+			// LOOP 0x2b47b50
 			// pre processing
 			for (int i=0; i<4; i++) fRec35_tmp[i]=fRec35_perm[i];
 			// exec code
@@ -17315,7 +17314,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec35_perm[i]=fRec35_tmp[count+i];
 			
-			// LOOP 0x2b81180
+			// LOOP 0x2b5bd60
 			// pre processing
 			for (int i=0; i<4; i++) fRec43_tmp[i]=fRec43_perm[i];
 			// exec code
@@ -17325,7 +17324,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec43_perm[i]=fRec43_tmp[count+i];
 			
-			// LOOP 0x2b93350
+			// LOOP 0x2b6df60
 			// pre processing
 			for (int i=0; i<4; i++) fRec50_tmp[i]=fRec50_perm[i];
 			// exec code
@@ -17335,7 +17334,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec50_perm[i]=fRec50_tmp[count+i];
 			
-			// LOOP 0x2ba5000
+			// LOOP 0x2b7fd60
 			// pre processing
 			for (int i=0; i<4; i++) fRec57_tmp[i]=fRec57_perm[i];
 			// exec code
@@ -17345,7 +17344,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec57_perm[i]=fRec57_tmp[count+i];
 			
-			// LOOP 0x2bb6c90
+			// LOOP 0x2b918b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec64_tmp[i]=fRec64_perm[i];
 			// exec code
@@ -17355,7 +17354,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec64_perm[i]=fRec64_tmp[count+i];
 			
-			// LOOP 0x2bc8950
+			// LOOP 0x2ba3570
 			// pre processing
 			for (int i=0; i<4; i++) fRec71_tmp[i]=fRec71_perm[i];
 			// exec code
@@ -17365,7 +17364,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec71_perm[i]=fRec71_tmp[count+i];
 			
-			// LOOP 0x2bdac70
+			// LOOP 0x2bb5890
 			// pre processing
 			for (int i=0; i<4; i++) fYec59_tmp[i]=fYec59_perm[i];
 			// exec code
@@ -17375,7 +17374,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec59_perm[i]=fYec59_tmp[count+i];
 			
-			// LOOP 0x2becb10
+			// LOOP 0x2bc7720
 			// pre processing
 			for (int i=0; i<4; i++) fYec64_tmp[i]=fYec64_perm[i];
 			// exec code
@@ -17385,7 +17384,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec64_perm[i]=fYec64_tmp[count+i];
 			
-			// LOOP 0x2bfeb00
+			// LOOP 0x2bd9710
 			// pre processing
 			for (int i=0; i<4; i++) fYec65_tmp[i]=fYec65_perm[i];
 			// exec code
@@ -17395,7 +17394,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec65_perm[i]=fYec65_tmp[count+i];
 			
-			// LOOP 0x2c03be0
+			// LOOP 0x2bde7f0
 			// pre processing
 			for (int i=0; i<4; i++) fYec66_tmp[i]=fYec66_perm[i];
 			// exec code
@@ -17405,7 +17404,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec66_perm[i]=fYec66_tmp[count+i];
 			
-			// LOOP 0x2c095e0
+			// LOOP 0x2be41e0
 			// pre processing
 			for (int i=0; i<4; i++) fYec67_tmp[i]=fYec67_perm[i];
 			// exec code
@@ -17415,7 +17414,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec67_perm[i]=fYec67_tmp[count+i];
 			
-			// LOOP 0x2c0e910
+			// LOOP 0x2be9510
 			// pre processing
 			for (int i=0; i<4; i++) fYec68_tmp[i]=fYec68_perm[i];
 			// exec code
@@ -17425,7 +17424,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec68_perm[i]=fYec68_tmp[count+i];
 			
-			// LOOP 0x2c142d0
+			// LOOP 0x2beeed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec69_tmp[i]=fYec69_perm[i];
 			// exec code
@@ -17435,19 +17434,19 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec69_perm[i]=fYec69_tmp[count+i];
 			
-			// LOOP 0x2d33610
+			// LOOP 0x2d0e210
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec239[i] = (0.25f * (fZec238[i] + (fZec237[i] + (fZec236[i] + (fZec235[i] + (fZec234[i] + (fZec233[i] + (fZec232[i] + (fZec231[i] + (fZec230[i] + (fZec229[i] + (fZec228[i] + (fZec227[i] + (fZec226[i] + ((fRec185[i] * fZec202[i]) + ((fRec184[i] * fZec201[i]) + ((fRec183[i] * fZec200[i]) + ((fRec182[i] * fZec199[i]) + ((fRec180[i] * fZec198[i]) + ((fRec179[i] * fZec197[i]) + ((fRec178[i] * fZec196[i]) + ((fRec177[i] * fZec195[i]) + ((fRec176[i] * fZec194[i]) + ((fRec175[i] * fZec193[i]) + ((fRec174[i] * fZec192[i]) + ((fRec173[i] * fZec191[i]) + ((fRec171[i] * fZec190[i]) + ((fRec169[i] * fZec189[i]) + ((fRec167[i] * fZec188[i]) + ((fRec165[i] * fZec187[i]) + ((fRec163[i] * fZec186[i]) + ((fRec161[i] * fZec185[i]) + ((fRec159[i] * fZec184[i]) + ((fRec157[i] * fZec183[i]) + ((fRec155[i] * fZec182[i]) + ((fRec153[i] * fZec181[i]) + ((fRec151[i] * fZec180[i]) + ((fRec149[i] * fZec179[i]) + ((fRec147[i] * fZec178[i]) + ((fRec145[i] * fZec177[i]) + ((fRec143[i] * fZec176[i]) + ((fRec141[i] * fZec175[i]) + ((fRec139[i] * fZec174[i]) + ((fRec137[i] * fZec173[i]) + ((fRec135[i] * fZec172[i]) + (fSlow36 * ((fRec133[i] * fZec171[i]) + ((fRec131[i] * fZec170[i]) + ((fRec129[i] * fZec169[i]) + ((fRec127[i] * fZec168[i]) + ((fRec125[i] * fZec167[i]) + ((fRec123[i] * fZec154[i]) + ((fRec121[i] * fZec141[i]) + ((fRec119[i] * fZec128[i]) + ((fRec117[i] * fZec115[i]) + ((fRec115[i] * fZec102[i]) + ((fRec113[i] * fZec89[i]) + ((fRec111[i] * fZec76[i]) + ((fRec109[i] * fZec61[i]) + ((fRec107[i] * fZec46[i]) + ((fRec105[i] * fZec31[i]) + ((fRec103[i] * fZec16[i]) + (fRec101[i] * fZec0[i])))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2d657e0
+			// LOOP 0x2d40350
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec269[i] = ((2 * ((((((((((((fRec174[i] + (fRec173[i] + ((((((((((((((((((fZec268[i] + fZec267[i]) + fZec266[i]) + fZec265[i]) + fZec264[i]) + fZec263[i]) + fZec262[i]) + fZec261[i]) + fZec260[i]) + fZec259[i]) + fZec258[i]) + fZec257[i]) + fZec256[i]) + fZec255[i]) + fZec254[i]) + fZec253[i]) + fZec252[i]) + fZec251[i]) + fZec250[i]))) + fZec249[i]) + fZec248[i]) + fZec247[i]) + fZec246[i]) + fZec245[i]) + fZec244[i]) + fZec243[i]) + fZec242[i]) + fZec241[i]) + fZec240[i]) + (fSlow81 * fZec221[i]))) + (fRec185[i] + (fRec184[i] + (fRec183[i] + (fRec182[i] + (fRec180[i] + (fRec179[i] + (fRec178[i] + (fRec177[i] + (fRec176[i] + (fRec173[i] + fRec175[i])))))))))));
 			}
 			
-			// LOOP 0x2d7c8b0
+			// LOOP 0x2d57420
 			// pre processing
 			for (int i=0; i<4; i++) fRec188_tmp[i]=fRec188_perm[i];
 			// exec code
@@ -17457,7 +17456,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec188_perm[i]=fRec188_tmp[count+i];
 			
-			// LOOP 0x2d87330
+			// LOOP 0x2d61ea0
 			// pre processing
 			for (int i=0; i<4; i++) fRec193_tmp[i]=fRec193_perm[i];
 			// exec code
@@ -17467,7 +17466,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec193_perm[i]=fRec193_tmp[count+i];
 			
-			// LOOP 0x2d91760
+			// LOOP 0x2d6c2d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec198_tmp[i]=fRec198_perm[i];
 			// exec code
@@ -17477,7 +17476,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec198_perm[i]=fRec198_tmp[count+i];
 			
-			// LOOP 0x2d9bbc0
+			// LOOP 0x2d76700
 			// pre processing
 			for (int i=0; i<4; i++) fRec203_tmp[i]=fRec203_perm[i];
 			// exec code
@@ -17487,7 +17486,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec203_perm[i]=fRec203_tmp[count+i];
 			
-			// LOOP 0x2da60f0
+			// LOOP 0x2d80c30
 			// pre processing
 			for (int i=0; i<4; i++) fRec208_tmp[i]=fRec208_perm[i];
 			// exec code
@@ -17497,7 +17496,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec208_perm[i]=fRec208_tmp[count+i];
 			
-			// LOOP 0x2db05e0
+			// LOOP 0x2d8b120
 			// pre processing
 			for (int i=0; i<4; i++) fRec213_tmp[i]=fRec213_perm[i];
 			// exec code
@@ -17507,7 +17506,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec213_perm[i]=fRec213_tmp[count+i];
 			
-			// LOOP 0x2dbaab0
+			// LOOP 0x2d955d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec218_tmp[i]=fRec218_perm[i];
 			// exec code
@@ -17517,7 +17516,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec218_perm[i]=fRec218_tmp[count+i];
 			
-			// LOOP 0x2dc5000
+			// LOOP 0x2d9fb20
 			// pre processing
 			for (int i=0; i<4; i++) fRec223_tmp[i]=fRec223_perm[i];
 			// exec code
@@ -17527,7 +17526,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec223_perm[i]=fRec223_tmp[count+i];
 			
-			// LOOP 0x2dccef0
+			// LOOP 0x2da7a10
 			// pre processing
 			for (int i=0; i<4; i++) fRec227_tmp[i]=fRec227_perm[i];
 			// exec code
@@ -17537,7 +17536,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec227_perm[i]=fRec227_tmp[count+i];
 			
-			// LOOP 0x2dd5160
+			// LOOP 0x2dafc80
 			// pre processing
 			for (int i=0; i<4; i++) fRec231_tmp[i]=fRec231_perm[i];
 			// exec code
@@ -17547,7 +17546,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec231_perm[i]=fRec231_tmp[count+i];
 			
-			// LOOP 0x2ddd0b0
+			// LOOP 0x2db7bd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec235_tmp[i]=fRec235_perm[i];
 			// exec code
@@ -17557,7 +17556,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec235_perm[i]=fRec235_tmp[count+i];
 			
-			// LOOP 0x2de5050
+			// LOOP 0x2dbfb70
 			// pre processing
 			for (int i=0; i<4; i++) fRec239_tmp[i]=fRec239_perm[i];
 			// exec code
@@ -17567,7 +17566,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec239_perm[i]=fRec239_tmp[count+i];
 			
-			// LOOP 0x2ded030
+			// LOOP 0x2dc7b50
 			// pre processing
 			for (int i=0; i<4; i++) fRec243_tmp[i]=fRec243_perm[i];
 			// exec code
@@ -17577,7 +17576,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec243_perm[i]=fRec243_tmp[count+i];
 			
-			// LOOP 0x2df0d70
+			// LOOP 0x2dcb890
 			// pre processing
 			for (int i=0; i<4; i++) fRec245_tmp[i]=fRec245_perm[i];
 			// exec code
@@ -17587,7 +17586,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec245_perm[i]=fRec245_tmp[count+i];
 			
-			// LOOP 0x2df45b0
+			// LOOP 0x2dcf0d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec247_tmp[i]=fRec247_perm[i];
 			// exec code
@@ -17597,7 +17596,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec247_perm[i]=fRec247_tmp[count+i];
 			
-			// LOOP 0x2df7da0
+			// LOOP 0x2dd28c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec249_tmp[i]=fRec249_perm[i];
 			// exec code
@@ -17607,7 +17606,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec249_perm[i]=fRec249_tmp[count+i];
 			
-			// LOOP 0x2dfb6e0
+			// LOOP 0x2dd6230
 			// pre processing
 			for (int i=0; i<4; i++) fRec251_tmp[i]=fRec251_perm[i];
 			// exec code
@@ -17617,7 +17616,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec251_perm[i]=fRec251_tmp[count+i];
 			
-			// LOOP 0x2dff600
+			// LOOP 0x2dda150
 			// pre processing
 			for (int i=0; i<4; i++) fRec253_tmp[i]=fRec253_perm[i];
 			// exec code
@@ -17627,7 +17626,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec253_perm[i]=fRec253_tmp[count+i];
 			
-			// LOOP 0x2e02c20
+			// LOOP 0x2ddd770
 			// pre processing
 			for (int i=0; i<4; i++) fRec255_tmp[i]=fRec255_perm[i];
 			// exec code
@@ -17637,7 +17636,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec255_perm[i]=fRec255_tmp[count+i];
 			
-			// LOOP 0x2e06160
+			// LOOP 0x2de0cb0
 			// pre processing
 			for (int i=0; i<4; i++) fRec257_tmp[i]=fRec257_perm[i];
 			// exec code
@@ -17647,7 +17646,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec257_perm[i]=fRec257_tmp[count+i];
 			
-			// LOOP 0x2e097d0
+			// LOOP 0x2de4320
 			// pre processing
 			for (int i=0; i<4; i++) fRec259_tmp[i]=fRec259_perm[i];
 			// exec code
@@ -17657,7 +17656,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec259_perm[i]=fRec259_tmp[count+i];
 			
-			// LOOP 0x2e0d0c0
+			// LOOP 0x2de7c10
 			// pre processing
 			for (int i=0; i<4; i++) fRec261_tmp[i]=fRec261_perm[i];
 			// exec code
@@ -17667,7 +17666,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec261_perm[i]=fRec261_tmp[count+i];
 			
-			// LOOP 0x2e107b0
+			// LOOP 0x2deb300
 			// pre processing
 			for (int i=0; i<4; i++) fRec263_tmp[i]=fRec263_perm[i];
 			// exec code
@@ -17677,7 +17676,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec263_perm[i]=fRec263_tmp[count+i];
 			
-			// LOOP 0x2e13e50
+			// LOOP 0x2dee9a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec265_tmp[i]=fRec265_perm[i];
 			// exec code
@@ -17687,7 +17686,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec265_perm[i]=fRec265_tmp[count+i];
 			
-			// LOOP 0x2e17520
+			// LOOP 0x2df2070
 			// pre processing
 			for (int i=0; i<4; i++) fRec267_tmp[i]=fRec267_perm[i];
 			// exec code
@@ -17697,7 +17696,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec267_perm[i]=fRec267_tmp[count+i];
 			
-			// LOOP 0x2e1abb0
+			// LOOP 0x2df5730
 			// pre processing
 			for (int i=0; i<4; i++) fRec269_tmp[i]=fRec269_perm[i];
 			// exec code
@@ -17707,7 +17706,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec269_perm[i]=fRec269_tmp[count+i];
 			
-			// LOOP 0x2e1e2e0
+			// LOOP 0x2df8e60
 			// pre processing
 			for (int i=0; i<4; i++) fRec271_tmp[i]=fRec271_perm[i];
 			// exec code
@@ -17717,7 +17716,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec271_perm[i]=fRec271_tmp[count+i];
 			
-			// LOOP 0x2e21a60
+			// LOOP 0x2dfc5e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec273_tmp[i]=fRec273_perm[i];
 			// exec code
@@ -17727,7 +17726,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec273_perm[i]=fRec273_tmp[count+i];
 			
-			// LOOP 0x2e25210
+			// LOOP 0x2dffd90
 			// pre processing
 			for (int i=0; i<4; i++) fRec275_tmp[i]=fRec275_perm[i];
 			// exec code
@@ -17737,7 +17736,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec275_perm[i]=fRec275_tmp[count+i];
 			
-			// LOOP 0x2e28a10
+			// LOOP 0x2e03590
 			// pre processing
 			for (int i=0; i<4; i++) fRec277_tmp[i]=fRec277_perm[i];
 			// exec code
@@ -17747,7 +17746,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec277_perm[i]=fRec277_tmp[count+i];
 			
-			// LOOP 0x2e2c250
+			// LOOP 0x2e06dd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec279_tmp[i]=fRec279_perm[i];
 			// exec code
@@ -17758,7 +17757,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec279_perm[i]=fRec279_tmp[count+i];
 			
 			// SECTION : 28
-			// LOOP 0x2b17900
+			// LOOP 0x2af2490
 			// pre processing
 			for (int i=0; i<4; i++) fRec1_tmp[i]=fRec1_perm[i];
 			// exec code
@@ -17768,7 +17767,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec1_perm[i]=fRec1_tmp[count+i];
 			
-			// LOOP 0x2b308a0
+			// LOOP 0x2b0b490
 			// pre processing
 			for (int i=0; i<4; i++) fRec10_tmp[i]=fRec10_perm[i];
 			// exec code
@@ -17778,7 +17777,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec10_perm[i]=fRec10_tmp[count+i];
 			
-			// LOOP 0x2b44b40
+			// LOOP 0x2b1f720
 			// pre processing
 			for (int i=0; i<4; i++) fRec18_tmp[i]=fRec18_perm[i];
 			// exec code
@@ -17788,7 +17787,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec18_perm[i]=fRec18_tmp[count+i];
 			
-			// LOOP 0x2b58930
+			// LOOP 0x2b33510
 			// pre processing
 			for (int i=0; i<4; i++) fRec26_tmp[i]=fRec26_perm[i];
 			// exec code
@@ -17798,7 +17797,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec26_perm[i]=fRec26_tmp[count+i];
 			
-			// LOOP 0x2b6ca80
+			// LOOP 0x2b47660
 			// pre processing
 			for (int i=0; i<4; i++) fRec34_tmp[i]=fRec34_perm[i];
 			// exec code
@@ -17808,7 +17807,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec34_perm[i]=fRec34_tmp[count+i];
 			
-			// LOOP 0x2b80c90
+			// LOOP 0x2b5b870
 			// pre processing
 			for (int i=0; i<4; i++) fRec42_tmp[i]=fRec42_perm[i];
 			// exec code
@@ -17818,7 +17817,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec42_perm[i]=fRec42_tmp[count+i];
 			
-			// LOOP 0x2b92e60
+			// LOOP 0x2b6da70
 			// pre processing
 			for (int i=0; i<4; i++) fRec49_tmp[i]=fRec49_perm[i];
 			// exec code
@@ -17828,7 +17827,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec49_perm[i]=fRec49_tmp[count+i];
 			
-			// LOOP 0x2ba4c60
+			// LOOP 0x2b7f870
 			// pre processing
 			for (int i=0; i<4; i++) fRec56_tmp[i]=fRec56_perm[i];
 			// exec code
@@ -17838,7 +17837,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec56_perm[i]=fRec56_tmp[count+i];
 			
-			// LOOP 0x2bb67a0
+			// LOOP 0x2b913c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec63_tmp[i]=fRec63_perm[i];
 			// exec code
@@ -17848,7 +17847,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec63_perm[i]=fRec63_tmp[count+i];
 			
-			// LOOP 0x2bc8460
+			// LOOP 0x2ba3080
 			// pre processing
 			for (int i=0; i<4; i++) fRec70_tmp[i]=fRec70_perm[i];
 			// exec code
@@ -17858,7 +17857,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec70_perm[i]=fRec70_tmp[count+i];
 			
-			// LOOP 0x2bda720
+			// LOOP 0x2bb5340
 			// pre processing
 			for (int i=0; i<4; i++) fRec78_tmp[i]=fRec78_perm[i];
 			// exec code
@@ -17868,7 +17867,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec78_perm[i]=fRec78_tmp[count+i];
 			
-			// LOOP 0x2bec5c0
+			// LOOP 0x2bc71d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec85_tmp[i]=fRec85_perm[i];
 			// exec code
@@ -17878,7 +17877,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec85_perm[i]=fRec85_tmp[count+i];
 			
-			// LOOP 0x2bfe5b0
+			// LOOP 0x2bd91c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec92_tmp[i]=fRec92_perm[i];
 			// exec code
@@ -17888,7 +17887,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec92_perm[i]=fRec92_tmp[count+i];
 			
-			// LOOP 0x2c03690
+			// LOOP 0x2bde2a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec94_tmp[i]=fRec94_perm[i];
 			// exec code
@@ -17898,7 +17897,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec94_perm[i]=fRec94_tmp[count+i];
 			
-			// LOOP 0x2c09090
+			// LOOP 0x2be3c90
 			// pre processing
 			for (int i=0; i<4; i++) fRec96_tmp[i]=fRec96_perm[i];
 			// exec code
@@ -17908,7 +17907,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec96_perm[i]=fRec96_tmp[count+i];
 			
-			// LOOP 0x2c0e3c0
+			// LOOP 0x2be8fc0
 			// pre processing
 			for (int i=0; i<4; i++) fRec98_tmp[i]=fRec98_perm[i];
 			// exec code
@@ -17918,7 +17917,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec98_perm[i]=fRec98_tmp[count+i];
 			
-			// LOOP 0x2c13d80
+			// LOOP 0x2bee980
 			// pre processing
 			for (int i=0; i<4; i++) fRec100_tmp[i]=fRec100_perm[i];
 			// exec code
@@ -17928,13 +17927,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec100_perm[i]=fRec100_tmp[count+i];
 			
-			// LOOP 0x2d26e60
+			// LOOP 0x2d01a30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec222[i] = (fRec149[i] + (fRec147[i] + (fRec145[i] + (fRec143[i] + (fRec141[i] + (fRec139[i] + (fRec137[i] + (fRec135[i] + fZec221[i]))))))));
 			}
 			
-			// LOOP 0x2d33500
+			// LOOP 0x2d0e100
 			// pre processing
 			for (int i=0; i<4; i++) fYec131_tmp[i]=fYec131_perm[i];
 			// exec code
@@ -17944,7 +17943,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec131_perm[i]=fYec131_tmp[count+i];
 			
-			// LOOP 0x2d7c330
+			// LOOP 0x2d56ea0
 			// pre processing
 			for (int i=0; i<4; i++) fRec187_tmp[i]=fRec187_perm[i];
 			// exec code
@@ -17954,7 +17953,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec187_perm[i]=fRec187_tmp[count+i];
 			
-			// LOOP 0x2d86e60
+			// LOOP 0x2d619d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec192_tmp[i]=fRec192_perm[i];
 			// exec code
@@ -17964,7 +17963,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec192_perm[i]=fRec192_tmp[count+i];
 			
-			// LOOP 0x2d91270
+			// LOOP 0x2d6bde0
 			// pre processing
 			for (int i=0; i<4; i++) fRec197_tmp[i]=fRec197_perm[i];
 			// exec code
@@ -17974,7 +17973,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec197_perm[i]=fRec197_tmp[count+i];
 			
-			// LOOP 0x2d9b6d0
+			// LOOP 0x2d76210
 			// pre processing
 			for (int i=0; i<4; i++) fRec202_tmp[i]=fRec202_perm[i];
 			// exec code
@@ -17984,7 +17983,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec202_perm[i]=fRec202_tmp[count+i];
 			
-			// LOOP 0x2da5c00
+			// LOOP 0x2d80740
 			// pre processing
 			for (int i=0; i<4; i++) fRec207_tmp[i]=fRec207_perm[i];
 			// exec code
@@ -17994,7 +17993,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec207_perm[i]=fRec207_tmp[count+i];
 			
-			// LOOP 0x2db0110
+			// LOOP 0x2d8ac50
 			// pre processing
 			for (int i=0; i<4; i++) fRec212_tmp[i]=fRec212_perm[i];
 			// exec code
@@ -18004,7 +18003,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec212_perm[i]=fRec212_tmp[count+i];
 			
-			// LOOP 0x2dba610
+			// LOOP 0x2d95130
 			// pre processing
 			for (int i=0; i<4; i++) fRec217_tmp[i]=fRec217_perm[i];
 			// exec code
@@ -18014,7 +18013,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec217_perm[i]=fRec217_tmp[count+i];
 			
-			// LOOP 0x2dc4b80
+			// LOOP 0x2d9f6a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec222_tmp[i]=fRec222_perm[i];
 			// exec code
@@ -18024,7 +18023,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec222_perm[i]=fRec222_tmp[count+i];
 			
-			// LOOP 0x2dcca90
+			// LOOP 0x2da75b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec226_tmp[i]=fRec226_perm[i];
 			// exec code
@@ -18034,7 +18033,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec226_perm[i]=fRec226_tmp[count+i];
 			
-			// LOOP 0x2dd4d20
+			// LOOP 0x2daf840
 			// pre processing
 			for (int i=0; i<4; i++) fRec230_tmp[i]=fRec230_perm[i];
 			// exec code
@@ -18044,7 +18043,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec230_perm[i]=fRec230_tmp[count+i];
 			
-			// LOOP 0x2ddcc90
+			// LOOP 0x2db77b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec234_tmp[i]=fRec234_perm[i];
 			// exec code
@@ -18054,7 +18053,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec234_perm[i]=fRec234_tmp[count+i];
 			
-			// LOOP 0x2de4c40
+			// LOOP 0x2dbf760
 			// pre processing
 			for (int i=0; i<4; i++) fRec238_tmp[i]=fRec238_perm[i];
 			// exec code
@@ -18064,7 +18063,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec238_perm[i]=fRec238_tmp[count+i];
 			
-			// LOOP 0x2decc40
+			// LOOP 0x2dc7760
 			// pre processing
 			for (int i=0; i<4; i++) fRec242_tmp[i]=fRec242_perm[i];
 			// exec code
@@ -18074,7 +18073,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec242_perm[i]=fRec242_tmp[count+i];
 			
-			// LOOP 0x2df0580
+			// LOOP 0x2dcb0a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec244_tmp[i]=fRec244_perm[i];
 			// exec code
@@ -18084,7 +18083,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec244_perm[i]=fRec244_tmp[count+i];
 			
-			// LOOP 0x2df3d60
+			// LOOP 0x2dce880
 			// pre processing
 			for (int i=0; i<4; i++) fRec246_tmp[i]=fRec246_perm[i];
 			// exec code
@@ -18094,7 +18093,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec246_perm[i]=fRec246_tmp[count+i];
 			
-			// LOOP 0x2df74e0
+			// LOOP 0x2dd2060
 			// pre processing
 			for (int i=0; i<4; i++) fRec248_tmp[i]=fRec248_perm[i];
 			// exec code
@@ -18104,7 +18103,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec248_perm[i]=fRec248_tmp[count+i];
 			
-			// LOOP 0x2dfae40
+			// LOOP 0x2dd59f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec250_tmp[i]=fRec250_perm[i];
 			// exec code
@@ -18114,7 +18113,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec250_perm[i]=fRec250_tmp[count+i];
 			
-			// LOOP 0x2dfec50
+			// LOOP 0x2dd97a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec252_tmp[i]=fRec252_perm[i];
 			// exec code
@@ -18124,7 +18123,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec252_perm[i]=fRec252_tmp[count+i];
 			
-			// LOOP 0x2e02730
+			// LOOP 0x2ddd280
 			// pre processing
 			for (int i=0; i<4; i++) fRec254_tmp[i]=fRec254_perm[i];
 			// exec code
@@ -18134,7 +18133,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec254_perm[i]=fRec254_tmp[count+i];
 			
-			// LOOP 0x2e05c70
+			// LOOP 0x2de07c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec256_tmp[i]=fRec256_perm[i];
 			// exec code
@@ -18144,7 +18143,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec256_perm[i]=fRec256_tmp[count+i];
 			
-			// LOOP 0x2e092e0
+			// LOOP 0x2de3e30
 			// pre processing
 			for (int i=0; i<4; i++) fRec258_tmp[i]=fRec258_perm[i];
 			// exec code
@@ -18154,7 +18153,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec258_perm[i]=fRec258_tmp[count+i];
 			
-			// LOOP 0x2e0cbf0
+			// LOOP 0x2de7740
 			// pre processing
 			for (int i=0; i<4; i++) fRec260_tmp[i]=fRec260_perm[i];
 			// exec code
@@ -18164,7 +18163,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec260_perm[i]=fRec260_tmp[count+i];
 			
-			// LOOP 0x2e10310
+			// LOOP 0x2deae60
 			// pre processing
 			for (int i=0; i<4; i++) fRec262_tmp[i]=fRec262_perm[i];
 			// exec code
@@ -18174,7 +18173,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec262_perm[i]=fRec262_tmp[count+i];
 			
-			// LOOP 0x2e139d0
+			// LOOP 0x2dee520
 			// pre processing
 			for (int i=0; i<4; i++) fRec264_tmp[i]=fRec264_perm[i];
 			// exec code
@@ -18184,7 +18183,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec264_perm[i]=fRec264_tmp[count+i];
 			
-			// LOOP 0x2e170c0
+			// LOOP 0x2df1c10
 			// pre processing
 			for (int i=0; i<4; i++) fRec266_tmp[i]=fRec266_perm[i];
 			// exec code
@@ -18194,7 +18193,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec266_perm[i]=fRec266_tmp[count+i];
 			
-			// LOOP 0x2e1a770
+			// LOOP 0x2df52f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec268_tmp[i]=fRec268_perm[i];
 			// exec code
@@ -18204,7 +18203,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec268_perm[i]=fRec268_tmp[count+i];
 			
-			// LOOP 0x2e1ded0
+			// LOOP 0x2df8a50
 			// pre processing
 			for (int i=0; i<4; i++) fRec270_tmp[i]=fRec270_perm[i];
 			// exec code
@@ -18214,7 +18213,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec270_perm[i]=fRec270_tmp[count+i];
 			
-			// LOOP 0x2e21660
+			// LOOP 0x2dfc1e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec272_tmp[i]=fRec272_perm[i];
 			// exec code
@@ -18224,7 +18223,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec272_perm[i]=fRec272_tmp[count+i];
 			
-			// LOOP 0x2e24e20
+			// LOOP 0x2dff9a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec274_tmp[i]=fRec274_perm[i];
 			// exec code
@@ -18234,7 +18233,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec274_perm[i]=fRec274_tmp[count+i];
 			
-			// LOOP 0x2e281f0
+			// LOOP 0x2e02d70
 			// pre processing
 			for (int i=0; i<4; i++) fRec276_tmp[i]=fRec276_perm[i];
 			// exec code
@@ -18244,7 +18243,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec276_perm[i]=fRec276_tmp[count+i];
 			
-			// LOOP 0x2e2b9f0
+			// LOOP 0x2e06570
 			// pre processing
 			for (int i=0; i<4; i++) fRec278_tmp[i]=fRec278_perm[i];
 			// exec code
@@ -18255,7 +18254,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec278_perm[i]=fRec278_tmp[count+i];
 			
 			// SECTION : 29
-			// LOOP 0x2bda230
+			// LOOP 0x2bb4e50
 			// pre processing
 			for (int i=0; i<4; i++) fRec77_tmp[i]=fRec77_perm[i];
 			// exec code
@@ -18265,7 +18264,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec77_perm[i]=fRec77_tmp[count+i];
 			
-			// LOOP 0x2bec0d0
+			// LOOP 0x2bc6ce0
 			// pre processing
 			for (int i=0; i<4; i++) fRec84_tmp[i]=fRec84_perm[i];
 			// exec code
@@ -18275,7 +18274,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec84_perm[i]=fRec84_tmp[count+i];
 			
-			// LOOP 0x2bfe0c0
+			// LOOP 0x2bd8cd0
 			// pre processing
 			for (int i=0; i<4; i++) fRec91_tmp[i]=fRec91_perm[i];
 			// exec code
@@ -18285,7 +18284,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec91_perm[i]=fRec91_tmp[count+i];
 			
-			// LOOP 0x2c031a0
+			// LOOP 0x2bdddb0
 			// pre processing
 			for (int i=0; i<4; i++) fRec93_tmp[i]=fRec93_perm[i];
 			// exec code
@@ -18295,7 +18294,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec93_perm[i]=fRec93_tmp[count+i];
 			
-			// LOOP 0x2c08ba0
+			// LOOP 0x2be37a0
 			// pre processing
 			for (int i=0; i<4; i++) fRec95_tmp[i]=fRec95_perm[i];
 			// exec code
@@ -18305,7 +18304,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec95_perm[i]=fRec95_tmp[count+i];
 			
-			// LOOP 0x2c0ded0
+			// LOOP 0x2be8ad0
 			// pre processing
 			for (int i=0; i<4; i++) fRec97_tmp[i]=fRec97_perm[i];
 			// exec code
@@ -18315,7 +18314,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec97_perm[i]=fRec97_tmp[count+i];
 			
-			// LOOP 0x2c13890
+			// LOOP 0x2bee490
 			// pre processing
 			for (int i=0; i<4; i++) fRec99_tmp[i]=fRec99_perm[i];
 			// exec code
@@ -18325,13 +18324,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec99_perm[i]=fRec99_tmp[count+i];
 			
-			// LOOP 0x2d26d50
+			// LOOP 0x2d01920
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec223[i] = (fRec173[i] + (fRec171[i] + (fRec169[i] + (fRec167[i] + (fRec165[i] + (fRec163[i] + (fRec161[i] + (fRec159[i] + (fRec157[i] + (fRec155[i] + (fRec153[i] + (fRec151[i] + fZec222[i]))))))))))));
 			}
 			
-			// LOOP 0x2d32f80
+			// LOOP 0x2d0db80
 			// pre processing
 			for (int i=0; i<4; i++) fRec181_tmp[i]=fRec181_perm[i];
 			// exec code
@@ -18341,44 +18340,44 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec181_perm[i]=fRec181_tmp[count+i];
 			
-			// LOOP 0x2d7c190
+			// LOOP 0x2d56d00
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec322[i] = ((fRec250[i] * fZec171[i]) + ((fRec248[i] * fZec170[i]) + ((fRec246[i] * fZec169[i]) + ((fRec244[i] * fZec168[i]) + ((fRec242[i] * fZec167[i]) + ((fRec238[i] * fZec154[i]) + ((fRec234[i] * fZec141[i]) + ((fRec230[i] * fZec128[i]) + ((fRec226[i] * fZec115[i]) + ((fRec222[i] * fZec102[i]) + ((fRec217[i] * fZec89[i]) + ((fRec212[i] * fZec76[i]) + ((fRec207[i] * fZec61[i]) + ((fRec202[i] * fZec46[i]) + ((fRec197[i] * fZec31[i]) + ((fRec192[i] * fZec16[i]) + (fRec187[i] * fZec0[i])))))))))))))))));
 			}
 			
-			// LOOP 0x2e61640
+			// LOOP 0x2e3c1c0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec331[i] = ((fRec70[i] * fZec171[i]) + ((fRec63[i] * fZec170[i]) + ((fRec56[i] * fZec169[i]) + ((fRec49[i] * fZec168[i]) + ((fRec42[i] * fZec167[i]) + ((fRec34[i] * fZec154[i]) + ((fRec26[i] * fZec141[i]) + ((fRec18[i] * fZec128[i]) + ((fRec10[i] * fZec115[i]) + ((fRec1[i] * fZec102[i]) + ((fRec278[i] * fZec89[i]) + ((fRec276[i] * fZec76[i]) + ((fRec274[i] * fZec61[i]) + ((fRec272[i] * fZec46[i]) + ((fRec270[i] * fZec31[i]) + ((fRec268[i] * fZec16[i]) + (fRec266[i] * fZec0[i])))))))))))))))));
 			}
 			
-			// LOOP 0x2e66520
+			// LOOP 0x2e410a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec332[i] = ((fRec274[i] * fZec171[i]) + ((fRec272[i] * fZec170[i]) + ((fRec270[i] * fZec169[i]) + ((fRec268[i] * fZec168[i]) + ((fRec266[i] * fZec167[i]) + ((fRec264[i] * fZec154[i]) + ((fRec262[i] * fZec141[i]) + ((fRec260[i] * fZec128[i]) + ((fRec258[i] * fZec115[i]) + ((fRec256[i] * fZec102[i]) + ((fRec254[i] * fZec89[i]) + ((fRec252[i] * fZec76[i]) + ((fRec250[i] * fZec61[i]) + ((fRec248[i] * fZec46[i]) + ((fRec246[i] * fZec31[i]) + ((fRec244[i] * fZec16[i]) + (fRec242[i] * fZec0[i])))))))))))))))));
 			}
 			
 			// SECTION : 30
-			// LOOP 0x2d32e10
+			// LOOP 0x2d0da10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec270[i] = (0.002f * (fRec181[i] * fSlow1));
 			}
 			
-			// LOOP 0x2d7c050
+			// LOOP 0x2d56bc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec323[i] = (0.41975f * ((fRec125[i] * fZec215[i]) + ((fRec123[i] * fZec214[i]) + ((fRec121[i] * fZec213[i]) + ((fRec119[i] * fZec212[i]) + ((fRec117[i] * fZec211[i]) + ((fRec115[i] * fZec210[i]) + ((fRec113[i] * fZec209[i]) + ((fRec111[i] * fZec208[i]) + ((fRec109[i] * fZec207[i]) + ((fRec107[i] * fZec206[i]) + ((fRec105[i] * fZec205[i]) + ((fRec103[i] * fZec204[i]) + ((fRec101[i] * fZec203[i]) + ((fRec99[i] * fZec202[i]) + ((fRec97[i] * fZec201[i]) + ((fRec95[i] * fZec200[i]) + ((fRec93[i] * fZec199[i]) + ((fRec91[i] * fZec198[i]) + ((fRec84[i] * fZec197[i]) + ((fRec77[i] * fZec196[i]) + ((fRec70[i] * fZec195[i]) + ((fRec63[i] * fZec194[i]) + ((fRec56[i] * fZec193[i]) + ((fRec49[i] * fZec192[i]) + ((fRec42[i] * fZec191[i]) + ((fRec34[i] * fZec190[i]) + ((fRec26[i] * fZec189[i]) + ((fRec18[i] * fZec188[i]) + ((fRec10[i] * fZec187[i]) + ((fRec1[i] * fZec186[i]) + ((fRec278[i] * fZec185[i]) + ((fRec276[i] * fZec184[i]) + ((fRec274[i] * fZec183[i]) + ((fRec272[i] * fZec182[i]) + ((fRec270[i] * fZec181[i]) + ((fRec268[i] * fZec180[i]) + ((fRec266[i] * fZec179[i]) + ((fRec264[i] * fZec178[i]) + ((fRec262[i] * fZec177[i]) + ((fRec260[i] * fZec176[i]) + ((fRec258[i] * fZec175[i]) + ((fRec256[i] * fZec174[i]) + ((fRec254[i] * fZec173[i]) + ((fRec252[i] * fZec172[i]) + (fSlow36 * fZec322[i]))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2e3d5e0
+			// LOOP 0x2e18160
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec324[i] = (1.679f * ((fSlow36 * (fRec238[i] + (fRec234[i] + (fRec230[i] + (fRec226[i] + (fRec222[i] + (fRec217[i] + (fRec212[i] + (fRec207[i] + (fRec202[i] + (fRec197[i] + (fRec192[i] + (fRec187[i] + (fRec250[i] + (fRec248[i] + (fRec246[i] + (fRec242[i] + fRec244[i]))))))))))))))))) + (fRec264[i] + (fRec262[i] + (fRec260[i] + (fRec258[i] + (fRec256[i] + (fRec254[i] + (fRec252[i] + (fRec278[i] + (fRec276[i] + (fRec274[i] + (fRec272[i] + (fRec270[i] + (fRec268[i] + (fRec266[i] + (fRec34[i] + (fRec26[i] + (fRec18[i] + (fRec10[i] + (fRec1[i] + (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec42[i] + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + (fRec70[i] + fZec220[i])))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2e4fd70
+			// LOOP 0x2e2a8f0
 			// pre processing
 			for (int i=0; i<4; i++) iRec285_tmp[i]=iRec285_perm[i];
 			// exec code
@@ -18388,44 +18387,44 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) iRec285_perm[i]=iRec285_tmp[count+i];
 			
-			// LOOP 0x2e7bb60
+			// LOOP 0x2e566e0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec334[i] = (0.25f * ((fRec149[i] * fZec215[i]) + ((fRec147[i] * fZec214[i]) + ((fRec145[i] * fZec213[i]) + ((fRec143[i] * fZec212[i]) + ((fRec141[i] * fZec211[i]) + ((fRec139[i] * fZec210[i]) + ((fRec137[i] * fZec209[i]) + ((fRec135[i] * fZec208[i]) + ((fRec133[i] * fZec207[i]) + ((fRec131[i] * fZec206[i]) + ((fRec129[i] * fZec205[i]) + ((fRec127[i] * fZec204[i]) + ((fRec125[i] * fZec203[i]) + ((fRec123[i] * fZec202[i]) + ((fRec121[i] * fZec201[i]) + ((fRec119[i] * fZec200[i]) + ((fRec117[i] * fZec199[i]) + ((fRec115[i] * fZec198[i]) + ((fRec113[i] * fZec197[i]) + ((fRec111[i] * fZec196[i]) + ((fRec109[i] * fZec195[i]) + ((fRec107[i] * fZec194[i]) + ((fRec105[i] * fZec193[i]) + ((fRec103[i] * fZec192[i]) + ((fRec101[i] * fZec191[i]) + ((fRec99[i] * fZec190[i]) + ((fRec97[i] * fZec189[i]) + ((fRec95[i] * fZec188[i]) + ((fRec93[i] * fZec187[i]) + ((fRec91[i] * fZec186[i]) + ((fRec84[i] * fZec185[i]) + ((fRec77[i] * fZec184[i]) + ((fRec70[i] * fZec183[i]) + ((fRec63[i] * fZec182[i]) + ((fRec56[i] * fZec181[i]) + ((fRec49[i] * fZec180[i]) + ((fRec42[i] * fZec179[i]) + ((fRec34[i] * fZec178[i]) + ((fRec26[i] * fZec177[i]) + ((fRec18[i] * fZec176[i]) + ((fRec10[i] * fZec175[i]) + ((fRec1[i] * fZec174[i]) + ((fRec278[i] * fZec173[i]) + ((fRec276[i] * fZec172[i]) + (fSlow36 * fZec332[i]))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2e8dc30
+			// LOOP 0x2e687b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec335[i] = ((fSlow36 * (fRec264[i] + (fRec262[i] + (fRec260[i] + (fRec258[i] + (fRec256[i] + (fRec254[i] + (fRec252[i] + (fRec250[i] + (fRec248[i] + (fRec246[i] + (fRec244[i] + (fRec242[i] + (fRec274[i] + (fRec272[i] + (fRec270[i] + (fRec266[i] + fRec268[i]))))))))))))))))) + (fRec278[i] + (fRec276[i] + (fRec34[i] + (fRec26[i] + (fRec18[i] + (fRec10[i] + (fRec1[i] + (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec42[i] + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + (fRec70[i] + fZec222[i]))))))))))))))))))));
 			}
 			
-			// LOOP 0x2ea21e0
+			// LOOP 0x2e7cd60
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec337[i] = (0.25f * (fZec238[i] + ((fRec171[i] * fZec214[i]) + ((fRec169[i] * fZec213[i]) + ((fRec167[i] * fZec212[i]) + ((fRec165[i] * fZec211[i]) + ((fRec163[i] * fZec210[i]) + ((fRec161[i] * fZec209[i]) + ((fRec159[i] * fZec208[i]) + ((fRec157[i] * fZec207[i]) + ((fRec155[i] * fZec206[i]) + ((fRec153[i] * fZec205[i]) + ((fRec151[i] * fZec204[i]) + ((fRec149[i] * fZec203[i]) + ((fRec147[i] * fZec202[i]) + ((fRec145[i] * fZec201[i]) + ((fRec143[i] * fZec200[i]) + ((fRec141[i] * fZec199[i]) + ((fRec139[i] * fZec198[i]) + ((fRec137[i] * fZec197[i]) + ((fRec135[i] * fZec196[i]) + ((fRec133[i] * fZec195[i]) + ((fRec131[i] * fZec194[i]) + ((fRec129[i] * fZec193[i]) + ((fRec127[i] * fZec192[i]) + ((fRec125[i] * fZec191[i]) + ((fRec123[i] * fZec190[i]) + ((fRec121[i] * fZec189[i]) + ((fRec119[i] * fZec188[i]) + ((fRec117[i] * fZec187[i]) + ((fRec115[i] * fZec186[i]) + ((fRec113[i] * fZec185[i]) + ((fRec111[i] * fZec184[i]) + ((fRec109[i] * fZec183[i]) + ((fRec107[i] * fZec182[i]) + ((fRec105[i] * fZec181[i]) + ((fRec103[i] * fZec180[i]) + ((fRec101[i] * fZec179[i]) + ((fRec99[i] * fZec178[i]) + ((fRec97[i] * fZec177[i]) + ((fRec95[i] * fZec176[i]) + ((fRec93[i] * fZec175[i]) + ((fRec91[i] * fZec174[i]) + ((fRec84[i] * fZec173[i]) + ((fRec77[i] * fZec172[i]) + (fSlow36 * fZec331[i]))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2eb3970
+			// LOOP 0x2e8e4f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec338[i] = ((fSlow36 * (fRec278[i] + (fRec276[i] + (fRec274[i] + (fRec272[i] + (fRec270[i] + (fRec268[i] + (fRec266[i] + (fRec34[i] + (fRec26[i] + (fRec18[i] + (fRec10[i] + (fRec1[i] + (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec70[i] + fRec42[i]))))))))))))))))) + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + fZec223[i]))))))));
 			}
 			
-			// LOOP 0x2ec65d0
+			// LOOP 0x2ea1150
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec340[i] = (0.25f * (fZec238[i] + (fZec237[i] + (fZec236[i] + (fZec235[i] + (fZec234[i] + (fZec233[i] + (fZec232[i] + (fZec231[i] + (fZec230[i] + (fZec229[i] + (fZec228[i] + (fZec227[i] + (fZec226[i] + ((fRec171[i] * fZec202[i]) + ((fRec169[i] * fZec201[i]) + ((fRec167[i] * fZec200[i]) + ((fRec165[i] * fZec199[i]) + ((fRec163[i] * fZec198[i]) + ((fRec161[i] * fZec197[i]) + ((fRec159[i] * fZec196[i]) + ((fRec157[i] * fZec195[i]) + ((fRec155[i] * fZec194[i]) + ((fRec153[i] * fZec193[i]) + ((fRec151[i] * fZec192[i]) + ((fRec149[i] * fZec191[i]) + ((fRec147[i] * fZec190[i]) + ((fRec145[i] * fZec189[i]) + ((fRec143[i] * fZec188[i]) + ((fRec141[i] * fZec187[i]) + ((fRec139[i] * fZec186[i]) + ((fRec137[i] * fZec185[i]) + ((fRec135[i] * fZec184[i]) + ((fRec133[i] * fZec183[i]) + ((fRec131[i] * fZec182[i]) + ((fRec129[i] * fZec181[i]) + ((fRec127[i] * fZec180[i]) + ((fRec125[i] * fZec179[i]) + ((fRec123[i] * fZec178[i]) + ((fRec121[i] * fZec177[i]) + ((fRec119[i] * fZec176[i]) + ((fRec117[i] * fZec175[i]) + ((fRec115[i] * fZec174[i]) + ((fRec113[i] * fZec173[i]) + ((fRec111[i] * fZec172[i]) + (fSlow36 * ((fRec109[i] * fZec171[i]) + ((fRec107[i] * fZec170[i]) + ((fRec105[i] * fZec169[i]) + ((fRec103[i] * fZec168[i]) + ((fRec101[i] * fZec167[i]) + ((fRec99[i] * fZec154[i]) + ((fRec97[i] * fZec141[i]) + ((fRec95[i] * fZec128[i]) + ((fRec93[i] * fZec115[i]) + ((fRec91[i] * fZec102[i]) + ((fRec84[i] * fZec89[i]) + ((fRec77[i] * fZec76[i]) + ((fRec70[i] * fZec61[i]) + ((fRec63[i] * fZec46[i]) + ((fRec56[i] * fZec31[i]) + ((fRec49[i] * fZec16[i]) + (fRec42[i] * fZec0[i])))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2edc7e0
+			// LOOP 0x2eb7360
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec341[i] = ((fSlow36 * (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec42[i] + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + (fRec70[i] + fZec218[i]))))))))))))) + (fRec185[i] + (fRec184[i] + (fRec183[i] + (fRec182[i] + (fRec180[i] + (fRec179[i] + (fRec178[i] + (fRec177[i] + (fRec176[i] + (fRec175[i] + (fRec174[i] + ((2 * fRec173[i]) + (fRec171[i] + (fRec169[i] + (fRec167[i] + (fRec165[i] + (fRec163[i] + (fRec161[i] + (fRec159[i] + (fRec157[i] + (fRec155[i] + (fRec153[i] + (fRec151[i] + (fRec149[i] + (fRec147[i] + (fRec145[i] + (fRec143[i] + (fRec141[i] + (fRec139[i] + (fRec137[i] + (fRec135[i] + (fRec133[i] + (fRec131[i] + (fRec129[i] + (fRec127[i] + (fRec125[i] + (fRec123[i] + (fRec121[i] + (fRec119[i] + (fRec117[i] + (fRec115[i] + (fRec111[i] + fRec113[i])))))))))))))))))))))))))))))))))))))))))));
 			}
 			
 			// SECTION : 31
-			// LOOP 0x2d7bf40
+			// LOOP 0x2d56ab0
 			// pre processing
 			for (int i=0; i<4; i++) fYec194_tmp[i]=fYec194_perm[i];
 			// exec code
@@ -18435,13 +18434,13 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec194_perm[i]=fYec194_tmp[count+i];
 			
-			// LOOP 0x2e4faa0
+			// LOOP 0x2e2a620
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec326[i] = faustpower<2>(float(min(1.0f, max(-1.0f, (fZec270[i] + ((4.656612875245796e-16f * iRec285[i]) + fZec239[i]))))));
 			}
 			
-			// LOOP 0x2e7ba50
+			// LOOP 0x2e565d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec199_tmp[i]=fYec199_perm[i];
 			// exec code
@@ -18451,7 +18450,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec199_perm[i]=fYec199_tmp[count+i];
 			
-			// LOOP 0x2ea20d0
+			// LOOP 0x2e7cc50
 			// pre processing
 			for (int i=0; i<4; i++) fYec202_tmp[i]=fYec202_perm[i];
 			// exec code
@@ -18461,7 +18460,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec202_perm[i]=fYec202_tmp[count+i];
 			
-			// LOOP 0x2ec64c0
+			// LOOP 0x2ea1040
 			// pre processing
 			for (int i=0; i<4; i++) fYec205_tmp[i]=fYec205_perm[i];
 			// exec code
@@ -18472,7 +18471,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec205_perm[i]=fYec205_tmp[count+i];
 			
 			// SECTION : 32
-			// LOOP 0x2d7ba50
+			// LOOP 0x2d565c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec186_tmp[i]=fRec186_perm[i];
 			// exec code
@@ -18482,7 +18481,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec186_perm[i]=fRec186_tmp[count+i];
 			
-			// LOOP 0x2e4f490
+			// LOOP 0x2e2a010
 			// pre processing
 			for (int i=0; i<4; i++) fRec282_tmp[i]=fRec282_perm[i];
 			for (int i=0; i<4; i++) iRec283_tmp[i]=iRec283_perm[i];
@@ -18499,7 +18498,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) iRec283_perm[i]=iRec283_tmp[count+i];
 			for (int i=0; i<4; i++) fRec282_perm[i]=fRec282_tmp[count+i];
 			
-			// LOOP 0x2e7b4d0
+			// LOOP 0x2e560f0
 			// pre processing
 			for (int i=0; i<4; i++) fRec292_tmp[i]=fRec292_perm[i];
 			// exec code
@@ -18509,7 +18508,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec292_perm[i]=fRec292_tmp[count+i];
 			
-			// LOOP 0x2ea1b50
+			// LOOP 0x2e7c6d0
 			// pre processing
 			for (int i=0; i<4; i++) fRec295_tmp[i]=fRec295_perm[i];
 			// exec code
@@ -18519,7 +18518,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec295_perm[i]=fRec295_tmp[count+i];
 			
-			// LOOP 0x2ec5f40
+			// LOOP 0x2ea0ac0
 			// pre processing
 			for (int i=0; i<4; i++) fRec298_tmp[i]=fRec298_perm[i];
 			// exec code
@@ -18530,19 +18529,19 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fRec298_perm[i]=fRec298_tmp[count+i];
 			
 			// SECTION : 33
-			// LOOP 0x2b161c0
+			// LOOP 0x2af0d50
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec216[i] = ((fRec180[i] * fZec215[i]) + ((fRec179[i] * fZec214[i]) + ((fRec178[i] * fZec213[i]) + ((fRec177[i] * fZec212[i]) + ((fRec176[i] * fZec211[i]) + ((fRec175[i] * fZec210[i]) + ((fRec174[i] * fZec209[i]) + ((fRec173[i] * fZec208[i]) + ((fRec171[i] * fZec207[i]) + ((fRec169[i] * fZec206[i]) + ((fRec167[i] * fZec205[i]) + ((fRec165[i] * fZec204[i]) + ((fRec163[i] * fZec203[i]) + ((fRec161[i] * fZec202[i]) + ((fRec159[i] * fZec201[i]) + ((fRec157[i] * fZec200[i]) + ((fRec155[i] * fZec199[i]) + ((fRec153[i] * fZec198[i]) + ((fRec151[i] * fZec197[i]) + ((fRec149[i] * fZec196[i]) + ((fRec147[i] * fZec195[i]) + ((fRec145[i] * fZec194[i]) + ((fRec143[i] * fZec193[i]) + ((fRec141[i] * fZec192[i]) + ((fRec139[i] * fZec191[i]) + ((fRec137[i] * fZec190[i]) + ((fRec135[i] * fZec189[i]) + ((fRec133[i] * fZec188[i]) + ((fRec131[i] * fZec187[i]) + ((fRec129[i] * fZec186[i]) + ((fRec127[i] * fZec185[i]) + ((fRec125[i] * fZec184[i]) + ((fRec123[i] * fZec183[i]) + ((fRec121[i] * fZec182[i]) + ((fRec119[i] * fZec181[i]) + ((fRec117[i] * fZec180[i]) + ((fRec115[i] * fZec179[i]) + ((fRec113[i] * fZec178[i]) + ((fRec111[i] * fZec177[i]) + ((fRec109[i] * fZec176[i]) + ((fRec107[i] * fZec175[i]) + ((fRec105[i] * fZec174[i]) + ((fRec103[i] * fZec173[i]) + ((fRec101[i] * fZec172[i]) + (fSlow36 * ((fRec99[i] * fZec171[i]) + ((fRec97[i] * fZec170[i]) + ((fRec95[i] * fZec169[i]) + ((fRec93[i] * fZec168[i]) + ((fRec91[i] * fZec167[i]) + ((fRec84[i] * fZec154[i]) + ((fRec77[i] * fZec141[i]) + ((fRec70[i] * fZec128[i]) + ((fRec63[i] * fZec115[i]) + ((fRec56[i] * fZec102[i]) + ((fRec49[i] * fZec89[i]) + ((fRec42[i] * fZec76[i]) + ((fRec34[i] * fZec61[i]) + ((fRec26[i] * fZec46[i]) + ((fRec18[i] * fZec31[i]) + ((fRec10[i] * fZec16[i]) + (fRec1[i] * fZec0[i]))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2d7b940
+			// LOOP 0x2d564b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec325[i] = (fZec323[i] + (0.002f * (fRec186[i] * fSlow1)));
 			}
 			
-			// LOOP 0x2e4f350
+			// LOOP 0x2e29ed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec195_tmp[i]=fYec195_perm[i];
 			// exec code
@@ -18552,50 +18551,50 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec195_perm[i]=fYec195_tmp[count+i];
 			
-			// LOOP 0x2e7b360
+			// LOOP 0x2e55fe0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec336[i] = (fZec334[i] + (0.002f * (fRec292[i] * fSlow1)));
 			}
 			
-			// LOOP 0x2ea19e0
+			// LOOP 0x2e7c560
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec339[i] = (fZec337[i] + (0.002f * (fRec295[i] * fSlow1)));
 			}
 			
-			// LOOP 0x2ec5dd0
+			// LOOP 0x2ea0950
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec342[i] = (fZec340[i] + (0.002f * (fRec298[i] * fSlow1)));
 			}
 			
 			// SECTION : 34
-			// LOOP 0x2b16080
+			// LOOP 0x2af0c10
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec217[i] = (0.25f * fZec216[i]);
 			}
 			
-			// LOOP 0x2d26c40
+			// LOOP 0x2d01810
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec224[i] = ((fSlow36 * (fRec34[i] + (fRec26[i] + (fRec18[i] + (fRec10[i] + (fRec1[i] + (fRec63[i] + (fRec56[i] + (fRec49[i] + (fRec42[i] + (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec70[i] + fRec77[i]))))))))))))))))) + (fRec180[i] + (fRec179[i] + (fRec178[i] + (fRec177[i] + (fRec176[i] + (fRec175[i] + (fRec174[i] + fZec223[i]))))))));
 			}
 			
-			// LOOP 0x2e4f240
+			// LOOP 0x2e29dc0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec328[i] = (2e+01f * fYec195[i]);
 			}
 			
-			// LOOP 0x2e55b30
+			// LOOP 0x2e306b0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec329[i] = (2e+01f * fYec195[i-1]);
 			}
 			
-			// LOOP 0x2e73be0
+			// LOOP 0x2e4e760
 			// pre processing
 			for (int i=0; i<4; i++) fYec197_tmp[i]=fYec197_perm[i];
 			// exec code
@@ -18605,7 +18604,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec197_perm[i]=fYec197_tmp[count+i];
 			
-			// LOOP 0x2e7b220
+			// LOOP 0x2e55ed0
 			// pre processing
 			for (int i=0; i<4; i++) fYec200_tmp[i]=fYec200_perm[i];
 			// exec code
@@ -18615,7 +18614,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec200_perm[i]=fYec200_tmp[count+i];
 			
-			// LOOP 0x2ea18d0
+			// LOOP 0x2e7c450
 			// pre processing
 			for (int i=0; i<4; i++) fYec203_tmp[i]=fYec203_perm[i];
 			// exec code
@@ -18625,7 +18624,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec203_perm[i]=fYec203_tmp[count+i];
 			
-			// LOOP 0x2ec5cc0
+			// LOOP 0x2ea0840
 			// pre processing
 			for (int i=0; i<4; i++) fYec206_tmp[i]=fYec206_perm[i];
 			// exec code
@@ -18636,7 +18635,7 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec206_perm[i]=fYec206_tmp[count+i];
 			
 			// SECTION : 35
-			// LOOP 0x2b15f70
+			// LOOP 0x2af0b00
 			// pre processing
 			for (int i=0; i<4; i++) fYec122_tmp[i]=fYec122_perm[i];
 			// exec code
@@ -18646,7 +18645,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec122_perm[i]=fYec122_tmp[count+i];
 			
-			// LOOP 0x2e4ee40
+			// LOOP 0x2e299c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec281_tmp[i]=fRec281_perm[i];
 			// exec code
@@ -18656,7 +18655,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec281_perm[i]=fRec281_tmp[count+i];
 			
-			// LOOP 0x2e73660
+			// LOOP 0x2e4e1e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec289_tmp[i]=fRec289_perm[i];
 			// exec code
@@ -18666,7 +18665,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec289_perm[i]=fRec289_tmp[count+i];
 			
-			// LOOP 0x2e7add0
+			// LOOP 0x2e55950
 			// pre processing
 			for (int i=0; i<4; i++) fRec291_tmp[i]=fRec291_perm[i];
 			// exec code
@@ -18676,7 +18675,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec291_perm[i]=fRec291_tmp[count+i];
 			
-			// LOOP 0x2ea1350
+			// LOOP 0x2e7bed0
 			// pre processing
 			for (int i=0; i<4; i++) fRec294_tmp[i]=fRec294_perm[i];
 			// exec code
@@ -18686,7 +18685,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec294_perm[i]=fRec294_tmp[count+i];
 			
-			// LOOP 0x2ec5740
+			// LOOP 0x2ea02c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec297_tmp[i]=fRec297_perm[i];
 			// exec code
@@ -18696,20 +18695,20 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec297_perm[i]=fRec297_tmp[count+i];
 			
-			// LOOP 0x2f21400
+			// LOOP 0x2efbf30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec344[i] = (0.25f * ((fRec177[i] * fZec215[i]) + ((fRec176[i] * fZec214[i]) + ((fRec175[i] * fZec213[i]) + ((fRec174[i] * fZec212[i]) + ((fRec173[i] * fZec211[i]) + ((fRec185[i] * fZec210[i]) + ((fRec184[i] * fZec209[i]) + ((fRec183[i] * fZec208[i]) + ((fRec182[i] * fZec207[i]) + ((fRec180[i] * fZec206[i]) + ((fRec179[i] * fZec205[i]) + ((fRec178[i] * fZec204[i]) + ((fRec177[i] * fZec203[i]) + ((fRec176[i] * fZec202[i]) + ((fRec175[i] * fZec201[i]) + ((fRec174[i] * fZec200[i]) + ((fRec173[i] * fZec199[i]) + ((fRec171[i] * fZec198[i]) + ((fRec169[i] * fZec197[i]) + ((fRec167[i] * fZec196[i]) + ((fRec165[i] * fZec195[i]) + ((fRec163[i] * fZec194[i]) + ((fRec161[i] * fZec193[i]) + ((fRec159[i] * fZec192[i]) + ((fRec157[i] * fZec191[i]) + ((fRec155[i] * fZec190[i]) + ((fRec153[i] * fZec189[i]) + ((fRec151[i] * fZec188[i]) + ((fRec149[i] * fZec187[i]) + ((fRec147[i] * fZec186[i]) + ((fRec145[i] * fZec185[i]) + ((fRec143[i] * fZec184[i]) + ((fRec141[i] * fZec183[i]) + ((fRec139[i] * fZec182[i]) + ((fRec137[i] * fZec181[i]) + ((fRec135[i] * fZec180[i]) + ((fRec133[i] * fZec179[i]) + ((fRec131[i] * fZec178[i]) + ((fRec129[i] * fZec177[i]) + ((fRec127[i] * fZec176[i]) + ((fRec125[i] * fZec175[i]) + ((fRec123[i] * fZec174[i]) + ((fRec121[i] * fZec173[i]) + ((fRec119[i] * fZec172[i]) + (fSlow36 * ((fRec117[i] * fZec171[i]) + ((fRec115[i] * fZec170[i]) + ((fRec113[i] * fZec169[i]) + ((fRec111[i] * fZec168[i]) + ((fRec109[i] * fZec167[i]) + ((fRec107[i] * fZec154[i]) + ((fRec105[i] * fZec141[i]) + ((fRec103[i] * fZec128[i]) + ((fRec101[i] * fZec115[i]) + ((fRec99[i] * fZec102[i]) + ((fRec97[i] * fZec89[i]) + ((fRec95[i] * fZec76[i]) + ((fRec93[i] * fZec61[i]) + ((fRec91[i] * fZec46[i]) + ((fRec84[i] * fZec31[i]) + ((fRec77[i] * fZec16[i]) + (fRec70[i] * fZec0[i])))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))));
 			}
 			
-			// LOOP 0x2f3a7e0
+			// LOOP 0x2f15310
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec345[i] = ((fRec177[i] + (fRec175[i] + fRec176[i])) + (2 * ((fZec240[i] + (fZec241[i] + (fZec242[i] + (fZec243[i] + (fZec244[i] + (fZec245[i] + (fZec246[i] + (fZec247[i] + (fZec248[i] + (fZec249[i] + (fRec174[i] + (fRec173[i] + (fZec250[i] + (fZec251[i] + (fZec252[i] + (fZec253[i] + (fZec254[i] + (fZec255[i] + (fZec256[i] + (fZec257[i] + (fZec258[i] + (fZec259[i] + (fZec260[i] + (fZec261[i] + (fZec262[i] + (fZec263[i] + (fZec264[i] + (fZec265[i] + (fZec266[i] + (fZec267[i] + (fZec268[i] + ((((((((0.5f * fRec119[i]) + (0.5f * fRec121[i])) + (0.5f * fRec123[i])) + (0.5f * fRec125[i])) + (0.5f * fRec127[i])) + (0.5f * fRec129[i])) + (0.5f * fRec131[i])) + (0.5f * fRec133[i]))))))))))))))))))))))))))))))))) + (fSlow81 * (fRec99[i] + (fRec97[i] + (fRec95[i] + (fRec93[i] + (fRec91[i] + (fRec84[i] + (fRec77[i] + (fRec70[i] + fZec219[i]))))))))))));
 			}
 			
 			// SECTION : 36
-			// LOOP 0x2b15b20
+			// LOOP 0x2af06b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec0_tmp[i]=fRec0_perm[i];
 			// exec code
@@ -18719,7 +18718,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec0_perm[i]=fRec0_tmp[count+i];
 			
-			// LOOP 0x2e4e290
+			// LOOP 0x2e28e10
 			// pre processing
 			for (int i=0; i<4; i++) fRec280_tmp[i]=fRec280_perm[i];
 			// exec code
@@ -18729,7 +18728,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec280_perm[i]=fRec280_tmp[count+i];
 			
-			// LOOP 0x2e73550
+			// LOOP 0x2e4e0d0
 			// pre processing
 			for (int i=0; i<4; i++) fYec198_tmp[i]=fYec198_perm[i];
 			// exec code
@@ -18739,7 +18738,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec198_perm[i]=fYec198_tmp[count+i];
 			
-			// LOOP 0x2e7acc0
+			// LOOP 0x2e55840
 			// pre processing
 			for (int i=0; i<4; i++) fYec201_tmp[i]=fYec201_perm[i];
 			// exec code
@@ -18749,7 +18748,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec201_perm[i]=fYec201_tmp[count+i];
 			
-			// LOOP 0x2ea1240
+			// LOOP 0x2e7bdc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec204_tmp[i]=fYec204_perm[i];
 			// exec code
@@ -18759,7 +18758,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec204_perm[i]=fYec204_tmp[count+i];
 			
-			// LOOP 0x2ec5630
+			// LOOP 0x2ea01b0
 			// pre processing
 			for (int i=0; i<4; i++) fYec207_tmp[i]=fYec207_perm[i];
 			// exec code
@@ -18769,7 +18768,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec207_perm[i]=fYec207_tmp[count+i];
 			
-			// LOOP 0x2f03f60
+			// LOOP 0x2edeaa0
 			// pre processing
 			for (int i=0; i<4; i++) fRec300_tmp[i]=fRec300_perm[i];
 			// exec code
@@ -18779,7 +18778,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec300_perm[i]=fRec300_tmp[count+i];
 			
-			// LOOP 0x2f05d20
+			// LOOP 0x2ee0860
 			// pre processing
 			for (int i=0; i<4; i++) fRec302_tmp[i]=fRec302_perm[i];
 			// exec code
@@ -18789,7 +18788,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec302_perm[i]=fRec302_tmp[count+i];
 			
-			// LOOP 0x2f07b20
+			// LOOP 0x2ee2660
 			// pre processing
 			for (int i=0; i<4; i++) fRec304_tmp[i]=fRec304_perm[i];
 			// exec code
@@ -18799,7 +18798,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec304_perm[i]=fRec304_tmp[count+i];
 			
-			// LOOP 0x2f09920
+			// LOOP 0x2ee4460
 			// pre processing
 			for (int i=0; i<4; i++) fRec306_tmp[i]=fRec306_perm[i];
 			// exec code
@@ -18809,7 +18808,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec306_perm[i]=fRec306_tmp[count+i];
 			
-			// LOOP 0x2f212f0
+			// LOOP 0x2efbe20
 			// pre processing
 			for (int i=0; i<4; i++) fYec208_tmp[i]=fYec208_perm[i];
 			// exec code
@@ -18820,19 +18819,19 @@ class mydsp : public dsp{
 			for (int i=0; i<4; i++) fYec208_perm[i]=fYec208_tmp[count+i];
 			
 			// SECTION : 37
-			// LOOP 0x2b14c10
+			// LOOP 0x2aef7a0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec225[i] = (fRec0[i] * fSlow1);
 			}
 			
-			// LOOP 0x2d32cd0
+			// LOOP 0x2d0d8d0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec271[i] = (fZec239[i] + fZec270[i]);
 			}
 			
-			// LOOP 0x2e4e140
+			// LOOP 0x2e28cc0
 			// pre processing
 			for (int i=0; i<4; i++) fYec196_tmp[i]=fYec196_perm[i];
 			// exec code
@@ -18842,7 +18841,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fYec196_perm[i]=fYec196_tmp[count+i];
 			
-			// LOOP 0x2e5e020
+			// LOOP 0x2e38b40
 			// pre processing
 			for (int i=0; i<4; i++) fRec286_tmp[i]=fRec286_perm[i];
 			// exec code
@@ -18852,7 +18851,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec286_perm[i]=fRec286_tmp[count+i];
 			
-			// LOOP 0x2e61180
+			// LOOP 0x2e3bd00
 			// pre processing
 			for (int i=0; i<4; i++) fRec287_tmp[i]=fRec287_perm[i];
 			// exec code
@@ -18862,7 +18861,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec287_perm[i]=fRec287_tmp[count+i];
 			
-			// LOOP 0x2e73060
+			// LOOP 0x2e4dbe0
 			// pre processing
 			for (int i=0; i<4; i++) fRec288_tmp[i]=fRec288_perm[i];
 			// exec code
@@ -18872,7 +18871,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec288_perm[i]=fRec288_tmp[count+i];
 			
-			// LOOP 0x2e7a840
+			// LOOP 0x2e553c0
 			// pre processing
 			for (int i=0; i<4; i++) fRec290_tmp[i]=fRec290_perm[i];
 			// exec code
@@ -18882,7 +18881,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec290_perm[i]=fRec290_tmp[count+i];
 			
-			// LOOP 0x2ea0dc0
+			// LOOP 0x2e7b940
 			// pre processing
 			for (int i=0; i<4; i++) fRec293_tmp[i]=fRec293_perm[i];
 			// exec code
@@ -18892,7 +18891,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec293_perm[i]=fRec293_tmp[count+i];
 			
-			// LOOP 0x2ec51b0
+			// LOOP 0x2e9fd30
 			// pre processing
 			for (int i=0; i<4; i++) fRec296_tmp[i]=fRec296_perm[i];
 			// exec code
@@ -18902,7 +18901,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec296_perm[i]=fRec296_tmp[count+i];
 			
-			// LOOP 0x2f03b00
+			// LOOP 0x2ede640
 			// pre processing
 			for (int i=0; i<4; i++) fRec299_tmp[i]=fRec299_perm[i];
 			// exec code
@@ -18912,7 +18911,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec299_perm[i]=fRec299_tmp[count+i];
 			
-			// LOOP 0x2f05870
+			// LOOP 0x2ee03b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec301_tmp[i]=fRec301_perm[i];
 			// exec code
@@ -18922,7 +18921,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec301_perm[i]=fRec301_tmp[count+i];
 			
-			// LOOP 0x2f07670
+			// LOOP 0x2ee21b0
 			// pre processing
 			for (int i=0; i<4; i++) fRec303_tmp[i]=fRec303_perm[i];
 			// exec code
@@ -18932,7 +18931,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec303_perm[i]=fRec303_tmp[count+i];
 			
-			// LOOP 0x2f09470
+			// LOOP 0x2ee3fb0
 			// pre processing
 			for (int i=0; i<4; i++) fRec305_tmp[i]=fRec305_perm[i];
 			// exec code
@@ -18942,7 +18941,7 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec305_perm[i]=fRec305_tmp[count+i];
 			
-			// LOOP 0x2f20eb0
+			// LOOP 0x2efb9e0
 			// pre processing
 			for (int i=0; i<4; i++) fRec307_tmp[i]=fRec307_perm[i];
 			// exec code
@@ -18952,61 +18951,61 @@ class mydsp : public dsp{
 			// post processing
 			for (int i=0; i<4; i++) fRec307_perm[i]=fRec307_tmp[count+i];
 			
-			// LOOP 0x2f5f090
+			// LOOP 0x2f39bc0
 			// pre processing
 			for (int i=0; i<4; i++) fRec308_tmp[i]=fRec308_perm[i];
 			// exec code
 			for (int i=0; i<count; i++) {
-				fRec308[i] = (fSlow122 + (0.98f * fRec308[i-1]));
+				fRec308[i] = (fSlow121 + (0.98f * fRec308[i-1]));
 			}
 			// post processing
 			for (int i=0; i<4; i++) fRec308_perm[i]=fRec308_tmp[count+i];
 			
 			// SECTION : 38
-			// LOOP 0x2b14ad0
+			// LOOP 0x2aef660
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec330[i] = (fSlow83 * (max(fSlow82, (0.25f * (fYec196[i-4] + (fYec196[i-3] + (fYec196[i] + fYec196[i-2]))))) * ((0.5f * fZec325[i]) + (0.25f * ((fZec271[i] + fZec216[i]) + (0.008f * fZec225[i]))))));
 			}
 			
-			// LOOP 0x2e5df10
+			// LOOP 0x2e38a30
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec333[i] = (fRec287[i] * (0.5f + (4.5f * fRec286[i])));
 			}
 			
-			// LOOP 0x2e72f50
+			// LOOP 0x2e4dad0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec343[i] = (fSlow105 * ((fSlow103 * (((fRec305[i] + fRec303[i]) + fRec301[i]) + fRec299[i])) + (fSlow102 * (((fRec296[i] + fRec293[i]) + fRec290[i]) + fRec288[i]))));
 			}
 			
-			// LOOP 0x2f0e3a0
+			// LOOP 0x2ee8ee0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec346[i] = (fSlow120 * ((fSlow119 * fZec271[i]) + ((fSlow117 * (fZec344[i] + (0.002f * (fRec307[i] * fSlow1)))) + ((fSlow115 * fZec342[i]) + ((fSlow113 * (fZec217[i] + (0.002f * fZec225[i]))) + ((fSlow111 * fZec339[i]) + ((fSlow109 * fZec325[i]) + (fSlow107 * fZec336[i]))))))));
 			}
 			
-			// LOOP 0x2f5ef80
+			// LOOP 0x2f39ab0
 			// exec code
 			for (int i=0; i<count; i++) {
 				fZec347[i] = (0.001f + (0.05f * fRec308[i]));
 			}
 			
 			// SECTION : 39
-			// LOOP 0x2b14960
+			// LOOP 0x2aef4f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				output0[i] = (FAUSTFLOAT)(fZec347[i] * (fZec346[i] + (fZec343[i] + (fZec333[i] + fZec330[i]))));
 			}
 			
-			// LOOP 0x2f64010
+			// LOOP 0x2f3e6f0
 			// exec code
 			for (int i=0; i<count; i++) {
 				output1[i] = (FAUSTFLOAT)(fZec347[i] * (fZec346[i] + (fZec330[i] + fZec343[i])));
 			}
 			
-			// LOOP 0x2f64650
+			// LOOP 0x2f3ed30
 			// exec code
 			for (int i=0; i<count; i++) {
 				output2[i] = (FAUSTFLOAT)(fZec333[i] * fZec347[i]);
