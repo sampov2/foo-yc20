@@ -52,13 +52,13 @@ manual_bass_8   = hgroup("bass", vslider("[2]8' b",  1.0,  0.0, 1.0, 0.25)) : ga
 manual_bass_16  = hgroup("bass", vslider("[1]16' b", 1.0,  0.0, 1.0, 0.25)) : gain_transfer;
 manual_bass_slider = hgroup("bass", vslider("[3]bass volume", 1.0,  0.0, 1.0, 0.25));
 
-volume_slider = hslider("volume", 0.1, 0.0, 1.0, 0.01);
+volume_slider = hslider("volume", 0.5, 0.0, 1.0, 0.01);
 
 // declick function where n = declick strength, higher = safer & slower
 declick(n) = (_ * (n-1) / n)  + (_ /n);
 
 manual_bass_vol = manual_bass_slider : (declick(50) ~ _);
-volume_curve(v) = 1-(1-v)*(1+v);
+volume_curve(v) = v * v;
 volume          = volume_slider : volume_curve : (declick(50) ~ _);
 
 volume_control  = *(0.001 + 0.05 * volume);
