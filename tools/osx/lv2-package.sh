@@ -26,7 +26,9 @@ if [    ! -e ${SRCDIR}/src/foo-yc20.lv2/foo-yc20-lv2ui.so \
   CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5" \
   CFLAGS="$CFLAGS -I/usr/local/include/ -DOSXLV2" \
   make clean lv2 \
-    LDFLAGS_YC20_LV2="-arch i386 -arch ppc -arch x86_64" \
+    LDFLAGS_YC20_LV2="-arch i386 -arch ppc -arch x86_64 \
+                      -isysroot /Developer/SDKs/MacOSX10.5.sdk \
+                      -mmacosx-version-min=10.5" \
   || exit
 
 fi
@@ -67,7 +69,7 @@ deploy_lib () {
             install_name_tool \
                 -id @loader_path/$libname \
                 "${TARGET_DIR}/$libname"
-	    export LIBDEPS="$LIBDEPS ${libpath}/${libname}"
+            export LIBDEPS="$LIBDEPS ${libpath}/${libname}"
             export INSTALLED="$INSTALLED $libname"
             follow_dependencies $libname
         fi

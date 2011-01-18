@@ -24,9 +24,12 @@ if [ ! -x foo-yc20 -o -n "$RECOMPILE" ]; then
   fi
 
   CFLAGS="-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -arch x86_64" \
-  CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.5.sdk -mmacosx-version-min=10.5" \
-  LDFLAGS_YC20="-arch i386 -arch ppc -arch x86_64 -ligemacintegration" \
+  CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.5.sdk \
+                  -mmacosx-version-min=10.5" \
   make clean foo-yc20 \
+    LDFLAGS_YC20="-arch i386 -arch ppc -arch x86_64 -ligemacintegration \
+                  -isysroot /Developer/SDKs/MacOSX10.5.sdk \
+                  -mmacosx-version-min=10.5" \
   || exit
 fi
 cd $BUILDDIR
@@ -44,7 +47,7 @@ fi
 follow_dependencies () {
     libname=$1
     cd "${TARGET_BUILD_DIR}/${PRODUCT_NAME}.app/Contents/Frameworks"
-    dependencies=`otool -arch all -L "$libname"  | egrep '\/((opt|usr)\/local\/lib|gtk\/inst\/lib)' | awk '{print $1}'`
+    dependencies=`otool -arch all -L "$libname" | egrep '\/((opt|usr)\/local\/lib|gtk\/inst\/lib)' | awk '{print $1}'`
     for l in $dependencies; do
         depname=`basename $l`
         deppath=`dirname $l`
