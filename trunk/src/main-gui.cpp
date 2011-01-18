@@ -60,25 +60,11 @@ int main(int argc, char **argv)
 	g_signal_connect (main_window, "destroy", G_CALLBACK(quit_callback), NULL);
 
 #ifdef __APPLE__
-	GtkWidget *menu;
 	GtkWidget *menu_bar;
-	GtkWidget *quit_item;
-	GtkAccelGroup *accel_group;
-
-	menu = gtk_menu_new();
-	menu_bar = gtk_menu_bar_new ();
-	accel_group = gtk_accel_group_new();
-	gtk_window_add_accel_group(GTK_WINDOW(main_window), accel_group);
-
-	quit_item = gtk_image_menu_item_new_from_stock(GTK_STOCK_QUIT, accel_group);
-	gtk_widget_add_accelerator(quit_item, "activate", accel_group, 
-		GDK_q, GDK_CONTROL_MASK, GTK_ACCEL_VISIBLE); 
-
-	gtk_menu_shell_append(GTK_MENU_SHELL (menu), quit_item);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu_bar), menu);
-	g_signal_connect (G_OBJECT(quit_item), "activate", 
-		G_CALLBACK(quit_callback), NULL);
-
+	menu_bar = gtk_menu_bar_new();
+	/* Note: the default OSX menu bar already includes a 'quit' entry 
+	 * connected to 'gtk_main_quit' by default. so we're fine.
+	 */
 	gtk_osxapplication_set_menu_bar(osxApp, GTK_MENU_SHELL(menu_bar));
 #endif
 
