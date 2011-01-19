@@ -183,8 +183,16 @@ progname="\$0"
 curdir=\`dirname "\$progname"\`
 progbase=\`basename "\$progname"\`
 execname=\${curdir}/\${progbase}-bin
+#check for 32bit jack on 64bit machines
+execarch=""
+if [ "\$(arch)" == "i386" \\
+   -a -n "\$(sysctl hw.optional.x86_64 | grep ': 1')" \\
+   -a -z "\$(file /Library/Frameworks/Jackmp.framework/Jackmp | grep x86_64)" \\
+   ]; then
+  execarch="arch -i386"
+fi
 cd \${curdir}
-exec \${execname}
+exec \${execarch} \${execname}
 EOF
 
 chmod +x "${TARGET_BUILD_DIR}/${PRODUCT_NAME}.app/Contents/MacOS/${PRODUCT_NAME}"
