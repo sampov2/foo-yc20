@@ -9,7 +9,7 @@ fi
 export YC20_TOOL_PATH=$(dirname $(readlink -f $PROG))
 
 CROSS="i586-mingw32msvc-"
-if [ x"$MSYSTEM" = "MINGW32" ]; then
+if [ "$MSYSTEM" = "MINGW32" ]; then
 	CROSS=""
 fi
 
