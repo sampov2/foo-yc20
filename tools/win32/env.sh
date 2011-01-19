@@ -8,18 +8,23 @@ fi
 
 export YC20_TOOL_PATH=$(dirname $(readlink -f $PROG))
 
-export CC=i586-mingw32msvc-gcc
-export CXX=i586-mingw32msvc-g++
-export LD=i586-mingw32msvc-ld
-export AR=i586-mingw32msvc-ar
-export AS=i586-mingw32msvc-as
-export NM=i586-mingw32msvc-nm
-export STRIP=i586-mingw32msvc-strip
-export RANLIB=i586-mingw32msvc-ranlib
-export DLLTOOL=i586-mingw32msvc-dlltool
-export OBJDUMP=i586-mingw32msvc-objdump
-export RC=i586-mingw32msvc-windres
-export WINDRES=i586-mingw32msvc-windres
+CROSS="i586-mingw32msvc-"
+if [ x"$MSYSTEM" = "MINGW32" ]; then
+	CROSS=""
+fi
+
+export CC=${CROSS}gcc
+export CXX=${CROSS}g++
+export LD=${CROSS}ld
+export AR=${CROSS}ar
+export AS=${CROSS}as
+export NM=${CROSS}nm
+export STRIP=${CROSS}strip
+export RANLIB=${CROSS}ranlib
+export DLLTOOL=${CROSS}dlltool
+export OBJDUMP=${CROSS}objdump
+export RC=${CROSS}windres
+export WINDRES=${CROSS}windres
 
 export PATH=$YC20_TOOL_PATH/fake-utils:$PATH
 
