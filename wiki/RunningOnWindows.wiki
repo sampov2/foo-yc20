@@ -1,4 +1,5 @@
 #summary Foo-YC20 on Windows
+#labels Phase-Deploy
 
 = Foo YC20 VST =
 
