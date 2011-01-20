@@ -7,15 +7,16 @@ By far the easiest way to use the Foo YC20 organ is to use the included VST plug
 
 However, due to the nature of the organ processing, it is worth noting that the VST plugin uses a lot of CPU power. This is regardless of whether it is playing sounds or not.
 
-= Standalone JACK version (not recommended yet)  =
+= Standalone JACK version  =
+
+To use the standalone version, you must first install jack and then have it running before starting the application. You need a bit of dedication to take this route, so *it is not recommended for the faint of heart*.
 
 The release also contains a JACK application. JACK is a handy mechanism to route audio to and from applications. This allows patching together a virtual studio from separate audio programs. The standalone application also contains a GUI which imitates the (red) Yamaha YC20.
 
 http://foo-yc20.googlecode.com/svn/trunk/graphics/screenshot-800.png
 
-Note. There is a headless command line version for those who do not want or need the GUI.
+Note: There is a headless command line version for those who do not want or need the GUI.
 
-To use the standalone version, you must first install jack and then have it running before starting the application. You need a bit of dedication to take this route, so it is not recommended for the faint of heart
 
 == Installing JACK ==
 
