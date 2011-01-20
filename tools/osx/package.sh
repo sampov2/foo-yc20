@@ -179,6 +179,15 @@ update_executable
 
 cat > "${TARGET_BUILD_DIR}/${PRODUCT_NAME}.app/Contents/MacOS/${PRODUCT_NAME}" << EOF
 #!/bin/sh
+
+if test ! -x /usr/local/bin/jackd -a ! -x /usr/bin/jackd ; then
+  /usr/bin/osascript -e '
+    tell application "Finder"
+    display dialog "You do not have JACK installed. Foo-YC20 will not run without it. See http://jackaudio.org/ for info." buttons["OK"]
+    end tell'
+  exit 1
+fi
+
 progname="\$0"
 curdir=\`dirname "\$progname"\`
 progbase=\`basename "\$progname"\`
@@ -258,9 +267,14 @@ hdiutil eject "${DiskDevice}"
 hdiutil convert -format UDZO "${TMPFILE}" -imagekey zlib-level=9 -o "${DMGFILE}"
 
 # Delete the temporary files
-rm $TMPFILE
+if [ -z "$KEEPTMP" ]; then
+  rm $TMPFILE
+fi
 rmdir $MNTPATH
 
 echo
 echo "packaging suceeded."
+if [ -n "$KEEPTMP" ]; then
+ ls -l $TMPFILE
+fi
 ls -l $DMGFILE
