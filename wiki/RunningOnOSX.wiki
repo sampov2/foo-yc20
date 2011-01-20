@@ -22,6 +22,11 @@ To control the organ and to hear the output, you need to do connections. These c
 
 You can find more information in the documentation that is installed with !JackPilot.
 
+== Jack and MIDI ==
+
+The Foo YC20 jack application uses Jack to route midi to it. As it stands, setting up MIDI support in Jack is quite difficult in OS X. This makes playing the standalone organ quite difficult and is a reason why at this point in time, the OS X release is still unannounced.
+
+
 = FAQ =
 
 *Q:* Why JACK?
