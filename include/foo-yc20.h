@@ -109,8 +109,7 @@ class YC20Processor : public UI
 		dsp *getDSP() const { return processor; }
 		void setDSP(dsp *);
 
-		// Midi callback
-		void doControlChange(int cc, int value);
+		// MIDI callback
 		void setKey(int key, float value) { *keys[key] = value; }
 
 		Control *getControl(std::string label) { return controlPerLabel[label]; }
@@ -127,7 +126,6 @@ class YC20Processor : public UI
 
 		// Controls
 		std::map<std::string, Control *> controlPerLabel;
-		Control *controlPerCC[127];
 
 		// The actual DSP processor
 		dsp *processor;
