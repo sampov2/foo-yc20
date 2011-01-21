@@ -20,20 +20,21 @@
 #ifndef _YC20_BASE_UI_H
 #define _YC20_BASE_UI_H
 
+#include <map>
+#include <string>
+
 #include <stdint.h>
 
 #include <cairo.h>
-
 #include <jack/ringbuffer.h>
 
 #include <wdgt.h>
 #include <yc20_wdgts.h>
-#include <foo-yc20.h>
 
 class YC20BaseUI
 {
 	public:
-		YC20BaseUI	 (YC20Processor *);
+		YC20BaseUI	 ();
 		virtual 	~YC20BaseUI();
 
 
@@ -52,7 +53,6 @@ class YC20BaseUI
 
 		void		 set_scale	(double);
 
-		YC20Processor	*yc20;
 		std::map<std::string, Wdgt::Draggable *> wdgtPerLabel;
 
 		std::list<Wdgt::Draggable *> wdgts;

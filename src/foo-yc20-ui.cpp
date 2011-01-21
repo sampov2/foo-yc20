@@ -87,7 +87,7 @@ static gboolean yc20ui_button_release_event(GtkWidget *widget, GdkEventButton *e
 
 
 YC20UI::YC20UI(YC20Processor *parent)
-	: YC20BaseUI(parent)
+	: yc20(parent)
 {
 	drawingArea = GTK_WIDGET(gtk_drawing_area_new());
 
@@ -112,10 +112,11 @@ YC20UI::YC20UI(YC20Processor *parent)
 
 	// Make the map
 	for (std::list<Wdgt::Draggable *>::iterator i = wdgts.begin(); i !=  wdgts.end(); ++i) {
-		Wdgt::Draggable *o = (*i);
+		Wdgt::Draggable *draggable = (*i);
 
-		Control *c = yc20->getControl(o->getName());
-		draggablePerCC[c->getCC()] = o;
+		Control *control = yc20->getControl(draggable->getName());
+		draggablePerCC[control->getCC()] = draggable;
+		draggable->setZone(control->getZone());
 		
 	}
 
