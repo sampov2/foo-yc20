@@ -54,12 +54,6 @@ class YC20UI : public YC20BaseUI, public YC20Exposable
 		bool expose(GdkEventExpose *);
 		void realize();
 
-		/*
-		bool motion_notify_event(GdkEventMotion *);
-		bool button_press_event(GdkEventButton *);
-		bool button_release_event(GdkEventButton *);
-		*/
-
 	private:
 		bool	draw_queue();
 		static	gboolean idleTimeout(gpointer );
