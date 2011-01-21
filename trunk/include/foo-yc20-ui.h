@@ -26,8 +26,6 @@
 #include <jack/ringbuffer.h>
 
 #include <yc20-base-ui.h>
-#include <wdgt.h>
-#include <yc20_wdgts.h>
 #include <foo-yc20.h>
 
 class YC20UI : public YC20BaseUI, public YC20Exposable
@@ -58,6 +56,8 @@ class YC20UI : public YC20BaseUI, public YC20Exposable
 		bool	draw_queue();
 		static	gboolean idleTimeout(gpointer );
 		void	handleExposeEvents();
+
+		YC20Processor *yc20;
 
 		GtkWidget *drawingArea;
 
