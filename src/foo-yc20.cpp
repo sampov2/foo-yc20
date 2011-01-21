@@ -151,6 +151,8 @@ YC20Processor::YC20Processor()
 
 	controlPerLabel["percussive"]  = new Control(22);
 
+	memset(controlPerCC, 0, sizeof(Control *) * 127);
+
 	for (std::map<std::string, Control *>::iterator i = controlPerLabel.begin(); i !=  controlPerLabel.end(); ++i) {
 		Control *c = i->second;
 		controlPerCC[c->getCC()] = c;
