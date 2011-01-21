@@ -332,12 +332,5 @@ YC20UI::~YC20UI()
 	g_source_remove(idleSignalTag);
 
 	jack_ringbuffer_free(exposeRingbuffer);
-
-        for (std::list<Wdgt::Draggable *>::iterator i = wdgts.begin(); i != wdgts.end(); ) {
-                Wdgt::Draggable *obj = *i;
-                delete obj;
-
-                ++i;
-        }
 }
 
