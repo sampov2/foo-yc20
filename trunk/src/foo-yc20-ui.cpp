@@ -308,6 +308,7 @@ YC20UI::handleExposeEvents()
 	while ( jack_ringbuffer_read(exposeRingbuffer, 
 	                             (char *)&obj,
 	                             sizeof(Wdgt::Draggable *)) == sizeof(Wdgt::Draggable *)) {
+		obj->setValue( *obj->getZone() );
 		draw_wdgt(obj);
 	}
 }
