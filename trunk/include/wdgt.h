@@ -22,6 +22,8 @@
 #include <string>
 #include <list>
 
+#define WdgtIntersectsEvent(wdgt, evt) wdgt->intersectsRectangle(evt->area.x,     evt->area.y, evt->area.width, evt->area.height)
+
 namespace Wdgt {
 
 class Object 
@@ -37,12 +39,6 @@ public:
 	{
 		return (x < x2 && (x+w) >= x1 &&
                         y < y2 && (y+h) >= y1);
-	};
-
-	inline bool intersectsEvent(GdkEventExpose *evt) const
-	{
-		return intersectsRectangle(evt->area.x,     evt->area.y, 
-					   evt->area.width, evt->area.height);
 	};
 
 	inline bool intersectsPoint(double x, double y) const {
