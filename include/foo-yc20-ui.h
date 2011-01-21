@@ -23,14 +23,14 @@
 #include <stdint.h>
 
 #include <gtk/gtk.h>
-
 #include <jack/ringbuffer.h>
 
+#include <yc20-base-ui.h>
 #include <wdgt.h>
 #include <yc20_wdgts.h>
 #include <foo-yc20.h>
 
-class YC20UI : public YC20Exposable
+class YC20UI : public YC20BaseUI, public YC20Exposable
 {
 	public:
 		YC20UI(YC20Processor *);
@@ -43,59 +43,36 @@ class YC20UI : public YC20Exposable
 
 		virtual void updateControlsFromState();
 
+
+		cairo_t *get_cairo_surface() {
+			return gdk_cairo_create(GDK_DRAWABLE(gtk_widget_get_window(drawingArea)));
+		}
+
 		// Events
 		void size_request(GtkRequisition *);
 		void size_allocate(GtkAllocation *);
 		bool expose(GdkEventExpose *);
 		void realize();
 
+		/*
 		bool motion_notify_event(GdkEventMotion *);
 		bool button_press_event(GdkEventButton *);
 		bool button_release_event(GdkEventButton *);
+		*/
 
 	private:
-		YC20Processor *yc20;
+		bool	draw_queue();
+		static	gboolean idleTimeout(gpointer );
+		void	handleExposeEvents();
 
 		GtkWidget *drawingArea;
 
-		float ui_scale;
-
-		bool exposeWdgt(Wdgt::Object *);
-
-
-
-		bool draw_queue();
-
-		Wdgt::Object *identifyWdgt(GdkEventMotion *);
-
-		Wdgt::Object *_hoverWdgt;
-		Wdgt::Draggable *_dragWdgt;
-		Wdgt::Object *_buttonPressWdgt;
-
-		int _dragStartX;
-		int _dragStartY;
-		float _predrag_value;
-
-		std::list<Wdgt::Object *> wdgts;
-
-		std::map<std::string, Wdgt::Object *> wdgtPerLabel;
 		Wdgt::Draggable *draggablePerCC[127];
-
-		bool _ready_to_draw;
 
 		// Idle-timeout redraw things
 
 		jack_ringbuffer_t *exposeRingbuffer;
-		static gboolean idleTimeout(gpointer );
-		void handleExposeEvents();
 		gint idleSignalTag;
-
-		// Images
-		cairo_surface_t *_image_background;
-		cairo_surface_t *drawbarWhiteImages[4];
-		cairo_surface_t *drawbarBlackImages[4];
-		cairo_surface_t *drawbarGreenImages[4];
-		cairo_surface_t *potentiometerImage;
 };
 
 
