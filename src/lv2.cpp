@@ -143,6 +143,8 @@ static void activate_FooYC20 (LV2_Handle instance)
 
 static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 {
+	TURNOFFDENORMALS;
+
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
 
 	LV2_Event *ev = NULL;
