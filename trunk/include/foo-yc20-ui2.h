@@ -24,12 +24,11 @@
 
 #include <gtk/gtk.h>
 
-#include <wdgt.h>
-#include <yc20_wdgts.h>
+#include <yc20-base-ui.h>
 
 typedef void (*parameterchange_callback)(void *, uint32_t, float);
 
-class YC20UI2
+class YC20UI2 : public YC20BaseUI
 {
 	public:
 		YC20UI2();
@@ -37,6 +36,10 @@ class YC20UI2
 		virtual ~YC20UI2();
 
 		GtkWidget *getWidget() { return drawingArea; }
+
+		cairo_t *get_cairo_surface() {
+			return gdk_cairo_create(GDK_DRAWABLE(gtk_widget_get_window(drawingArea)));
+		}
 
 		void setControlFromLV2(int, float);
 		void setParameterChangedCallback(parameterchange_callback, void *);
@@ -46,39 +49,14 @@ class YC20UI2
 		void size_allocate(GtkAllocation *);
 		bool expose(GdkEventExpose *);
 
-		bool motion_notify_event(GdkEventMotion *);
-		bool button_press_event(GdkEventButton *);
-		bool button_release_event(GdkEventButton *);
-
 	private:
 		GtkWidget       *drawingArea;
 
-		float ui_scale;
-
-		bool exposeWdgt(Wdgt::Object *);
-
-		Wdgt::Object    *identifyWdgt(GdkEventMotion *);
-
-		Wdgt::Object    *_hoverWdgt;
-		Wdgt::Draggable *_dragWdgt;
-		Wdgt::Object    *_buttonPressWdgt;
-
-		int _dragStartX;
-		int _dragStartY;
-		float _predrag_value;
-
-		std::list<Wdgt::Object *> wdgts;
 		Wdgt::Draggable* draggablePerLV2Port[27];
 
 		parameterchange_callback parameter_changed;
 		void *parameter_changed_obj;
 
-		// Images
-		cairo_surface_t *_image_background;
-		cairo_surface_t *drawbarWhiteImages[4];
-		cairo_surface_t *drawbarBlackImages[4];
-		cairo_surface_t *drawbarGreenImages[4];
-		cairo_surface_t *potentiometerImage;
 };
 
 

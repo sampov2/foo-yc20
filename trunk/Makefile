@@ -58,7 +58,7 @@ $(LV2_PLUGIN): $(OBJS_LV2) $(OBJS_DSP_PLUGIN)
 	$(CXX) $(OBJS_LV2) $(OBJS_DSP_PLUGIN) -fPIC -shared -o $(LV2_PLUGIN) $(LDFLAGS_YC20_LV2)
 
 ## LV2 UI
-OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o
+OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o src/yc20-base-ui.o
 
 $(LV2_UI): $(OBJS_LV2_UI)
 	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtk+-2.0` -o $(LV2_UI) $(LDFLAGS_YC20_LV2)

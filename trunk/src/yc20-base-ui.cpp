@@ -16,7 +16,6 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <foo-yc20.h>
 #include <yc20-base-ui.h>
 #include <foo-yc20-os.h>
 
@@ -52,9 +51,8 @@ namespace Wdgt
 }
 
 
-YC20BaseUI::YC20BaseUI(YC20Processor *parent)
-	: yc20(parent)
-	, ui_scale(1.0)
+YC20BaseUI::YC20BaseUI()
+	: ui_scale(1.0)
 	, hoverWdgt(0)
 	, dragWdgt(0)
 	, buttonPressWdgt(0)
@@ -86,21 +84,16 @@ YC20BaseUI::YC20BaseUI(YC20Processor *parent)
 	float x = 15.0;
 	float y = 15.0;
 
-	Control *c;
-
 	// Pitch, volume & bass volume
-	c = yc20->getControl("pitch");
-	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, c->getMin(), c->getMax(), potentiometerImage);
+	Wdgt::Potentiometer *pitch  = new Wdgt::Potentiometer(x, y, -1.0, 1.0, potentiometerImage);
 	pitch->setName("pitch");
 	x += 72.0 + pitch_x_longest;
 
-	c = yc20->getControl("volume");
-	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, c->getMin(), c->getMax(), potentiometerImage);
+	Wdgt::Potentiometer *volume = new Wdgt::Potentiometer(x, y, 0.0, 1.0, potentiometerImage);
 	volume->setName("volume");
 	x += 72.0 + pitch_x_longest;
 
-	c = yc20->getControl("bass volume");
-	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, c->getMin(), c->getMax(), potentiometerImage);
+	Wdgt::Potentiometer *bass_v = new Wdgt::Potentiometer(x, y, 0.0, 1.0, potentiometerImage);
 	bass_v->setName("bass volume");
 	x += 72.0 + pitch_x_longest + pitch_x_long;
 
@@ -229,10 +222,7 @@ YC20BaseUI::YC20BaseUI(YC20Processor *parent)
 	// Make the map
 	for (std::list<Wdgt::Draggable *>::iterator i = wdgts.begin(); i !=  wdgts.end(); ++i) {
 		Wdgt::Draggable	*draggable = (*i);
-		Control 	*control = yc20->getControl(draggable->getName());
-
 		wdgtPerLabel[draggable->getName()] = draggable;
-		draggable->setZone(control->getZone());
 	}
 }
 
