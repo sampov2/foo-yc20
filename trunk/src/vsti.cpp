@@ -257,6 +257,7 @@ FooYC20VSTi::process		(float **input, float **output, VstInt32 nframes)
 void
 FooYC20VSTi::processReplacing	(float **input, float **output, VstInt32 nframes)
 {
+	TURNOFFDENORMALS;
 	yc20->getDSP()->compute(nframes, 0, output);
 }
 
