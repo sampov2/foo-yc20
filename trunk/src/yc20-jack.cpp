@@ -18,6 +18,8 @@
 
 #include <iostream>
 
+#include <string.h>
+
 #include <yc20-jack.h>
 
 int
@@ -106,6 +108,34 @@ YC20Jack::process (jack_nframes_t nframes)
 	return 0;
 }
 
+void
+YC20Jack::doControlChange(int cc, int value)
+{
+	// Globals
+	if ((cc == 123 || cc == 120) && 
+            value == 0) {
+		// panic button
+		std::cerr << "PANIC!" << std::endl;
+		for (int i = 0; i<61; ++i) {
+			*(keys[i]) = 0.0;
+		}
+		return;
+	}
+
+	Control *control = controlPerCC[cc];
+
+	if (control == 0) {
+		//std::cerr << "No control for CC " << cc << std::endl;
+		return;
+	}
+
+	control->setValueFromCC(value);
+
+	if (ui != 0) {
+		ui->queueExpose(cc);
+	}
+}
+
 
 
 void
@@ -135,6 +165,12 @@ YC20Jack::YC20Jack()
 	, midi_input_port(NULL)
 	, jack_client(NULL)
 {
+	memset(controlPerCC, 0, sizeof(Control *) * 127);
+
+	for (std::map<std::string, Control *>::iterator i = controlPerLabel.begin(); i !=  controlPerLabel.end(); ++i) {
+		Control *c = i->second;
+		controlPerCC[c->getCC()] = c;
+	}
 }
 
 void

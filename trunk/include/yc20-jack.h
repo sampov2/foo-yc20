@@ -42,6 +42,9 @@ class YC20Jack : public YC20Processor
 
 		int process(jack_nframes_t);
 
+		// MIDI callback (only for the standalone version)
+		void doControlChange(int cc, int value);
+
 
 	private:
 
@@ -56,6 +59,7 @@ class YC20Jack : public YC20Processor
 		jack_port_t   *midi_input_port;
 		jack_client_t *jack_client;
 
+		Control *controlPerCC[127];
 };
 
 

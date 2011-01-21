@@ -89,34 +89,6 @@ YC20Processor::addHorizontalSlider(const char* label, float* zone, float init, f
 	addVerticalSlider(label, zone, init, min, max, step);
 }
 
-void
-YC20Processor::doControlChange(int cc, int value)
-{
-	// Globals
-	if ((cc == 123 || cc == 120) && 
-            value == 0) {
-		// panic button
-		std::cerr << "PANIC!" << std::endl;
-		for (int i = 0; i<61; ++i) {
-			*(keys[i]) = 0.0;
-		}
-		return;
-	}
-
-	Control *control = controlPerCC[cc];
-
-	if (control == 0) {
-		//std::cerr << "No control for CC " << cc << std::endl;
-		return;
-	}
-
-	control->setValueFromCC(value);
-
-	if (ui != 0) {
-		ui->queueExpose(cc);
-	}
-}
-
 YC20Processor::YC20Processor()
 	: processor(0)
 	, ui(0)
@@ -150,13 +122,6 @@ YC20Processor::YC20Processor()
 	controlPerLabel["2' ii"]       = new Control(21);
 
 	controlPerLabel["percussive"]  = new Control(22);
-
-	memset(controlPerCC, 0, sizeof(Control *) * 127);
-
-	for (std::map<std::string, Control *>::iterator i = controlPerLabel.begin(); i !=  controlPerLabel.end(); ++i) {
-		Control *c = i->second;
-		controlPerCC[c->getCC()] = c;
-	}
 }
 
 YC20Processor::~YC20Processor()
