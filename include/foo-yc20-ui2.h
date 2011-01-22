@@ -47,8 +47,8 @@ class YC20UI2 : public YC20BaseUI
 		void size_allocate(GtkAllocation *);
 		bool expose(GdkEventExpose *);
 
-	private:
 		GtkWidget       *drawingArea;
+	private:
 
 		Wdgt::Draggable* draggablePerLV2Port[27];
 

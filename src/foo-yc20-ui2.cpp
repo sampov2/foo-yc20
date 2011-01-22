@@ -77,6 +77,12 @@ static gboolean lv2ui_button_release_event(GtkWidget *widget, GdkEventButton *ev
         return true;
 }
 
+static void lv2ui_destroy_widget(GtkWidget *widget, gpointer data)
+{
+	YC20UI2 *ui = (YC20UI2 *)data;
+	ui->drawingArea = 0;
+
+}
 
 #ifdef __cplusplus
 }
@@ -100,6 +106,8 @@ YC20UI2::YC20UI2()
 	g_signal_connect (drawingArea, "motion-notify-event",  G_CALLBACK( lv2ui_motion_notify_event ), this);
 	g_signal_connect (drawingArea, "button-press-event",   G_CALLBACK( lv2ui_button_press_event ), this);
 	g_signal_connect (drawingArea, "button-release-event", G_CALLBACK( lv2ui_button_release_event ), this);
+	
+	g_signal_connect (drawingArea, "destroy",	       G_CALLBACK( lv2ui_destroy_widget ), this);
 
 	// Event mask
 	gint mask = gtk_widget_get_events(drawingArea);
@@ -264,7 +272,10 @@ YC20UI2::setParameterChangedCallback(parameterchange_callback cb, void *obj)
 YC20UI2::~YC20UI2()
 {
 	// It seems this is unnecessary
-	//gtk_widget_unref(drawingArea);
-	//gtk_widget_destroy(drawingArea);
+	if (drawingArea) {
+		gtk_widget_unref(drawingArea);
+		gtk_widget_destroy(drawingArea);
+		drawingArea = 0;
+	}
 }
 
