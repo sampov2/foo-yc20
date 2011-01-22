@@ -187,9 +187,6 @@ YC20UI2::YC20UI2()
 	Wdgt::Draggable *percussive = wdgtPerLabel["percussive"];
 	percussive->setPortIndex(c_idx++);
 
-	wdgts.push_back(percussive);
-
-
 	for (std::list<Wdgt::Draggable *>::iterator i = wdgts.begin(); i != wdgts.end(); ++i) {
 		Wdgt::Draggable *draggable = (*i);
 		draggablePerLV2Port[ draggable->getPortIndex() ] = draggable;
@@ -266,7 +263,8 @@ YC20UI2::setParameterChangedCallback(parameterchange_callback cb, void *obj)
 
 YC20UI2::~YC20UI2()
 {
-	gtk_widget_unref(drawingArea);
-	gtk_widget_destroy(drawingArea);
+	// It seems this is unnecessary
+	//gtk_widget_unref(drawingArea);
+	//gtk_widget_destroy(drawingArea);
 }
 
