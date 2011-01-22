@@ -41,7 +41,7 @@ struct YC20UI_Handle_t {
 static void parameterChanged(void *handle, uint32_t port_idx, float value)
 {
 	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)handle;
-	if (obj->ui == NULL) {
+	if (obj->ui == 0) {
 		std::cerr << "parameterChanged() triggered, but handle cleaned up. aborting operation." << std::endl;
 		return;
 	}
@@ -62,7 +62,7 @@ static LV2UI_Handle instantiate_FooYC20UI(
 
 	if (strcmp(plugin_uri, "http://studionumbersix.com/foo/lv2/yc20") != 0) {
 		std::cerr << "Trying to instantiate FooYC20UI for a wrong plugin" << std::endl;
-		return NULL;
+		return 0;
 	}
 
 	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)malloc(sizeof(struct YC20UI_Handle_t));
@@ -70,7 +70,7 @@ static LV2UI_Handle instantiate_FooYC20UI(
 	obj->controller = controller;
 
 	// Make sure gtk is initialized
-	gtk_init(NULL, NULL);
+	gtk_init(0, 0);
 
 	obj->ui = new YC20UI2();
 	obj->ui->setParameterChangedCallback(&parameterChanged, obj);
@@ -85,9 +85,9 @@ static void cleanup_FooYC20UI(LV2UI_Handle ui)
 	std::cerr << "cleanup_FooYC20UI()" << std::endl;
 
 	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)ui;
-	if (obj->ui != NULL) {
+	if (obj->ui != 0) {
 		delete obj->ui;
-		obj->ui = NULL;
+		obj->ui = 0;
 	}
 
 	return;
@@ -102,7 +102,7 @@ static void port_event_FooYC20UI(
 {
 	struct YC20UI_Handle_t *obj = (struct YC20UI_Handle_t *)ui;
 
-	if (obj->ui == NULL) {
+	if (obj->ui == 0) {
 		std::cerr << "port_event to an UI which has been cleaned up." << std::endl;
 		return;
 	}
@@ -122,7 +122,7 @@ static LV2UI_Descriptor yc20LV2UIDescriptor = {
 const LV2UI_Descriptor *lv2ui_descriptor(uint32_t idx)
 {
 	if (idx != 0) {
-		return NULL;
+		return 0;
 	}
 
 	return &yc20LV2UIDescriptor;

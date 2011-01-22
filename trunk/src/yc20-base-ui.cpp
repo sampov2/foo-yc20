@@ -360,8 +360,6 @@ YC20BaseUI::draw(double x, double y, double width, double height, bool scale)
 	width++;
 	height++;
 
-	//_ready_to_draw = true;
-
 	cairo_t *cr = get_cairo_surface();
 	if (cr == 0) {
 		// Not realized yet
@@ -420,6 +418,7 @@ YC20BaseUI::~YC20BaseUI()
                 ++i;
                 delete obj;
         }
+	wdgts.clear();
 
 	cairo_surface_destroy(image_background);
 
