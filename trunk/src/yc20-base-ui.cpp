@@ -256,6 +256,7 @@ YC20BaseUI::mouse_movement(double x, double y)
 	if (dragWdgt != 0) {
 
 		if (dragWdgt->setValueFromDrag(predragValue, dragStartY, y)) {
+			value_changed(dragWdgt);
 			draw_wdgt(dragWdgt);
 		}
 		return;
