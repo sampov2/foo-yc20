@@ -269,6 +269,12 @@ YC20UI2::setParameterChangedCallback(parameterchange_callback cb, void *obj)
 	parameter_changed_obj = obj;
 }
 
+void
+YC20UI2::value_changed(Wdgt::Draggable *draggable)
+{
+	parameter_changed(parameter_changed_obj, draggable->getPortIndex(), draggable->getValue());
+}
+
 YC20UI2::~YC20UI2()
 {
 	// It seems this is unnecessary

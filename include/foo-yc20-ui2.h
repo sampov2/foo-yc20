@@ -47,6 +47,8 @@ class YC20UI2 : public YC20BaseUI
 		void size_allocate(GtkAllocation *);
 		bool expose(GdkEventExpose *);
 
+		void value_changed(Wdgt::Draggable *);
+
 		GtkWidget       *drawingArea;
 	private:
 
