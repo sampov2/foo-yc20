@@ -363,6 +363,10 @@ YC20BaseUI::draw(double x, double y, double width, double height, bool scale)
 	//_ready_to_draw = true;
 
 	cairo_t *cr = get_cairo_surface();
+	if (cr == 0) {
+		// Not realized yet
+		return;
+	}
 
 	cairo_scale(cr, ui_scale, ui_scale);
 

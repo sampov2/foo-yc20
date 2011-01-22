@@ -230,6 +230,16 @@ YC20UI2::size_request(GtkRequisition *req)
 	req->height = 200.0 * scale;
 }
 
+cairo_t *
+YC20UI2::get_cairo_surface()
+{
+	if (!gtk_widget_get_realized(drawingArea)) { 
+		return 0;
+	}
+
+	return gdk_cairo_create(GDK_DRAWABLE(gtk_widget_get_window(drawingArea)));
+}
+
 void 
 YC20UI2::size_allocate(GtkAllocation *alloc)
 {

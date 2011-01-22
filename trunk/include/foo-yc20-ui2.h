@@ -37,9 +37,7 @@ class YC20UI2 : public YC20BaseUI
 
 		GtkWidget *getWidget() { return drawingArea; }
 
-		cairo_t *get_cairo_surface() {
-			return gdk_cairo_create(GDK_DRAWABLE(gtk_widget_get_window(drawingArea)));
-		}
+		cairo_t *get_cairo_surface();
 
 		void setControlFromLV2(int, float);
 		void setParameterChangedCallback(parameterchange_callback, void *);
