@@ -27,7 +27,8 @@
 #include <audioeffectx.cpp>
 
 #include <foo-yc20.h>
-//#include <foo-yc20-ui2.h>
+#include <yc20-base-ui.h>
+#include <cairo-win32.h>
 
 #define NUM_PARAMS 23
 
@@ -54,7 +55,7 @@ class FooYC20VSTi : public AudioEffectX
 
 		void process		(float **, float **, VstInt32);
 		void processReplacing	(float **, float **, VstInt32);
-		VstInt32 processEvents(VstEvents*);
+		VstInt32 processEvents	(VstEvents*);
 
 		void setParameter	(VstInt32, float);
 		float getParameter	(VstInt32);
@@ -71,41 +72,62 @@ class FooYC20VSTi : public AudioEffectX
 		char programName[kVstMaxNameLen+1];
 };
 
-/* Disabled for now
-class YC20AEffEditor : public AEffEditor
+class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 {
 	public:
-		YC20AEffEditor(AudioEffect* fx) : AEffEditor(fx), gui(0) {
+		YC20AEffEditor(AudioEffect* fx) : AEffEditor(fx), YC20BaseUI()
+		{
 			_rect.left = 0;
 			_rect.top = 0;
 			_rect.right = 1280;
 			_rect.bottom = 200;
+			set_scale(1.0);
 		};
 
-		bool getRect(ERect **rect) {*rect = &_rect; return true; };
+		virtual bool getRect(ERect **rect) {
+			*rect = &_rect;
+			return true; 
+		};
 
-		bool open(void *ptr) { AEffEditor::open(ptr); createGUI(); return true; };
-		void close() { deleteGUI(); AEffEditor::close(); };
+		virtual bool open(void *ptr) {
+			std::cerr << "########## open()" << std::endl;
+			AEffEditor::open(ptr); 	
+			draw(-1, -1, -1, -1, true);
+			return true;
+		};
+
+		virtual void close() { 
+			std::cerr << "########## close()" << std::endl;
+			AEffEditor::close(); 
+		};
+
+		virtual void idle() {};
+
+		virtual cairo_t	*get_cairo_surface() 
+		{
+			hdc = BeginPaint((HWND)systemWindow, &ps);
+
+			surface = cairo_win32_surface_create(hdc);
+			return cairo_create(surface);
+		}
+
+		virtual void return_cairo_surface(cairo_t *cr) 
+		{
+			YC20BaseUI::return_cairo_surface(cr);
+
+			cairo_surface_destroy(surface);
+			EndPaint((HWND)systemWindow, &ps);
+		};
+
+
 	private:
-
-		void createGUI()
-		{
-			gui = new YC20UI2();
-
-		};
-
-		void deleteGUI()
-		{
-			delete gui;
-			gui = 0;
-		};
+		PAINTSTRUCT ps;
+		HDC hdc;
+		cairo_surface_t *surface;
 
 		ERect _rect;
-		YC20UI2 *gui;
-
 
 };
-*/
 
 AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
@@ -166,8 +188,8 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 	
 	setNumInputs(0);
 	setNumOutputs(2);
-	canProcessReplacing();
-	isSynth();
+	canProcessReplacing(true);
+	isSynth(true);
 
 	vst_strncpy(programName, "Foo YC20 Organ", kVstMaxNameLen);
 
@@ -209,6 +231,10 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
         tmp->init(getSampleRate());
 
 	yc20->setDSP(tmp);
+
+	std::cerr << "Creating the editor..." << std::endl;
+	setEditor(new YC20AEffEditor(this));
+	std::cerr << "...done: " << editor << std::endl;
 }
 
 void

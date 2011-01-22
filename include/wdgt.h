@@ -22,7 +22,9 @@
 #include <string>
 #include <list>
 
-#define WdgtIntersectsEvent(wdgt, evt) wdgt->intersectsRectangle(evt->area.x,     evt->area.y, evt->area.width, evt->area.height)
+#include <cairo.h>
+
+//#define WdgtIntersectsEvent(wdgt, evt) wdgt->intersectsRectangle(evt->area.x,     evt->area.y, evt->area.width, evt->area.height)
 
 namespace Wdgt {
 
