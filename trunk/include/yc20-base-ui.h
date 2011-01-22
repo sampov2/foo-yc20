@@ -26,7 +26,6 @@
 #include <stdint.h>
 
 #include <cairo.h>
-#include <jack/ringbuffer.h>
 
 #include <wdgt.h>
 #include <yc20_wdgts.h>
@@ -48,6 +47,7 @@ class YC20BaseUI
 
 	protected:
 		virtual cairo_t	*get_cairo_surface() = 0;
+		virtual void	 return_cairo_surface(cairo_t *cr) { cairo_destroy(cr); }
 
 		void		 draw_wdgt	(Wdgt::Object *);
 

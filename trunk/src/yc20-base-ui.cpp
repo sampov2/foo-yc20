@@ -409,7 +409,7 @@ YC20BaseUI::draw(double x, double y, double width, double height, bool scale)
 
 	cairo_pattern_destroy(bg);
 
-	cairo_destroy(cr);
+	return_cairo_surface(cr);
 }
 
 YC20BaseUI::~YC20BaseUI()
