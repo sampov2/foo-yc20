@@ -73,6 +73,8 @@ class FooYC20VSTi : public AudioEffectX
 		char programName[kVstMaxNameLen+1];
 };
 
+
+#ifdef __WIN32__
 LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 class YC20AEffEditor : public AEffEditor, public YC20BaseUI
@@ -108,7 +110,8 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			}
 
 			SetWindowLongPtr( (HWND)systemWindow, GWLP_USERDATA, (LONG_PTR)this);
-			//draw(-1, -1, -1, -1, true);
+
+			// TODO: update controls
 
 			return true;
 		};
@@ -168,6 +171,7 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 	YC20AEffEditor *ui = (YC20AEffEditor *)GetWindowLongPtr( hWnd, GWLP_USERDATA);
 
 	double x,y;
+	RECT rect;
 
 	switch(Msg)
 	{
@@ -190,24 +194,26 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 
 	case WM_PAINT:
 		if (ui->hdc) {
-			std::cerr << "Painting while painting? bad!" << std::endl;
+			std::cerr << "!! Painting while painting? bad!" << std::endl;
 			break;
 		}
-		ui->wm_paint = true;
-		ui->draw(-1, -1, -1, -1, true); // TODO: use the Rect, Luke
-		ui->hdc = 0;
 
+		if (GetUpdateRect(hWnd, &rect, true) == 0) {
+			break;
+		}
+
+		ui->wm_paint = true;
+		ui->draw(rect.left, rect.top, rect.right, rect.bottom, true);
 		ui->wm_paint = false;
 
 		break;
 
 	default:
-		//std::cerr << "Msg: " << Msg << std::endl;
 		return CallWindowProc(ui->oldWndCallback, hWnd, Msg, wParam, lParam);
 	}
 	return 0;
 }
-
+#endif /* __WIN32__ */
 
 AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
@@ -312,9 +318,11 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 
 	yc20->setDSP(tmp);
 
+#ifdef __WIN32__
 	std::cerr << "Creating the editor..." << std::endl;
 	setEditor(new YC20AEffEditor(this));
 	std::cerr << "...done: " << editor << std::endl;
+#endif /* __WIN32__ */
 }
 
 void
