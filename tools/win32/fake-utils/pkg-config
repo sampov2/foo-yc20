@@ -20,6 +20,11 @@ if [ "$1" = "--cflags" ]; then
 			for C in $GTK_COMPONENTS2; do
 				echo -n -I$GTK/lib/$C/include" "
 			done
+		elif [ "$A" = "cairo" ]; then
+			echo -n "-I"$GTK"/include/cairo "
+			echo -n "-I"$GTK"/include/freetype2 "
+			echo -n "-I"$GTK"/include "
+			echo -n "-I"$GTK"/include/libpng14 "
 		fi
 
 	done
@@ -31,6 +36,8 @@ elif [ "$1" = "--libs" ]; then
 			echo -n -ljack -L$JACK_INST"/lib ";
 		elif [ "$A" = "gtk+-2.0" ]; then
 			echo -n -L$GTK/lib -lgtk-win32-2.0 -lgdk-win32-2.0 -latk-1.0 -lgio-2.0 -lgdk_pixbuf-2.0 -lpangowin32-1.0 -lgdi32 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lglib-2.0 -lintl" ";
+		elif [ "$A" = "cairo" ]; then
+			echo -n -L$GTK/lib -lcairo" "
 		fi
 
 	done
