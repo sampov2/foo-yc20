@@ -26,6 +26,7 @@
 #include <audioeffectx.h>
 #include <audioeffectx.cpp>
 
+
 #include <foo-yc20.h>
 #include <yc20-base-ui.h>
 #include <cairo-win32.h>
@@ -72,10 +73,16 @@ class FooYC20VSTi : public AudioEffectX
 		char programName[kVstMaxNameLen+1];
 };
 
+LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
+
 class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 {
 	public:
-		YC20AEffEditor(AudioEffect* fx) : AEffEditor(fx), YC20BaseUI()
+		YC20AEffEditor(AudioEffect* fx) 
+			: AEffEditor(fx)
+			, YC20BaseUI()
+			, hdc(0)
+			, wm_paint(false)
 		{
 			_rect.left = 0;
 			_rect.top = 0;
@@ -92,7 +99,17 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 		virtual bool open(void *ptr) {
 			std::cerr << "########## open()" << std::endl;
 			AEffEditor::open(ptr); 	
-			draw(-1, -1, -1, -1, true);
+
+			oldWndCallback = (WNDPROC)SetWindowLongPtr((HWND)systemWindow, GWLP_WNDPROC, (LONG)(WNDPROC)yc20WndProcedure);
+			if (oldWndCallback == 0) {
+				std::cerr << "Could not change window WNDPROC!!!" << std::endl;
+				AEffEditor::close();
+				return false;
+			}
+
+			SetWindowLongPtr( (HWND)systemWindow, GWLP_USERDATA, (LONG_PTR)this);
+			//draw(-1, -1, -1, -1, true);
+
 			return true;
 		};
 
@@ -101,11 +118,21 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			AEffEditor::close(); 
 		};
 
-		virtual void idle() {};
+		virtual void idle() {
+			/*
+			if (changed) { // volatile?
+				draw(-1, -1, -1, -1, true);
+			}
+			*/
+		};
 
 		virtual cairo_t	*get_cairo_surface() 
 		{
-			hdc = BeginPaint((HWND)systemWindow, &ps);
+			if (wm_paint) {
+				hdc = BeginPaint( (HWND)systemWindow, &ps);
+			} else {
+				hdc = GetDC( (HWND)systemWindow );
+			}
 
 			surface = cairo_win32_surface_create(hdc);
 			return cairo_create(surface);
@@ -115,19 +142,72 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 		{
 			YC20BaseUI::return_cairo_surface(cr);
 
-			cairo_surface_destroy(surface);
-			EndPaint((HWND)systemWindow, &ps);
+			if (wm_paint) {
+				EndPaint( (HWND)systemWindow, &ps);
+			} else {
+				ReleaseDC( (HWND)systemWindow, hdc);
+			}
+			hdc = 0;
 		};
 
+		WNDPROC oldWndCallback;
+		HDC hdc;
+		PAINTSTRUCT ps;
+
+		bool wm_paint;
 
 	private:
-		PAINTSTRUCT ps;
-		HDC hdc;
 		cairo_surface_t *surface;
 
 		ERect _rect;
 
 };
+
+LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+{
+	YC20AEffEditor *ui = (YC20AEffEditor *)GetWindowLongPtr( hWnd, GWLP_USERDATA);
+
+	double x,y;
+
+	switch(Msg)
+	{
+	case WM_MOUSEMOVE: 
+		x = ((int)(short)LOWORD(lParam)); // GET_X_LPARAM
+		y = ((int)(short)HIWORD(lParam)); // GET_Y_LPARAM
+		ui->mouse_movement(x,y);
+		break;
+	case WM_LBUTTONDOWN:
+		x = ((int)(short)LOWORD(lParam)); // GET_X_LPARAM
+		y = ((int)(short)HIWORD(lParam)); // GET_Y_LPARAM
+		ui->button_pressed(x,y);
+
+		break;
+	case WM_LBUTTONUP:
+		x = ((int)(short)LOWORD(lParam)); // GET_X_LPARAM
+		y = ((int)(short)HIWORD(lParam)); // GET_Y_LPARAM
+		ui->button_released(x,y);
+		break;
+
+	case WM_PAINT:
+		if (ui->hdc) {
+			std::cerr << "Painting while painting? bad!" << std::endl;
+			break;
+		}
+		ui->wm_paint = true;
+		ui->draw(-1, -1, -1, -1, true); // TODO: use the Rect, Luke
+		ui->hdc = 0;
+
+		ui->wm_paint = false;
+
+		break;
+
+	default:
+		//std::cerr << "Msg: " << Msg << std::endl;
+		return CallWindowProc(ui->oldWndCallback, hWnd, Msg, wParam, lParam);
+	}
+	return 0;
+}
+
 
 AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
