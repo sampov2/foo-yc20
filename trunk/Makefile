@@ -63,9 +63,11 @@ OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o src/yc20-base-ui.o
 $(LV2_UI): $(OBJS_LV2_UI)
 	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtk+-2.0` -o $(LV2_UI) $(LDFLAGS_YC20_LV2)
 
-## VSTi - only compiles for windows with MinGW32
+## VSTi - only compiles for windows with MinGW32. 
+##        Note: Jack is used in compile flags to provide access to the ringbuffer.h. there
+##              is no runtime dependency or even a library as we use the separately compiled ringbuffer.o
 OBJS_VSTI=src/vsti.o src/vstplugmain.o src/foo-yc20.o src/yc20-base-ui.o
-src/vsti.o src/vstplugmain.o: CFLAGS_use = $(CFLAGS_X) -I$(VSTSDK) -I$(VSTSDK)/public.sdk/source/vst2.x `pkg-config --cflags cairo`
+src/vsti.o src/vstplugmain.o: CFLAGS_use = $(CFLAGS_X) -I$(VSTSDK) -I$(VSTSDK)/public.sdk/source/vst2.x `pkg-config --cflags cairo jack`
 
 src/vstplugmain.o: $(VSTSDK)/public.sdk/source/vst2.x/vstplugmain.cpp
 	$(CXX) $(CFLAGS_use)  $(VSTSDK)/public.sdk/source/vst2.x/vstplugmain.cpp -c -o src/vstplugmain.o

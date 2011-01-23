@@ -31,6 +31,9 @@
 #include <yc20-base-ui.h>
 #include <cairo-win32.h>
 
+// Note: This is not a dependency to jack! We just use the ringbuffer implementation for VST -> UI communication
+#include <jack/ringbuffer.h>
+
 #define NUM_PARAMS 23
 
 #define PARAM_PITCH 0
@@ -67,9 +70,9 @@ class FooYC20VSTi : public AudioEffectX
 		VstInt32 getNumMidiInputChannels ()  { return 1; };
 
 		YC20Processor *yc20;
+		std::string label_for_parameter[NUM_PARAMS];
 
 	private:
-		std::string label_for_parameter[NUM_PARAMS];
 		char programName[kVstMaxNameLen+1];
 };
 
@@ -91,14 +94,36 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			_rect.right = 1280;
 			_rect.bottom = 200;
 			set_scale(1.0);
+
+			exposeRingbuffer = jack_ringbuffer_create(sizeof(Wdgt::Draggable *)*1000);
+			if (exposeRingbuffer == NULL) {
+				throw "Could not create ringbuffer";
+			}
+
+			
+			FooYC20VSTi *eff = (FooYC20VSTi *)fx;
+
+			for (int i = 0; i < NUM_PARAMS; i++) {
+				draggableForIndex[i] = wdgtPerLabel[eff->label_for_parameter[i]];
+				draggableForIndex[i]->setPortIndex(i);
+			}
 		};
 
-		virtual bool getRect(ERect **rect) {
+		~YC20AEffEditor()
+		{
+			jack_ringbuffer_free(exposeRingbuffer);
+		}
+
+		
+
+		virtual bool getRect(ERect **rect) 
+		{
 			*rect = &_rect;
 			return true; 
 		};
 
-		virtual bool open(void *ptr) {
+		virtual bool open(void *ptr) 
+		{
 			std::cerr << "########## open()" << std::endl;
 			AEffEditor::open(ptr); 	
 
@@ -111,22 +136,34 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 			SetWindowLongPtr( (HWND)systemWindow, GWLP_USERDATA, (LONG_PTR)this);
 
-			// TODO: update controls
+			FooYC20VSTi *eff = (FooYC20VSTi *)effect;
+			for (int i = 0; i < NUM_PARAMS; i++) {
+				Control *c = eff->yc20->getControl(eff->label_for_parameter[i]);
+				draggableForIndex[i]->setValue(*c->getZone());
+			}
+			// TODO: update controls (if necessary)
+			
 
 			return true;
 		};
 
-		virtual void close() { 
+		virtual void close() 
+		{ 
 			std::cerr << "########## close()" << std::endl;
 			AEffEditor::close(); 
 		};
 
-		virtual void idle() {
-			/*
-			if (changed) { // volatile?
-				draw(-1, -1, -1, -1, true);
+		virtual void idle() 
+		{
+			Wdgt::Draggable *obj;
+
+			while ( jack_ringbuffer_read(exposeRingbuffer, 
+						(char *)&obj,
+						sizeof(Wdgt::Draggable *)) == sizeof(Wdgt::Draggable *)) {
+				draw_wdgt(obj);
 			}
-			*/
+
+			AEffEditor::idle(); 
 		};
 
 		virtual cairo_t	*get_cairo_surface() 
@@ -159,10 +196,40 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 		bool wm_paint;
 
+		jack_ringbuffer_t *exposeRingbuffer;
+
+		// My stuff
+		void     value_changed  (Wdgt::Draggable *draggable)
+		{
+			float value = draggable->getValue();
+			if (draggable->getPortIndex() == PARAM_PITCH) {
+				value /= 2.0;
+				value += 0.5;
+			}
+			
+			effect->setParameterAutomated(draggable->getPortIndex(), value);
+		};
+
+		void queueChange(VstInt32 idx, float value)
+		{
+			Wdgt::Draggable *obj = draggableForIndex[idx];
+
+			if (!obj->setValue(value)) {
+				// Don't queue a change if the value did not change
+				return;
+			}
+
+			int i = jack_ringbuffer_write(exposeRingbuffer, (char *)&obj, sizeof(Wdgt::Draggable *));
+			if (i != sizeof(Wdgt::Draggable *)) {
+				std::cerr << "Ringbuffer full!" << std::endl;
+			}
+		}
+
 	private:
 		cairo_surface_t *surface;
 
 		ERect _rect;
+		Wdgt::Draggable *draggableForIndex[NUM_PARAMS];
 
 };
 
@@ -425,8 +492,14 @@ FooYC20VSTi::setParameter	(VstInt32 index, float value)
 		value -= 0.5;
 		value *= 2.0;
 	}
-	
+
+	bool didChange = (*c->getZone() != value);	
+
 	*c->getZone() = value;
+
+	if (editor && didChange) {
+		((YC20AEffEditor *)editor)->queueChange(index, value);
+	}
 }
 
 float
