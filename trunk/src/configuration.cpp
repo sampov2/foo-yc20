@@ -32,7 +32,7 @@
 #include <foo-yc20-os.h>
 
 void 
-YC20Processor::loadConfiguration(std::string fileName)
+YC20Processor::loadConfiguration(std::string &fileName)
 {
 	configFile = fileName;
 	loadConfiguration();
