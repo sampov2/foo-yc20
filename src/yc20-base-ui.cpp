@@ -21,6 +21,68 @@
 
 #include <string.h>
 
+#ifdef __WIN32__
+
+#include <windows.h>
+
+struct pointer_t {
+	unsigned char *ptr;
+	unsigned int length;
+	unsigned int at;
+};
+
+cairo_status_t read_from_pointer(void *closure, unsigned char *data, unsigned int length)
+{
+	struct pointer_t *ptr = (struct pointer_t *)closure;
+
+	if (ptr->at >= ptr->length) {
+		return CAIRO_STATUS_SUCCESS;
+	}
+
+	unsigned int len = length;
+	if (len > (ptr->length - ptr->at)) {
+		len = ptr->length - ptr->at;
+	}
+
+	memcpy(data, ptr->ptr + ptr->at, len);
+
+	ptr->at += len;
+
+	return CAIRO_STATUS_SUCCESS;
+}
+extern HINSTANCE hInstance;
+
+namespace Wdgt
+{
+	bool check_cairo_png(cairo_surface_t *s)
+	{
+		cairo_status_t _stat = cairo_surface_status(s);
+		return !(_stat == CAIRO_STATUS_NO_MEMORY ||
+				_stat == CAIRO_STATUS_FILE_NOT_FOUND ||
+				_stat == CAIRO_STATUS_READ_ERROR);
+
+	}
+
+	inline cairo_surface_t * load_png(std::string file)
+	{       
+		HRSRC hRes = FindResource(hInstance, file.c_str(), RT_RCDATA); 
+		HGLOBAL hMem = LoadResource(hInstance, hRes); 
+
+		struct pointer_t png_resource;
+		png_resource.ptr    = (unsigned char *)LockResource(hMem); 
+		png_resource.length = SizeofResource(hInstance, hRes);
+		png_resource.at     = 0;
+
+		cairo_surface_t *ret = cairo_image_surface_create_from_png_stream (read_from_pointer, &png_resource);
+		if (!check_cairo_png(ret)) {
+			std::cerr << "Foo-YC20: could not open resource '" << file << "'" << std::endl;
+		}
+		return ret;
+	}
+
+}
+
+#else
 namespace Wdgt
 {
 
@@ -49,6 +111,7 @@ namespace Wdgt
 		return ret;
 	}
 }
+#endif
 
 
 YC20BaseUI::YC20BaseUI()

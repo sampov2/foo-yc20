@@ -1,0 +1,21 @@
+1 ICON "graphics/foo-yc20.ico"
+
+background.png RCDATA "graphics/background.png"
+potentiometer.png RCDATA "graphics/potentiometer.png"
+
+black_0.png RCDATA "graphics/black_0.png"
+black_1.png RCDATA "graphics/black_1.png"
+black_2.png RCDATA "graphics/black_2.png"
+black_3.png RCDATA "graphics/black_3.png"
+
+green_0.png RCDATA "graphics/green_0.png"
+green_1.png RCDATA "graphics/green_1.png"
+green_2.png RCDATA "graphics/green_2.png"
+green_3.png RCDATA "graphics/green_3.png"
+
+white_0.png RCDATA "graphics/white_0.png"
+white_1.png RCDATA "graphics/white_1.png"
+white_2.png RCDATA "graphics/white_2.png"
+white_3.png RCDATA "graphics/white_3.png"
+
+
