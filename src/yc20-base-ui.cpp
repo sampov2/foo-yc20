@@ -50,7 +50,10 @@ cairo_status_t read_from_pointer(void *closure, unsigned char *data, unsigned in
 
 	return CAIRO_STATUS_SUCCESS;
 }
-extern HINSTANCE hInstance;
+
+// For foo-yc20.exe, use 0)
+// For the VSTi, createEffectInstance() will set this to the value from the dll initialization
+HINSTANCE cairoResourceInstance = 0;
 
 namespace Wdgt
 {
@@ -65,12 +68,12 @@ namespace Wdgt
 
 	inline cairo_surface_t * load_png(std::string file)
 	{       
-		HRSRC hRes = FindResource(hInstance, file.c_str(), RT_RCDATA); 
-		HGLOBAL hMem = LoadResource(hInstance, hRes); 
+		HRSRC hRes = FindResource(cairoResourceInstance, file.c_str(), RT_RCDATA); 
+		HGLOBAL hMem = LoadResource(cairoResourceInstance, hRes); 
 
 		struct pointer_t png_resource;
 		png_resource.ptr    = (unsigned char *)LockResource(hMem); 
-		png_resource.length = SizeofResource(hInstance, hRes);
+		png_resource.length = SizeofResource(cairoResourceInstance, hRes);
 		png_resource.at     = 0;
 
 		cairo_surface_t *ret = cairo_image_surface_create_from_png_stream (read_from_pointer, &png_resource);

@@ -282,8 +282,14 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 }
 #endif /* __WIN32__ */
 
+extern HINSTANCE cairoResourceInstance;
+extern HINSTANCE hInstance;
+
 AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
+	// Propagate the HINSTANCE set by vstgui to th HINSTANCE used in yc20-base-ui.cpp
+	cairoResourceInstance = hInstance;
+	
 	return new FooYC20VSTi (audioMaster, 1, NUM_PARAMS);
 }
 
