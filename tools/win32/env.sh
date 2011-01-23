@@ -30,14 +30,13 @@ export PATH=$YC20_TOOL_PATH/fake-utils:$PATH
 
 export VSTSDK=$YC20_TOOL_PATH/vstsdk2.4/
 
-export LDFLAGS_YC20="-mwindows "$YC20_TOOL_PATH"/gui.o "$YC20_TOOL_PATH"/ringbuffer.o"
+export LDFLAGS_YC20="-mwindows "$YC20_TOOL_PATH"/ringbuffer.o"
 export LDFLAGS_CLI=$YC20_TOOL_PATH"/ringbuffer.o"
-export VSTFLAGS=$YC20_TOOL_PATH"/ringbuffer.o"
+export VSTFLAGS=$YC20_TOOL_PATH"/ringbuffer.o "
 
 export CFLAGS="-O3 -mtune=native -march=native -msse -mfpmath=sse -ffast-math"
 
-echo compiling gui.rc
-$WINDRES $YC20_TOOL_PATH/gui.rc -o $YC20_TOOL_PATH/gui.o
+export WIN32_RC="src/win32.o"
 
 echo compiling ringbuffer.c
 $CC $YC20_TOOL_PATH/jack-1.9.6/jack-1.9.6/common/ringbuffer.c -I$YC20_TOOL_PATH/jack-1.9.6/jack-1.9.6/windows $CFLAGS -c -o $YC20_TOOL_PATH/ringbuffer.o
