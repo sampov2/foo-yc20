@@ -154,7 +154,7 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			
 			// TODO: Reaper doesn't like us touching its' window. Maybe we need to put in a new window in the window?
 
-			uiWnd = CreateWindow(yc20WindowClassName, "A title",  WS_OVERLAPPED, 
+			uiWnd = CreateWindow(yc20WindowClassName, "A title",  WS_CHILD, 
 					       CW_USEDEFAULT, CW_USEDEFAULT, 1280, 200, (HWND)systemWindow, NULL, hInstance, NULL);
 
 			if (!uiWnd) {
@@ -174,7 +174,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 				draggableForIndex[i]->setValue(*c->getZone());
 			}
 			
+#ifdef VERBOSE
 			std::cerr << " .. exit open()" << std::endl;
+#endif
 
 			return true;
 		};
@@ -202,7 +204,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 		virtual cairo_t	*get_cairo_surface() 
 		{
+#ifdef VERBOSE
 			std::cerr << "get_cairo_surface()" << std::endl;
+#endif
 			if (wm_paint) {
 				hdc = BeginPaint( (HWND)uiWnd, &ps);
 			} else {
@@ -211,13 +215,17 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 			surface = cairo_win32_surface_create(hdc);
 			cairo_t *ret = cairo_create(surface);
+#ifdef VERBOSE
 			std::cerr << " .. exit get_cairo_surface()" << std::endl;
+#endif
 			return ret;
 		}
 
 		virtual void return_cairo_surface(cairo_t *cr) 
 		{
+#ifdef VERBOSE
 			std::cerr << "return_cairo_surface()" << std::endl;
+#endif
 			YC20BaseUI::return_cairo_surface(cr);
 
 			if (wm_paint) {
@@ -226,7 +234,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 				ReleaseDC( (HWND)uiWnd, hdc);
 			}
 			hdc = 0;
+#ifdef VERBOSE
 			std::cerr << " .. exit return_cairo_surface()" << std::endl;
+#endif
 		};
 
 		HDC hdc;
@@ -239,7 +249,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 		// My stuff
 		void     value_changed  (Wdgt::Draggable *draggable)
 		{
+#ifdef VERBOSE
 			std::cerr << "value_changed()" << std::endl;
+#endif
 			float value = draggable->getValue();
 			if (draggable->getPortIndex() == PARAM_PITCH) {
 				value /= 2.0;
@@ -247,12 +259,16 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			}
 			
 			effect->setParameterAutomated(draggable->getPortIndex(), value);
+#ifdef VERBOSE
 			std::cerr << " .. exit value_changed()" << std::endl;
+#endif
 		};
 
 		void queueChange(VstInt32 idx, float value)
 		{
+#ifdef VERBOSE
 			std::cerr << "queueChange(" << idx << ", " << value << ")" << std::endl;
+#endif
 			Wdgt::Draggable *obj = draggableForIndex[idx];
 
 			if (!obj->setValue(value)) {
@@ -264,7 +280,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			if (i != sizeof(Wdgt::Draggable *)) {
 				std::cerr << "Ringbuffer full!" << std::endl;
 			}
+#ifdef VERBOSE
 			std::cerr << " .. exit queueChange()" << std::endl;
+#endif
 		}
 
 		HWND uiWnd;
@@ -281,9 +299,11 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 {
 	YC20AEffEditor *ui = (YC20AEffEditor *)GetWindowLongPtr( hWnd, GWLP_USERDATA);
 
+#ifdef VERBOSE
 	if (Msg != 275) {
 		std::cerr << "yc20WndProcedure(xx, " << Msg << ", .., .. ) (userdata = " << ui << ")" << std::endl;
 	}
+#endif
 
 	double x,y;
 	RECT rect;
@@ -324,11 +344,13 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 		break;
 
 	default:
-		return DefWindowProc(hWnd, Msg, wParam, lParam)
+		return DefWindowProc(hWnd, Msg, wParam, lParam);
 	}
+#ifdef VERBOSE
 	if (Msg != 275) {
 		std::cerr << " .. exit yc20WndProcedure(xx, " << Msg << ", .., .. )" << std::endl;
 	}
+#endif
 	return 0;
 }
 #endif /* __WIN32__ */
@@ -440,9 +462,13 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 	yc20->setDSP(tmp);
 
 #ifdef __WIN32__
+#ifdef VERBOSE
 	std::cerr << "Creating the editor..." << std::endl;
+#endif
 	setEditor(new YC20AEffEditor(this));
+#ifdef VERBOSE
 	std::cerr << "...done: " << editor << std::endl;
+#endif
 #endif /* __WIN32__ */
 }
 
