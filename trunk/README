@@ -85,3 +85,7 @@ ChangeLog:
 	- Optimized band limiting scheme
 	- Vectorized DSP code (built with faust -vec)
 
+
+--------------------------------------------------------------------------
+VST is © 2004, Steinberg Media Technologies, All Rights Reserved
+
