@@ -26,7 +26,6 @@
 #include <audioeffectx.h>
 #include <audioeffectx.cpp>
 
-
 #include <foo-yc20.h>
 #include <yc20-base-ui.h>
 #include <cairo-win32.h>
@@ -80,6 +79,12 @@ class FooYC20VSTi : public AudioEffectX
 #ifdef __WIN32__
 LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
+extern HINSTANCE cairoResourceInstance;
+extern HINSTANCE hInstance;
+
+const char yc20WindowClassName[] = "FooYC20WindowClass";
+
+
 class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 {
 	public:
@@ -107,6 +112,26 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 				draggableForIndex[i] = wdgtPerLabel[eff->label_for_parameter[i]];
 				draggableForIndex[i]->setPortIndex(i);
 			}
+
+			WNDCLASSEX wc;
+			wc.cbSize        = sizeof(WNDCLASSEX);
+			wc.style         = CS_HREDRAW | CS_VREDRAW;
+			wc.lpfnWndProc   = yc20WndProcedure;
+			wc.cbClsExtra    = 0;
+			wc.cbWndExtra    = 0;
+			wc.hInstance     = hInstance;
+			wc.hIcon         = LoadIcon(hInstance, IDI_APPLICATION);
+			wc.hIconSm       = LoadIcon(hInstance, IDI_APPLICATION);
+			wc.hCursor       = LoadCursor(hInstance, IDC_ARROW);
+			wc.hbrBackground = (HBRUSH)(COLOR_WINDOW);
+			wc.lpszMenuName  = NULL;
+			wc.lpszClassName = yc20WindowClassName;
+
+			if(!RegisterClassEx(&wc)) {
+				std::cerr << "Could not register class '" << yc20WindowClassName << "'" << std::endl;
+			}
+
+
 		};
 
 		~YC20AEffEditor()
@@ -126,23 +151,30 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 		{
 			std::cerr << "########## open()" << std::endl;
 			AEffEditor::open(ptr); 	
+			
+			// TODO: Reaper doesn't like us touching its' window. Maybe we need to put in a new window in the window?
 
-			oldWndCallback = (WNDPROC)SetWindowLongPtr((HWND)systemWindow, GWLP_WNDPROC, (LONG)(WNDPROC)yc20WndProcedure);
-			if (oldWndCallback == 0) {
-				std::cerr << "Could not change window WNDPROC!!!" << std::endl;
-				AEffEditor::close();
-				return false;
+			uiWnd = CreateWindow(yc20WindowClassName, "A title",  WS_OVERLAPPED, 
+					       CW_USEDEFAULT, CW_USEDEFAULT, 1280, 200, (HWND)systemWindow, NULL, hInstance, NULL);
+
+			if (!uiWnd) {
+				std::cerr << "CreateWindow() returned 0" << std::endl;
 			}
 
-			SetWindowLongPtr( (HWND)systemWindow, GWLP_USERDATA, (LONG_PTR)this);
+			SetWindowLongPtr( (HWND)uiWnd, GWLP_USERDATA, (LONG_PTR)this);
+			
+			ShowWindow (uiWnd, SW_SHOW);
 
+
+
+			// Set UI controls to what they are in the processor
 			FooYC20VSTi *eff = (FooYC20VSTi *)effect;
 			for (int i = 0; i < NUM_PARAMS; i++) {
 				Control *c = eff->yc20->getControl(eff->label_for_parameter[i]);
 				draggableForIndex[i]->setValue(*c->getZone());
 			}
-			// TODO: update controls (if necessary)
 			
+			std::cerr << " .. exit open()" << std::endl;
 
 			return true;
 		};
@@ -156,41 +188,47 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 		virtual void idle() 
 		{
 			Wdgt::Draggable *obj;
+			//std::cerr << "idle()" << std::endl;
 
 			while ( jack_ringbuffer_read(exposeRingbuffer, 
 						(char *)&obj,
 						sizeof(Wdgt::Draggable *)) == sizeof(Wdgt::Draggable *)) {
 				draw_wdgt(obj);
 			}
+			//std::cerr << " .. exit idle()" << std::endl;
 
 			AEffEditor::idle(); 
 		};
 
 		virtual cairo_t	*get_cairo_surface() 
 		{
+			std::cerr << "get_cairo_surface()" << std::endl;
 			if (wm_paint) {
-				hdc = BeginPaint( (HWND)systemWindow, &ps);
+				hdc = BeginPaint( (HWND)uiWnd, &ps);
 			} else {
-				hdc = GetDC( (HWND)systemWindow );
+				hdc = GetDC( (HWND)uiWnd );
 			}
 
 			surface = cairo_win32_surface_create(hdc);
-			return cairo_create(surface);
+			cairo_t *ret = cairo_create(surface);
+			std::cerr << " .. exit get_cairo_surface()" << std::endl;
+			return ret;
 		}
 
 		virtual void return_cairo_surface(cairo_t *cr) 
 		{
+			std::cerr << "return_cairo_surface()" << std::endl;
 			YC20BaseUI::return_cairo_surface(cr);
 
 			if (wm_paint) {
-				EndPaint( (HWND)systemWindow, &ps);
+				EndPaint( (HWND)uiWnd, &ps);
 			} else {
-				ReleaseDC( (HWND)systemWindow, hdc);
+				ReleaseDC( (HWND)uiWnd, hdc);
 			}
 			hdc = 0;
+			std::cerr << " .. exit return_cairo_surface()" << std::endl;
 		};
 
-		WNDPROC oldWndCallback;
 		HDC hdc;
 		PAINTSTRUCT ps;
 
@@ -201,6 +239,7 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 		// My stuff
 		void     value_changed  (Wdgt::Draggable *draggable)
 		{
+			std::cerr << "value_changed()" << std::endl;
 			float value = draggable->getValue();
 			if (draggable->getPortIndex() == PARAM_PITCH) {
 				value /= 2.0;
@@ -208,10 +247,12 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			}
 			
 			effect->setParameterAutomated(draggable->getPortIndex(), value);
+			std::cerr << " .. exit value_changed()" << std::endl;
 		};
 
 		void queueChange(VstInt32 idx, float value)
 		{
+			std::cerr << "queueChange(" << idx << ", " << value << ")" << std::endl;
 			Wdgt::Draggable *obj = draggableForIndex[idx];
 
 			if (!obj->setValue(value)) {
@@ -223,7 +264,10 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			if (i != sizeof(Wdgt::Draggable *)) {
 				std::cerr << "Ringbuffer full!" << std::endl;
 			}
+			std::cerr << " .. exit queueChange()" << std::endl;
 		}
+
+		HWND uiWnd;
 
 	private:
 		cairo_surface_t *surface;
@@ -236,6 +280,10 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	YC20AEffEditor *ui = (YC20AEffEditor *)GetWindowLongPtr( hWnd, GWLP_USERDATA);
+
+	if (Msg != 275) {
+		std::cerr << "yc20WndProcedure(xx, " << Msg << ", .., .. ) (userdata = " << ui << ")" << std::endl;
+	}
 
 	double x,y;
 	RECT rect;
@@ -276,14 +324,14 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 		break;
 
 	default:
-		return CallWindowProc(ui->oldWndCallback, hWnd, Msg, wParam, lParam);
+		return DefWindowProc(hWnd, Msg, wParam, lParam)
+	}
+	if (Msg != 275) {
+		std::cerr << " .. exit yc20WndProcedure(xx, " << Msg << ", .., .. )" << std::endl;
 	}
 	return 0;
 }
 #endif /* __WIN32__ */
-
-extern HINSTANCE cairoResourceInstance;
-extern HINSTANCE hInstance;
 
 AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
