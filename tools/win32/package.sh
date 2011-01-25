@@ -33,8 +33,6 @@ if [ -f $BUILDDIR ]; then
 fi
 
 mkdir $BUILDDIR
-mkdir $BUILDDIR/graphics
-cp -n graphics/*.png $BUILDDIR/graphics
 
 for DLL in $DLLS; do
 	TMP=$(find $YC20_TOOL_PATH -name $DLL)
