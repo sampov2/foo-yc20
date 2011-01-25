@@ -28,7 +28,12 @@
 
 #include <foo-yc20.h>
 #include <yc20-base-ui.h>
+
+#ifdef __WIN32__
 #include <cairo-win32.h>
+#else
+#include <foo-yc20-os.h>
+#endif
 
 // Note: This is not a dependency to jack! We just use the ringbuffer implementation for VST -> UI communication
 #include <jack/ringbuffer.h>
@@ -357,9 +362,10 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 
 AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
+#ifdef __WIN32__
 	// Propagate the HINSTANCE set by vstgui to th HINSTANCE used in yc20-base-ui.cpp
 	cairoResourceInstance = hInstance;
-	
+#endif
 	return new FooYC20VSTi (audioMaster, 1, NUM_PARAMS);
 }
 
@@ -577,9 +583,11 @@ FooYC20VSTi::setParameter	(VstInt32 index, float value)
 
 	*c->getZone() = value;
 
+#ifdef __WIN32__
 	if (editor && didChange) {
 		((YC20AEffEditor *)editor)->queueChange(index, value);
 	}
+#endif
 }
 
 float
