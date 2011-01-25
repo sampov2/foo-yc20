@@ -154,7 +154,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 		virtual bool open(void *ptr) 
 		{
+#ifdef VERBOSE
 			std::cerr << "########## open()" << std::endl;
+#endif
 			AEffEditor::open(ptr); 	
 			
 			// TODO: Reaper doesn't like us touching its' window. Maybe we need to put in a new window in the window?
@@ -188,7 +190,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 		virtual void close() 
 		{ 
+#ifdef VERBOSE
 			std::cerr << "########## close()" << std::endl;
+#endif
 			AEffEditor::close(); 
 		};
 
@@ -320,6 +324,11 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 	case WM_MOUSEMOVE: 
 		x = ((int)(short)LOWORD(lParam)); // GET_X_LPARAM
 		y = ((int)(short)HIWORD(lParam)); // GET_Y_LPARAM
+
+		// Catch if dragged outside the window, then released the button
+		if ((wParam & MK_LBUTTON) == 0 && ui->is_dragging()) {
+			ui->button_released(x,y);
+		}
 		ui->mouse_movement(x,y);
 		return 0;
 
