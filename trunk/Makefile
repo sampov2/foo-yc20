@@ -80,6 +80,13 @@ vsti: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/vsti.def
 
 $(BIN): $(OBJ)
 
+vstosx: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN)
+	$(CXX) $(CFLAGS) \
+	-I$(VSTSDK)/public.sdk -I$(VSTSDK)/vstgui.sf -I$(VSTSDK)/ \
+	-bundle -framework Carbon \
+	`pkg-config --libs cairo` \
+	$(OBJS_VSTI) $(OBJS_DSP_PLUGIN) \
+	-o vstosx
 
 ## clean
 
