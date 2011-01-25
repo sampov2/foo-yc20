@@ -166,7 +166,7 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 				std::cerr << "CreateWindow() returned 0" << std::endl;
 			}
 
-			SetWindowLongPtr( (HWND)uiWnd, GWLP_USERDATA, (LONG_PTR)this);
+			SetWindowLongPtr(uiWnd, GWLP_USERDATA, (LONG_PTR)this);
 			
 			ShowWindow (uiWnd, SW_SHOW);
 
@@ -212,10 +212,8 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 #ifdef VERBOSE
 			std::cerr << "get_cairo_surface()" << std::endl;
 #endif
-			if (wm_paint) {
-				hdc = BeginPaint( (HWND)uiWnd, &ps);
-			} else {
-				hdc = GetDC( (HWND)uiWnd );
+			if (!wm_paint) {
+				hdc = GetDC(uiWnd );
 			}
 
 			surface = cairo_win32_surface_create(hdc);
@@ -231,14 +229,14 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 #ifdef VERBOSE
 			std::cerr << "return_cairo_surface()" << std::endl;
 #endif
+			cairo_surface_finish(surface);
 			YC20BaseUI::return_cairo_surface(cr);
+			cairo_surface_destroy(surface);
 
-			if (wm_paint) {
-				EndPaint( (HWND)uiWnd, &ps);
-			} else {
-				ReleaseDC( (HWND)uiWnd, hdc);
+			if (!wm_paint) {
+				ReleaseDC(uiWnd, hdc);
+				hdc = 0;
 			}
-			hdc = 0;
 #ifdef VERBOSE
 			std::cerr << " .. exit return_cairo_surface()" << std::endl;
 #endif
@@ -300,6 +298,8 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 };
 
+//#include <gdiplus.h>
+
 LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	YC20AEffEditor *ui = (YC20AEffEditor *)GetWindowLongPtr( hWnd, GWLP_USERDATA);
@@ -311,7 +311,9 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 #endif
 
 	double x,y;
+	RECT clipRect;
 	RECT rect;
+
 
 	switch(Msg)
 	{
@@ -319,18 +321,20 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 		x = ((int)(short)LOWORD(lParam)); // GET_X_LPARAM
 		y = ((int)(short)HIWORD(lParam)); // GET_Y_LPARAM
 		ui->mouse_movement(x,y);
-		break;
+		return 0;
+
 	case WM_LBUTTONDOWN:
 		x = ((int)(short)LOWORD(lParam)); // GET_X_LPARAM
 		y = ((int)(short)HIWORD(lParam)); // GET_Y_LPARAM
 		ui->button_pressed(x,y);
+		return 0;
 
-		break;
+		// TODO: figure out how to detect dragging outside the box..
 	case WM_LBUTTONUP:
 		x = ((int)(short)LOWORD(lParam)); // GET_X_LPARAM
 		y = ((int)(short)HIWORD(lParam)); // GET_Y_LPARAM
 		ui->button_released(x,y);
-		break;
+		return 0;
 
 	case WM_PAINT:
 		if (ui->hdc) {
@@ -338,25 +342,40 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 			break;
 		}
 
-		if (GetUpdateRect(hWnd, &rect, true) == 0) {
-			break;
+		ui->wm_paint = true;
+		{
+			GetUpdateRect(hWnd, &clipRect, true);
+			HDC tmpHdc = BeginPaint(ui->uiWnd, &ui->ps);
+			GetClientRect(ui->uiWnd, &rect);
+
+			int x = rect.left;
+			int y = rect.top;
+			int width  = rect.right - rect.left;
+			int height = rect.bottom - rect.top;
+
+			// Setup double-buffered HDC
+			ui->hdc = CreateCompatibleDC(tmpHdc) ;
+			HBITMAP hBitmap = CreateCompatibleBitmap(tmpHdc,width,height);
+			HGDIOBJ hOldBitmap = SelectObject(ui->hdc, hBitmap );
+
+
+			ui->draw(0,0, 1280, 200, true);		
+
+			// Flush double-buffering
+			BitBlt(tmpHdc, x, y, width,  height, ui->hdc, 0, 0, SRCCOPY) ;
+        		SelectObject( ui->hdc, hOldBitmap );
+        		DeleteObject( hBitmap );
+        		DeleteDC( ui->hdc );
+			EndPaint(ui->uiWnd, &ui->ps);
+			ui->hdc = 0;
+
 		}
 
-		ui->wm_paint = true;
-		ui->draw(rect.left, rect.top, rect.right, rect.bottom, true);
 		ui->wm_paint = false;
 
-		break;
-
-	default:
-		return DefWindowProc(hWnd, Msg, wParam, lParam);
+		return 0;
 	}
-#ifdef VERBOSE
-	if (Msg != 275) {
-		std::cerr << " .. exit yc20WndProcedure(xx, " << Msg << ", .., .. )" << std::endl;
-	}
-#endif
-	return 0;
+	return DefWindowProc(hWnd, Msg, wParam, lParam);
 }
 #endif /* __WIN32__ */
 
