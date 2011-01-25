@@ -99,11 +99,11 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			, hdc(0)
 			, wm_paint(false)
 		{
-			_rect.left = 0;
-			_rect.top = 0;
-			_rect.right = 1280;
-			_rect.bottom = 200;
-			set_scale(1.0);
+			rect.left = 0;
+			rect.top = 0;
+			rect.right = 1024;
+			rect.bottom = 160;
+			set_scale(0.8);
 
 			exposeRingbuffer = jack_ringbuffer_create(sizeof(Wdgt::Draggable *)*1000);
 			if (exposeRingbuffer == NULL) {
@@ -146,9 +146,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 		
 
-		virtual bool getRect(ERect **rect) 
+		virtual bool getRect(ERect **r) 
 		{
-			*rect = &_rect;
+			*r = &rect;
 			return true; 
 		};
 
@@ -160,7 +160,7 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			// TODO: Reaper doesn't like us touching its' window. Maybe we need to put in a new window in the window?
 
 			uiWnd = CreateWindow(yc20WindowClassName, "A title",  WS_CHILD, 
-					       CW_USEDEFAULT, CW_USEDEFAULT, 1280, 200, (HWND)systemWindow, NULL, hInstance, NULL);
+					       CW_USEDEFAULT, CW_USEDEFAULT, rect.right, rect.bottom, (HWND)systemWindow, NULL, hInstance, NULL);
 
 			if (!uiWnd) {
 				std::cerr << "CreateWindow() returned 0" << std::endl;
@@ -293,7 +293,7 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 	private:
 		cairo_surface_t *surface;
 
-		ERect _rect;
+		ERect rect;
 		Wdgt::Draggable *draggableForIndex[NUM_PARAMS];
 
 };
@@ -339,7 +339,7 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 	case WM_PAINT:
 		if (ui->hdc) {
 			std::cerr << "!! Painting while painting? bad!" << std::endl;
-			break;
+			return 0;
 		}
 
 		ui->wm_paint = true;
@@ -353,13 +353,15 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 			int width  = rect.right - rect.left;
 			int height = rect.bottom - rect.top;
 
-			// Setup double-buffered HDC
+			// Setup double-buffered HDC for the ui->draw() to draw on
 			ui->hdc = CreateCompatibleDC(tmpHdc) ;
 			HBITMAP hBitmap = CreateCompatibleBitmap(tmpHdc,width,height);
 			HGDIOBJ hOldBitmap = SelectObject(ui->hdc, hBitmap );
 
-
-			ui->draw(0,0, 1280, 200, true);		
+			// Draw using the update rect
+			ui->draw(clipRect.left,    clipRect.top,
+				 clipRect.right  - clipRect.left,
+				 clipRect.bottom - clipRect.top, true);	
 
 			// Flush double-buffering
 			BitBlt(tmpHdc, x, y, width,  height, ui->hdc, 0, 0, SRCCOPY) ;
