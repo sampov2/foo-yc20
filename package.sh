@@ -50,6 +50,7 @@ cp -n src/configuration.cpp \
       src/foo-yc20.cpp \
       src/foo-yc20-ui2.cpp \
       src/foo-yc20-ui.cpp \
+      src/yc20-base-ui.cpp \
       src/lv2.cpp \
       src/lv2-ui.cpp \
       src/main-cli.cpp \
@@ -58,6 +59,7 @@ cp -n src/configuration.cpp \
       src/yc20-jack.cpp \
       src/vsti.cpp \
       src/vsti.def \
+      src/win32.rc \
       $BUILDDIR/src
 
 cp -n src/foo-yc20.lv2/foo-yc20.ttl \
@@ -69,6 +71,7 @@ cp -n include/faust-dsp.h \
       include/foo-yc20-os.h \
       include/foo-yc20-ui2.h \
       include/foo-yc20-ui.h \
+      include/yc20-base-ui.h \
       include/wdgt.h \
       include/yc20-jack.h \
       include/yc20_wdgts.h \
@@ -83,6 +86,7 @@ cp -n 	graphics/white_[0-3].png \
 	graphics/background.png \
 	graphics/potentiometer.png \
 	graphics/icon.png \
+	graphics/foo-yc20.ico \
 	$BUILDDIR/graphics
 
 cp -n	faust/biquad.dsp \
