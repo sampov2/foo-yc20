@@ -44,6 +44,8 @@ class YC20BaseUI
 		void		 draw		(double, double, double, double, bool);
 
 		virtual void	 value_changed	(Wdgt::Draggable *) {};
+		
+		bool		 is_dragging	() { return dragWdgt != 0; };
 
 	protected:
 		virtual cairo_t	*get_cairo_surface() = 0;
