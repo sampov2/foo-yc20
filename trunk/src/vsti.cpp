@@ -596,8 +596,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 				value += 0.5;
 			}
 			
+			VstInt32 idx = draggable->getPortIndex();
 			((AudioEffectX*)effect)->beginEdit(idx);
-			effect->setParameterAutomated(draggable->getPortIndex(), value);
+			effect->setParameterAutomated(idx, value);
 			((AudioEffectX*)effect)->endEdit(idx);
 #ifdef VERBOSE
 			std::cout << " .. exit value_changed()" << std::endl;
