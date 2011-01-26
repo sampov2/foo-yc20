@@ -23,6 +23,7 @@ if [ ! -x vstosx -o -n "$RECOMPILE" ]; then
     export PKG_CONFIG_PATH=$HOME/gtk/inst/lib/pkgconfig/:$PKG_CONFIG_PATH
   fi
 
+  CFLAGS="-O0 -g -ffast-math -arch i386 -DOSXVST" \
   CFLAGS="-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -DOSXVST" \
   CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.5.sdk \
                   -mmacosx-version-min=10.5 -Wall" \
@@ -34,6 +35,7 @@ cd $BUILDDIR
 
 ### config for DMG
 export PRODUCT_NAME="foo-yc20"
+BGPIC=${BUILDDIR}/resources/dmgbg.png    # background img for DMG
 VOLNAME=foo-yc20-VSTi
 if [ -z "$DMGFILE" ]; then
   DMGFILE=$HOME/Desktop/foo-yc20-VSTi${1:+-$1}.dmg  # OUTPUT FILE
@@ -212,7 +214,10 @@ echo '
        set theViewOptions to the icon view options of container window
        set arrangement of theViewOptions to not arranged
        set icon size of theViewOptions to 64
+       set background picture of theViewOptions to file ".background:'${BGFILE}'"
+       make new alias file at container window to POSIX file "/Library/Audio/Plug-Ins/VST" with properties {name:"VST folder"}
        set position of item "'${APPNAME}'" of container window to {100, 100}
+       set position of item "VST folder" of container window to {310, 100}
        close
        open
        update without registering applications
