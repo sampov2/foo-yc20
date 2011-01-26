@@ -80,12 +80,20 @@ vsti: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/vsti.def
 
 $(BIN): $(OBJ)
 
-vstosx: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN)
+src/osxringbuffer.o: ../tools/win32/jack-1.9.6/jack-1.9.6/common/ringbuffer.c
+	$(CC) $(CFLAGS) \
+	-I../tools/win32/jack-1.9.6/jack-1.9.6/posix/ \
+	-I../tools/win32/jack-1.9.6/jack-1.9.6/common/ \
+	-c ../tools/win32/jack-1.9.6/jack-1.9.6/common/ringbuffer.c \
+	-o src/osxringbuffer.o
+
+vstosx: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/osxringbuffer.o
 	$(CXX) $(CFLAGS) \
 	-I$(VSTSDK)/public.sdk -I$(VSTSDK)/vstgui.sf -I$(VSTSDK)/ \
-	`pkg-config --cflags cairo jack` \
+	`pkg-config --cflags cairo` \
 	-bundle -framework Carbon \
-	`pkg-config --libs cairo jack` \
+	`pkg-config --libs cairo` \
+	src/osxringbuffer.o \
 	$(OBJS_VSTI) $(OBJS_DSP_PLUGIN) \
 	-o vstosx
 
@@ -97,6 +105,7 @@ clean: cb
 cb:
 	rm -f foo-yc20 foo-yc20-cli $(LV2_PLUGIN) $(LV2_UI) FooYC20.dll
 	rm -f $(OBJS_FOO_YC20) $(OBJS_FOO_YC20_CLI) $(OBJS_LV2) $(OBJS_LV2_UI) $(OBJS_VSTI)
+	rm -f src/osxringbuffer.o vstosx
 	
 
 
