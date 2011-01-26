@@ -415,7 +415,7 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			if (exposeRingbuffer == NULL) {
 				throw "Could not create ringbuffer";
 			}
-			
+
 			FooYC20VSTi *eff = (FooYC20VSTi *)fx;
 
 			for (int i = 0; i < NUM_PARAMS; i++) {
@@ -438,9 +438,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 		virtual bool open(void *ptr)
 		{
-//#ifdef VERBOSE
+#ifdef VERBOSE
 			std::cout << "########## open()" << std::endl;
-//#endif
+#endif
 			AEffEditor::open(ptr); 	
 		
 #if 0
@@ -625,7 +625,7 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			if (!systemWindow) return;
 			Rect rectPort, rectNew, rectConstrain;
 			GetWindowPortBounds((WindowRef)systemWindow,&rectPort);
-			if( (winMousePos.h <= (rectPort.right - 15)) || (winMousePos.v <= (rectPort.bottom)) ) 
+			if( (winMousePos.h <= (rectPort.right - 15)) || (winMousePos.v <= (rectPort.bottom)) )
 				return;
 
 			rectConstrain.top=100; // min Height

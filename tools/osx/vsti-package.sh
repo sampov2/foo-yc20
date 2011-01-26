@@ -24,9 +24,8 @@ if [ ! -x vstosx -o -n "$RECOMPILE" ]; then
   fi
 
   CFLAGS="-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -DOSXVST" \
-  CFLAGS="-O1 -ffast-math -arch i386 -DOSXVST" \
   CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.5.sdk \
-                  -mmacosx-version-min=10.5" \
+                  -mmacosx-version-min=10.5 -Wall" \
   make clean vstosx \
     VSTSDK=/Users/rgareus/data/vstsdk2.4/ \
   || exit
@@ -132,6 +131,8 @@ cat > "${TARGET_BUILD_DIR}/${PRODUCT_NAME}.vst/Contents/Info.plist" << EOF
   <string>BNDL</string>
   <key>CFBundleSignature</key>
   <string>RG42</string>
+  <key>CFBundleIdentifier</key>
+  <string>com.studionumbersix.foo.yc20</string>
   <key>CFBundleVersion</key>
   <string>1.0</string>
   <key>CFBundleIconFile</key>
