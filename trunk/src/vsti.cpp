@@ -620,6 +620,12 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 #endif
 		}
 
+		bool checkwindow(WindowRef cmp)
+		{
+			if (cmp == (WindowRef)systemWindow) return true;
+			return false;
+		}
+
 		void resizewindow(Point winMousePos, Point mousePos)
 		{
 			if (!systemWindow) return;
@@ -720,6 +726,13 @@ static OSStatus MouseEventHandler(EventHandlerCallRef nextHandler, EventRef even
 		GetEventParameter(event, kEventParamMouseLocation, typeQDPoint, 0, sizeof(Point), 0, &mousePos);
 		GetEventParameter(event, kEventParamWindowMouseLocation, typeQDPoint, 0, sizeof(Point), 0, &winMousePos);
 		GetEventParameter(event, kEventParamMouseButton, typeMouseButton, 0, sizeof(EventMouseButton), 0, &button);
+#if 1
+		WindowRef tmpWin;
+		short part = FindWindow(mousePos,&tmpWin);
+		if (part != inContent) return result;
+		if (!ui->checkwindow(tmpWin)) return result;
+
+#endif
 #if 0
 		std::cout << "OSX mouse event:"
 			<< winMousePos.h << "x" << winMousePos.v << "|"
