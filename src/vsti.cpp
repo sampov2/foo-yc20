@@ -266,7 +266,10 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 				value += 0.5;
 			}
 			
-			effect->setParameterAutomated(draggable->getPortIndex(), value);
+			VstInt32 idx = draggable->getPortIndex();
+			((AudioEffectX*)effect)->beginEdit(idx);
+			effect->setParameterAutomated(idx, value);
+			((AudioEffectX*)effect)->endEdit(idx);
 #ifdef VERBOSE
 			std::cerr << " .. exit value_changed()" << std::endl;
 #endif
@@ -591,7 +594,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 				value += 0.5;
 			}
 			
+			((AudioEffectX*)effect)->beginEdit(idx);
 			effect->setParameterAutomated(draggable->getPortIndex(), value);
+			((AudioEffectX*)effect)->endEdit(idx);
 #ifdef VERBOSE
 			std::cout << " .. exit value_changed()" << std::endl;
 #endif
@@ -886,11 +891,9 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 
 #ifdef VERBOSE
 	std::cerr << "Creating the editor..." << std::endl;
-	std::cout << "Creating the editor..." << std::endl;
 #endif
 	setEditor(new YC20AEffEditor(this));
 #ifdef VERBOSE
-	std::cerr << "...done: " << editor << std::endl;
 	std::cout << "...done: " << editor << std::endl;
 #endif
 }
@@ -923,13 +926,12 @@ bool FooYC20VSTi::getOutputProperties(VstInt32 index, VstPinProperties* properti
 
 FooYC20VSTi::~FooYC20VSTi()
 {
-	delete yc20;
-	yc20 = 0;
-
 	if (editor) {
 		delete editor;
 		editor = 0;
 	}
+	delete yc20;
+	yc20 = 0;
 }
 
 void
@@ -942,7 +944,9 @@ void
 FooYC20VSTi::processReplacing	(float **input, float **output, VstInt32 nframes)
 {
 	TURNOFFDENORMALS;
-	yc20->getDSP()->compute(nframes, 0, output);
+	if (yc20 && yc20->getDSP()) {
+		yc20->getDSP()->compute(nframes, 0, output);
+	}
 }
 
 VstInt32
