@@ -31,8 +31,9 @@
 
 #ifdef __WIN32__
 #include <cairo-win32.h>
-#else
-#include <foo-yc20-os.h>
+#else /* __APPLE__*/
+#include <Carbon/Carbon.h>
+#include <cairo-quartz.h>
 #endif
 
 // Note: This is not a dependency to jack! We just use the ringbuffer implementation for VST -> UI communication
@@ -81,7 +82,7 @@ class FooYC20VSTi : public AudioEffectX
 };
 
 
-#ifdef __WIN32__
+#ifdef __WIN32__ /*{{{*/
 LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 extern HINSTANCE cairoResourceInstance;
@@ -388,7 +389,380 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 	}
 	return DefWindowProc(hWnd, Msg, wParam, lParam);
 }
-#endif /* __WIN32__ */
+#endif /* __WIN32__ */ /*}}}*/
+
+#ifdef __APPLE__ /*{{{*/
+
+/* prototypes */
+static OSStatus WindowEventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData);
+static OSStatus MouseEventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData);
+
+class YC20AEffEditor : public AEffEditor, public YC20BaseUI
+{
+	public:
+		YC20AEffEditor(AudioEffect* fx)
+			: AEffEditor(fx)
+			, YC20BaseUI()
+			, wm_paint(false)
+		{
+			_rect.left = 0;
+			_rect.top = 0;
+			_rect.right = 1024;
+			_rect.bottom = 160;
+			set_scale(0.8);
+
+			exposeRingbuffer = jack_ringbuffer_create(sizeof(Wdgt::Draggable *)*1000);
+			if (exposeRingbuffer == NULL) {
+				throw "Could not create ringbuffer";
+			}
+			
+			FooYC20VSTi *eff = (FooYC20VSTi *)fx;
+
+			for (int i = 0; i < NUM_PARAMS; i++) {
+				draggableForIndex[i] = wdgtPerLabel[eff->label_for_parameter[i]];
+				draggableForIndex[i]->setPortIndex(i);
+			}
+		};
+
+		~YC20AEffEditor()
+		{
+			jack_ringbuffer_free(exposeRingbuffer);
+		}
+
+
+		virtual bool getRect(ERect **rect)
+		{
+			*rect = &_rect;
+			return true;
+		};
+
+		virtual bool open(void *ptr)
+		{
+//#ifdef VERBOSE
+			std::cout << "########## open()" << std::endl;
+//#endif
+			AEffEditor::open(ptr); 	
+		
+#if 0
+			Rect winRect;
+			WindowAttributes windowAttrs;
+			SetRect(&winRect, 0, 0, _rect.right, _rect.bottom);
+			CreateNewWindow(kDocumentWindowClass, windowAttrs, &winRect, &systemWindow);
+#endif
+			QDBeginCGContext(GetWindowPort((WindowRef)systemWindow), &context);
+
+			const EventTypeSpec win_events[] = {
+				{ kEventClassWindow, kEventWindowClosed },
+				{ kEventClassWindow, kEventWindowDrawContent    },
+				{ kEventClassWindow, kEventWindowGetMinimumSize },
+				{ kEventClassWindow, kEventWindowBoundsChanged  }
+			};
+
+			InstallWindowEventHandler((WindowRef)systemWindow, NewEventHandlerUPP(WindowEventHandler),
+					GetEventTypeCount(win_events), win_events, this, NULL);
+
+			const EventTypeSpec mouse_events[] = {
+				{ kEventClassMouse, kEventMouseMoved },
+				//{ kEventClassMouse, kEventMouseWheelMoved },
+				{ kEventClassMouse, kEventMouseDown },
+				{ kEventClassMouse, kEventMouseUp },
+				{ kEventClassMouse, kEventMouseDragged }
+			};
+
+			InstallApplicationEventHandler(NewEventHandlerUPP (MouseEventHandler),
+					GetEventTypeCount(mouse_events), mouse_events, this, NULL);
+
+			// Set UI controls to what they are in the processor
+			FooYC20VSTi *eff = (FooYC20VSTi *)effect;
+			for (int i = 0; i < NUM_PARAMS; i++) {
+				Control *c = eff->yc20->getControl(eff->label_for_parameter[i]);
+				draggableForIndex[i]->setValue(*c->getZone());
+			}
+
+			/* flip canvas coordinates
+			 * http://macdevcenter.com/pub/a/mac/2004/11/02/quartz.html */
+			Rect rectPort;
+			GetWindowPortBounds((WindowRef)systemWindow,&rectPort);
+			CGContextTranslateCTM(context, 0, rectPort.bottom);
+			CGContextScaleCTM(context, 1.0, -1.0);
+
+#ifdef VERBOSE
+			std::cout << " .. exit open()" << std::endl;
+#endif
+			return true;
+		};
+
+		virtual void close()
+		{
+#ifdef VERBOSE
+			std::cout << "########## close()" << std::endl;
+#endif
+			QDEndCGContext(GetWindowPort((WindowRef)systemWindow), &context);
+			AEffEditor::close();
+		};
+
+
+		virtual void idle()
+		{
+			Wdgt::Draggable *obj;
+			//std::cout << "idle()" << std::endl;
+			while ( jack_ringbuffer_read(exposeRingbuffer,
+						(char *)&obj,
+						sizeof(Wdgt::Draggable *)) == sizeof(Wdgt::Draggable *)) {
+				draw_wdgt(obj);
+			}
+			//std::cout << " .. exit idle()" << std::endl;
+
+			AEffEditor::idle();
+		};
+
+		virtual cairo_t	*get_cairo_surface()
+		{
+#ifdef VERBOSE
+			std::cout << "get_cairo_surface()" << std::endl;
+#endif
+			CGContextSaveGState(context);
+			surface = cairo_quartz_surface_create_for_cg_context(context, _rect.right, _rect.bottom);
+			return cairo_create(surface);
+		}
+
+		virtual void return_cairo_surface(cairo_t *cr)
+		{
+#ifdef VERBOSE
+			std::cout << "return_cairo_surface()" << std::endl;
+#endif
+			YC20BaseUI::return_cairo_surface(cr);
+
+#if 1 /* draw resize bars */
+			Rect winRect;
+			GetWindowPortBounds((WindowRef)systemWindow,&winRect);
+
+			CGContextBeginPath(context);
+			CGContextSetAllowsAntialiasing(context, false);
+
+			//line white
+			CGContextSetRGBStrokeColor(context, 0.2, 0.2, 0.2, 0.5);
+			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-1);
+			CGContextAddLineToPoint(context, winRect.right-1, winRect.bottom-1);
+			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-5);
+			CGContextAddLineToPoint(context, winRect.right-5, winRect.bottom-1);
+			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-9);
+			CGContextAddLineToPoint(context, winRect.right-9, winRect.bottom-1);
+			CGContextStrokePath(context);
+
+			//line gray
+			CGContextSetRGBStrokeColor(context, 0.4, 0.4, 0.4, 0.5);
+			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-2);
+			CGContextAddLineToPoint( context, winRect.right-2, winRect.bottom-1);
+			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-6);
+			CGContextAddLineToPoint( context, winRect.right-6, winRect.bottom-1);
+			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-10);
+			CGContextAddLineToPoint( context, winRect.right-10, winRect.bottom-1);
+			CGContextStrokePath(context);
+
+			//line black
+			CGContextSetRGBStrokeColor(context, 0.6, 0.6, 0.6, 0.5);
+			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-3);
+			CGContextAddLineToPoint( context, winRect.right-3, winRect.bottom-1);
+			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-7);
+			CGContextAddLineToPoint( context, winRect.right-7, winRect.bottom-1);
+			CGContextStrokePath(context);
+#endif
+			CGContextRestoreGState(context);
+			CGContextFlush(context);
+#ifdef VERBOSE
+			std::cout << " .. exit return_cairo_surface()" << std::endl;
+#endif
+		};
+
+		bool wm_paint;
+		jack_ringbuffer_t *exposeRingbuffer;
+
+
+		// My stuff
+		void     value_changed  (Wdgt::Draggable *draggable)
+		{
+#ifdef VERBOSE
+			std::cout << "value_changed()" << std::endl;
+#endif
+			float value = draggable->getValue();
+			if (draggable->getPortIndex() == PARAM_PITCH) {
+				value /= 2.0;
+				value += 0.5;
+			}
+			
+			effect->setParameterAutomated(draggable->getPortIndex(), value);
+#ifdef VERBOSE
+			std::cout << " .. exit value_changed()" << std::endl;
+#endif
+		};
+
+		void queueChange(VstInt32 idx, float value)
+		{
+#ifdef VERBOSE
+			std::cout << "queueChange(" << idx << ", " << value << ")" << std::endl;
+#endif
+
+			Wdgt::Draggable *obj = draggableForIndex[idx];
+
+			if (!obj->setValue(value)) {
+				// Don't queue a change if the value did not change
+				return;
+			}
+
+			int i = jack_ringbuffer_write(exposeRingbuffer, (char *)&obj, sizeof(Wdgt::Draggable *));
+			if (i != sizeof(Wdgt::Draggable *)) {
+				std::cout << "Ringbuffer full!" << std::endl;
+			}
+
+#ifdef VERBOSE
+			std::cout << " .. exit queueChange()" << std::endl;
+#endif
+		}
+
+		void resizewindow(Point winMousePos, Point mousePos)
+		{
+			if (!systemWindow) return;
+			Rect rectPort, rectNew, rectConstrain;
+			GetWindowPortBounds((WindowRef)systemWindow,&rectPort);
+			if( (winMousePos.h <= (rectPort.right - 15)) || (winMousePos.v <= (rectPort.bottom)) ) 
+				return;
+
+			rectConstrain.top=100; // min Height
+			rectConstrain.bottom=200; // max Height
+			rectConstrain.left=640; // min Width
+			rectConstrain.right=1280; // max Width
+
+			ResizeWindow((WindowRef)systemWindow, mousePos, &rectConstrain, &rectNew);
+
+			_rect.right = rectNew.right - rectNew.left;
+			double scale = (double)_rect.right/1280.0;
+			set_scale(scale);
+			_rect.bottom = (unsigned int) floor(200.0 * scale);
+			SizeWindow((WindowRef)systemWindow, _rect.right, _rect.bottom, 1);
+
+			QDEndCGContext(GetWindowPort((WindowRef)systemWindow), &context);
+			QDBeginCGContext(GetWindowPort((WindowRef)systemWindow), &context);
+			GetWindowPortBounds((WindowRef)systemWindow,&rectPort);
+			CGContextTranslateCTM(context, 0, rectPort.bottom);
+			CGContextScaleCTM(context, 1.0, -1.0);
+#ifdef VERBOSE
+			std::cout << "OSX resize event:"
+				<< rectNew.left << "x" << rectNew.top << "|"
+				<< rectNew.right << "x" << rectNew.bottom << "|"
+				<< std::endl;
+#endif
+		}
+
+		CGContextRef context;
+	private:
+		cairo_surface_t *surface;
+		ERect _rect;
+		Wdgt::Draggable *draggableForIndex[NUM_PARAMS];
+
+};
+
+static OSStatus WindowEventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData)
+{
+	//std::cout << "OSX window event" << std::endl;
+	OSStatus result = noErr;
+	UInt32 eclass = GetEventClass (event);
+	UInt32 kind = GetEventKind (event);
+	Point minimumHeightAndWidth;
+        YC20AEffEditor *ui = (YC20AEffEditor *)userData;
+
+	if(eclass == kEventClassWindow) {
+		WindowRef     window;
+		Rect          rectPort;
+		GetEventParameter(event, kEventParamDirectObject, typeWindowRef, NULL, sizeof(WindowRef), NULL, &window);
+
+		switch (kind) {
+			case kEventWindowDrawContent:
+			case kEventWindowZoomed:
+				result = CallNextEventHandler(nextHandler, event);
+				GetWindowPortBounds(window,&rectPort);
+				ui->YC20BaseUI::draw(rectPort.top, rectPort.left, rectPort.right, rectPort.bottom, true);
+				break;
+			case kEventWindowBoundsChanged:
+				GetWindowPortBounds(window,&rectPort);
+				InvalWindowRect(window,&rectPort);
+				break;
+			case kEventWindowGetMinimumSize:
+				minimumHeightAndWidth.v = 640;
+				minimumHeightAndWidth.h = 100;
+				SetEventParameter(event,kEventParamDimensions,typeQDPoint,
+					sizeof(minimumHeightAndWidth),&minimumHeightAndWidth);
+				result = noErr;
+				break;
+			default:
+				result = CallNextEventHandler(nextHandler, event);
+				break;
+		}
+	}
+	return result;
+}
+
+static OSStatus MouseEventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData)
+{
+	//std::cout << "OSX mouse event" << std::endl;
+	OSStatus result = noErr;
+	UInt32 eclass = GetEventClass (event);
+	UInt32 kind = GetEventKind (event);
+	result = CallNextEventHandler(nextHandler, event);
+        YC20AEffEditor *ui = (YC20AEffEditor *)userData;
+
+	if(eclass == kEventClassMouse) {
+		//WindowPtr tmpWin;
+		double x,y;
+		Point mousePos;
+		Point winMousePos;
+		EventMouseButton button;
+		GetEventParameter(event, kEventParamMouseLocation, typeQDPoint, 0, sizeof(Point), 0, &mousePos);
+		GetEventParameter(event, kEventParamWindowMouseLocation, typeQDPoint, 0, sizeof(Point), 0, &winMousePos);
+		GetEventParameter(event, kEventParamMouseButton, typeMouseButton, 0, sizeof(EventMouseButton), 0, &button);
+#if 0
+		std::cout << "OSX mouse event:"
+			<< winMousePos.h << "x" << winMousePos.v << "|"
+			<< mousePos.h << "x" << mousePos.v << "|"
+			<< std::endl;
+#endif
+#define OSXMENUBARHEIGHT (22)
+		switch (kind) {
+			case kEventMouseMoved:
+			case kEventMouseDragged:
+				x = (double) winMousePos.h;
+				y = (double) winMousePos.v;
+				if (x>=0 && y>=OSXMENUBARHEIGHT)
+					ui->mouse_movement(x,y-OSXMENUBARHEIGHT);
+				break;
+			case kEventMouseDown:
+				x = (double) winMousePos.h;
+				y = (double) winMousePos.v;
+				if (x>=0 && y>=0 && button==kEventMouseButtonPrimary) {
+					if (y>=OSXMENUBARHEIGHT) ui->button_pressed(x,y-OSXMENUBARHEIGHT);
+					ui->resizewindow(winMousePos, mousePos);
+				}
+				break;
+			case kEventMouseUp:
+				x = (double) mousePos.h;
+				y = (double) mousePos.v;
+				if (x>=0 && y>=0 && button==kEventMouseButtonPrimary) {
+					ui->button_released(x,y);
+					ui->resizewindow(winMousePos, mousePos);
+				}
+				break;
+			case kEventMouseWheelMoved:
+				break;
+			default:
+				result = eventNotHandledErr;
+				break;
+		}
+	}
+	return result;
+}
+
+
+#endif /* __APPLE__*/ /*}}}*/
 
 AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
@@ -497,15 +871,15 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 
 	yc20->setDSP(tmp);
 
-#ifdef __WIN32__
 #ifdef VERBOSE
 	std::cerr << "Creating the editor..." << std::endl;
+	std::cout << "Creating the editor..." << std::endl;
 #endif
 	setEditor(new YC20AEffEditor(this));
 #ifdef VERBOSE
 	std::cerr << "...done: " << editor << std::endl;
+	std::cout << "...done: " << editor << std::endl;
 #endif
-#endif /* __WIN32__ */
 }
 
 void
@@ -613,11 +987,9 @@ FooYC20VSTi::setParameter	(VstInt32 index, float value)
 
 	*c->getZone() = value;
 
-#ifdef __WIN32__
 	if (editor && didChange) {
 		((YC20AEffEditor *)editor)->queueChange(index, value);
 	}
-#endif
 }
 
 float
@@ -663,3 +1035,4 @@ FooYC20VSTi::getParameterDisplay(VstInt32 index, char *ptr)
 	snprintf(ptr, kVstMaxParamStrLen, "%.2f", value);
 }
 
+/* vim: set ts=8 sw=8 foldmethod=marker: */
