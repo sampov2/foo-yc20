@@ -83,8 +83,9 @@ $(BIN): $(OBJ)
 vstosx: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN)
 	$(CXX) $(CFLAGS) \
 	-I$(VSTSDK)/public.sdk -I$(VSTSDK)/vstgui.sf -I$(VSTSDK)/ \
+	`pkg-config --cflags cairo jack` \
 	-bundle -framework Carbon \
-	`pkg-config --libs cairo` \
+	`pkg-config --libs cairo jack` \
 	$(OBJS_VSTI) $(OBJS_DSP_PLUGIN) \
 	-o vstosx
 

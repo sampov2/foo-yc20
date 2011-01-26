@@ -39,6 +39,8 @@
 
 #ifdef OSXLV2 // OSX LV2
 #define INSTALL_LOCATION PREFIX_STR SHARE_DIR
+#elif defined OSXVST
+#define INSTALL_LOCATION "/Users/rgareus/src/foo-yc20/trunk/" // XXX -> @loader_path/../Resources/
 #else // OSX app bundle
 #define INSTALL_LOCATION "../Resources/"
 #endif

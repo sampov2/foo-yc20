@@ -23,8 +23,8 @@ if [ ! -x vstosx -o -n "$RECOMPILE" ]; then
     export PKG_CONFIG_PATH=$HOME/gtk/inst/lib/pkgconfig/:$PKG_CONFIG_PATH
   fi
 
-  CFLAGS="-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -arch x86_64" \
-  CFLAGS="-O0 -ffast-math -arch ppc -arch i386 -arch x86_64" \
+  CFLAGS="-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -DOSXVST" \
+  CFLAGS="-O1 -ffast-math -arch i386 -DOSXVST" \
   CFLAGS="$CFLAGS -isysroot /Developer/SDKs/MacOSX10.5.sdk \
                   -mmacosx-version-min=10.5" \
   make clean vstosx \
