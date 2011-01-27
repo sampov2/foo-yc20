@@ -45,7 +45,8 @@ done
 
 cp -n foo-yc20 $BUILDDIR/foo-yc20.exe
 cp -n foo-yc20-cli $BUILDDIR/foo-yc20-cli.exe
-cp -n FooYC20.dll $BUILDDIR/
+mkdir $BUILDDIR/VST
+cp -n FooYC20.dll $BUILDDIR/VST
 
 zip -r foo-yc20-$VERSION.zip $BUILDDIR
 
