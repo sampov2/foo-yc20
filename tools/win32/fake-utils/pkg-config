@@ -37,7 +37,11 @@ elif [ "$1" = "--libs" ]; then
 		elif [ "$A" = "gtk+-2.0" ]; then
 			echo -n -L$GTK/lib -lgtk-win32-2.0 -lgdk-win32-2.0 -latk-1.0 -lgio-2.0 -lgdk_pixbuf-2.0 -lpangowin32-1.0 -lgdi32 -lpango-1.0 -lcairo -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lglib-2.0 -lintl" ";
 		elif [ "$A" = "cairo" ]; then
-			echo -n -L$GTK/lib -lcairo" "
+			# This for dynamic linking
+			#echo -n -L$GTK/lib -lcairo" "
+
+			# This to use separately compiled objects.. dirty
+			echo -n $(find $YC20_TOOL_PATH/xcomp -name "*.o" | grep -v gobject | grep -v test | grep -v /[.]libs/ | grep -v example | grep -v minigzip | grep -v printing-surface | grep -v cairo-system.o)" "
 		fi
 
 	done
