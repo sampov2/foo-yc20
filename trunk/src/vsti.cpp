@@ -401,6 +401,11 @@ LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
 /* prototypes */
 static OSStatus WindowEventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData);
 static OSStatus MouseEventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData);
+static OSStatus carbonEventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData);
+static int yc20open = 0;
+static bool yc20hic = false;
+#define defControlStringMask CFSTR ("com.studionumbersix.foo.yc20.%d")
+#define OSXMENUBARHEIGHT (22)
 
 class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 {
@@ -408,7 +413,6 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 		YC20AEffEditor(AudioEffect* fx)
 			: AEffEditor(fx)
 			, YC20BaseUI()
-			, wm_paint(false)
 		{
 			_rect.left = 0;
 			_rect.top = 0;
@@ -431,6 +435,10 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 
 		~YC20AEffEditor()
 		{
+#ifdef VERBOSE
+			std::cerr << "########## destruct()" << std::endl;
+#endif
+			if (yc20open) close();
 			jack_ringbuffer_free(exposeRingbuffer);
 		}
 
@@ -447,25 +455,84 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			std::cout << "########## open()" << std::endl;
 #endif
 			AEffEditor::open(ptr); 	
-		
-#if 0
-			Rect winRect;
-			WindowAttributes windowAttrs;
-			SetRect(&winRect, 0, 0, _rect.right, _rect.bottom);
-			CreateNewWindow(kDocumentWindowClass, windowAttrs, &winRect, &systemWindow);
+			yc20open=1;
+			OSStatus status;
+
+			WindowAttributes attributes;
+			GetWindowAttributes ((WindowRef)systemWindow, &attributes);
+			if (attributes & kWindowCompositingAttribute) {
+				yc20hic = true;
+				CFStringRef defControlString = CFStringCreateWithFormat (NULL, NULL, defControlStringMask, this);
+
+				controlSpec.defType = kControlDefObjectClass;
+				controlSpec.u.classRef = NULL;
+				EventTypeSpec eventTypes[] = {	
+					{kEventClassControl, kEventControlDraw},
+					{kEventClassControl, kEventControlHitTest},
+					{kEventClassControl, kEventControlClick},
+				};
+
+				ToolboxObjectClassRef controlClass = NULL;
+
+				status = RegisterToolboxObjectClass (	defControlString,
+										NULL,
+										GetEventTypeCount (eventTypes),
+										eventTypes,
+										NewEventHandlerUPP(carbonEventHandler),
+										this,
+										&controlClass);
+
+				CFRelease (defControlString);
+
+				if (status == noErr) controlSpec.u.classRef = controlClass;
+				if (controlSpec.u.classRef == NULL) return false;
+
+				Rect r = {(short)_rect.top, (short)_rect.left, (short)_rect.bottom, (short)_rect.right};
+				status = CreateCustomControl (NULL, &r, &controlSpec, NULL, &controlRef);
+			} else {
+				yc20hic = false;
+				controlRef=NULL;
+				controlSpec.u.classRef=NULL;
+			}
+
+
+			if (yc20hic)
+			{
+				HIViewRef contentView;
+				HIViewRef rootView = HIViewGetRoot ((WindowRef)systemWindow);
+				if (HIViewFindByID (rootView, kHIViewWindowContentID, &contentView) != noErr)
+					contentView = rootView;
+				HIViewAddSubview (contentView, controlRef);
+#ifdef VERBOSE
+				std::cout << "OSX HI Compositing" << std::endl;
 #endif
+			}
+			else
+			{
+				ControlRef rootControl;
+				GetRootControl ((WindowRef)systemWindow, &rootControl);
+				if (rootControl == NULL)
+					CreateRootControl ((WindowRef)systemWindow, &rootControl);
+				EmbedControl(controlRef, rootControl);	
+#ifdef VERBOSE
+				std::cout << "OSX Quartz native" << std::endl;
+#endif
+			}
+
 			QDBeginCGContext(GetWindowPort((WindowRef)systemWindow), &context);
 
 			const EventTypeSpec win_events[] = {
 				{ kEventClassWindow, kEventWindowClosed },
 				{ kEventClassWindow, kEventWindowDrawContent    },
 				{ kEventClassWindow, kEventWindowGetMinimumSize },
+			//	{ kEventClassWindow, kEventWindowGetMaximumSize },
 				{ kEventClassWindow, kEventWindowBoundsChanged  }
 			};
 
 			InstallWindowEventHandler((WindowRef)systemWindow, NewEventHandlerUPP(WindowEventHandler),
-					GetEventTypeCount(win_events), win_events, this, NULL);
+					GetEventTypeCount(win_events), win_events, this, &windowEventHandler);
 
+#if 1
 			const EventTypeSpec mouse_events[] = {
 				{ kEventClassMouse, kEventMouseMoved },
 				//{ kEventClassMouse, kEventMouseWheelMoved },
@@ -473,9 +540,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 				{ kEventClassMouse, kEventMouseUp },
 				{ kEventClassMouse, kEventMouseDragged }
 			};
-
-			InstallApplicationEventHandler(NewEventHandlerUPP (MouseEventHandler),
-					GetEventTypeCount(mouse_events), mouse_events, this, NULL);
+			InstallApplicationEventHandler(NewEventHandlerUPP(MouseEventHandler),
+					GetEventTypeCount(mouse_events), mouse_events, this, &mouseEventHandler);
+#endif
 
 			// Set UI controls to what they are in the processor
 			FooYC20VSTi *eff = (FooYC20VSTi *)effect;
@@ -502,7 +569,21 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 #ifdef VERBOSE
 			std::cout << "########## close()" << std::endl;
 #endif
+			yc20open=0;
+
+			RemoveEventHandler(windowEventHandler);
+			RemoveEventHandler(mouseEventHandler);
+
+			if (controlRef) DisposeControl (controlRef);
+			if (controlSpec.u.classRef) {
+				OSStatus status = UnregisterToolboxObjectClass ((ToolboxObjectClassRef)controlSpec.u.classRef);
+				if (status != noErr)
+					std::cout << "UnregisterToolboxObjectClass failed: " <<  status << std::endl;
+			}
+
+			CGContextSynchronize(context);
 			QDEndCGContext(GetWindowPort((WindowRef)systemWindow), &context);
+
 			AEffEditor::close();
 		};
 
@@ -517,7 +598,29 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 				draw_wdgt(obj);
 			}
 			//std::cout << " .. exit idle()" << std::endl;
+		
+#if 1	
+			if (yc20open == 1) {
+				yc20open=2;
+				Rect rectPort;
+				GetWindowPortBounds((WindowRef)systemWindow,&rectPort);
+				YC20BaseUI::draw(rectPort.top, rectPort.left, rectPort.right, rectPort.bottom, true);
+				InvalWindowRect((WindowRef)systemWindow,&rectPort);
+			}
+#endif
+#if 0
+			EventRef theEvent;
+			EventTargetRef theTarget;
+			OSStatus        theErr;
 
+			theTarget = GetEventDispatcherTarget();
+			theErr = ReceiveNextEvent(0, 0, kEventDurationNoWait,true, &theEvent);
+			if(theErr == noErr && theEvent != NULL) {
+				SendEventToEventTarget (theEvent, theTarget);
+				ReleaseEvent(theEvent);
+			}
+
+#endif
 			AEffEditor::idle();
 		};
 
@@ -539,39 +642,41 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			YC20BaseUI::return_cairo_surface(cr);
 
 #if 1 /* draw resize bars */
-			Rect winRect;
-			GetWindowPortBounds((WindowRef)systemWindow,&winRect);
+			if (!yc20hic) {
+				Rect winRect;
+				GetWindowPortBounds((WindowRef)systemWindow,&winRect);
 
-			CGContextBeginPath(context);
-			CGContextSetAllowsAntialiasing(context, false);
+				CGContextBeginPath(context);
+				CGContextSetAllowsAntialiasing(context, false);
 
-			//line white
-			CGContextSetRGBStrokeColor(context, 0.2, 0.2, 0.2, 0.5);
-			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-1);
-			CGContextAddLineToPoint(context, winRect.right-1, winRect.bottom-1);
-			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-5);
-			CGContextAddLineToPoint(context, winRect.right-5, winRect.bottom-1);
-			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-9);
-			CGContextAddLineToPoint(context, winRect.right-9, winRect.bottom-1);
-			CGContextStrokePath(context);
+				//line white
+				CGContextSetRGBStrokeColor(context, 0.2, 0.2, 0.2, 0.5);
+				CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-1);
+				CGContextAddLineToPoint(context, winRect.right-1, winRect.bottom-1);
+				CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-5);
+				CGContextAddLineToPoint(context, winRect.right-5, winRect.bottom-1);
+				CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-9);
+				CGContextAddLineToPoint(context, winRect.right-9, winRect.bottom-1);
+				CGContextStrokePath(context);
 
-			//line gray
-			CGContextSetRGBStrokeColor(context, 0.4, 0.4, 0.4, 0.5);
-			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-2);
-			CGContextAddLineToPoint( context, winRect.right-2, winRect.bottom-1);
-			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-6);
-			CGContextAddLineToPoint( context, winRect.right-6, winRect.bottom-1);
-			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-10);
-			CGContextAddLineToPoint( context, winRect.right-10, winRect.bottom-1);
-			CGContextStrokePath(context);
+				//line gray
+				CGContextSetRGBStrokeColor(context, 0.4, 0.4, 0.4, 0.5);
+				CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-2);
+				CGContextAddLineToPoint( context, winRect.right-2, winRect.bottom-1);
+				CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-6);
+				CGContextAddLineToPoint( context, winRect.right-6, winRect.bottom-1);
+				CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-10);
+				CGContextAddLineToPoint( context, winRect.right-10, winRect.bottom-1);
+				CGContextStrokePath(context);
 
-			//line black
-			CGContextSetRGBStrokeColor(context, 0.6, 0.6, 0.6, 0.5);
-			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-3);
-			CGContextAddLineToPoint( context, winRect.right-3, winRect.bottom-1);
-			CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-7);
-			CGContextAddLineToPoint( context, winRect.right-7, winRect.bottom-1);
-			CGContextStrokePath(context);
+				//line black
+				CGContextSetRGBStrokeColor(context, 0.6, 0.6, 0.6, 0.5);
+				CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-3);
+				CGContextAddLineToPoint( context, winRect.right-3, winRect.bottom-1);
+				CGContextMoveToPoint(context, winRect.right-1, winRect.bottom-7);
+				CGContextAddLineToPoint( context, winRect.right-7, winRect.bottom-1);
+				CGContextStrokePath(context);
+			}
 #endif
 			CGContextRestoreGState(context);
 			CGContextFlush(context);
@@ -580,11 +685,6 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 #endif
 		};
 
-		bool wm_paint;
-		jack_ringbuffer_t *exposeRingbuffer;
-
-
-		// My stuff
 		void     value_changed  (Wdgt::Draggable *draggable)
 		{
 #ifdef VERBOSE
@@ -628,15 +728,53 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 #endif
 		}
 
-		bool checkwindow(WindowRef cmp)
+		bool sameWindow(WindowRef cmp)
 		{
+#ifdef DEBUG
+			std::cout << " same Window ? " << cmp << " ~ " << (WindowRef)systemWindow << std::endl;
+#endif
 			if (cmp == (WindowRef)systemWindow) return true;
 			return false;
 		}
 
-		void resizewindow(Point winMousePos, Point mousePos)
+		void aspectWindow(Rect rectNew)
 		{
-			if (!systemWindow) return;
+			Rect rectPort;
+
+			_rect.right = rectNew.right - rectNew.left;
+			if (_rect.right < 640) _rect.right=640;
+			double scale = (double)_rect.right/1280.0;
+			set_scale(scale);
+			_rect.bottom = (unsigned int) floor(200.0 * scale);
+
+			SizeWindow((WindowRef)systemWindow, _rect.right, _rect.bottom, 1);
+
+			QDEndCGContext(GetWindowPort((WindowRef)systemWindow), &context);
+			QDBeginCGContext(GetWindowPort((WindowRef)systemWindow), &context);
+
+			GetWindowPortBounds((WindowRef)systemWindow,&rectPort);
+			CGContextTranslateCTM(context, 0, rectPort.bottom);
+			CGContextScaleCTM(context, 1.0, -1.0);
+		}
+
+		void resizeWindow(void)
+		{
+			Rect rectPort;
+			GetWindowPortBounds((WindowRef)systemWindow,&rectPort);
+			aspectWindow(rectPort);
+
+			YC20BaseUI::draw(rectPort.top, rectPort.left, rectPort.right, rectPort.bottom, true);
+			InvalWindowRect((WindowRef)systemWindow,&rectPort);
+#if 0
+			std::cout << " NEW OSX SIZE: "
+				<< (short) rectPort.left << "x" << (short) rectPort.top << "|"
+				<< (short) rectPort.right << "x" << (short) rectPort.bottom << "|"
+				<< std::endl;
+#endif
+		}
+
+		void resizeWindow(Point winMousePos, Point mousePos)
+		{
 			Rect rectPort, rectNew, rectConstrain;
 			GetWindowPortBounds((WindowRef)systemWindow,&rectPort);
 			if( (winMousePos.h <= (rectPort.right - 15)) || (winMousePos.v <= (rectPort.bottom)) )
@@ -648,19 +786,9 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 			rectConstrain.right=1280; // max Width
 
 			ResizeWindow((WindowRef)systemWindow, mousePos, &rectConstrain, &rectNew);
+			aspectWindow(rectNew);
 
-			_rect.right = rectNew.right - rectNew.left;
-			double scale = (double)_rect.right/1280.0;
-			set_scale(scale);
-			_rect.bottom = (unsigned int) floor(200.0 * scale);
-			SizeWindow((WindowRef)systemWindow, _rect.right, _rect.bottom, 1);
-
-			QDEndCGContext(GetWindowPort((WindowRef)systemWindow), &context);
-			QDBeginCGContext(GetWindowPort((WindowRef)systemWindow), &context);
-			GetWindowPortBounds((WindowRef)systemWindow,&rectPort);
-			CGContextTranslateCTM(context, 0, rectPort.bottom);
-			CGContextScaleCTM(context, 1.0, -1.0);
-#ifdef VERBOSE
+#ifdef DEBUG
 			std::cout << "OSX resize event:"
 				<< rectNew.left << "x" << rectNew.top << "|"
 				<< rectNew.right << "x" << rectNew.bottom << "|"
@@ -668,65 +796,173 @@ class YC20AEffEditor : public AEffEditor, public YC20BaseUI
 #endif
 		}
 
-		CGContextRef context;
+
 	private:
 		cairo_surface_t *surface;
 		ERect _rect;
 		Wdgt::Draggable *draggableForIndex[NUM_PARAMS];
 
+		jack_ringbuffer_t *exposeRingbuffer;
+		ControlDefSpec controlSpec;
+		ControlRef controlRef;
+		EventHandlerRef windowEventHandler;
+		EventHandlerRef mouseEventHandler;
+		CGContextRef context;
 };
+
+/* 
+http://serenity.uncc.edu/web/ADC/2005/Developer_DVD_Series/April/ADC%20Reference%20Library/documentation/Carbon/Reference/Window_Manager/index.html
+http://serenity.uncc.edu/web/ADC/2005/Developer_DVD_Series/April/ADC%20Reference%20Library/documentation/Carbon/Reference/Carbon_Event_Manager_Ref/index.html
+*/
+
+static OSStatus carbonEventHandler (EventHandlerCallRef nextHandler, EventRef event, void *userData)
+{
+	UInt32 eclass = GetEventClass(event);
+	UInt32 kind = GetEventKind (event);
+        YC20AEffEditor *ui = (YC20AEffEditor *)userData;
+
+	if (eclass != kEventClassControl) return CallNextEventHandler(nextHandler, event);
+	switch (kind) {
+		case kEventControlDraw:
+#ifdef DEBUG
+			std::cout << " OSX event: kEventControlDraw" << std::endl;
+#endif
+			ui->resizeWindow();
+			break;
+		case kEventControlClick:
+#if 0 /* done via 'kEventMouseDragged' and mymousedown */
+			if (yc20hic)
+			{
+				double x,y;
+				Point mousePos;
+				Point winMousePos;
+				GetEventParameter(event, kEventParamMouseLocation, typeQDPoint, 0, sizeof(Point), 0, &mousePos);
+				std::cout << "OSX CTRL click: "
+					<< mousePos.h << "x" << mousePos.v
+					<< std::endl;
+				x = (double) winMousePos.h;
+				y = (double) winMousePos.v;
+				if (x>=0 && y>=0) {
+					if (y>=OSXMENUBARHEIGHT) ui->button_pressed(x,y);
+				}
+			}
+#endif
+			break;
+		case kEventControlHitTest:
+#if 0 /* done via kEventMouseMoved: */
+			if (yc20hic)
+			{
+				double x,y;
+				Point mousePos;
+				Point winMousePos;
+				GetEventParameter(event, kEventParamMouseLocation, typeQDPoint, 0, sizeof(Point), 0, &mousePos);
+				std::cout << "OSX CTRL mouse: "
+					<< mousePos.h << "x" << mousePos.v 
+					<< std::endl;
+				x = (double) mousePos.h;
+				y = (double) mousePos.v;
+				if (x>=0 && y>=OSXMENUBARHEIGHT)
+					ui->mouse_movement(x,y-OSXMENUBARHEIGHT);
+			}
+#endif
+			break;
+		default:
+#ifdef VERBOSE
+			std::cout << " NEW OSX event: Other" << kind << std::endl;
+#endif
+			break;
+	} 
+	return CallNextEventHandler(nextHandler, event);
+}
 
 static OSStatus WindowEventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData)
 {
-	//std::cout << "OSX window event" << std::endl;
-	OSStatus result = noErr;
-	UInt32 eclass = GetEventClass (event);
+#if 0
+	std::cout << "OSX window event" << std::endl;
+#endif
+	UInt32 eclass = GetEventClass(event);
 	UInt32 kind = GetEventKind (event);
-	Point minimumHeightAndWidth;
+	Point minmaxHeightAndWidth;
         YC20AEffEditor *ui = (YC20AEffEditor *)userData;
 
-	if(eclass == kEventClassWindow) {
-		WindowRef     window;
-		Rect          rectPort;
-		GetEventParameter(event, kEventParamDirectObject, typeWindowRef, NULL, sizeof(WindowRef), NULL, &window);
+	if(eclass != kEventClassWindow) return CallNextEventHandler(nextHandler, event);
 
-		switch (kind) {
-			case kEventWindowDrawContent:
-			case kEventWindowZoomed:
-				result = CallNextEventHandler(nextHandler, event);
-				GetWindowPortBounds(window,&rectPort);
-				ui->YC20BaseUI::draw(rectPort.top, rectPort.left, rectPort.right, rectPort.bottom, true);
-				break;
-			case kEventWindowBoundsChanged:
-				GetWindowPortBounds(window,&rectPort);
-				InvalWindowRect(window,&rectPort);
-				break;
-			case kEventWindowGetMinimumSize:
-				minimumHeightAndWidth.v = 640;
-				minimumHeightAndWidth.h = 100;
-				SetEventParameter(event,kEventParamDimensions,typeQDPoint,
-					sizeof(minimumHeightAndWidth),&minimumHeightAndWidth);
-				result = noErr;
-				break;
-			default:
-				result = CallNextEventHandler(nextHandler, event);
-				break;
-		}
+	WindowRef     window;
+	Rect          rectPort;
+	GetEventParameter(event, kEventParamDirectObject, typeWindowRef, NULL, sizeof(WindowRef), NULL, &window);
+
+#ifdef DEBUG
+	std::cout << "OSX kEventClassWindow: " << kind << std::endl;
+#endif
+	switch (kind) {
+		case kEventWindowDrawContent:
+		case kEventWindowZoomed:
+			GetWindowPortBounds(window,&rectPort);
+			ui->YC20BaseUI::draw(rectPort.top, rectPort.left, rectPort.right, rectPort.bottom, true);
+#ifdef DEBUG
+			std::cout << " Q Draw : "
+				<< (short) rectPort.left << "x" << (short) rectPort.top << "|"
+				<< (short) rectPort.right << "x" << (short) rectPort.bottom << "|"
+				<< std::endl;
+#endif
+			break;
+		case kEventWindowBoundsChanged:
+			// get's called in on resize and move
+			//GetWindowPortBounds(window,&rectPort);
+			//InvalWindowRect(window,&rectPort);
+#ifdef DEBUG
+			std::cout << " Bounds : "
+				<< (short) rectPort.left << "x" << (short) rectPort.top << "|"
+				<< (short) rectPort.right << "x" << (short) rectPort.bottom << "|"
+				<< std::endl;
+#endif
+			break;
+		case kEventWindowGetMinimumSize:
+			minmaxHeightAndWidth.v = 640;
+			minmaxHeightAndWidth.h = 100;
+			SetEventParameter(event,kEventParamDimensions,typeQDPoint,
+				sizeof(minmaxHeightAndWidth),&minmaxHeightAndWidth);
+			break;
+		case kEventWindowGetMaximumSize:
+			minmaxHeightAndWidth.v = 1280;
+			minmaxHeightAndWidth.h = 200;
+			SetEventParameter(event,kEventParamDimensions,typeQDPoint,
+				sizeof(minmaxHeightAndWidth),&minmaxHeightAndWidth);
+			break;
+		default:
+			break;
 	}
-	return result;
+	return CallNextEventHandler(nextHandler, event);
 }
 
 static OSStatus MouseEventHandler(EventHandlerCallRef nextHandler, EventRef event, void *userData)
 {
-	//std::cout << "OSX mouse event" << std::endl;
-	OSStatus result = noErr;
+	/* NOTE: with "VSTi Host Demo" this event handler causes a crash
+	 * when unloading the plugin while the window is still visible.
+	 *
+	 * calling those in close() does not help either:
+	 *   RemoveEventHandler(mouseEventHandler);
+	 *   FlushEventQueue(GetMainEventQueue());
+	 *   FlushEventQueue(GetCurrentEventQueue());
+	 * 
+	 * however calling 
+	 *   RemoveEventHandler(mouseEventHandler);
+	 * anytime before close() resolves the problem.
+	 *
+	 * valgrind! valgrind! my kingdom for valgrind!
+	 */
+#if 0
+	std::cout << "OSX mouse event" << std::endl;
+#endif
+	OSStatus result = CallNextEventHandler(nextHandler, event);
+	if (result != noErr && result != eventNotHandledErr) return result;
+	if (!yc20open) return noErr;
+
 	UInt32 eclass = GetEventClass (event);
 	UInt32 kind = GetEventKind (event);
-	result = CallNextEventHandler(nextHandler, event);
         YC20AEffEditor *ui = (YC20AEffEditor *)userData;
 
 	if(eclass == kEventClassMouse) {
-		//WindowPtr tmpWin;
 		double x,y;
 		Point mousePos;
 		Point winMousePos;
@@ -734,52 +970,69 @@ static OSStatus MouseEventHandler(EventHandlerCallRef nextHandler, EventRef even
 		GetEventParameter(event, kEventParamMouseLocation, typeQDPoint, 0, sizeof(Point), 0, &mousePos);
 		GetEventParameter(event, kEventParamWindowMouseLocation, typeQDPoint, 0, sizeof(Point), 0, &winMousePos);
 		GetEventParameter(event, kEventParamMouseButton, typeMouseButton, 0, sizeof(EventMouseButton), 0, &button);
-#if 1
-		WindowRef tmpWin;
-		short part = FindWindow(mousePos,&tmpWin);
-		if (part != inContent) return result;
-		if (!ui->checkwindow(tmpWin)) return result;
 
-#endif
-#if 0
-		std::cout << "OSX mouse event:"
+		if (!yc20hic) {
+			WindowRef tmpWin;
+			short part = FindWindow(mousePos,&tmpWin);
+			if (part != inContent) return noErr;
+			if (!ui->sameWindow(tmpWin)) return noErr;
+		}
+
+#ifdef DEBUG
+		std::cout << "OSX mouse event: "
+			<< "type: " << kind << "pos: "
 			<< winMousePos.h << "x" << winMousePos.v << "|"
 			<< mousePos.h << "x" << mousePos.v << "|"
+			<< " button:" << (button == kEventMouseButtonPrimary ? "1":"0")
 			<< std::endl;
 #endif
-#define OSXMENUBARHEIGHT (22)
+		static bool mymousedown = false;
 		switch (kind) {
-			case kEventMouseMoved:
 			case kEventMouseDragged:
+				//std::cout << "OSX Mouse Draged." << std::endl;
+				if (!mymousedown && yc20hic) {
+					mymousedown=true;
+					x = (double) winMousePos.h;
+					y = (double) winMousePos.v;
+					if (x>=0 && y>=0 && button==kEventMouseButtonPrimary) {
+						if (y>=OSXMENUBARHEIGHT) ui->button_pressed(x,y-OSXMENUBARHEIGHT);
+						if (!yc20hic) ui->resizeWindow(winMousePos, mousePos);
+					}
+				}
+			case kEventMouseMoved:
+				//std::cout << "OSX Mouse Moved." << std::endl;
 				x = (double) winMousePos.h;
 				y = (double) winMousePos.v;
 				if (x>=0 && y>=OSXMENUBARHEIGHT)
 					ui->mouse_movement(x,y-OSXMENUBARHEIGHT);
 				break;
 			case kEventMouseDown:
+				//std::cout << "OSX Mouse Down." << std::endl;
+				/* Note: this event won't fire with kWindowCompositingAttribute */
 				x = (double) winMousePos.h;
 				y = (double) winMousePos.v;
 				if (x>=0 && y>=0 && button==kEventMouseButtonPrimary) {
 					if (y>=OSXMENUBARHEIGHT) ui->button_pressed(x,y-OSXMENUBARHEIGHT);
-					ui->resizewindow(winMousePos, mousePos);
+					if (!yc20hic) ui->resizeWindow(winMousePos, mousePos);
 				}
 				break;
 			case kEventMouseUp:
+				//std::cout << "OSX Mouse Up." << std::endl;
 				x = (double) mousePos.h;
 				y = (double) mousePos.v;
 				if (x>=0 && y>=0 && button==kEventMouseButtonPrimary) {
 					ui->button_released(x,y);
-					ui->resizewindow(winMousePos, mousePos);
+					ui->resizeWindow(winMousePos, mousePos);
 				}
+				mymousedown=false;
 				break;
 			case kEventMouseWheelMoved:
 				break;
 			default:
-				result = eventNotHandledErr;
 				break;
 		}
 	}
-	return result;
+	return noErr;
 }
 
 
