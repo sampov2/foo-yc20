@@ -42,3 +42,7 @@ The Foo YC20 jack application uses Jack to route midi to it. As it stands, setti
 *Q:* I don't have a MIDI keyboard, but I'd like to try this.
 
 *A:* You can try a virtual MIDI keyboard. One open source option is [http://vmpk.sourceforge.net/ vmpk].
+
+----
+
+_VST is © 2004, Steinberg Media Technologies, All Rights Reserved_
