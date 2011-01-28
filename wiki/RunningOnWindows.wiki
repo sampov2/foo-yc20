@@ -3,7 +3,7 @@
 
 = Foo YC20 VST =
 
-By far the easiest way to use the Foo YC20 organ is to use the included VST plugin (FooYC20.dll). You can integrate the plugin into a host of your choosing and have the organ running in your sequencer etc. The plugin does _not include the graphical user interface_. It is being worked on an hopefully will be included in later versions.
+By far the easiest way to use the Foo YC20 organ is to use the included VST plugin. You can integrate the plugin into a host of your choosing and have the organ running in your sequencer etc.
 
 However, due to the nature of the organ processing, it is worth noting that the VST plugin uses a lot of CPU power. This is regardless of whether it is playing sounds or not.
 
