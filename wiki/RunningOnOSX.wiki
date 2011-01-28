@@ -1,9 +1,15 @@
 #summary Quick tutorial to get Foo YC20 running on OS X
 #labels Phase-Deploy
 
-= Foo YC20 on OS X =
+=Foo YC20 VST=
 
-Foo YC20 for OS X is a JACK application. JACK is a handy mechanism to route audio to and from applications. This allows patching together a virtual studio from separate audio programs.
+By far the easiest way to use the Foo YC20 organ is to use the included VST plugin. You can integrate the plugin into a host of your choosing and have the organ running in your sequencer etc.
+
+However, due to the nature of the organ processing, it is worth noting that the VST plugin uses a lot of CPU power. This is regardless of whether it is playing sounds or not. 
+
+= The Jack application =
+
+Foo YC20 for OS X also includes a standalone JACK application. JACK is a handy mechanism to route audio to and from applications. This allows patching together a virtual studio from separate audio programs.
 
 = Installing JACK =
 
