@@ -29,4 +29,7 @@ A tutorial on how to set up jack in Windows is greatly appreciated.
 
 The Foo YC20 jack application uses Jack to route midi to it. To get your MIDI devices to appear in the Jack Control connections dialog, you need to add "-X winmme" (without the quotes) in the setup page in the _Server Path_.
 
+
+----
+
 _VST is © 2004, Steinberg Media Technologies, All Rights Reserved_
