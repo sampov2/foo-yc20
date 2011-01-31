@@ -19,7 +19,9 @@
 #include <yc20-base-ui.h>
 #include <foo-yc20-os.h>
 
-#include <string.h>
+#include <cstdlib>
+#include <ctime>
+#include <cstring>
 
 #ifdef __WIN32__
 
@@ -44,7 +46,7 @@ cairo_status_t read_from_pointer(void *closure, unsigned char *data, unsigned in
 		len = ptr->length - ptr->at;
 	}
 
-	memcpy(data, ptr->ptr + ptr->at, len);
+	std::memcpy(data, ptr->ptr + ptr->at, len);
 
 	ptr->at += len;
 
@@ -123,7 +125,18 @@ YC20BaseUI::YC20BaseUI()
 	, dragWdgt(0)
 	, buttonPressWdgt(0)
 {
-	image_background = Wdgt::load_png("background.png");
+	std::srand( std::time(NULL));
+	float rnd = (float)std::rand() / (float)RAND_MAX;
+
+	if (rnd < 0.825) { // p = 0.825
+		image_background = Wdgt::load_png("background-red.png");
+	} else if (rnd < 0.925) { // p = 0.1
+		image_background = Wdgt::load_png("background-black.png");
+	} else if (rnd < 0.975) { // p = 0.05
+		image_background = Wdgt::load_png("background-white.png");
+	} else { // p = 0.025
+		image_background = Wdgt::load_png("background-blue.png");
+	}
 
 	drawbarWhiteImages[0] = Wdgt::load_png("white_0.png");
 	drawbarWhiteImages[1] = Wdgt::load_png("white_1.png");
