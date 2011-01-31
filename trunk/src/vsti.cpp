@@ -54,7 +54,7 @@ class FooYC20VSTi : public AudioEffectX
 		bool getEffectName	(char *);
 
 		// Vendor version in hex: 0xaabbcc where aa = major, bb = minor, cc = micro
-		VstInt32 getVendorVersion () { return 0x010300; };
+		VstInt32 getVendorVersion () { return 0x010301; };
 
 		void setProgramName	(char *);
 		void getProgramName	(char *);
@@ -1159,14 +1159,31 @@ FooYC20VSTi::setSampleRate (float sampleRate)
 {
 	AudioEffectX::setSampleRate(sampleRate);
 
-	dsp *tmp = yc20->getDSP();
-	delete tmp;
+	dsp *old = yc20->getDSP();
 	
+	dsp *tmp = createDSP();
+	tmp->init(sampleRate);
 
-	tmp = createDSP();
-        tmp->init(sampleRate);
+	float oldValues[NUM_PARAMS];
+	for (int i = 0; i < NUM_PARAMS; i++) {
+		Control *c = yc20->getControl(label_for_parameter[i]);
+		oldValues[i] = *c->getZone();
+	}
+	float oldKeys[61];
+	for (int i = 0; i < 61; i++) {
+		oldKeys[i] = yc20->getKey(i);
+	}
+
+	delete old;
 
 	yc20->setDSP(tmp);
+	for (int i = 0; i < NUM_PARAMS; i++) {
+		Control *c = yc20->getControl(label_for_parameter[i]);
+		*c->getZone() = oldValues[i];
+	}
+	for (int i = 0; i < 61; i++) {
+		yc20->setKey(i, oldKeys[i]);
+	}
 }
 
 bool FooYC20VSTi::getOutputProperties(VstInt32 index, VstPinProperties* properties)
