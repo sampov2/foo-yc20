@@ -112,6 +112,8 @@ class YC20Processor : public UI
 		// MIDI callback
 		void setKey(int key, float value) { *keys[key] = value; }
 
+		float getKey(int key) { return *keys[key]; }
+
 		Control *getControl(const std::string &label) { return controlPerLabel[label]; }
 
 		// Configuration stuff
