@@ -54,7 +54,7 @@ class FooYC20VSTi : public AudioEffectX
 		bool getEffectName	(char *);
 
 		// Vendor version in hex: 0xaabbcc where aa = major, bb = minor, cc = micro
-		VstInt32 getVendorVersion () { return 0x010301; };
+		VstInt32 getVendorVersion () { return 0x010400; };
 
 		void setProgramName	(char *);
 		void getProgramName	(char *);
