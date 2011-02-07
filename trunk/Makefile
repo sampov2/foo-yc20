@@ -10,6 +10,8 @@ OBJS_CAIRO=src/yc20-base-ui.o
 OBJS_DSP_STANDALONE=src/faust-dsp-standalone.o
 OBJS_DSP_PLUGIN=src/faust-dsp-plugin.o
 
+FAUST=faust
+
 LV2_PLUGIN=src/foo-yc20.lv2/foo-yc20.so
 LV2_UI=src/foo-yc20.lv2/foo-yc20-lv2ui.so
 
@@ -134,16 +136,16 @@ uninstall:
 ## Targets only for those with Faust installed
 
 generate-source:
-	faust -a minimal.cpp faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
-	faust -a minimal.cpp faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
+	$(FAUST) -a minimal.cpp faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
+	$(FAUST) -a minimal.cpp faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
 
 generate-source-vec:
-	faust -vec -a minimal.cpp faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
-	faust -vec -a minimal.cpp faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
+	$(FAUST) -vec -fun -a minimal.cpp faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
+	$(FAUST) -vec -fun -a minimal.cpp faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
 
 
 basic-test:
-	faust -a jack-console.cpp faust/yc20.dsp > gen/basic.cpp
+	$(FAUST) -a jack-console.cpp faust/yc20.dsp > gen/basic.cpp
 	$(CXX) $(CFLAGS) -Isrc/ gen/basic.cpp -o basic `pkg-config --cflags --libs jack`
 
 ## test compilation
@@ -152,7 +154,7 @@ basic-test:
 
 testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 	rm -rf faust/test-svg/
-	faust -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
+	$(FAUST) -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
 	$(CXX) $(CFLAGS) -Isrc/ gen/test.cpp `pkg-config --cflags --libs sndfile` -o testit
 
 $(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTKJACK) $(OBJS_LV2) $(OBJS_CAIRO): include/*.h
