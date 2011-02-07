@@ -35,7 +35,7 @@ fi
 mkdir $BUILDDIR
 
 for DLL in $DLLS; do
-	TMP=$(find $YC20_TOOL_PATH -name $DLL)
+	TMP=$(find $YC20_TOOL_PATH -name $DLL | grep -v xcomp)
 	if [ x$TMP = "x" ]; then
 		echo $DLL: cannot find it
 		exit
@@ -47,6 +47,12 @@ cp -n foo-yc20 $BUILDDIR/foo-yc20.exe
 cp -n foo-yc20-cli $BUILDDIR/foo-yc20-cli.exe
 mkdir $BUILDDIR/VST
 cp -n FooYC20.dll $BUILDDIR/VST
+cp -n README $BUILDDIR/
+cp -n LICENSE $BUILDDIR/
+
+mkdir $BUILDDIR/objects
+cp -n src/vsti.o src/vstplugmain.o src/foo-yc20.o src/yc20-base-ui.o src/win32.o src/faust-dsp-plugin.o src/vsti.def $VSTFLAGS $BUILDDIR/objects
+cp -n LICENSE.cairo $BUILDDIR/
 
 zip -r foo-yc20-$VERSION.zip $BUILDDIR
 
