@@ -1,19 +1,27 @@
 /*
     Foo-YC20 Base UI
-    Copyright (C) 2010  Sampo Savolainen <v2@iki.fi>
 
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+Copyright 2010-2011 Sampo Savolainen (v2@iki.fi). All rights reserved.
+Redistribution and use in source and binary forms, with or without modification,
+are permitted provided that the following conditions are met:
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
+   1. Redistributions of source code must retain the above copyright notice, 
+      this list of conditions and the following disclaimer.
 
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+   2. Redistributions in binary form must reproduce the above copyright notice,
+      this list of conditions and the following disclaimer in the documentation
+      and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY SAMPO SAVOLAINEN ``AS IS'' AND ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+SHALL SAMPO SAVOLAINEN OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OFSUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHERIN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include <yc20-base-ui.h>
@@ -124,6 +132,7 @@ YC20BaseUI::YC20BaseUI()
 	, hoverWdgt(0)
 	, dragWdgt(0)
 	, buttonPressWdgt(0)
+	, showing_license(false)
 {
 	std::srand( std::time(NULL));
 	float rnd = (float)std::rand() / (float)RAND_MAX;
@@ -137,6 +146,8 @@ YC20BaseUI::YC20BaseUI()
 	} else { // p = 0.025
 		image_background = Wdgt::load_png("background-blue.png");
 	}
+
+	image_license = Wdgt::load_png("license.png");
 
 	drawbarWhiteImages[0] = Wdgt::load_png("white_0.png");
 	drawbarWhiteImages[1] = Wdgt::load_png("white_1.png");
@@ -329,6 +340,10 @@ YC20BaseUI::identify_wdgt(double x, double y)
 void
 YC20BaseUI::mouse_movement(double x, double y)
 {
+	if (showing_license) {
+		return;
+	}
+
 	x /= ui_scale;
 	y /= ui_scale;
 
@@ -366,6 +381,12 @@ YC20BaseUI::mouse_movement(double x, double y)
 void
 YC20BaseUI::button_pressed(double x, double y)
 {
+	if (showing_license) {
+		showing_license = false;
+		draw(-1, -1, -1, -1, false);
+		return;
+	}
+
 	x /= ui_scale;
 	y /= ui_scale;
 
@@ -373,6 +394,10 @@ YC20BaseUI::button_pressed(double x, double y)
 	Wdgt::Draggable *obj = dynamic_cast<Wdgt::Draggable *>(buttonPressWdgt);
 
 	if (obj == 0) {
+		if (x >= 1200 && y >= 155) {
+			showing_license = true;
+			draw(-1, -1, -1, -1, false);
+		}
 		return;
 	}
 
@@ -389,6 +414,10 @@ YC20BaseUI::button_pressed(double x, double y)
 void
 YC20BaseUI::button_released(double x, double y)
 {
+	if (showing_license) {
+		return;
+	}
+
 	x /= ui_scale;
 	y /= ui_scale;
 
@@ -448,13 +477,18 @@ YC20BaseUI::draw(double x, double y, double width, double height, bool scale)
 
 	cairo_scale(cr, ui_scale, ui_scale);
 
+	if (showing_license) {
+		cairo_set_source_surface(cr, image_license, 0.0, 0.0);
+		cairo_paint(cr);
+		return_cairo_surface(cr);
+		return;
+	}
+
 	// double-buffer
 	cairo_push_group_with_content(cr, CAIRO_CONTENT_COLOR);
 
 	// background
 	cairo_set_source_surface(cr, image_background, 0.0, 0.0);
-	// e4080a
-	//cairo_set_source_rgb(cr, 228.0/255.0, 8.0/255.0, 10.0/255.0);
 	cairo_paint(cr);
 
 	// wdgts
@@ -501,6 +535,7 @@ YC20BaseUI::~YC20BaseUI()
 	wdgts.clear();
 
 	cairo_surface_destroy(image_background);
+	cairo_surface_destroy(image_license);
 
 	for (int i = 0; i < 4; i++) {
 		cairo_surface_destroy(drawbarBlackImages[i]);
