@@ -29,6 +29,8 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
     VST2 SDK Interfaces by (c)1996-1999 Steinberg Soft und Hardware GmbH, All Rights Reserved
 
+    OS X VST code by Robin Gareus.
+
 */
 
 #include <iostream>
