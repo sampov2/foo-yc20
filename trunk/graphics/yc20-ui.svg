@@ -3200,10 +3200,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.68913538"
-     inkscape:cx="993.63145"
+     inkscape:cx="810.79365"
      inkscape:cy="-166.13321"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="layer2"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -3722,7 +3722,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -3750,7 +3750,7 @@
            y="1272.6659"
            style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /></flowRegion><flowPara
          id="flowPara4654"
-         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch">Copyright 2010-2011 Sampo Savolainen. All rights reserved.</flowPara><flowPara
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch">Copyright 2010-2011 Sampo Savolainen (v2@iki.fi). All rights reserved.</flowPara><flowPara
          id="flowPara4658"
          style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch">Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</flowPara><flowPara
          id="flowPara4664"
