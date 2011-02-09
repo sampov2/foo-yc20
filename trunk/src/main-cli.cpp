@@ -62,7 +62,30 @@ int main(int argc, char **argv)
 	}
 	
 
-	std::cerr << "Foo-YC20 (CLI) " << version << " (c)Sampo Savolainen 2010" << std::endl;
+#define L << std::endl <<
+	std::cerr << "Foo-YC20 (CLI) " << version 
+	L	"Copyright 2010-2011 Sampo Savolainen (v2@iki.fi). All rights reserved."
+	L	"Redistribution and use in source and binary forms, with or without modification,"
+	L	"are permitted provided that the following conditions are met:"
+	L	"   1. Redistributions of source code must retain the above copyright notice, "
+	L	"      this list of conditions and the following disclaimer."
+	L	"   2. Redistributions in binary form must reproduce the above copyright notice,"
+	L	"      this list of conditions and the following disclaimer in the documentation"
+	L	"      and/or other materials provided with the distribution."
+	L	"   3. Neither the name of Foo YC20 nor the names of its contributors may be "
+	L	"      used to endorse or promote products derived from this software without"
+	L	"      specific prior written permission."
+	L	"THIS SOFTWARE IS PROVIDED BY SAMPO SAVOLAINEN ``AS IS'' AND ANY EXPRESS OR"
+	L	"IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF"
+	L	"MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT"
+	L	"SHALL SAMPO SAVOLAINEN OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,"
+	L	"INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT"
+	L	"LIMITED TO, PROCUREMENT OFSUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR"
+	L	"PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF"
+	L	"LIABILITY, WHETHERIN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE"
+	L	"OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF"
+	L	"ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE." << std::endl;
+#undef L
 
 	YC20Jack processor;
 	processor.connect();
