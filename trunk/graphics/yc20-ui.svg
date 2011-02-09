@@ -23,6 +23,21 @@
   <defs
      id="defs4">
     <linearGradient
+       id="linearGradient4640">
+      <stop
+         style="stop-color:#1a1717;stop-opacity:1;"
+         offset="0"
+         id="stop4642" />
+      <stop
+         id="stop4644"
+         offset="0.5"
+         style="stop-color:#272323;stop-opacity:1;" />
+      <stop
+         style="stop-color:#302a2a;stop-opacity:1;"
+         offset="1"
+         id="stop4646" />
+    </linearGradient>
+    <linearGradient
        id="linearGradient7519">
       <stop
          id="stop7521"
@@ -40,13 +55,13 @@
          offset="0"
          style="stop-color:#fbfbf1;stop-opacity:1;" />
       <stop
-         style="stop-color:#fcfcde;stop-opacity:1;"
+         style="stop-color:#f9f9e1;stop-opacity:1;"
          offset="0.5"
          id="stop7400" />
       <stop
          id="stop7402"
          offset="1"
-         style="stop-color:#f4eed5;stop-opacity:1;" />
+         style="stop-color:#f5f2e4;stop-opacity:1;" />
     </linearGradient>
     <linearGradient
        id="linearGradient7388">
@@ -68,15 +83,15 @@
       <stop
          id="stop7382"
          offset="0"
-         style="stop-color:#3606b5;stop-opacity:1;" />
+         style="stop-color:#1a06aa;stop-opacity:1;" />
       <stop
-         style="stop-color:#0612b9;stop-opacity:1;"
+         style="stop-color:#0510a6;stop-opacity:1;"
          offset="0.5"
          id="stop7384" />
       <stop
          id="stop7386"
          offset="1"
-         style="stop-color:#0a059e;stop-opacity:1;" />
+         style="stop-color:#090592;stop-opacity:1;" />
     </linearGradient>
     <linearGradient
        id="linearGradient4707">
@@ -3092,6 +3107,90 @@
          stdDeviation="0.36926467"
          id="feGaussianBlur7853" />
     </filter>
+    <inkscape:perspective
+       id="perspective3835"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <linearGradient
+       y2="652.17059"
+       x2="497.5"
+       y1="453.09949"
+       x1="490"
+       gradientTransform="matrix(1.0000479,0,0,1.000135,50.449754,361.59047)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient5583-4-2"
+       xlink:href="#linearGradient7388-6"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient7388-6">
+      <stop
+         id="stop7390-5"
+         offset="0"
+         style="stop-color:#302a2a;stop-opacity:1;" />
+      <stop
+         style="stop-color:#272323;stop-opacity:1;"
+         offset="0.5"
+         id="stop7392-2" />
+      <stop
+         id="stop7394-6"
+         offset="1"
+         style="stop-color:#090808;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       y2="652.17059"
+       x2="497.5"
+       y1="453.09949"
+       x1="490"
+       gradientTransform="matrix(1.0000479,0,0,1.000135,50.449752,808.04971)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient3845"
+       xlink:href="#linearGradient4640"
+       inkscape:collect="always" />
+    <inkscape:perspective
+       id="perspective4735"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3303"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4691"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3876"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3903"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3930"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -3100,13 +3199,13 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="332.67164"
-     inkscape:cy="395.95426"
+     inkscape:zoom="0.68913538"
+     inkscape:cx="993.63145"
+     inkscape:cy="-166.13321"
      inkscape:document-units="px"
      inkscape:current-layer="layer3"
      showgrid="false"
-     showguides="false"
+     showguides="true"
      inkscape:guide-bbox="true"
      inkscape:window-width="1920"
      inkscape:window-height="1125"
@@ -3590,6 +3689,30 @@
        orientation="0,1"
        position="-31.314729,-295.9747"
        id="guide5941" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="-220,-517.14285"
+       id="guide3825" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="1144.1874,282.96327"
+       id="guide4710" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="1235.6063,180"
+       id="guide3864" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="1229.0764,-32.857"
+       id="guide3866" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="1232.7041,-250.711"
+       id="guide3893" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="1228.3508,-475.975"
+       id="guide3920" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -3603,6 +3726,59 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="License"
+     sodipodi:insensitive="true">
+    <rect
+       y="1261.2373"
+       x="-84.285713"
+       height="200"
+       width="1280"
+       id="rect3772-9-5"
+       style="fill:url(#linearGradient3845);fill-opacity:1;stroke:none;display:inline" />
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot4648"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;display:inline;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch"><flowRegion
+         id="flowRegion4650"><rect
+           id="rect4652"
+           width="1251.4285"
+           height="181.42857"
+           x="-71.428574"
+           y="1272.6659"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /></flowRegion><flowPara
+         id="flowPara4654"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch">Copyright 2010-2011 Sampo Savolainen. All rights reserved.</flowPara><flowPara
+         id="flowPara4658"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch">Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:</flowPara><flowPara
+         id="flowPara4664"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch">   1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.</flowPara><flowPara
+         id="flowPara4666"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch">   2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the</flowPara><flowPara
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch"
+         id="flowPara4751">      documentation and/or other materials provided with the distribution.</flowPara><flowPara
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch"
+         id="flowPara4749">THIS SOFTWARE IS PROVIDED BY SAMPO SAVOLAINEN ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL SAMPO SAVOLAINEN OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OFSUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHERIN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.</flowPara><flowPara
+         id="flowPara4668"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /><flowPara
+         id="flowPara4670"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /><flowPara
+         id="flowPara4672"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /><flowPara
+         id="flowPara4674"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /><flowPara
+         id="flowPara4676"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /><flowPara
+         id="flowPara4678"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /><flowPara
+         id="flowPara4680"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /><flowPara
+         id="flowPara4682"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /><flowPara
+         id="flowPara4684"
+         style="font-size:14px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Courier 10 Pitch;-inkscape-font-specification:Courier 10 Pitch" /></flowRoot>  </g>
   <g
      inkscape:groupmode="layer"
      id="layer10"
@@ -5045,6 +5221,46 @@
          id="tspan3842-8-1-1-3"
          x="1012.5861"
          y="1186.3229">II</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#c3c3c5;fill-opacity:1;stroke:none;display:inline;font-family:Impact;-inkscape-font-specification:Impact Bold"
+       x="1153.952"
+       y="564.09448"
+       id="text3880-4"><tspan
+         sodipodi:role="line"
+         id="tspan3882-75"
+         x="1153.952"
+         y="564.09448">INFO</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#c3c3c5;fill-opacity:1;stroke:none;display:inline;font-family:Impact;-inkscape-font-specification:Impact Bold"
+       x="1153.952"
+       y="776.95148"
+       id="text3880-4-9"><tspan
+         sodipodi:role="line"
+         id="tspan3882-75-2"
+         x="1153.952"
+         y="776.95148">INFO</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#c3c3c5;fill-opacity:1;stroke:none;display:inline;font-family:Impact;-inkscape-font-specification:Impact Bold"
+       x="1153.952"
+       y="994.80548"
+       id="text3880-4-9-3"><tspan
+         sodipodi:role="line"
+         id="tspan3882-75-2-7"
+         x="1153.952"
+         y="994.80548">INFO</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:11px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;text-anchor:middle;fill:#c3c3c5;fill-opacity:1;stroke:none;display:inline;font-family:Impact;-inkscape-font-specification:Impact Bold"
+       x="1153.952"
+       y="1220.0695"
+       id="text3880-4-9-3-0"><tspan
+         sodipodi:role="line"
+         id="tspan3882-75-2-7-2"
+         x="1153.952"
+         y="1220.0695">INFO</tspan></text>
   </g>
   <g
      inkscape:groupmode="layer"
@@ -5483,7 +5699,7 @@
        sodipodi:cy="305.93234"
        sodipodi:rx="36.785713"
        sodipodi:ry="37.447857"
-       d="m 323.57142,305.93234 a 36.785713,37.447857 0 1 1 -73.57143,0 36.785713,37.447857 0 1 1 73.57143,0 z"
+       d="m 323.57142,305.93234 c 0,20.68188 -16.46953,37.44786 -36.78571,37.44786 -20.31619,0 -36.78572,-16.76598 -36.78572,-37.44786 0,-20.68188 16.46953,-37.44785 36.78572,-37.44785 20.31618,0 36.78571,16.76597 36.78571,37.44785 z"
        transform="matrix(0.90339501,0,0,0.88741625,-12.956744,301.20376)" />
     <path
        sodipodi:type="spiral"
@@ -5687,6 +5903,16 @@
        height="200"
        x="-84.285713"
        y="1040.0692"
+       inkscape:label="#rect3014"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="fill:none;stroke:none;display:inline"
+       id="license"
+       width="1280"
+       height="200"
+       x="-84.285736"
+       y="1261.2373"
        inkscape:label="#rect3014"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
