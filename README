@@ -96,13 +96,13 @@ Foo YC-20 uses the brilliant Cairo graphics library http://cairographics.org/
 The library is licensed under LGPL 2.1 or MPL 1.1. The licenses are provided in
 files LICENSE-cairographics-LGPL-2.1 and LICENSE-cairographics-MPL-1.1 .
 
-The Windows VST plugin is statically linked against Cairo. As per instructed in
-the LGPL, the object files required to link Foo YC20 against a different
-version of Cairo are provided in the objects/ subdirectory in the Windows.
+The Windows VST plugin is statically linked against Cairo. As per the LGPL,
+the object files required to link Foo YC20 against a different version of Cairo
+are provided in the objects/ subdirectory in the binary distribution.
 
 Here is the command to re-link the DLL using the MinGW compiler:
 
-g++ -Wall -s -shared -mwindows -static objects/vsti.def objects/ringbuffer.o  objects/vsti.o objects/vstplugmain.o objects/foo-yc20.o objects/yc20-base-ui.o objects/win32.o objects/faust-dsp-plugin.o -o FooYC20.dll `pkg-config --libs cairo`
+g++ -Wall -s -shared -mwindows -static objects/vsti.def objects/ringbuffer.o  objects/vsti.o objects/vstplugmain.o objects/foo-yc20.o objects/yc20-base-ui.o objects/win32.o objects/faust-dsp-plugin.o objects/graphics.o -o FooYC20.dll `pkg-config --libs cairo`
 
 In addition to cairo, the statically linked VST DLL contains code from the
 following projects: libpng, pixman and zlib. Thank you very much for all your
