@@ -57,6 +57,7 @@ cp -n src/configuration.cpp \
       src/main-gui.cpp \
       src/polyblep.cpp \
       src/yc20-jack.cpp \
+      src/graphics.cpp \
       src/vsti.cpp \
       src/vsti.def \
       src/win32.rc \
@@ -75,6 +76,8 @@ cp -n include/faust-dsp.h \
       include/wdgt.h \
       include/yc20-jack.h \
       include/yc20_wdgts.h \
+      include/graphics.h \
+      include/graphics-png.h \
       $BUILDDIR/include
 
 cp -nr include/lv2 $BUILDDIR/include
@@ -83,11 +86,18 @@ rm -rf $(find $BUILDDIR/include -name .svn)
 cp -n 	graphics/white_[0-3].png \
 	graphics/black_[0-3].png \
 	graphics/green_[0-3].png \
-	graphics/background.png \
+	graphics/background-red.png \
+	graphics/background-black.png \
+	graphics/background-white.png \
+	graphics/background-blue.png \
+	graphics/license.png \
 	graphics/potentiometer.png \
 	graphics/icon.png \
 	graphics/foo-yc20.ico \
 	$BUILDDIR/graphics
+
+# Make sure the PNG header is as new as the PNGs
+touch $BUILDDIR/graphics/*.png $BUILDDIR/include/graphics-png.h
 
 cp -n	faust/biquad.dsp \
 	faust/blep.dsp \
