@@ -137,19 +137,15 @@ YC20BaseUI::YC20BaseUI()
 	, dragWdgt(0)
 	, buttonPressWdgt(0)
 	, showing_license(false)
+	, current_background(0)
 {
 	std::srand( std::time(NULL));
 	float rnd = (float)std::rand() / (float)RAND_MAX;
 
-	if (rnd < 0.825) { // p = 0.825
-		image_background = Wdgt::load_png("background-red.png");
-	} else if (rnd < 0.925) { // p = 0.1
-		image_background = Wdgt::load_png("background-black.png");
-	} else if (rnd < 0.975) { // p = 0.05
-		image_background = Wdgt::load_png("background-white.png");
-	} else { // p = 0.025
-		image_background = Wdgt::load_png("background-blue.png");
-	}
+	image_background[0] = Wdgt::load_png("background-red.png");
+	image_background[1] = Wdgt::load_png("background-black.png");
+	image_background[2] = Wdgt::load_png("background-white.png");
+	image_background[3] = Wdgt::load_png("background-blue.png");
 
 	image_license = Wdgt::load_png("license.png");
 
@@ -387,6 +383,7 @@ YC20BaseUI::button_pressed(double x, double y)
 {
 	if (showing_license) {
 		showing_license = false;
+		current_background = (current_background + 1) % 4;
 		draw(-1, -1, -1, -1, false);
 		return;
 	}
@@ -492,7 +489,7 @@ YC20BaseUI::draw(double x, double y, double width, double height, bool scale)
 	cairo_push_group_with_content(cr, CAIRO_CONTENT_COLOR);
 
 	// background
-	cairo_set_source_surface(cr, image_background, 0.0, 0.0);
+	cairo_set_source_surface(cr, image_background[current_background], 0.0, 0.0);
 	cairo_paint(cr);
 
 	// wdgts
@@ -538,10 +535,10 @@ YC20BaseUI::~YC20BaseUI()
         }
 	wdgts.clear();
 
-	cairo_surface_destroy(image_background);
 	cairo_surface_destroy(image_license);
 
 	for (int i = 0; i < 4; i++) {
+		cairo_surface_destroy(image_background[i]);
 		cairo_surface_destroy(drawbarBlackImages[i]);
 		cairo_surface_destroy(drawbarWhiteImages[i]);
 		cairo_surface_destroy(drawbarGreenImages[i]);
