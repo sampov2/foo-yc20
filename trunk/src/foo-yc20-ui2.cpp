@@ -77,8 +77,10 @@ static gboolean lv2ui_motion_notify_event(GtkWidget *widget, GdkEventMotion *eve
 
 static gboolean lv2ui_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer data)
 {
-	YC20UI2 *ui = (YC20UI2 *)data;
-        ui->button_pressed(event->x, event->y);
+	if (event->type == GDK_BUTTON_PRESS) {
+		YC20UI2 *ui = (YC20UI2 *)data;
+        	ui->button_pressed(event->x, event->y);
+	}
         return true;
 }
 
