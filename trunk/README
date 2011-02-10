@@ -93,11 +93,8 @@ ChangeLog:
 A note about Cairo and VST
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 Foo YC-20 uses the brilliant Cairo graphics library http://cairographics.org/
-The library is licensed under LGPL 2.1 or MPL 1.1. The LGPL license is provided
-in the file LICENSE.cairo. The full text of these licenses is also readable at:
-	http://www.gnu.org/licenses/lgpl-2.1.txt and 
-	http://www.mozilla.org/MPL/MPL-1.1.txt
-
+The library is licensed under LGPL 2.1 or MPL 1.1. The licenses are provided in
+files LICENSE-cairographics-LGPL-2.1 and LICENSE-cairographics-MPL-1.1 .
 
 The Windows VST plugin is statically linked against Cairo. As per instructed in
 the LGPL, the object files required to link Foo YC20 against a different

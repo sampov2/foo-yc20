@@ -35,6 +35,8 @@ mkdir $BUILDDIR/graphics
 
 cp -n	foo-yc20.desktop.in \
 	LICENSE \
+	LICENSE-cairographics-LGPL-2.1 \
+	LICENSE-cairographics-MPL-1.1 \
 	README \
 	$BUILDDIR/
 
