@@ -30,14 +30,11 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <yc20-base-ui.h>
 #include <foo-yc20-os.h>
+#include <graphics.h>
 
 #include <cstdlib>
 #include <ctime>
 #include <cstring>
-
-#ifdef __WIN32__
-
-#include <windows.h>
 
 struct pointer_t {
 	unsigned char *ptr;
@@ -65,10 +62,6 @@ cairo_status_t read_from_pointer(void *closure, unsigned char *data, unsigned in
 	return CAIRO_STATUS_SUCCESS;
 }
 
-// For foo-yc20.exe, use 0)
-// For the VSTi, createEffectInstance() will set this to the value from the dll initialization
-HINSTANCE cairoResourceInstance = 0;
-
 namespace Wdgt
 {
 	bool check_cairo_png(cairo_surface_t *s)
@@ -80,55 +73,21 @@ namespace Wdgt
 
 	}
 
-	inline cairo_surface_t * load_png(std::string file)
+	inline cairo_surface_t * load_png(unsigned char *ptr, unsigned int length, std::string name)
 	{       
-		HRSRC hRes = FindResource(cairoResourceInstance, file.c_str(), RT_RCDATA); 
-		HGLOBAL hMem = LoadResource(cairoResourceInstance, hRes); 
-
 		struct pointer_t png_resource;
-		png_resource.ptr    = (unsigned char *)LockResource(hMem); 
-		png_resource.length = SizeofResource(cairoResourceInstance, hRes);
+		png_resource.ptr    = ptr;
+		png_resource.length = length;
 		png_resource.at     = 0;
 
 		cairo_surface_t *ret = cairo_image_surface_create_from_png_stream (read_from_pointer, &png_resource);
 		if (!check_cairo_png(ret)) {
-			std::cerr << "Foo-YC20: could not open resource '" << file << "'" << std::endl;
+			std::cerr << "Foo-YC20: could not load png '" << name << "'" << std::endl;
 		}
 		return ret;
 	}
 
 }
-
-#else
-namespace Wdgt
-{
-
-	bool check_cairo_png(cairo_surface_t *s)
-	{
-		cairo_status_t _stat = cairo_surface_status(s);
-		return !(_stat == CAIRO_STATUS_NO_MEMORY ||
-				_stat == CAIRO_STATUS_FILE_NOT_FOUND ||
-				_stat == CAIRO_STATUS_READ_ERROR);
-
-	}
-
-	inline cairo_surface_t * load_png(std::string file)
-	{       
-		std::string installed_file = INSTALL_LOCATION YC20_PNG_DIR + file;
-		std::string local_file = YC20_PNG_DIR + file;
-
-		cairo_surface_t *ret = cairo_image_surface_create_from_png (installed_file.c_str());
-		if (!check_cairo_png(ret)) {
-			ret = cairo_image_surface_create_from_png (local_file.c_str());
-		}
-
-		if (!check_cairo_png(ret)) {
-			std::cerr << "Foo-YC20: could not open " << installed_file << " or a local copy in " << YC20_PNG_DIR << std::endl;
-		}
-		return ret;
-	}
-}
-#endif
 
 
 YC20BaseUI::YC20BaseUI()
@@ -139,9 +98,34 @@ YC20BaseUI::YC20BaseUI()
 	, showing_license(false)
 	, current_background(0)
 {
-	std::srand( std::time(NULL));
-	float rnd = (float)std::rand() / (float)RAND_MAX;
 
+#define load(name) Wdgt::load_png(graphics_##name##_png, graphics_##name##_png_len, STR(name))
+
+	image_background[0] = load(background_red);
+	image_background[1] = load(background_black);
+	image_background[2] = load(background_white);
+	image_background[3] = load(background_blue);
+
+	image_license = load(license);
+
+	drawbarWhiteImages[0] = load(white_0);
+	drawbarWhiteImages[1] = load(white_1);
+	drawbarWhiteImages[2] = load(white_2);
+	drawbarWhiteImages[3] = load(white_3);
+
+	drawbarBlackImages[0] = load(black_0);
+	drawbarBlackImages[1] = load(black_1);
+	drawbarBlackImages[2] = load(black_2);
+	drawbarBlackImages[3] = load(black_3);
+
+	drawbarGreenImages[0] = load(green_0);
+	drawbarGreenImages[1] = load(green_1);
+	drawbarGreenImages[2] = load(green_2);
+	drawbarGreenImages[3] = load(green_3);
+
+	potentiometerImage = load(potentiometer);
+#undef load
+/*
 	image_background[0] = Wdgt::load_png("background-red.png");
 	image_background[1] = Wdgt::load_png("background-black.png");
 	image_background[2] = Wdgt::load_png("background-white.png");
@@ -165,7 +149,7 @@ YC20BaseUI::YC20BaseUI()
 	drawbarGreenImages[3] = Wdgt::load_png("green_3.png");
 
 	potentiometerImage = Wdgt::load_png("potentiometer.png");
-
+*/
 	// Widgets
 	float pitch_x = 6.0;
 	float pitch_x_long = 10.0;
