@@ -86,11 +86,11 @@ class YC20BaseUI
 
 		bool		 showing_license;
 
-		//bool _ready_to_draw;
+		int		 current_background;
 
 		// Images
 		cairo_surface_t *image_license;
-		cairo_surface_t *image_background;
+		cairo_surface_t *image_background[4];
 		cairo_surface_t *drawbarWhiteImages[4];
 		cairo_surface_t *drawbarBlackImages[4];
 		cairo_surface_t *drawbarGreenImages[4];
