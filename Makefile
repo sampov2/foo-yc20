@@ -1,7 +1,7 @@
 PREFIX=/usr/local
 VERSION=
 
-OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o
+OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/graphics.o
 OBJS_JACK=src/yc20-jack.o src/main-cli.o
 OBJS_GTKJACK=src/main-gui.o src/foo-yc20-ui.o
 OBJS_GTK=src/foo-yc20-ui2.o src/lv2-ui.o
@@ -42,7 +42,7 @@ all: foo-yc20 foo-yc20-cli lv2
 lv2: $(LV2_PLUGIN) $(LV2_UI)
 
 ## GUI version
-OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o src/yc20-base-ui.o $(WIN32_RC)
+OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o src/yc20-base-ui.o src/graphics.o $(WIN32_RC)
 
 foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE)
 	$(CXX) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `pkg-config --libs gtk+-2.0` `pkg-config --libs jack` $(LDFLAGS_YC20) -o foo-yc20
@@ -60,7 +60,7 @@ $(LV2_PLUGIN): $(OBJS_LV2) $(OBJS_DSP_PLUGIN)
 	$(CXX) $(OBJS_LV2) $(OBJS_DSP_PLUGIN) -fPIC -shared -o $(LV2_PLUGIN) $(LDFLAGS_YC20_LV2)
 
 ## LV2 UI
-OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o src/yc20-base-ui.o
+OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o src/yc20-base-ui.o src/graphics.o
 
 $(LV2_UI): $(OBJS_LV2_UI)
 	$(CXX) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtk+-2.0` -o $(LV2_UI) $(LDFLAGS_YC20_LV2)
@@ -68,7 +68,7 @@ $(LV2_UI): $(OBJS_LV2_UI)
 ## VSTi - only compiles for windows with MinGW32. 
 ##        Note: Jack is used in compile flags to provide access to the ringbuffer.h. there
 ##              is no runtime dependency or even a library as we use the separately compiled ringbuffer.o
-OBJS_VSTI=src/vsti.o src/vstplugmain.o src/foo-yc20.o src/yc20-base-ui.o $(WIN32_RC)
+OBJS_VSTI=src/vsti.o src/vstplugmain.o src/foo-yc20.o src/yc20-base-ui.o src/graphics.o $(WIN32_RC)
 $(WIN32_RC): src/win32.rc
 	$(WINDRES) src/win32.rc -o src/win32.o
 
@@ -81,6 +81,28 @@ vsti: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/vsti.def
 	$(CXX) -Wall -s -shared -mwindows -static src/vsti.def $(VSTFLAGS) $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) -o FooYC20.dll `pkg-config --libs cairo`
 
 $(BIN): $(OBJ)
+
+include/graphics-png.h: graphics/background-black.png graphics/background-blue.png graphics/background-red.png graphics/background-white.png graphics/license.png graphics/potentiometer.png graphics/black_0.png graphics/black_1.png graphics/black_2.png graphics/black_3.png graphics/green_0.png graphics/green_1.png graphics/green_2.png graphics/green_3.png graphics/white_0.png graphics/white_1.png graphics/white_2.png graphics/white_3.png
+	echo "" > include/graphics-png.h
+	xxd -i graphics/background-black.png >> include/graphics-png.h
+	xxd -i graphics/background-blue.png >> include/graphics-png.h
+	xxd -i graphics/background-red.png >> include/graphics-png.h
+	xxd -i graphics/background-white.png >> include/graphics-png.h
+	xxd -i graphics/license.png >> include/graphics-png.h
+	xxd -i graphics/potentiometer.png >> include/graphics-png.h
+	xxd -i graphics/black_0.png >> include/graphics-png.h
+	xxd -i graphics/black_1.png >> include/graphics-png.h
+	xxd -i graphics/black_2.png >> include/graphics-png.h
+	xxd -i graphics/black_3.png >> include/graphics-png.h
+	xxd -i graphics/green_0.png >> include/graphics-png.h
+	xxd -i graphics/green_1.png >> include/graphics-png.h
+	xxd -i graphics/green_2.png >> include/graphics-png.h
+	xxd -i graphics/green_3.png >> include/graphics-png.h
+	xxd -i graphics/white_0.png >> include/graphics-png.h
+	xxd -i graphics/white_1.png >> include/graphics-png.h
+	xxd -i graphics/white_2.png >> include/graphics-png.h
+	xxd -i graphics/white_3.png >> include/graphics-png.h
+
 
 src/osxringbuffer.o: ../tools/win32/jack-1.9.6/jack-1.9.6/common/ringbuffer.c
 	$(CC) $(CFLAGS) \
@@ -118,7 +140,7 @@ install: foo-yc20
 	install -Dm 755 foo-yc20 $(DESTDIR)$(PREFIX)/bin/foo-yc20
 	install -Dm 755 foo-yc20-cli $(DESTDIR)$(PREFIX)/bin/foo-yc20-cli
 	install -d $(DESTDIR)$(PREFIX)/share/foo-yc20/graphics
-	install -m 644 graphics/*.png $(DESTDIR)$(PREFIX)/share/foo-yc20/graphics
+	install -m 644 graphics/icon.png $(DESTDIR)$(PREFIX)/share/foo-yc20/graphics
 	cat foo-yc20.desktop.in | sed 's!%PREFIX%!$(PREFIX)!' > foo-yc20.desktop
 	install -Dm 644 foo-yc20.desktop $(DESTDIR)$(PREFIX)/share/applications/foo-yc20.desktop
 	rm foo-yc20.desktop
@@ -129,8 +151,10 @@ install: foo-yc20
 
 uninstall:
 	rm $(DESTDIR)$(PREFIX)/bin/foo-yc20
+	rm $(DESTDIR)$(PREFIX)/bin/foo-yc20-cli
 	rm $(DESTDIR)$(PREFIX)/share/applications/foo-yc20.desktop
 	rm -r $(DESTDIR)$(PREFIX)/share/foo-yc20
+	rm -r $(DESTDIR)$(PREFIX)/lib/lv2/foo-yc20.lv2
 
 
 ## Targets only for those with Faust installed
@@ -158,8 +182,10 @@ testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 	$(CXX) $(CFLAGS) -Isrc/ gen/test.cpp `pkg-config --cflags --libs sndfile` -o testit
 
 $(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTKJACK) $(OBJS_LV2) $(OBJS_CAIRO): include/*.h
+src/graphics.o: include/graphics-png.h
 
 $(OBJS_DSP_STANDALONE): gen/yc20-dsp-standalone.cpp
 $(OBJS_DSP_PLUGIN): gen/yc20-dsp-plugin.cpp
+
 
 

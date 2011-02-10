@@ -101,7 +101,6 @@ class FooYC20VSTi : public AudioEffectX
 #ifdef __WIN32__ /*{{{*/
 LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
-extern HINSTANCE cairoResourceInstance;
 extern HINSTANCE hInstance;
 
 const char yc20WindowClassName[] = "FooYC20WindowClass";
@@ -1054,10 +1053,6 @@ static OSStatus MouseEventHandler(EventHandlerCallRef nextHandler, EventRef even
 
 AudioEffect *createEffectInstance(audioMasterCallback audioMaster)
 { 
-#ifdef __WIN32__
-	// Propagate the HINSTANCE set by vstgui to th HINSTANCE used in yc20-base-ui.cpp
-	cairoResourceInstance = hInstance;
-#endif
 	return new FooYC20VSTi (audioMaster, 1, NUM_PARAMS);
 }
 
