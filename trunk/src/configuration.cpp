@@ -164,31 +164,10 @@ YC20Processor::saveConfiguration()
 	for (std::map<std::string, Control *>::iterator i = controlPerLabel.begin(); i !=  controlPerLabel.end(); ++i) {
 		Control *c = i->second;
 
-		/* TODO: is this really, really needed? 
-		// the special case
-		if (c->getName() == "touch vibrato") {
-			continue;
-		}
-		*/
-
 		out << i->first << " = " << *c->getZone() << std::endl;
 
 	}
-/*
-	for (std::list<Wdgt::Object *>::iterator i = wdgts.begin(); i != wdgts.end(); ) {
-		Wdgt::Draggable *obj = dynamic_cast<Wdgt::Draggable *>(*i);
 
-		++i;
-
-		// the special case
-		if (obj->getName() == "touch vibrato") {
-			continue;
-		}
-
-		out << obj->getName() << " = " << obj->getValue() << std::endl;
-
-	}
-*/
 	out.close();
 }
 
