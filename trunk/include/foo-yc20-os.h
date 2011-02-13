@@ -32,7 +32,6 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #define _YC20_OS_H
 
 
-#define SHARE_DIR "/share/foo-yc20/"
 #define YC20_PNG_DIR "graphics/"
 
 
@@ -49,14 +48,6 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 #define DEFAULT_CONFIG_DIR std::string(getenv("HOME")) + "/Library/Application Support/foo-yc20/"
 
-#ifdef OSXLV2 // OSX LV2
-#define INSTALL_LOCATION PREFIX_STR SHARE_DIR
-#elif defined OSXVST
-const char * get_bundle_path(void);
-#define INSTALL_LOCATION std::string(get_bundle_path()) + "/" +
-#else // OSX app bundle
-#define INSTALL_LOCATION "../Resources/"
-#endif
 #endif
 
 #ifdef __WIN32__
@@ -68,8 +59,6 @@ const char * get_bundle_path(void);
       (getenv("HOME")?getenv("HOME"):"") \
   ) + "\\foo-yc20"
 
-// this is wrong, but we will live
-#define INSTALL_LOCATION PREFIX_STR SHARE_DIR
 #endif
 
 
@@ -77,7 +66,6 @@ const char * get_bundle_path(void);
 //#warning "Selected Linux/UNIX directories"
 
 #define DEFAULT_CONFIG_DIR std::string(getenv("HOME")) + "/.foo-yc20"
-#define INSTALL_LOCATION PREFIX_STR SHARE_DIR
 #endif
 
 
