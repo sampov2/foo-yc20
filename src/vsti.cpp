@@ -31,6 +31,10 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <map>
 
+#ifdef __linux__
+#define __cdecl
+#endif
+
 #include <audioeffect.cpp>
 #include <audioeffectx.h>
 #include <audioeffectx.cpp>
