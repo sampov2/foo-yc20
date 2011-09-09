@@ -13,6 +13,9 @@
 	ui:ui		<http://studionumbersix.com/foo/lv2/yc20/ui>;
 	lv2:requiredFeature <http://lv2plug.in/ns/ext/event> ;
 	lv2:requiredFeature <http://lv2plug.in/ns/ext/uri-map> ;
+	lv2:majorVersion 1;
+	lv2:minorVersion 4;
+	lv2:microVersion 0;
 
 	lv2:port [
 		a lv2:AudioPort, lv2:OutputPort;
