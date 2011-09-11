@@ -31,10 +31,6 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #include <iostream>
 #include <map>
 
-#ifdef __linux__
-#define __cdecl
-#endif
-
 #include <audioeffect.cpp>
 #include <audioeffectx.h>
 #include <audioeffectx.cpp>
@@ -44,12 +40,14 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef __WIN32__
 #include <cairo-win32.h>
+#elif __linux__
+/* LINUX, NOP */
 #else /* __APPLE__*/
 #include <Carbon/Carbon.h>
 #include <cairo-quartz.h>
 #endif
 
-// Note: This is not a dependency to jack! We just use the ringbuffer implementation for VST -> UI communication
+// Note: This is not a runtime dependency to jack! We just use the ringbuffer implementation for VST -> UI communication
 #include <jack/ringbuffer.h>
 
 #define NUM_PARAMS 23
@@ -98,6 +96,7 @@ class FooYC20VSTi : public AudioEffectX
 
 
 #ifdef __WIN32__ /*{{{*/
+
 LRESULT CALLBACK yc20WndProcedure(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 extern HINSTANCE hInstance;
@@ -1156,7 +1155,11 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 #ifdef VERBOSE
 	std::cerr << "Creating the editor..." << std::endl;
 #endif
+
+#ifndef __linux__ /* no UI for linux VST, yet */
 	setEditor(new YC20AEffEditor(this));
+#endif
+
 #ifdef VERBOSE
 	std::cout << "...done: " << editor << std::endl;
 #endif
@@ -1285,9 +1288,11 @@ FooYC20VSTi::setParameter	(VstInt32 index, float value)
 
 	*c->getZone() = value;
 
+#ifndef __linux__
 	if (editor && didChange) {
 		((YC20AEffEditor *)editor)->queueChange(index, value);
 	}
+#endif
 }
 
 float
