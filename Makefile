@@ -1,5 +1,6 @@
 PREFIX=/usr/local
 VERSION=
+FAUST=faust
 
 OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/graphics.o
 OBJS_JACK=src/yc20-jack.o src/main-cli.o
@@ -9,8 +10,6 @@ OBJS_CAIRO=src/yc20-base-ui.o
 
 OBJS_DSP_STANDALONE=src/faust-dsp-standalone.o
 OBJS_DSP_PLUGIN=src/faust-dsp-plugin.o
-
-FAUST=faust
 
 LV2_PLUGIN=src/foo-yc20.lv2/foo-yc20.so
 LV2_UI=src/foo-yc20.lv2/foo-yc20-lv2ui.so
@@ -77,7 +76,10 @@ src/vsti.o src/vstplugmain.o: CFLAGS_use = $(CFLAGS_X) -I$(VSTSDK) -I$(VSTSDK)/p
 src/vstplugmain.o: $(VSTSDK)/public.sdk/source/vst2.x/vstplugmain.cpp
 	$(CXX) $(CFLAGS_use)  $(VSTSDK)/public.sdk/source/vst2.x/vstplugmain.cpp -c -o src/vstplugmain.o
 
-vsti: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/vsti.def
+vsti-linux: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/vsti.def
+	$(CXX) -Wall -s -shared $(VSTFLAGS) $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) -o FooYC20.so `pkg-config --libs cairo`
+
+vsti-windows: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/vsti.def
 	$(CXX) -Wall -s -shared -mwindows -static src/vsti.def $(VSTFLAGS) $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) -o FooYC20.dll `pkg-config --libs cairo`
 
 $(BIN): $(OBJ)
