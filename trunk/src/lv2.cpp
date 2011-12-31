@@ -186,11 +186,7 @@ static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 
 			switch ( (data[0]) & 0xf0 ) {
 			case 0x90:
-				if (data[2] == 0) {
-					value = 0.0;
-				} else {
-					value = 1;
-				}
+				value = (data[2] & 0x7f) == 0 ? 0.0 : 1.0;
 				key = data[1] - 36;
 				break;
 			case 0x80:
