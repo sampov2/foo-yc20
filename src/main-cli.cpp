@@ -37,6 +37,7 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <yc20-jack.h>
 #include <foo-yc20-os.h>
+#include <yc20-precalc.h>
 
 #if defined (__WIN32__)
 #include <windows.h>
@@ -91,6 +92,7 @@ int main(int argc, char **argv)
 	processor.connect();
 
 	dsp *yc20 = createDSP();
+	yc20_precalc_oscillators(processor.getSamplerate());
 	yc20->init(processor.getSamplerate());
 
 	processor.setDSP(yc20);
@@ -114,6 +116,7 @@ int main(int argc, char **argv)
 	processor.deactivate();
 
 	processor.saveConfiguration();
+	yc20_destroy_oscillators();
 
 	return 0;
 }

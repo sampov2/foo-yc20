@@ -39,10 +39,9 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 #include <foo-yc20.h>
-#include <faust-dsp.h>
 
 void
-YC20Processor::addButton(const char* label, float* zone)
+YC20Processor::addButton(const char* label, FAUSTFLOAT* zone)
 {
 	bool isNote = true;
 	int note;
@@ -79,9 +78,8 @@ YC20Processor::addButton(const char* label, float* zone)
 	}
 
 }
-
 void
-YC20Processor::addVerticalSlider(const char* label, float* zone, float init, float min, float max, float step)
+YC20Processor::addVerticalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step)
 {
 	std::string name(label);
 
@@ -96,7 +94,7 @@ YC20Processor::addVerticalSlider(const char* label, float* zone, float init, flo
 }
 
 void
-YC20Processor::addHorizontalSlider(const char* label, float* zone, float init, float min, float max, float step)
+YC20Processor::addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step)
 {
 	addVerticalSlider(label, zone, init, min, max, step);
 }

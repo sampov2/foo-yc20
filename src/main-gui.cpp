@@ -31,6 +31,7 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #include <yc20-jack.h>
 #include <foo-yc20-ui.h>
 #include <foo-yc20-os.h>
+#include <yc20-precalc.h>
 
 #ifdef __APPLE__
 #include <gdk/gdkkeysyms.h>
@@ -86,6 +87,7 @@ int main(int argc, char **argv)
 
 	// Create DSP (& retrieve samplerate)
 	dsp *yc20 = createDSP();
+        yc20_precalc_oscillators(processor.getSamplerate());	
 	yc20->init(processor.getSamplerate());
 
 	// Connect DSP & processor
@@ -124,6 +126,8 @@ int main(int argc, char **argv)
 	gtk_main();
 
 	processor.deactivate();
+
+        yc20_destroy_oscillators();
 
 	// Cleanup
 	processor.saveConfiguration();
