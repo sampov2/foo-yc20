@@ -29,8 +29,8 @@ import ("rc_filter.dsp");
 import ("biquad.dsp");
 
 import ("vibrato.dsp");
-import ("oscillator.dsp");
-import ("divider.dsp");
+import ("precalc_oscillator.dsp");
+import ("precalc_divider.dsp");
 import ("wave_transformer.dsp");
 import ("keyboard.dsp");
 import ("mixer.dsp");
