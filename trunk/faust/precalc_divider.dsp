@@ -1,6 +1,6 @@
 /*
-    YC-20 divider circuit implementation in Faust
-    Copyright(C) 2010 Sampo Savolainen <v2@iki.fi>
+    YC-20 oscillator emulation in Faust
+    Copyright(C) 2012 Sampo Savolainen <v2@iki.fi>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,21 +17,20 @@
 
 */
 
-// 8 dividers => 9 octaves
 
 dividers = par(i, 12, divider);
 
-divider(antialias) = _, 
-	(divide : _, 
-	(divide : _, 
-	(divide : _,
-	(divide : _,
-	(divide : _,
-	(divide : _,
-	(divide : _, !)
-	))))))
+divider(note) = _, 
+        (divide(1) : _, 
+        (divide(2) : _, 
+        (divide(3) : _,
+        (divide(4) : _,
+        (divide(5) : _,
+        (divide(6) : _,
+        (divide(7) : _, !)
+        ))))))
 with {
-	divide = phase_divisor <: polyblep_square_slave(antialias), _;
+        divide(div) = phase_divisor <: precalc_square_slave(note, div), _;
 };
 
 phase_divisor(ph) = slow_accumulator(ph) / 2.0
@@ -42,4 +41,3 @@ with {
 
 
 };
-
