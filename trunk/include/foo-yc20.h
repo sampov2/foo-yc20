@@ -33,6 +33,8 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <map>
 #include <string>
+#include <faust/audio/dsp.h>
+#include <faust/gui/UI.h>
 
 #include <faust-dsp.h>
 
@@ -103,12 +105,15 @@ class YC20Processor : public UI
 		void setUI(YC20Exposable *interface) { ui = interface; }
 	
 		// from Faust UI
-		void addButton(const char* label, float* zone);
-		void addToggleButton(const char* label, float* zone) {};
-		void addCheckButton(const char* label, float* zone) {};
-		void addVerticalSlider(const char* label, float* zone, float init, float min, float max, float step);
-		void addHorizontalSlider(const char* label, float* zone, float init, float min, float max, float step);
-		void addNumEntry(const char* label, float* zone, float init, float min, float max, float step) {};
+		void addButton(const char* label, FAUSTFLOAT* zone);
+		void addVerticalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step);
+		void addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step);
+
+		void addNumEntry(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step) { }
+		void addCheckButton(const char* label, FAUSTFLOAT* zone) { }
+
+    		void addHorizontalBargraph(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT min, FAUSTFLOAT max) { }
+		void addVerticalBargraph(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT min, FAUSTFLOAT max) { }
 
 		void openFrameBox(const char* label) {};
 		void openTabBox(const char* label) {};
