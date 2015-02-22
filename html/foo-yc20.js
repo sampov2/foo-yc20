@@ -48,7 +48,6 @@ var foo_yc20 = (function(foo_yc20) {
       color: color
     };
   });
-  console.log(config);
 
   foo_yc20.init = function(selector) {
     var elements = $(selector);
@@ -58,7 +57,6 @@ var foo_yc20 = (function(foo_yc20) {
   }
 
   function build(elem) {
-    console.log('building', elem);
     // ** Model
     var model = {
       "pitch": 0.0,
@@ -98,7 +96,8 @@ var foo_yc20 = (function(foo_yc20) {
     var view = {
       color: 'red',
       controls: {},
-      main: $('<div></div>').addClass('foo_yc20_main')
+      main: $('<div></div>').addClass('foo_yc20_main'),
+      info: $('<div></div>').addClass('foo_yc20_info').hide()
     };
 
 
@@ -154,9 +153,19 @@ var foo_yc20 = (function(foo_yc20) {
     setupColor();
 
     $(elem).append(view.main);
+    $(elem).append(view.info);
 
-    // register click handler to switch color
-    $(elem).click(nextColor);
+    // register main click handlers
+    $(view.main).click(function(evt) {
+      // If clicked in the lower right hand corner
+      if (evt.offsetX > 1200 && evt.offsetY > 150) {
+        $(view.info).show();
+      }
+    });
+    $(view.info).click(function() {
+      nextColor();
+      $(view.info).hide();
+    });
 
     // ** Controls
   };
