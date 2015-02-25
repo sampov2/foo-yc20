@@ -58,6 +58,12 @@
   cursor: pointer;
 }
 
+.foo_yc20 .foo_yc20_main .foo_yc20_potentiometer .foo_yc20_potentiometer_line svg {
+  position: absolute;
+  top: 8%;
+  left: 0%;
+}
+
 .foo_yc20 .foo_yc20_main .foo_yc20_slider {
   position: absolute;
   top: 7.5%;
