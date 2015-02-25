@@ -163,12 +163,23 @@ var foo_yc20 = (function(foo_yc20) {
 
     $.each(config.controls, function(name, d) {
       var control;
+      var potLine;
       if (d.type === 'potentiometer') {
-        // TODO: figure out how to show values (css rotation or something like that)
         control = $('<div></div>')
           .attr('foo-yc20-control', name)
           .addClass('foo_yc20_potentiometer');
-          //.addClass(controlClass);
+
+        var container = $('<div></div>').addClass('foo_yc20_potentiometer_line');
+
+        potLine = $('<svg width="72" height="72"></svg>');
+        var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M36 28 l0 -25');
+        path.setAttribute('stroke', 'black');
+        path.setAttribute('stroke-width', 2.5);
+        potLine.append(path);
+        container.append(potLine);
+        control.append(container);
+
       } else if (d.type === 'slider' || d.type === 'toggle') {
         // toggles are sliders too from the CSS point of view
         control = $('<div></div>')
@@ -185,9 +196,12 @@ var foo_yc20 = (function(foo_yc20) {
           normalizedValue = (value - d.min) / (d.max - d.min);
         }
         if (d.type == 'slider' || d.type == 'toggle') {
-          normalizedValue = sliderState(normalizedValue)
+          normalizedValue = sliderState(normalizedValue);
+          control.attr('foo-yc20-control-state', normalizedValue);
+        } else {
+          normalizedValue = -150 + normalizedValue * (360 - 60);
+          potLine.css('transform', 'rotate('+normalizedValue+'deg)')
         }
-        control.attr('foo-yc20-control-state', normalizedValue);
       });
 
       control.mousedown(function(evt) {
@@ -202,6 +216,10 @@ var foo_yc20 = (function(foo_yc20) {
           } else {
             delta = evt.clientY - y;
           }
+          if (d.max !== undefined && d.min !== undefined) {
+            delta *= (d.max - d.min);
+          }
+
           value = startValue + delta / 50.0;
           controller.setValue(name, value);
         }
