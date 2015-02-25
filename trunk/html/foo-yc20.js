@@ -90,6 +90,38 @@ var foo_yc20 = (function(foo_yc20) {
       "percussive": 0.75
     };
 
+    // ** Controller
+    var controller = {};
+    controller._listenValueChangesList = {};
+    controller.listenValueChanges = function(name, fn) {
+      controller._listenValueChangesList[name] = controller._listenValueChangesList[name] || [];
+      controller._listenValueChangesList[name].push(fn);
+    };
+    controller.setValue = function(name, value) {
+      if (config.controls[name].type === 'toggle') {
+        value = !(value < 0.5);
+      } else if (config.controls[name].min > value) {
+        value = config.controls[name].min;
+      } else if (config.controls[name].max < value) {
+        value = config.controls[name].max;
+      }
+
+      if (value !== model[name] || controller._initializing) {
+        model[name] = value;
+        controller._listenValueChangesList[name] = controller._listenValueChangesList[name] || [];
+        for (var i in controller._listenValueChangesList[name]) {
+          controller._listenValueChangesList[name][i](value);
+        }
+      }
+    };
+    controller.init = function() {
+      controller._initializing = true;
+      for (var name in model) {
+        controller.setValue(name, model[name]);
+      }
+      delete controller._initializing;
+    }
+
     // ** View
     $(elem).addClass('foo_yc20');
 
@@ -117,14 +149,19 @@ var foo_yc20 = (function(foo_yc20) {
       setupColor();
     }
 
-    function sliderStyle(color, value) {
-      value = Math.round(value*3);
-      if (value < 0) { value = 0; } else if (value > 3) { value = 3; }
-      return 'foo_yc20_slider_' + color + '_' + value;
+    function sliderState(value) {
+      var type;
+      if (value === true || value >= 0.9) {
+        type = 3;
+      } else if (value === false || value <= 0.1) {
+        type = 0;
+      } else {
+        type = value < 0.5 ? 1 : 2;
+      }
+      return type;
     }
 
     $.each(config.controls, function(name, d) {
-      //var controlClass = 'foo_yc20_control_' + name;
       var control;
       if (d.type === 'potentiometer') {
         // TODO: figure out how to show values (css rotation or something like that)
@@ -137,17 +174,45 @@ var foo_yc20 = (function(foo_yc20) {
         control = $('<div></div>')
           .attr('foo-yc20-control', name)
           .addClass('foo_yc20_slider')
-          .addClass(sliderStyle(d.color, model[name]));
-          //.addClass(controlClass);
+          .addClass('foo_yc20_slider_'+d.color);
       }
-      $(view.main).append(control);
-      /*
-      $(control).click(function(evt) {
-        console.log('cc');
-        evt.preventDefault();
-        return false;
+
+      controller.listenValueChanges(name, function(value) {
+        var normalizedValue;
+        if (value === true || value === false) {
+          normalizedValue = value;
+        } else {
+          normalizedValue = (value - d.min) / (d.max - d.min);
+        }
+        if (d.type == 'slider' || d.type == 'toggle') {
+          normalizedValue = sliderState(normalizedValue)
+        }
+        control.attr('foo-yc20-control-state', normalizedValue);
       });
-      */
+
+      control.mousedown(function(evt) {
+        var y = evt.clientY;
+        var startValue = model[name];
+        var value = model[name];
+
+        function move(evt) {
+          var delta;
+          if (d.type == 'potentiometer') {
+            delta = -(evt.clientY - y);
+          } else {
+            delta = evt.clientY - y;
+          }
+          value = startValue + delta / 50.0;
+          controller.setValue(name, value);
+        }
+        function up(evt) {
+          $(document).unbind('mousemove', move);
+          $(document).unbind('mouseup', up);
+        }
+        $(document).mousemove(move);
+        $(document).mouseup(up);
+      });
+      $(view.main).append(control);
     });
 
     setupColor();
@@ -167,7 +232,9 @@ var foo_yc20 = (function(foo_yc20) {
       $(view.info).hide();
     });
 
-    // ** Controls
+    // Initialize the controller
+    controller.init();
+
   };
   return foo_yc20;
 }(foo_yc20||{}));
