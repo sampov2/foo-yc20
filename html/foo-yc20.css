@@ -33,20 +33,20 @@
 
 .foo_yc20 .foo_yc20_main .foo_yc20_potentiometer { background-image: url('../graphics/potentiometer.png'); }
 
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_white_0 { background-image: url('../graphics/white_0.png'); }
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_white_1 { background-image: url('../graphics/white_1.png'); }
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_white_2 { background-image: url('../graphics/white_2.png'); }
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_white_3 { background-image: url('../graphics/white_3.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_white[foo-yc20-control-state="0"] { background-image: url('../graphics/white_0.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_white[foo-yc20-control-state="1"] { background-image: url('../graphics/white_1.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_white[foo-yc20-control-state="2"] { background-image: url('../graphics/white_2.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_white[foo-yc20-control-state="3"] { background-image: url('../graphics/white_3.png'); }
 
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_black_0 { background-image: url('../graphics/black_0.png'); }
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_black_1 { background-image: url('../graphics/black_1.png'); }
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_black_2 { background-image: url('../graphics/black_2.png'); }
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_black_3 { background-image: url('../graphics/black_3.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_black[foo-yc20-control-state="0"] { background-image: url('../graphics/black_0.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_black[foo-yc20-control-state="1"] { background-image: url('../graphics/black_1.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_black[foo-yc20-control-state="2"] { background-image: url('../graphics/black_2.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_black[foo-yc20-control-state="3"] { background-image: url('../graphics/black_3.png'); }
 
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_green_0 { background-image: url('../graphics/green_0.png'); }
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_green_1 { background-image: url('../graphics/green_1.png'); }
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_green_2 { background-image: url('../graphics/green_2.png'); }
-.foo_yc20 .foo_yc20_main .foo_yc20_slider_green_3 { background-image: url('../graphics/green_3.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_green[foo-yc20-control-state="0"] { background-image: url('../graphics/green_0.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_green[foo-yc20-control-state="1"] { background-image: url('../graphics/green_1.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_green[foo-yc20-control-state="2"] { background-image: url('../graphics/green_2.png'); }
+.foo_yc20 .foo_yc20_main .foo_yc20_slider_green[foo-yc20-control-state="3"] { background-image: url('../graphics/green_3.png'); }
 
 /* Control layout */
 
