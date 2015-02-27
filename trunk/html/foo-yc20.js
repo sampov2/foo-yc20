@@ -161,6 +161,15 @@ var foo_yc20 = (function(foo_yc20) {
       return type;
     }
 
+
+    var viewStatus = {
+      moving: false,
+      startY: null,
+      startValue: null,
+      activeControl: null,
+      activeControlName: null
+    };
+
     $.each(config.controls, function(name, d) {
       var control;
       var potLine;
@@ -205,32 +214,37 @@ var foo_yc20 = (function(foo_yc20) {
       });
 
       control.mousedown(function(evt) {
-        var y = evt.clientY;
-        var startValue = model[name];
-        var value = model[name];
-
-        function move(evt) {
-          var delta;
-          if (d.type == 'potentiometer') {
-            delta = -(evt.clientY - y);
-          } else {
-            delta = evt.clientY - y;
-          }
-          if (d.max !== undefined && d.min !== undefined) {
-            delta *= (d.max - d.min);
-          }
-
-          value = startValue + delta / 50.0;
-          controller.setValue(name, value);
-        }
-        function up(evt) {
-          $(document).unbind('mousemove', move);
-          $(document).unbind('mouseup', up);
-        }
-        $(document).mousemove(move);
-        $(document).mouseup(up);
+        viewStatus.moving = true;
+        viewStatus.startY = evt.clientY;
+        viewStatus.startValue = model[name];
+        viewStatus.activeControl = control;
+        viewStatus.activeControlName = name;
       });
       $(view.main).append(control);
+
+    });
+
+    $(view.main).mousemove(function(evt) {
+      if (!viewStatus.moving) return;
+
+      var delta, value, controlConfig;
+      controlConfig = config.controls[viewStatus.activeControlName];
+      if (controlConfig.type == 'potentiometer') {
+        delta = -(evt.clientY - viewStatus.startY) / 75.0;
+      } else {
+        delta = (evt.clientY - viewStatus.startY) / 50.0;
+      }
+      if (controlConfig.max !== undefined && controlConfig.min !== undefined) {
+        delta *= (controlConfig.max - controlConfig.min);
+      }
+
+      value = viewStatus.startValue + delta;
+      controller.setValue(viewStatus.activeControlName, value);
+    });
+
+
+    $(document).mouseup(function(evt) {
+      viewStatus.moving = false;
     });
 
     setupColor();
