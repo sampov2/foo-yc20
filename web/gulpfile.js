@@ -5,7 +5,7 @@ var compress = require('gulp-yuicompressor');
 var Filter = require('gulp-filter');
 var concat = require('gulp-concat');
 
-gulp.task('styles', function () {
+gulp.task('styles', ['sprites'], function () {
   var filter = Filter('**/*.styl');
   gulp.src(['./styles/*.styl', './css/*.css'])
     .pipe(filter)
@@ -17,7 +17,7 @@ gulp.task('styles', function () {
 
 });
 
-gulp.task('sprites', function() {
+gulp.task('sprites', function(callback) {
   var fs = require('fs');
 
   var spritesmith = require('spritesmith');
@@ -42,7 +42,9 @@ gulp.task('sprites', function() {
   }
 
   spritesmith({src: sprites}, function handleResult (err, result) {
-
+    if (!fs.existsSync('css/')) {
+      fs.mkdirSync('css');
+    }
     var cssFd = fs.openSync('css/sprites.css', 'w');
 
     fs.writeFileSync('target/sprites.png', new Buffer(result.image, 'binary'));
@@ -67,13 +69,9 @@ gulp.task('sprites', function() {
           '.foo_yc20 .foo_yc20_info '+
           ' { background: url("sprites.png") -'+coords.x+'px -'+coords.y+'px; }\n');
       }
-
     }
-    //console.log(result.coordinates);
     fs.closeSync(cssFd);
-    result.image; // Binary string representation of image
-    result.coordinates; // Object mapping filename to {x, y, width, height} of image
-    result.properties; // Object with metadata about spritesheet {width, height}
+    callback();
   });
 });
 
