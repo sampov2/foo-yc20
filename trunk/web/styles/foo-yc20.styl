@@ -1,0 +1,84 @@
+.foo_yc20
+  position: relative;
+  width: 1280px
+  height: 200px
+
+ .foo_yc20_main, .foo_yc20_info
+    position: absolute
+    top: 0
+    left: 0
+    width: 1280px
+    height: 200px
+
+  .foo_yc20_main
+    .foo_yc20_potentiometer
+      position: absolute
+      top: 7.5%
+      width: 5.625%
+      height: 45%
+      cursor: pointer
+
+      .foo_yc20_potentiometer_line svg
+        position: absolute
+        top: 8%
+        left: 0%
+
+    .foo_yc20_slider
+      position: absolute
+      top: 7.5%
+      width: 3.125%
+      height: 45%
+      cursor: pointer
+
+    *[foo-yc20-control=pitch]
+      left:  1.20%
+    *[foo-yc20-control=volume]
+      left:  8.35%
+    *[foo-yc20-control=bass-volume]
+      left:  15.55%
+
+    *[foo-yc20-control=realism]
+      right: 73.25%
+    *[foo-yc20-control=vibrato]
+      right: 69.63%
+    *[foo-yc20-control=speed]
+      right: 66.00%
+
+    *[foo-yc20-control=b-16]
+      right: 61.48%
+    *[foo-yc20-control=b-8]
+      right: 57.85%
+    *[foo-yc20-control=bass]
+      right: 54.23%
+
+    *[foo-yc20-control=i-16]
+      right: 49.70%
+    *[foo-yc20-control=i-8]
+      right: 46.08%
+    *[foo-yc20-control=i-4]
+      right: 42.45%
+    *[foo-yc20-control=i-2_23]
+      right: 38.83%
+    *[foo-yc20-control=i-2]
+      right: 35.20%
+    *[foo-yc20-control=i-1_35]
+      right: 31.58%
+    *[foo-yc20-control=i-1]
+      right: 27.95%
+
+    *[foo-yc20-control=balance]
+      right: 24.17%
+    *[foo-yc20-control=bright]
+      right: 20.40%
+
+    *[foo-yc20-control=ii-16]
+      right: 16.40%
+    *[foo-yc20-control=ii-8]
+      right: 12.77%
+    *[foo-yc20-control=ii-4]
+      right:  9.13%
+    *[foo-yc20-control=ii-2]
+      right:  5.50%
+
+    *[foo-yc20-control=percussive]
+      right: 1.675

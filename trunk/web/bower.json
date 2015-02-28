@@ -1,0 +1,22 @@
+{
+  "name": "foo-yc20-web",
+  "version": "1.0.0",
+  "authors": [
+    "Sampo Savolainen <v2@iki.fi>"
+  ],
+  "description": "Foo YC20 - combo organ",
+  "main": "js/foo-yc20.js",
+  "license": "3-clause BSD",
+  "homepage": "https://code.google.com/p/foo-yc20/",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3"
+  }
+}
