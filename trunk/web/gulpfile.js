@@ -1,10 +1,20 @@
 var gulp = require('gulp');
+
 var stylus = require('gulp-stylus');
+var compress = require('gulp-yuicompressor');
+var Filter = require('gulp-filter');
+var concat = require('gulp-concat');
 
 gulp.task('styles', function () {
-  gulp.src('./styles/*.styl')
+  var filter = Filter('**/*.styl');
+  gulp.src(['./styles/*.styl', './css/*.css'])
+    .pipe(filter)
     .pipe(stylus())
+    .pipe(filter.restore())
+    .pipe(compress({type:'css'}))
+    .pipe(concat('foo-yc20.css'))
     .pipe(gulp.dest('./target'));
+
 });
 
 gulp.task('sprites', function() {
@@ -31,11 +41,9 @@ gulp.task('sprites', function() {
     sprites[i] = '../graphics/' + sprites[i];
   }
 
-  //var sprites = ['fork.png', 'github.png', 'twitter.png'];
-  // , algorithmOpts: {sort: false}
   spritesmith({src: sprites}, function handleResult (err, result) {
 
-    var cssFd = fs.openSync('target/sprites.css', 'w');
+    var cssFd = fs.openSync('css/sprites.css', 'w');
 
     fs.writeFileSync('target/sprites.png', new Buffer(result.image, 'binary'));
     for (var i in result.coordinates) {
@@ -68,3 +76,13 @@ gulp.task('sprites', function() {
     result.properties; // Object with metadata about spritesheet {width, height}
   });
 });
+
+gulp.task('compress-js', function() {
+  gulp.src('js/foo-yc20.js')
+    .pipe(compress({
+      type: 'js'
+    }))
+    .pipe(gulp.dest('target'));
+});
+
+gulp.task('default', ['sprites', 'styles', 'compress-js']);
