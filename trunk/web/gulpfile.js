@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 
 var stylus = require('gulp-stylus');
+var uglify = require('gulp-uglify');
 var compress = require('gulp-yuicompressor');
 var Filter = require('gulp-filter');
 var concat = require('gulp-concat');
@@ -32,11 +33,12 @@ gulp.task('sprites', function(callback) {
   }
   sprites.push('potentiometer.png');
 
-  sprites.push('background-red.png');
+  sprites.push('background-red-full.png');
+  /*
   sprites.push('background-black.png');
   sprites.push('background-white.png');
   sprites.push('background-blue.png');
-
+  */
   sprites.push('license.png');
 
   for (var i = 0; i < sprites.length; i++) {
@@ -62,10 +64,16 @@ gulp.task('sprites', function(callback) {
         fs.writeSync(cssFd,
           '.foo_yc20 .foo_yc20_main .foo_yc20_potentiometer '+
           ' { background: url("sprites.png") -'+coords.x+'px -'+coords.y+'px; }\n');
+      } else if (match = /.*\/background-(red)-full.png/.exec(i)) {
+        fs.writeSync(cssFd,
+          '.foo_yc20_color_'+match[1]+' .foo_yc20_main '+
+          ' { background: url("sprites.png") -'+coords.x+'px -'+coords.y+'px; }\n');
+      /*
       } else if (match = /.*\/background-(red|blue|white|black).png/.exec(i)) {
         fs.writeSync(cssFd,
           '.foo_yc20_color_'+match[1]+' .foo_yc20_main '+
           ' { background: url("sprites.png") -'+coords.x+'px -'+coords.y+'px; }\n');
+      */
       } else if (match = /.*\/license.png/.exec(i)) {
         fs.writeSync(cssFd,
           '.foo_yc20 .foo_yc20_info '+
@@ -78,10 +86,12 @@ gulp.task('sprites', function(callback) {
 });
 
 gulp.task('compress-js', function() {
-  gulp.src('js/foo-yc20.js')
-    .pipe(compress({
-      type: 'js'
-    }))
+  var filter = Filter('**/foo-yc20.js');
+  gulp.src('js/*.js')
+    .pipe(filter)
+    .pipe(uglify())
+    .pipe(filter.restore())
+    .pipe(concat('foo-yc20.js'))
     .pipe(gulp.dest('target'));
 });
 
