@@ -5,11 +5,13 @@ var compress = require('gulp-yuicompressor');
 var Filter = require('gulp-filter');
 var concat = require('gulp-concat');
 
+var autoprefixer = require('autoprefixer-stylus');
+
 gulp.task('styles', ['sprites'], function () {
   var filter = Filter('**/*.styl');
   gulp.src(['./styles/*.styl', './css/*.css'])
     .pipe(filter)
-    .pipe(stylus())
+    .pipe(stylus({use: [autoprefixer()]}))
     .pipe(filter.restore())
     .pipe(compress({type:'css'}))
     .pipe(concat('foo-yc20.css'))
