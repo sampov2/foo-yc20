@@ -2,47 +2,70 @@
 var foo_yc20 = (function(foo_yc20) {
   'use strict';
 
+  if (foo_yc20.dsp === undefined) {
+    var needWebKitAudio = (typeof (webkitAudioContext) !== "undefined" && typeof (AudioContext) === undefined);
+    var audio_context = (needWebKitAudio) ? new webkitAudioContext() : new AudioContext();
+    foo_yc20.dsp = faust.standalone(audio_context, 1024);
+    foo_yc20.dsp.start();
+  }
+
   // Config
   var config = {
     controls: {
       "pitch": {
         type: "potentiometer",
+        dspAddr: "pitch",
         min: -1.0,
         max: 1.0
       },
       "volume": {
         type: "potentiometer",
+        dspAddr: "volume",
         min: 0.0,
         max: 1.0
       },
       "bass-volume": {
         type: "potentiometer",
+        dspAddr: "bass/bass_volume",
         min: 0.0,
         max: 1.0
       },
       "bass": {
         type: "toggle",
+        dspAddr: "bass/bass_manual",
         color: "black"
       }
     },
+    keys: [],
     colors: [ "red", "blue", "black", "white" ]
   };
+  for (var i = 0; i <= 4; i++) {
+    $.each(['c', 'C', 'd', 'D', 'e', 'f', 'F', 'g', 'G', 'a', 'A', 'b'], function(idx, s) {
+      config.keys.push(s+i);
+    });
+  }
+  config.keys.push('c5');
+
   $.each([
-    "realism", "vibrato", "speed",
-    "b-16", "b-8",
-    "i-16", "i-8", "i-4", "i-2_23", "i-2", "i-1_35", "i-1",
-    "balance", "bright",
-    "ii-16", "ii-8", "ii-4", "ii-2", "percussive"
-  ], function(i, str) {
+    { name: "realism", dspAddr: "realism"},
+    { name: "vibrato", dspAddr: "vibrato/depth" },
+    { name: "speed", dspAddr: "vibrato/speed" },
+    { name: "b-16", dspAddr: "bass/16'_b" }, { name: "b-8", dspAddr: "bass/8'_b" },
+    { name: "i-16", dspAddr: "i/16'_i"    }, { name: "i-8", dspAddr: "i/8'_i"    }, { name: "i-4", dspAddr: "i/4'_i" },    { name: "i-2_23", dspAddr: "i/2_2/3'_i" }, { name: "i-2", dspAddr: "i/2'_i" }, { name: "i-1_35", dspAddr: "i/1_3/5'_i" }, { name: "i-1", dspAddr: "i/1'_i" },
+    { name: "balance", dspAddr: "balance" }, { name: "bright", dspAddr: "ii/bright" },
+    { name: "ii-16", dspAddr: "ii/16'_ii" }, { name: "ii-8", dspAddr: "ii/8'_ii" }, { name: "ii-4", dspAddr: "ii/4'_ii" }, { name: "ii-2", dspAddr: "ii/2'_ii" },
+    { name: "percussive", dspAddr: "percussive" }
+  ], function(i, obj) {
     var color = "black";
-    if (str === 'percussive') {
+    if (obj.name === 'percussive') {
       color = "green";
     }
-    if (/^(b|i|ii)-[0-9_]+/.exec(str)) {
+    if (/^(b|i|ii)-[0-9_]+/.exec(obj.name)) {
       color = "white";
     }
-    config.controls[str] = {
+    config.controls[obj.name] = {
       type: "slider",
+      dspAddr: obj.dspAddr,
       min: 0.0,
       max: 1.0,
       color: color
@@ -108,6 +131,8 @@ var foo_yc20 = (function(foo_yc20) {
 
       if (value !== model[name] || controller._initializing) {
         model[name] = value;
+        foo_yc20.dsp.setValue('/0x00/'+config.controls[name].dspAddr, value);
+
         controller._listenValueChangesList[name] = controller._listenValueChangesList[name] || [];
         for (var i in controller._listenValueChangesList[name]) {
           controller._listenValueChangesList[name][i](value);
@@ -122,10 +147,16 @@ var foo_yc20 = (function(foo_yc20) {
       delete controller._initializing;
     }
     controller.keyDown = function(key) {
-      console.log('keyDown #'+key);
+      var dspAddr = config.keys[key];
+      if (dspAddr) {
+        foo_yc20.dsp.setValue('/0x00/'+dspAddr, 1);
+      }
     }
     controller.keyUp = function(key) {
-      console.log('keyUp #'+key);
+      var dspAddr = config.keys[key];
+      if (dspAddr) {
+        foo_yc20.dsp.setValue('/0x00/'+dspAddr, 0);
+      }
     }
 
     // ** View
@@ -277,8 +308,13 @@ var foo_yc20 = (function(foo_yc20) {
       blackWidth: (1280-90-90)/36/3*2
     };
     function whichKey(evt) {
-      var x = evt.offsetX - keyboard.x;
-      var y = evt.offsetY - keyboard.y;
+      var parentOffset = $(evt.target).offset();
+      var relativeXPosition = (evt.pageX - parentOffset.left);
+      var relativeYPosition = (evt.pageY - parentOffset.top);
+
+      var x = relativeXPosition - keyboard.x;
+      var y = relativeYPosition - keyboard.y;
+
       if (x < 0 || x >= keyboard.width || y < 0 || y >= keyboard.height) {
         return undefined;
       }
@@ -367,9 +403,13 @@ var foo_yc20 = (function(foo_yc20) {
     $(elem).append(view.info);
 
     // register main click handlers
+    /*
     $(view.main).click(function(evt) {
+      var parentOffset = $(evt.target).offset();
+      var relativeXPosition = (evt.pageX - parentOffset.left);
+      var relativeYPosition = (evt.pageY - parentOffset.top);
       // If clicked in the lower right hand corner
-      if (evt.offsetX > 1200 && evt.offsetY > 150) {
+      if (relativeXPosition > 1200 && relativeYPosition > 150) {
         $(view.info).show();
       }
     });
@@ -377,6 +417,7 @@ var foo_yc20 = (function(foo_yc20) {
       nextColor();
       $(view.info).hide();
     });
+    */
 
     // Initialize the controller
     controller.init();
