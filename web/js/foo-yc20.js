@@ -219,6 +219,7 @@ var foo_yc20 = (function(foo_yc20) {
         viewStatus.startValue = model[name];
         viewStatus.activeControl = control;
         viewStatus.activeControlName = name;
+        return false;
       });
       $(view.main).append(control);
 
