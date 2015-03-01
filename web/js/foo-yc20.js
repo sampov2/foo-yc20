@@ -243,6 +243,78 @@ var foo_yc20 = (function(foo_yc20) {
       controller.setValue(viewStatus.activeControlName, value);
     });
 
+    var keyboard = {
+      x: 90,
+      y: 200,
+      width: 1280-90-90,
+      height: 190,
+      blackHeight: 120,
+      whiteWidth: (1280-90-90)/36,
+      blackWidth: (1280-90-90)/36/3*2
+    };
+    $(view.main).mousedown(function(evt) {
+      var x = evt.offsetX - keyboard.x;
+      var y = evt.offsetY - keyboard.y;
+      if (x < 0 || x >= keyboard.width || y < 0 || y >= keyboard.height) {
+        return true;
+      }
+      var whitePos = Math.floor(x/keyboard.width*36);
+
+      var key = Math.floor(whitePos/7)*12;
+      var octPos = whitePos % 7;
+      key += octPos;
+      key += octPos <= 2 ? octPos : octPos-1;
+
+      // Then take the blacks into account
+      if (y < keyboard.blackHeight) {
+        var xPosOnKey = (x % keyboard.whiteWidth) / keyboard.whiteWidth;
+        switch(octPos) {
+          case 0: // C
+            if (xPosOnKey > 0.63) {
+              key++; // => C#
+            }
+            break;
+          case 1: // D
+            if (xPosOnKey < 0.15) {
+              key--; // => C#
+            } else if (xPosOnKey > 0.93) {
+              key++; // => D#
+            }
+            break;
+          case 2: // E
+            if (xPosOnKey < 0.46) {
+              key--; // => D#
+            }
+            break;
+          case 3: // F
+            if (xPosOnKey > 0.63) {
+              key++; // => F#
+            }
+            break;
+          case 4: // G
+            if (xPosOnKey < 0.15) {
+              key--; // => F#
+            } else if (xPosOnKey > 0.75) {
+              key++; // => G#
+            }
+            break;
+          case 5: // A
+            if (xPosOnKey < 0.27) {
+              key--; // => G#
+            } else if (xPosOnKey > 0.92) {
+              key++; // => B
+            }
+            break;
+          case 6: // B#
+            if (xPosOnKey < 0.43) {
+              key--; // => B
+            }
+        }
+      }
+
+      console.log(key);
+      return false;
+    });
 
     $(document).mouseup(function(evt) {
       viewStatus.moving = false;
