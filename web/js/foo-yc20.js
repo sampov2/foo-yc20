@@ -121,6 +121,12 @@ var foo_yc20 = (function(foo_yc20) {
       }
       delete controller._initializing;
     }
+    controller.keyDown = function(key) {
+      console.log('keyDown #'+key);
+    }
+    controller.keyUp = function(key) {
+      console.log('keyUp #'+key);
+    }
 
     // ** View
     $(elem).addClass('foo_yc20');
@@ -228,6 +234,24 @@ var foo_yc20 = (function(foo_yc20) {
     $(view.main).mousemove(function(evt) {
       if (!viewStatus.moving) return;
 
+      if (viewStatus.activeControlName === 'keyboard') {
+        var key = whichKey(evt);
+        if (key === undefined) {
+          if (viewStatus.startValue !== undefined) {
+            controller.keyUp(viewStatus.startValue);
+            viewStatus.startValue = undefined;
+          }
+        } else if (key !== viewStatus.startValue){
+          if (viewStatus.startValue !== undefined) {
+            controller.keyUp(viewStatus.startValue);
+            viewStatus.startValue = undefined;
+          }
+          viewStatus.startValue = key;
+          controller.keyDown(key);
+        }
+        return;
+      }
+
       var delta, value, controlConfig;
       controlConfig = config.controls[viewStatus.activeControlName];
       if (controlConfig.type == 'potentiometer') {
@@ -252,11 +276,11 @@ var foo_yc20 = (function(foo_yc20) {
       whiteWidth: (1280-90-90)/36,
       blackWidth: (1280-90-90)/36/3*2
     };
-    $(view.main).mousedown(function(evt) {
+    function whichKey(evt) {
       var x = evt.offsetX - keyboard.x;
       var y = evt.offsetY - keyboard.y;
       if (x < 0 || x >= keyboard.width || y < 0 || y >= keyboard.height) {
-        return true;
+        return undefined;
       }
       var whitePos = Math.floor(x/keyboard.width*36);
 
@@ -312,12 +336,29 @@ var foo_yc20 = (function(foo_yc20) {
         }
       }
 
-      console.log(key);
+      return key;
+    }
+    $(view.main).mousedown(function(evt) {
+      var key = whichKey(evt);
+      if (key === undefined) {
+        return true;
+      }
+      viewStatus.moving = true;
+      viewStatus.startValue = key;
+      viewStatus.activeControl = keyboard;
+      viewStatus.activeControlName = 'keyboard';
+      controller.keyDown(key);
+
       return false;
     });
 
     $(document).mouseup(function(evt) {
-      viewStatus.moving = false;
+      if (viewStatus.moving) {
+        viewStatus.moving = false;
+        if (viewStatus.activeControlName === 'keyboard') {
+          controller.keyUp(viewStatus.startValue);
+        }
+      }
     });
 
     setupColor();
