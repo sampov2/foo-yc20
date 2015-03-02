@@ -3,7 +3,7 @@ var foo_yc20 = (function(foo_yc20) {
   'use strict';
 
   if (foo_yc20.dsp === undefined) {
-    var needWebKitAudio = (typeof (webkitAudioContext) !== "undefined" && typeof (AudioContext) === undefined);
+    var needWebKitAudio = (typeof (AudioContext) === "undefined") && (typeof (webkitAudioContext) !== "undefined");
     var audio_context = (needWebKitAudio) ? new webkitAudioContext() : new AudioContext();
     foo_yc20.dsp = faust.standalone(audio_context, 1024);
     foo_yc20.dsp.start();
