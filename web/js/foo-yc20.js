@@ -39,6 +39,39 @@ var foo_yc20 = (function(foo_yc20) {
     keys: [],
     colors: [ "red", "blue", "black", "white" ]
   };
+  var keymap = {
+    90: 'c0',
+    83: 'C0',
+    88: 'd0',
+    68: 'D0',
+    67: 'e0',
+    86: 'f0',
+    71: 'F0',
+    66: 'g0',
+    72: 'G0',
+    78: 'a0',
+    74: 'A0',
+    77: 'b0',
+
+    81: 'c1',
+    50: 'C1',
+    87: 'd1',
+    51: 'D1',
+    69: 'e1',
+    82: 'f1',
+    53: 'F1',
+    84: 'g1',
+    54: 'G1',
+    89: 'a1',
+    55: 'A1',
+    85: 'b1',
+
+    73: 'c2',
+    57: 'C2',
+    79: 'd2',
+    48: 'D2',
+    80: 'e2'
+  };
   for (var i = 0; i <= 4; i++) {
     $.each(['c', 'C', 'd', 'D', 'e', 'f', 'F', 'g', 'G', 'a', 'A', 'b'], function(idx, s) {
       config.keys.push(s+i);
@@ -147,15 +180,13 @@ var foo_yc20 = (function(foo_yc20) {
       delete controller._initializing;
     }
     controller.keyDown = function(key) {
-      var dspAddr = config.keys[key];
-      if (dspAddr) {
-        foo_yc20.dsp.setValue('/0x00/'+dspAddr, 1);
+      if (key) {
+        foo_yc20.dsp.setValue('/0x00/'+key, 1);
       }
     }
     controller.keyUp = function(key) {
-      var dspAddr = config.keys[key];
-      if (dspAddr) {
-        foo_yc20.dsp.setValue('/0x00/'+dspAddr, 0);
+      if (key) {
+        foo_yc20.dsp.setValue('/0x00/'+key, 0);
       }
     }
 
@@ -269,16 +300,16 @@ var foo_yc20 = (function(foo_yc20) {
         var key = whichKey(evt);
         if (key === undefined) {
           if (viewStatus.startValue !== undefined) {
-            controller.keyUp(viewStatus.startValue);
+            controller.keyUp(config.keys[viewStatus.startValue]);
             viewStatus.startValue = undefined;
           }
         } else if (key !== viewStatus.startValue){
           if (viewStatus.startValue !== undefined) {
-            controller.keyUp(viewStatus.startValue);
+            controller.keyUp(config.keys[viewStatus.startValue]);
             viewStatus.startValue = undefined;
           }
           viewStatus.startValue = key;
-          controller.keyDown(key);
+          controller.keyDown(config.keys[key]);
         }
         return;
       }
@@ -383,7 +414,7 @@ var foo_yc20 = (function(foo_yc20) {
       viewStatus.startValue = key;
       viewStatus.activeControl = keyboard;
       viewStatus.activeControlName = 'keyboard';
-      controller.keyDown(key);
+      controller.keyDown(config.keys[key]);
 
       return false;
     });
@@ -392,11 +423,20 @@ var foo_yc20 = (function(foo_yc20) {
       if (viewStatus.moving) {
         viewStatus.moving = false;
         if (viewStatus.activeControlName === 'keyboard') {
-          controller.keyUp(viewStatus.startValue);
+          controller.keyUp(config.keys[viewStatus.startValue]);
         }
       }
     });
 
+    $(document).keydown(function(evt) {
+      controller.keyDown(keymap[evt.keyCode]);
+    });
+
+    $(document).keyup(function(evt) {
+      controller.keyUp(keymap[evt.keyCode]);
+    });
+
+    $(view.main).focus();
     setupColor();
 
     $(elem).append(view.main);
