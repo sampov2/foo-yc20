@@ -384,7 +384,7 @@ var foo_yc20 = (function(foo_yc20) {
         var xPosOnKey = (x-whitePos*keyboard.whiteWidth) / keyboard.whiteWidth;
         switch(octPos) {
           case 0: // C
-            if (xPosOnKey > 0.63) {
+            if (xPosOnKey > 0.63 && key < 60) { // if key == 60, there is no black key on top
               key++; // => C#
             }
             break;
