@@ -1,3 +1,6 @@
+/**
+ * Simple wrapper around basic midi event parsing and connection / disconnection logic
+ **/
 var midiSupport = (function(midiSupport) {
   var listeners = [];
   midiSupport.addListener = function(obj) {
@@ -25,12 +28,11 @@ var midiSupport = (function(midiSupport) {
   function noteOff(n) { callListener('noteOff', n); }
 
   var currentInput;
-  function connectMidi(input) {
+  midiSupport.connectInput = function(input) {
     if (currentInput) {
       currentInput.onmidimessage = null;
     }
     currentInput = input;
-    console.log('connecting', input.name);
     input.onmidimessage = function(ev) {
       var cmd = ev.data[0] >> 4;
       var channel = ev.data[0] & 0xf;
@@ -39,7 +41,7 @@ var midiSupport = (function(midiSupport) {
 
       if (channel == 9)
         return
-      if ( cmd==8 || ((cmd==9)&&(velocity==0)) ) { // with MIDI, note on with velocity zero is the same as note off
+      if ( cmd==8 || ((cmd==9)&&(velocity==0)) ) {
         noteOff(noteNumber);
       } else if (cmd == 9) {
         noteOn(noteNumber);
@@ -47,31 +49,21 @@ var midiSupport = (function(midiSupport) {
     }
   }
 
+  midiSupport.onInputsAvailable = function() { /* NOP by default */ }
+  midiSupport.onError = function() { /* NOP by default */ }
+
   if (navigator.requestMIDIAccess) {
-    var preferredInputRegex = /keyboard/i;
     navigator.requestMIDIAccess().then(function(midi) {
-      console.log('we have midi', midi);
-
-      var midiInput;
       var i = midi.inputs.values();
-      var tmp;
+      var tmp, allInputs = [];
       for (tmp = i.next(); tmp && !tmp.done; tmp = i.next()) {
-        if (preferredInputRegex.exec(tmp.value.name)) {
-          midiInput = tmp;
-          break;
-        }
-      }
-      if (midiInput === undefined) {
-        midiInput = tmp;
+        allInputs.push(tmp.value);
       }
 
-      if (midiInput) {
-        connectMidi(midiInput.value);
-      }
+      midiSupport.onInputsAvailable(allInputs);
 
     }, function(err) {
-      console.log(err);
-      alert('Problems with MIDI');
+      midiSupport.onError(err);
     });
   }
   return midiSupport;
