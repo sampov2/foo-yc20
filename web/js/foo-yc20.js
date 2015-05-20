@@ -105,14 +105,12 @@ var foo_yc20 = (function(foo_yc20) {
     };
   });
 
-  foo_yc20.init = function(selector) {
-    var elements = $(selector);
-    $.each(elements, function(i, e) {
-      build(e);
-    });
+  foo_yc20.init = function(selector, midi) {
+    var element = $(selector).first();;
+    build(element, midi);
   }
 
-  function build(elem) {
+  function build(elem, midi) {
     // ** Model
     var model = {
       "pitch": 0.0,
@@ -435,6 +433,18 @@ var foo_yc20 = (function(foo_yc20) {
     $(document).keyup(function(evt) {
       controller.keyUp(keymap[evt.keyCode]);
     });
+
+    if (midi) {
+      console.log('connecting midi');
+      midi.addListener({
+        noteOn: function(note) {
+          controller.keyDown(config.keys[note-48]);
+        },
+        noteOff: function(note) {
+          controller.keyUp(config.keys[note-48]);
+        }
+      })
+    }
 
     $(view.main).focus();
     setupColor();
