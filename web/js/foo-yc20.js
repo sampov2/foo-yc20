@@ -354,7 +354,7 @@ var foo_yc20 = (function(foo_yc20) {
     });
 
     var keyboard = {
-      x: 90,
+      x: 93,
       y: 200,
       width: 1280-90-90,
       height: 190,
@@ -379,10 +379,9 @@ var foo_yc20 = (function(foo_yc20) {
       var octPos = whitePos % 7;
       key += octPos;
       key += octPos <= 2 ? octPos : octPos-1;
-
       // Then take the blacks into account
       if (y < keyboard.blackHeight) {
-        var xPosOnKey = (x % keyboard.whiteWidth) / keyboard.whiteWidth;
+        var xPosOnKey = (x-whitePos*keyboard.whiteWidth) / keyboard.whiteWidth;
         switch(octPos) {
           case 0: // C
             if (xPosOnKey > 0.63) {
