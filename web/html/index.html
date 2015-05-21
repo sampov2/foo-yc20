@@ -17,6 +17,10 @@
         }
         midiInSelect.appendChild(new Option(list[i].name, i, chosen === list[i], chosen === list[i] ));
       }
+      if (!chosen && list.length > 0) {
+        midiSupport.connectInput(list[0]);
+        chosen = list[0];
+      }
       midiInSelect.onchange = function(evt) {
         var option = this.options[this.selectedIndex];
         midiSupport.connectInput(list[option.value]);
