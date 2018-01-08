@@ -33,6 +33,8 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <math.h>
 
+#include "faust-dsp.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -58,17 +60,19 @@ typedef struct yc20_precalc_osc {
 	float *buf;
 } yc20_precalc_osc;
 
-extern thread_local yc20_precalc_osc *yc20_precalc;
-
 yc20_precalc_osc *
 yc20_precalc_oscillators(float samplerate);
 
-static inline float
-yc20_get_sample(float phase, int note, int div)
-{
-	int offset = yc20_precalc->samples * ( note * 9 + div);
+#define yc20_get_sample(phase, note, div)       \
+    _yc20_get_sample(this, (phase), (note), (div))
 
-	return yc20_precalc->buf[ offset + (int)roundf( (float)yc20_precalc->samples * phase) ];
+static inline float
+_yc20_get_sample(dsp *x, float phase, int note, int div)
+{
+	yc20_precalc_osc *osc = getUserData(x)->osc;
+
+	int offset = osc->samples * ( note * 9 + div);
+	return osc->buf[ offset + (int)roundf( (float)osc->samples * phase) ];
 }
 
 void

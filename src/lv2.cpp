@@ -53,7 +53,6 @@ struct YC20_Handle_t {
 	float *outputPorts[2];
 	const LV2_Atom_Sequence *eventPort;
 	std::map<Control *, float *> controlParameters;
-	yc20_precalc_osc *oscillators;
 
 	// MIDI
 	LV2_URID midi_event_id;
@@ -84,7 +83,7 @@ static LV2_Handle instantiate_FooYC20 (
 	handle->yc20 = new YC20Processor();
 	handle->yc20->setDSP(tmp);
 
-	handle->oscillators = yc20_precalc_oscillators(sample_rate);
+	getUserData(tmp)->osc = yc20_precalc_oscillators(sample_rate);
 
 	return (LV2_Handle)handle;
 }
@@ -155,8 +154,6 @@ static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
 
-	yc20_precalc = handle->oscillators;
-
 	const LV2_Atom_Sequence *evseq = handle->eventPort;
 	float *outp[2] = { handle->outputPorts[0], handle->outputPorts[1] };
 	uint32_t frame = 0;
@@ -210,11 +207,12 @@ static void deactivate_FooYC20 (LV2_Handle instance)
 static void cleanup_FooYC20 (LV2_Handle instance)
 {
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
+	yc20_precalc_osc *osc = getUserData(handle->yc20->getDSP())->osc;
 
 	// TODO: delete the Processor and within it, the DSP unit and UI (if one has been created)
 	delete(handle->yc20);
 
-	yc20_destroy_oscillators(handle->oscillators);
+	yc20_destroy_oscillators(osc);
 
 	delete handle;
 }

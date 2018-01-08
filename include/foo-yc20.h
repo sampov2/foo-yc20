@@ -31,8 +31,6 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #ifndef _FOO_YC20_H
 #define _FOO_YC20_H
 
-struct yc20_precalc_osc;
-
 #include <map>
 #include <string>
 #include <faust/audio/dsp.h>
@@ -128,9 +126,6 @@ class YC20Processor : public UI
 		dsp *getDSP() const { return processor; }
 		void setDSP(dsp *);
 
-		yc20_precalc_osc *getOscillators() const { return oscillators; }
-		void setOscillators(yc20_precalc_osc *osc) { oscillators = osc; };
-
 		// MIDI callback
 		void setKey(int key, float value) { *keys[key] = value; }
 
@@ -158,8 +153,6 @@ class YC20Processor : public UI
 		YC20Exposable *ui;
 
 		std::string configFile;
-
-		yc20_precalc_osc *oscillators;
 };
 
 

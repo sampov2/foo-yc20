@@ -33,14 +33,11 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string.h>
 
 #include <yc20-jack.h>
-#include <yc20-precalc.h>
 
 int
 YC20Jack::process (jack_nframes_t nframes)
 {
 	TURNOFFDENORMALS;
-
-	yc20_precalc = oscillators;
 
 	float *output_buffer[3];
 

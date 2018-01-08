@@ -38,8 +38,6 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #define M_PI           3.14159265358979323846
 #endif
 
-thread_local yc20_precalc_osc *yc20_precalc;
-
 static inline float
 tet12(float note) {
 	return 440.0 * powf(2.0, note / 12.0);

@@ -87,12 +87,12 @@ int main(int argc, char **argv)
 
 	// Create DSP (& retrieve samplerate)
 	dsp *yc20 = createDSP();
-	yc20_precalc = yc20_precalc_oscillators(processor.getSamplerate());
+	yc20_precalc_osc *osc = yc20_precalc_oscillators(processor.getSamplerate());
 	yc20->init(processor.getSamplerate());
 
 	// Connect DSP & processor
 	processor.setDSP(yc20);
-	processor.setOscillators(yc20_precalc);
+	getUserData(yc20)->osc = osc;
 
 	// Create UI
 	yc20ui = new YC20UI(&processor);
@@ -128,7 +128,7 @@ int main(int argc, char **argv)
 
 	processor.deactivate();
 
-	yc20_destroy_oscillators(yc20_precalc);
+	yc20_destroy_oscillators(osc);
 
 	// Cleanup
 	processor.saveConfiguration();
