@@ -38,7 +38,7 @@ extern "C" {
 #endif
 
 
-typedef struct {
+typedef struct yc20_precalc_osc {
 	float samplerate;
 
 	// max frequency is slightly below nyquist to avoid aliasing when
@@ -58,9 +58,10 @@ typedef struct {
 	float *buf;
 } yc20_precalc_osc;
 
-extern yc20_precalc_osc *yc20_precalc;
+extern thread_local yc20_precalc_osc *yc20_precalc;
 
-void yc20_precalc_oscillators(float samplerate);
+yc20_precalc_osc *
+yc20_precalc_oscillators(float samplerate);
 
 static inline float
 yc20_get_sample(float phase, int note, int div)
@@ -71,7 +72,7 @@ yc20_get_sample(float phase, int note, int div)
 }
 
 void
-yc20_destroy_oscillators();
+yc20_destroy_oscillators(yc20_precalc_osc *osc);
 
 #ifdef __cplusplus
 }

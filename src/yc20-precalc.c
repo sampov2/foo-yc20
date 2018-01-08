@@ -38,7 +38,7 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #define M_PI           3.14159265358979323846
 #endif
 
-yc20_precalc_osc *yc20_precalc;
+thread_local yc20_precalc_osc *yc20_precalc;
 
 static inline float
 tet12(float note) {
@@ -113,7 +113,7 @@ generate_square(float freq, yc20_precalc_osc *p, int note, int div)
 	}
 }
 
-void
+yc20_precalc_osc *
 yc20_precalc_oscillators(float samplerate)
 {
 	yc20_precalc_osc *p =
@@ -142,13 +142,13 @@ yc20_precalc_oscillators(float samplerate)
 		}
 	}
 
-	yc20_precalc = p;
+	return p;
 }
 
 void
-yc20_destroy_oscillators()
+yc20_destroy_oscillators(yc20_precalc_osc *osc)
 {
-	free( yc20_precalc->buf );
-	free( yc20_precalc );
+	free( osc->buf );
+	free( osc );
 }
 

@@ -92,10 +92,11 @@ int main(int argc, char **argv)
 	processor.connect();
 
 	dsp *yc20 = createDSP();
-	yc20_precalc_oscillators(processor.getSamplerate());
+	yc20_precalc = yc20_precalc_oscillators(processor.getSamplerate());
 	yc20->init(processor.getSamplerate());
 
 	processor.setDSP(yc20);
+	processor.setOscillators(yc20_precalc);
 
 	if (argc > 1) {
 		std::string conf(argv[1]);
@@ -116,7 +117,7 @@ int main(int argc, char **argv)
 	processor.deactivate();
 
 	processor.saveConfiguration();
-	yc20_destroy_oscillators();
+	yc20_destroy_oscillators(yc20_precalc);
 
 	return 0;
 }

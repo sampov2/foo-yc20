@@ -2,7 +2,7 @@
 @prefix doap: <http://usefulinc.com/ns/doap#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
 @prefix ui:   <http://lv2plug.in/ns/extensions/ui#> .
-@prefix lv2ev: <http://lv2plug.in/ns/ext/event#> .
+@prefix atom: <http://lv2plug.in/ns/ext/atom#> .
 
 
 <http://studionumbersix.com/foo/lv2/yc20>
@@ -11,11 +11,7 @@
 	doap:license	<http://usefulinc.com/doap/licenses/gpl>;
 	doap:maintainer	[ foaf:name "Sampo Savolainen" ; ] ;
 	ui:ui		<http://studionumbersix.com/foo/lv2/yc20/ui>;
-	lv2:requiredFeature <http://lv2plug.in/ns/ext/event> ;
-	lv2:requiredFeature <http://lv2plug.in/ns/ext/uri-map> ;
-	lv2:majorVersion 1;
-	lv2:minorVersion 4;
-	lv2:microVersion 0;
+	lv2:requiredFeature <http://lv2plug.in/ns/ext/urid#map> ;
 
 	lv2:port [
 		a lv2:AudioPort, lv2:OutputPort;
@@ -30,8 +26,8 @@
 		lv2:name "Output R";
 	],
 	[
-		a lv2:InputPort, lv2ev:EventPort;
-		lv2ev:supportsEvent <http://lv2plug.in/ns/ext/midi#MidiEvent>;
+		a lv2:InputPort, atom:AtomPort;
+		atom:supports <http://lv2plug.in/ns/ext/midi#MidiEvent>;
 		lv2:index 2;
 		lv2:symbol "midi";
 		lv2:name "MIDI in";

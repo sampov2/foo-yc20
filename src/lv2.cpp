@@ -32,13 +32,15 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #include <map>
 
 #include <string.h>
+#include <assert.h>
 
 #include <lv2.h>
-#include <lv2/http/lv2plug.in/ns/ext/event/event.h>
-#include <lv2/http/lv2plug.in/ns/ext/event/event-helpers.h>
-#include <lv2/http/lv2plug.in/ns/ext/uri-map/uri-map.h>
+#include <lv2/lv2plug.in/ns/ext/atom/atom.h>
+#include <lv2/lv2plug.in/ns/ext/atom/util.h>
+#include <lv2/lv2plug.in/ns/ext/urid/urid.h>
 
 #include <foo-yc20.h>
+#include <yc20-precalc.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -49,12 +51,12 @@ struct YC20_Handle_t {
 
 	// Registered ports
 	float *outputPorts[2];
-	LV2_Event_Buffer *eventPort;
+	const LV2_Atom_Sequence *eventPort;
 	std::map<Control *, float *> controlParameters;
+	yc20_precalc_osc *oscillators;
 
 	// MIDI
-	LV2_Event_Feature *event_ref;
-	int midi_event_id;
+	LV2_URID midi_event_id;
 };
 
 static LV2_Handle instantiate_FooYC20 (
@@ -65,31 +67,25 @@ static LV2_Handle instantiate_FooYC20 (
 {
 	struct YC20_Handle_t *handle = new struct YC20_Handle_t;
 
-	handle->midi_event_id = -1;
-	handle->event_ref = NULL;
-	
-	for (int i = 0; host_features[i]; i++) {
-		if (strcmp(host_features[i]->URI, "http://lv2plug.in/ns/ext/uri-map") == 0) {
-			LV2_URI_Map_Feature *map_feature = (LV2_URI_Map_Feature *)host_features[i]->data;
+	LV2_URID_Map *map_feature = NULL;
 
-			handle->midi_event_id = map_feature->uri_to_id(map_feature->callback_data, "http://lv2plug.in/ns/ext/event", "http://lv2plug.in/ns/ext/midi#MidiEvent");
-		} else if (strcmp(host_features[i]->URI, "http://lv2plug.in/ns/ext/event") == 0) {
-			handle->event_ref = (LV2_Event_Feature *)host_features[i]->data;
+	for (int i = 0; host_features[i]; i++) {
+		if (strcmp(host_features[i]->URI, "http://lv2plug.in/ns/ext/urid#map") == 0) {
+			map_feature = (LV2_URID_Map *)host_features[i]->data;
 		}
 	}
 
-        if (handle->midi_event_id == -1) {
-                std::cerr << "Host is incapable of running YC20: "<< handle->midi_event_id << ", " << handle->event_ref << std::endl;
-		delete handle;
-                return NULL;
-        }
+	assert(map_feature);
+	handle->midi_event_id = map_feature->map(map_feature->handle, "http://lv2plug.in/ns/ext/midi#MidiEvent");
 
 	dsp *tmp = createDSP();
 	tmp->init(sample_rate);
 	
 	handle->yc20 = new YC20Processor();
 	handle->yc20->setDSP(tmp);
-	
+
+	handle->oscillators = yc20_precalc_oscillators(sample_rate);
+
 	return (LV2_Handle)handle;
 }
 
@@ -106,7 +102,7 @@ static void connect_port_FooYC20 (
 	}
 
 	if (port == 2) {
-		handle->eventPort = (LV2_Event_Buffer *)data_location;
+		handle->eventPort = (const LV2_Atom_Sequence *)data_location;
 		return;
 	}
 
@@ -159,9 +155,10 @@ static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
 
-	LV2_Event *ev = NULL;
-	LV2_Event_Iterator iterator;
+	yc20_precalc = handle->oscillators;
 
+	const LV2_Atom_Sequence *evseq = handle->eventPort;
+	float *outp[2] = { handle->outputPorts[0], handle->outputPorts[1] };
 	uint32_t frame = 0;
 
 	for (std::map<Control *, float *>::iterator i = handle->controlParameters.begin(); i != handle->controlParameters.end(); ++i) {
@@ -169,18 +166,12 @@ static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 		*c->getZone() = *i->second;
 	}
 
-	lv2_event_begin(&iterator, handle->eventPort);
-
-	while (lv2_event_is_valid(&iterator)) {
-		ev = lv2_event_get(&iterator, NULL);
-
+	LV2_ATOM_SEQUENCE_FOREACH(evseq, atom) {
 		// Parse event
-		if (ev->type == 0) {
-			if (handle->event_ref) {
-				handle->event_ref->lv2_event_unref(handle->event_ref->callback_data, ev);
-			}
-		} else if (ev->type == handle->midi_event_id) {
-			uint8_t *data = (uint8_t *)(ev+1);
+		if (atom->body.type == handle->midi_event_id) {
+			const LV2_Atom_Event *ev = (const LV2_Atom_Event *)atom;
+
+			const uint8_t *data = (const uint8_t *)LV2_ATOM_BODY_CONST(&ev->body);
 			float value = 0;
 			int key = -1;
 
@@ -197,18 +188,17 @@ static void run_FooYC20 (LV2_Handle instance, uint32_t nframes)
 			if (key >= 0 && key < 61) {
 				handle->yc20->setKey(key, value);
 			}
+
+			uint32_t evframes = ev->time.frames;
+			uint32_t ncompute = evframes - frame;
+			handle->yc20->getDSP()->compute(ncompute, NULL, outp);
+			outp[0] += ncompute;
+			outp[1] += ncompute;
+			frame = evframes;
 		}
-
-		
-		handle->yc20->getDSP()->compute(ev->frames - frame, NULL, handle->outputPorts);
-
-		frame = ev->frames;
-
-		lv2_event_increment(&iterator);
 	}
 
-	handle->yc20->getDSP()->compute(nframes - frame, NULL, handle->outputPorts);
-
+	handle->yc20->getDSP()->compute(nframes - frame, NULL, outp);
 }
 
 static void deactivate_FooYC20 (LV2_Handle instance)
@@ -220,9 +210,11 @@ static void deactivate_FooYC20 (LV2_Handle instance)
 static void cleanup_FooYC20 (LV2_Handle instance)
 {
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
-	
+
 	// TODO: delete the Processor and within it, the DSP unit and UI (if one has been created)
 	delete(handle->yc20);
+
+	yc20_destroy_oscillators(handle->oscillators);
 
 	delete handle;
 }
