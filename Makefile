@@ -167,12 +167,12 @@ uninstall:
 ## Targets only for those with Faust installed
 
 generate-source:
-	$(FAUST) -a minimal.cpp faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
-	$(FAUST) -a minimal.cpp faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
+	$(FAUST) faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
+	$(FAUST) faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
 
 generate-source-vec:
-	$(FAUST) -vec -a minimal.cpp faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
-	$(FAUST) -vec -a minimal.cpp faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
+	$(FAUST) -vec faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
+	$(FAUST) -vec faust/plugin.dsp	  > gen/yc20-dsp-plugin.cpp
 
 
 basic-test:
