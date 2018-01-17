@@ -36,6 +36,7 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #include <audioeffectx.cpp>
 
 #include <foo-yc20.h>
+#include <yc20-precalc.h>
 #include <yc20-base-ui.h>
 
 #ifdef __WIN32__
@@ -1147,10 +1148,13 @@ FooYC20VSTi::FooYC20VSTi  (audioMasterCallback callback, VstInt32 programs, VstI
 
 	yc20 = new YC20Processor();
 
+	float sampleRate = getSampleRate();
+
 	dsp *tmp = createDSP();
-        tmp->init(getSampleRate());
+	tmp->init(sampleRate);
 
 	yc20->setDSP(tmp);
+	getUserData(tmp)->osc = yc20_precalc_oscillators(sampleRate);
 
 #ifdef VERBOSE
 	std::cerr << "Creating the editor..." << std::endl;
@@ -1185,9 +1189,11 @@ FooYC20VSTi::setSampleRate (float sampleRate)
 		oldKeys[i] = yc20->getKey(i);
 	}
 
+	yc20_destroy_oscillators(getUserData(old)->osc);
 	delete old;
 
 	yc20->setDSP(tmp);
+	getUserData(tmp)->osc = yc20_precalc_oscillators(sampleRate);
 	for (int i = 0; i < NUM_PARAMS; i++) {
 		Control *c = yc20->getControl(label_for_parameter[i]);
 		*c->getZone() = oldValues[i];
@@ -1214,6 +1220,8 @@ FooYC20VSTi::~FooYC20VSTi()
 		delete editor;
 		editor = 0;
 	}
+
+	yc20_destroy_oscillators(getUserData(yc20->getDSP())->osc);
 	delete yc20;
 	yc20 = 0;
 }
