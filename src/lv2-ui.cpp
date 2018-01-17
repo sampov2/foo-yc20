@@ -35,7 +35,7 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <list>
 
-#include <lv2/http/lv2plug.in/ns/extensions/ui/ui.h>
+#include <lv2/lv2plug.in/ns/extensions/ui/ui.h>
 
 #include <foo-yc20-ui2.h>
 

@@ -68,7 +68,6 @@ class YC20UI2 : public YC20BaseUI
 
 		parameterchange_callback parameter_changed;
 		void *parameter_changed_obj;
-
 };
 
 

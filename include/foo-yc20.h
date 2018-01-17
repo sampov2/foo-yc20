@@ -153,7 +153,6 @@ class YC20Processor : public UI
 		YC20Exposable *ui;
 
 		std::string configFile;
-
 };
 
 

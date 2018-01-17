@@ -146,7 +146,7 @@ YC20Processor::~YC20Processor()
 	}
 
 	if (processor != 0) {
-		delete processor;
+		deleteDSP(processor);
 		processor = 0;
 	}
 }

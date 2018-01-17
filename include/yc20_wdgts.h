@@ -54,6 +54,8 @@ class Draggable : public Wdgt::Object
 		{
 		}
 
+		virtual ~Draggable() {}
+
 		virtual bool setValue(float v) = 0;
 		virtual bool setValueFromDrag(float prevValue, float startY, float y) = 0;
 
