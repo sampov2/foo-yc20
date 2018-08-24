@@ -1,6 +1,8 @@
 PREFIX=/usr/local
 VERSION=
 FAUST=faust
+PKG_CONFIG=pkg-config
+OS=$(shell uname)
 
 CXX11 = $(CXX) -std=c++11
 
@@ -17,7 +19,7 @@ LV2_PLUGIN=src/foo-yc20.lv2/foo-yc20.so
 LV2_UI=src/foo-yc20.lv2/foo-yc20-lv2ui.so
 
 ifeq ($(CFLAGS),)
-ifeq ($(shell uname), Darwin)
+ifeq ($(OS), Darwin)
 CFLAGS=-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -arch x86_64
 else
 CFLAGS=-O3 -mtune=native -march=native -mfpmath=sse -ffast-math -ftree-vectorize
@@ -26,12 +28,12 @@ endif
 
 CFLAGS_X = $(CFLAGS) -fPIC -DVERSION=$(VERSION) -Isrc/ -Iinclude/ -DPREFIX=$(PREFIX) -Wall
 
-$(OBJS_NODEPS): CFLAGS_use = $(CFLAGS_X) 
-$(OBJS_JACK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags jack`
-$(OBJS_GTKJACK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtk+-2.0` `pkg-config --cflags jack`
-$(OBJS_GTK): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags gtk+-2.0`
+$(OBJS_NODEPS): CFLAGS_use = $(CFLAGS_X)
+$(OBJS_JACK): CFLAGS_use = $(CFLAGS_X) `$(PKG_CONFIG) --cflags jack`
+$(OBJS_GTKJACK): CFLAGS_use = $(CFLAGS_X) `$(PKG_CONFIG) --cflags gtk+-2.0` `$(PKG_CONFIG) --cflags jack`
+$(OBJS_GTK): CFLAGS_use = $(CFLAGS_X) `$(PKG_CONFIG) --cflags gtk+-2.0`
 $(OBJS_LV2): CFLAGS_use = $(CFLAGS_X)
-$(OBJS_CAIRO): CFLAGS_use = $(CFLAGS_X) `pkg-config --cflags cairo`
+$(OBJS_CAIRO): CFLAGS_use = $(CFLAGS_X) `$(PKG_CONFIG) --cflags cairo`
 
 $(OBJS_DSP_STANDALONE) $(OBJS_DSP_PLUGIN): CFLAGS_use = $(CFLAGS_X)
 
@@ -49,13 +51,13 @@ lv2: $(LV2_PLUGIN) $(LV2_UI)
 OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o src/yc20-base-ui.o src/graphics.o src/yc20-precalc.o $(WIN32_RC)
 
 foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE)
-	$(CXX11) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `pkg-config --libs gtk+-2.0` `pkg-config --libs jack` $(LDFLAGS_YC20) -o foo-yc20
+	$(CXX11) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `$(PKG_CONFIG) --libs gtk+-2.0` `$(PKG_CONFIG) --libs jack` $(LDFLAGS_YC20) -o foo-yc20
 
 ## CLI version
 OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o src/yc20-precalc.o
 
 foo-yc20-cli: $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE)
-	$(CXX11) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE) $(LDFLAGS_YC20_CLI) `pkg-config --libs jack` -o foo-yc20-cli
+	$(CXX11) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE) $(LDFLAGS_YC20_CLI) `$(PKG_CONFIG) --libs jack` -o foo-yc20-cli
 
 ## LV2 version
 OBJS_LV2=src/lv2.o src/foo-yc20.o src/yc20-precalc.o
@@ -67,7 +69,7 @@ $(LV2_PLUGIN): $(OBJS_LV2) $(OBJS_DSP_PLUGIN)
 OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o src/yc20-base-ui.o src/graphics.o
 
 $(LV2_UI): $(OBJS_LV2_UI)
-	$(CXX11) $(OBJS_LV2_UI) -fPIC -shared `pkg-config --libs gtk+-2.0` -o $(LV2_UI) $(LDFLAGS_YC20_LV2)
+	$(CXX11) $(OBJS_LV2_UI) -fPIC -shared `$(PKG_CONFIG) --libs gtk+-2.0` -o $(LV2_UI) $(LDFLAGS_YC20_LV2)
 
 ## VSTi - only compiles for windows with MinGW32. 
 ##        Note: Jack is used in compile flags to provide access to the ringbuffer.h. there
@@ -78,16 +80,16 @@ OBJS_VSTI=src/vsti.o src/vstplugmain.o src/foo-yc20.o src/yc20-base-ui.o src/gra
 $(WIN32_RC): src/win32.rc
 	$(WINDRES) src/win32.rc -o src/win32.o
 
-src/vsti.o src/vstplugmain.o: CFLAGS_use = $(CFLAGS_X) -I$(VSTSDK) -I$(VSTSDK)/public.sdk/source/vst2.x `pkg-config --cflags cairo jack`
+src/vsti.o src/vstplugmain.o: CFLAGS_use = $(CFLAGS_X) -I$(VSTSDK) -I$(VSTSDK)/public.sdk/source/vst2.x `$(PKG_CONFIG) --cflags cairo jack`
 
 src/vstplugmain.o: $(VSTSDK)/public.sdk/source/vst2.x/vstplugmain.cpp
 	$(CXX11) $(CFLAGS_use)  $(VSTSDK)/public.sdk/source/vst2.x/vstplugmain.cpp -c -o src/vstplugmain.o
 
 vsti-linux: $(OBJS_VSTI_LINUX) $(OBJS_DSP_PLUGIN) src/vsti.def
-	$(CXX11) -Wall -s -shared $(CFLAGS) $(VSTFLAGS) $(OBJS_VSTI_LINUX) $(OBJS_DSP_PLUGIN) -o FooYC20.so `pkg-config --libs cairo`
+	$(CXX11) -Wall -s -shared $(CFLAGS) $(VSTFLAGS) $(OBJS_VSTI_LINUX) $(OBJS_DSP_PLUGIN) -o FooYC20.so `$(PKG_CONFIG) --libs cairo`
 
 vsti-windows: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/vsti.def
-	$(CXX11) -Wall -s -shared -mwindows -static $(CFLAGS) src/vsti.def $(VSTFLAGS) $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) -o FooYC20.dll `pkg-config --libs cairo`
+	$(CXX11) -Wall -s -shared -mwindows -static $(CFLAGS) src/vsti.def $(VSTFLAGS) $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) -o FooYC20.dll `$(PKG_CONFIG) --libs cairo`
 
 $(BIN): $(OBJ)
 
@@ -126,9 +128,9 @@ src/osxresources.o: ../tools/osx/src/osxresources.mm
 vstosx: $(OBJS_VSTI) $(OBJS_DSP_PLUGIN) src/osxringbuffer.o src/osxresources.o
 	$(CXX11) $(CFLAGS) \
 	-I$(VSTSDK)/public.sdk -I$(VSTSDK)/vstgui.sf -I$(VSTSDK)/ \
-	`pkg-config --cflags cairo` \
+	`$(PKG_CONFIG) --cflags cairo` \
 	-bundle -framework Carbon -framework CoreFoundation -framework AppKit \
-	`pkg-config --libs cairo` \
+	`$(PKG_CONFIG) --libs cairo` \
 	src/osxringbuffer.o src/osxresources.o \
 	$(OBJS_VSTI) $(OBJS_DSP_PLUGIN) \
 	-o vstosx
@@ -178,7 +180,7 @@ generate-source-vec:
 
 basic-test:
 	$(FAUST) -a jack-console.cpp faust/yc20.dsp > gen/basic.cpp
-	$(CXX11) $(CFLAGS) -Isrc/ gen/basic.cpp -o basic `pkg-config --cflags --libs jack`
+	$(CXX11) $(CFLAGS) -Isrc/ gen/basic.cpp -o basic `$(PKG_CONFIG) --cflags --libs jack`
 
 ## test compilation
 # For semi-automated testing, this line is handy:
@@ -187,7 +189,7 @@ basic-test:
 testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
 	rm -rf faust/test-svg/
 	$(FAUST) -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
-	$(CXX11) $(CFLAGS) -Isrc/ gen/test.cpp `pkg-config --cflags --libs sndfile` -o testit
+	$(CXX11) $(CFLAGS) -Isrc/ gen/test.cpp `$(PKG_CONFIG) --cflags --libs sndfile` -o testit
 
 $(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTKJACK) $(OBJS_LV2) $(OBJS_CAIRO): include/*.h
 src/graphics.o: include/graphics-png.h
