@@ -73,6 +73,7 @@ static gboolean yc20ui_motion_notify_event(GtkWidget *widget, GdkEventMotion *ev
 {
         YC20UI *ui = (YC20UI *)data;
 	ui->mouse_movement(event->x, event->y);
+	gtk_widget_queue_draw(widget);
 	return true;
 }
 
@@ -82,6 +83,7 @@ static gboolean yc20ui_button_press_event(GtkWidget *widget, GdkEventButton *eve
         	YC20UI *ui = (YC20UI *)data;
         	ui->button_pressed(event->x, event->y);
 	}
+	gtk_widget_queue_draw(widget);
 	return true;
 }
 
@@ -89,6 +91,7 @@ static gboolean yc20ui_button_release_event(GtkWidget *widget, GdkEventButton *e
 {
         YC20UI *ui = (YC20UI *)data;
         ui->button_released(event->x, event->y);
+	gtk_widget_queue_draw(widget);
         return true;
 }
 
