@@ -73,7 +73,7 @@ makeDirIfNotExists(std::string dir)
 		return false;
 	}
 
-#ifdef S_IRGRP
+#ifndef _WIN32
 	if (mkdir(dir.c_str(), S_IRWXU | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH)) {
 #else
 	if (mkdir(dir.c_str())) {
