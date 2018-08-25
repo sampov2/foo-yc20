@@ -24,7 +24,7 @@ ifeq ($(CFLAGS),)
 ifeq ($(OS), Darwin)
 CFLAGS=-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -arch x86_64
 else
-CFLAGS=-O3 -mtune=native -march=native -mfpmath=sse -ffast-math -ftree-vectorize
+CFLAGS=-O3 -march=nocona -mfpmath=sse -ffast-math -ftree-vectorize
 endif
 endif
 
