@@ -72,6 +72,8 @@ void print_usage() {
 	L ""
 	L	"Run foo-yc20 combo-organ emulator in headless mode. The following options are accepted:"
 	L ""
+	L	"   -f      Force regeneration of oscillator data cache"
+	L	"   -g      Generate oscillators data cache and exit"
 	L	"   -h      Display this help and exit"
 	L	"   -l      Display license info and exit"
 	L "" << std::endl;
@@ -154,8 +156,12 @@ void process_command(YC20Jack &processor, char *command) {
 
 int main(int argc, char **argv)
 {
+	//CLI message: program name and version
 	std::cerr << "Foo-YC20 (CLI) " << get_version() << " (c)Sampo Savolainen 2010" << std::endl << std::endl;
 
+	//Process command line options
+	int force_precalc_osc=0;
+	int exit_after_precalc_osc=0;
 	std::string config_fpath;
 	if (argc > 1) {
 		std::string arg1(argv[1]);
@@ -165,8 +171,16 @@ int main(int argc, char **argv)
 		} else if (arg1=="-l") {
 			print_license();
 			return 0;
+		} else if (arg1=="-f") {
+			force_precalc_osc=1;
+		} else if (arg1=="-g") {
+			force_precalc_osc=1;
+			exit_after_precalc_osc=1;
 		} else {
 			config_fpath=arg1;
+		}
+		if (config_fpath.empty() and argc > 2) {
+			config_fpath=argv[2];
 		}
 	}
 
@@ -174,18 +188,37 @@ int main(int argc, char **argv)
 	processor.connect();
 
 	dsp *yc20 = createDSP();
-	yc20_precalc_osc *osc = yc20_precalc_oscillators(processor.getSamplerate());
+
+	yc20_precalc_osc *osc=NULL;
+	//Try loading oscillator data from cache file... 
+	std::string fpath=DEFAULT_CONFIG_DIR + "/.precalc_osc.dat";
+	if (!force_precalc_osc) {
+		osc=yc20_load_precalc_osc(processor.getSamplerate(),fpath.c_str());
+	}
+	//If not, precalculate and save to cache ...
+	if (!osc) {
+		osc = yc20_precalc_oscillators(processor.getSamplerate());
+		yc20_save_precalc_osc(osc,fpath.c_str());
+	}
+	//If only cache regeneration option => exit
+	if (exit_after_precalc_osc) {
+		yc20_destroy_oscillators(osc);
+		return 0;
+	}
+	
 	yc20->init(processor.getSamplerate());
 
 	processor.setDSP(yc20);
 	getUserData(yc20)->osc = osc;
 
+	// Load configuration
 	if (!config_fpath.empty()) {
 		std::cerr << "Using configuration file '" << config_fpath << "'" << std::endl;
 		processor.loadConfiguration(config_fpath);
 	} else {
 		processor.loadConfiguration();
 	}
+
 	processor.activate();
 
 	run = true;

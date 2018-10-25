@@ -150,3 +150,71 @@ yc20_destroy_oscillators(yc20_precalc_osc *osc)
 	free( osc );
 }
 
+int
+yc20_save_precalc_osc(yc20_precalc_osc *p, const char *fpath)
+{
+	FILE *fptr=fopen(fpath, "wb");
+	if (fptr == NULL) {
+		fprintf(stderr, "Can't open for writing oscillator data cache file!\n");
+		return -1;
+	}
+
+	if (fwrite(p,sizeof(yc20_precalc_osc),1,fptr)!=1) {
+		fprintf(stderr, "Can't write oscillator header to cache file!\n");
+		fclose(fptr);
+		return -1;
+	}
+
+	int buf_size=sizeof(float) * p->samples * 12 * 9;
+	if (fwrite(p->buf,buf_size,1,fptr)!=1) {
+		fprintf(stderr, "Can't write oscillator data to cache file!\n");
+		fclose(fptr);
+		return -1;
+	}
+
+	fprintf(stderr, "Writing oscillator data to cache file!\n");
+	fclose(fptr);
+	return 0;
+}
+
+yc20_precalc_osc *
+yc20_load_precalc_osc(float samplerate, const char *fpath)
+{
+	FILE *fptr=fopen(fpath, "rb");
+	if (fptr == NULL) {
+		fprintf(stderr, "Can't open for reading oscillator data cache file!\n");
+		return NULL;
+	}
+
+	yc20_precalc_osc *p =
+		(yc20_precalc_osc *)malloc(sizeof(yc20_precalc_osc)); 
+
+	if (fread(p,sizeof(yc20_precalc_osc),1,fptr)!=1) {
+		fprintf(stderr, "Can't read oscillator header from cache file!\n");
+		free(p);
+		fclose(fptr);
+		return NULL;
+	}
+
+	if (samplerate!=p->samplerate) {
+		fprintf(stderr, "Oscillator data cache file doesn't match sample rate!\n");
+		free(p);
+		fclose(fptr);
+		return NULL;
+	}
+
+	int buf_size=sizeof(float) * p->samples * 12 * 9;
+	p->buf = (float *)malloc(buf_size);
+	if (fread(p->buf,buf_size,1,fptr)!=1) {
+		fprintf(stderr, "Can't read oscillator data from cache file!\n");
+		free(p->buf);
+		free(p);
+		fclose(fptr);
+		return NULL;
+	}
+	fprintf(stderr, "Reading oscillator data from cache file!\n");
+
+	fclose(fptr);
+	return p;
+}
+
