@@ -139,7 +139,7 @@ void process_command(YC20Jack &processor, char *command) {
 	if (strcmp(command, "get_presets\n") == 0) {
 		print_presets();
 	}
-	else if (sscanf(command, "set_preset %[a-zA-Z0-9_:/-.#]\n", arg1) == 1) {
+	else if (sscanf(command, "set_preset %127[a-zA-Z0-9_:.#&%%()+-]\n", arg1) == 1) {
 		std::string dirName(DEFAULT_CONFIG_DIR);
 		std::string fname(arg1);
 		std::string fpath=dirName + "/" + fname;
@@ -226,7 +226,7 @@ int main(int argc, char **argv)
 
 	while (run) {
 		char line[128];
-		std::cout << "> ";
+		std::cout << "> " << std::flush;
 		if (fgets(line, sizeof(line), stdin)) {
 			process_command(processor, line);
 		} else {
