@@ -68,10 +68,11 @@ std::string get_version() {
 
 void print_usage() {
 	#define L << std::endl <<
-	std::cerr << "Usage: foo-yc20-cli [OPTION] | [PRESET_FILE_PATH]"
+	std::cerr << "Usage: foo-yc20-cli [OPTION] [PRESET_FILE_PATH]"
 	L ""
 	L	"Run foo-yc20 combo-organ emulator in headless mode. The following options are accepted:"
 	L ""
+	L	"   -c      Enable console"
 	L	"   -f      Force regeneration of oscillator data cache"
 	L	"   -g      Generate oscillators data cache and exit"
 	L	"   -h      Display this help and exit"
@@ -152,6 +153,9 @@ void process_command(YC20Jack &processor, char *command) {
 	else if (strcmp(command, "exit\n") == 0) {
 		exit_cli(0);
 	}
+	else {
+		std::cerr << "Invalid command: Type 'help'." << std::endl;
+	}
 }
 
 int main(int argc, char **argv)
@@ -162,6 +166,7 @@ int main(int argc, char **argv)
 	//Process command line options
 	int force_precalc_osc=0;
 	int exit_after_precalc_osc=0;
+	int enable_console=0;
 	std::string config_fpath;
 	if (argc > 1) {
 		std::string arg1(argv[1]);
@@ -176,6 +181,8 @@ int main(int argc, char **argv)
 		} else if (arg1=="-g") {
 			force_precalc_osc=1;
 			exit_after_precalc_osc=1;
+		} else if (arg1=="-c") {
+			enable_console=1;
 		} else {
 			config_fpath=arg1;
 		}
@@ -224,19 +231,21 @@ int main(int argc, char **argv)
 	run = true;
 	signal(SIGINT, exit_cli);
 
-	while (run) {
-		char line[128];
-		std::cout << "> " << std::flush;
-		if (fgets(line, sizeof(line), stdin)) {
-			process_command(processor, line);
-		} else {
-			break;
+	if (enable_console) {
+		while (run) {
+			char line[128];
+			std::cout << "> " << std::flush;
+			if (fgets(line, sizeof(line), stdin)) {
+				process_command(processor, line);
+			} else {
+				break;
+			}
+		}
+	} else {
+		while(run) {
+			sleep(100); // ctrl-C interrupts sleep and runs exit_cli() which sets run to false
 		}
 	}
-
-	//while(run) {
-	//	sleep(100); // ctrl-C interrupts sleep and runs exit_cli() which sets run to false
-	//}
 
 	processor.deactivate();
 
