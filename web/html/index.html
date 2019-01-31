@@ -27,7 +27,10 @@
       }
     }
     $(document).ready(function() {
-      foo_yc20.init('#foo-yc20', midiSupport);
+      $('#start-button').click(function() {
+        foo_yc20.init('#foo-yc20', midiSupport);
+        $('#start-button').hide();
+      });
     });
   </script>
   <style>
@@ -84,6 +87,7 @@ a, a:visited {
     <p>The Foo YC20 is an open source implementation of the Yamaha YC-20 combo organ from 1969.
        Processing for the organ is based on original schematics and measurements from a working specimen. This instrument simulates
        the circutry as a whole to realisticly reproduce the features and flaws of the real deal.</p>
+    <button id="start-button">Start</button>
   </div>
   <div id="organ">
     <div id="foo-yc20"></div>
