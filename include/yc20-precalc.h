@@ -78,6 +78,12 @@ _yc20_get_sample(dsp *x, float phase, int note, int div)
 void
 yc20_destroy_oscillators(yc20_precalc_osc *osc);
 
+int
+yc20_save_precalc_osc(yc20_precalc_osc *p, const char *fpath);
+
+yc20_precalc_osc *
+yc20_load_precalc_osc(float samplerate, const char *fpath);
+
 #ifdef __cplusplus
 }
 #endif
