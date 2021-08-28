@@ -40,6 +40,7 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #include <lv2/lv2plug.in/ns/ext/urid/urid.h>
 
 #include <foo-yc20.h>
+#include <foo-yc20-os.h>
 #include <yc20-precalc.h>
 
 #ifdef __cplusplus
@@ -83,7 +84,15 @@ static LV2_Handle instantiate_FooYC20 (
 	handle->yc20 = new YC20Processor();
 	handle->yc20->setDSP(tmp);
 
-	getUserData(tmp)->osc = yc20_precalc_oscillators(sample_rate);
+	//Try loading oscillator data from cache file... 
+	std::string fpath=DEFAULT_CONFIG_DIR + "/.precalc_osc.dat";
+	getUserData(tmp)->osc=yc20_load_precalc_osc(sample_rate,fpath.c_str());
+
+	//If not, precalculate and save to cache ...
+	if (!getUserData(tmp)->osc) {
+		getUserData(tmp)->osc = yc20_precalc_oscillators(sample_rate);
+		yc20_save_precalc_osc(getUserData(tmp)->osc,fpath.c_str());
+	}
 
 	return (LV2_Handle)handle;
 }
