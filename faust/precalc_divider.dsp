@@ -20,7 +20,7 @@
 
 dividers = par(i, 12, divider);
 
-divider(note) = _, 
+divider(freq) = _,
         (divide(1) : _, 
         (divide(2) : _, 
         (divide(3) : _,
@@ -30,7 +30,7 @@ divider(note) = _,
         (divide(7) : _, !)
         ))))))
 with {
-        divide(div) = phase_divisor <: precalc_square_slave(note, div), _;
+        divide(div) = phase_divisor <: new_square_slave(freq/(div+1)), _;
 };
 
 phase_divisor(ph) = slow_accumulator(ph) / 2.0

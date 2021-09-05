@@ -18,6 +18,8 @@
     RMS code by Yann Orlarey from the Faust project
 */
 
+import("noises.lib");
+
 reduce(op, n, x) = compute ~ (_,_,_) : (!,!,_)
     with {
         compute (acc, count, val) =
@@ -65,7 +67,7 @@ with {
 	threshold = -25.0;
 	threshold_hyst = threshold - 10.0;
 
-	detect = +(noise*0.000001) : max(-1.0) : min(1.0) : RMS(rms_detect_speed) : co2db : impulse_detector;
+	detect = +(no.noise*0.000001) : max(-1.0) : min(1.0) : RMS(rms_detect_speed) : co2db : impulse_detector;
 
 	impulse_detector = (hysteresis_detector ~ _) : impulsify;
 	hysteresis_detector(prev, x) = prev + detect_rise(x) - detect_fall(x) : max(0.0) : min(1.0);

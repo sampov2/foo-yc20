@@ -20,10 +20,8 @@
 declare name      "Foo YC-20 simulation";
 declare author    "Sampo Savolainen";
 declare license   "GPLv3";
-declare copyright "(c)Sampo Savolainen 2009";
+declare copyright "(c)Sampo Savolainen 2009-2021";
 
-
-import ("music.lib");
 
 import ("rc_filter.dsp");
 import ("biquad.dsp");

@@ -15,7 +15,7 @@
 /* Filter math adapted from swh-plugins by Steve Harris who in turn
    credits Eli Brandt */
 
-//import("math.lib");
+import("math.lib");
 
 M_LN2 = 0.69314718055994530942;
 
@@ -23,7 +23,7 @@ biquad_basics_alpha(bw, omega, sn, cs) =
 	(omega, sn, cs, sn * sinh( M_LN2 / 2.0 * bw * omega / sn) );
 
 biquad_basics(samplerate, bw, cutoff) =
-	(2.0 * PI * cutoff / samplerate)
+	(2.0 * ma.PI * cutoff / samplerate)
 	<: ( _ <: (_, sin) , cos) // omega, sn, cs
 	: biquad_basics_alpha(bw);
 
