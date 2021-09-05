@@ -33,7 +33,7 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <map>
 #include <string>
-#include <faust/audio/dsp.h>
+#include <faust/dsp/dsp.h>
 #include <faust/gui/UI.h>
 
 #include <faust-dsp.h>
@@ -111,9 +111,10 @@ class YC20Processor : public UI
 
 		void addNumEntry(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT init, FAUSTFLOAT min, FAUSTFLOAT max, FAUSTFLOAT step) { }
 		void addCheckButton(const char* label, FAUSTFLOAT* zone) { }
-
-    		void addHorizontalBargraph(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT min, FAUSTFLOAT max) { }
+		
+		void addHorizontalBargraph(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT min, FAUSTFLOAT max) { }
 		void addVerticalBargraph(const char* label, FAUSTFLOAT* zone, FAUSTFLOAT min, FAUSTFLOAT max) { }
+		void addSoundfile(const char* label, const char* filename, Soundfile** sf_zone) {}
 
 		void openFrameBox(const char* label) {};
 		void openTabBox(const char* label) {};
