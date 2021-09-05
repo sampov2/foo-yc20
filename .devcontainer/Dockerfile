@@ -14,7 +14,7 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
 
 RUN export DEBIAN_FRONTEND=noninteractive \
     && apt-get -y install --no-install-recommends \
-        software-properties-common lsb-release
+        software-properties-common lsb-release libsndfile1-dev libjack-dev
 
 RUN apt-get autoremove
 
@@ -35,6 +35,6 @@ RUN ./llvm.sh ${LLVM}
 RUN ln -s /usr/bin/llvm-config-${LLVM} /usr/bin/llvm-config
 
 WORKDIR /faust/faust-${FAUST}
-RUN make most
+RUN make all
 RUN make install
 
