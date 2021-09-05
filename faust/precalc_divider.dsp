@@ -30,7 +30,7 @@ divider(freq) = _,
         (divide(7) : _, !)
         ))))))
 with {
-        divide(div) = phase_divisor <: new_square_slave(freq/(div+1)), _;
+        divide(div) = phase_divisor <: square_slave(freq/(div+1)), _;
 };
 
 phase_divisor(ph) = slow_accumulator(ph) / 2.0
@@ -38,6 +38,4 @@ with {
         slow_accumulator(x) = (prevphase(x) ~ _) + x;
 
         prevphase(x, whichphase) = select2( (x - x@1) < 0, whichphase, 1-whichphase);
-
-
 };
