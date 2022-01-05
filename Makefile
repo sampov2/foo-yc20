@@ -1,4 +1,9 @@
 PREFIX=/usr/local
+LIBDIR=$(PREFIX)/lib
+BINDIR=$(PREFIX)/bin
+DATADIR=$(PREFIX)/share
+LV2_PATH=$(LIBDIR)/lv2
+DESKTOPDIR=$(DATADIR)/applications
 VERSION=
 FAUST=faust
 PKG_CONFIG=pkg-config
@@ -156,24 +161,24 @@ cb:
 
 
 install: foo-yc20
-	install -Dm 755 foo-yc20 $(DESTDIR)$(PREFIX)/bin/foo-yc20
-	install -Dm 755 foo-yc20-cli $(DESTDIR)$(PREFIX)/bin/foo-yc20-cli
-	install -d $(DESTDIR)$(PREFIX)/share/foo-yc20/graphics
-	install -m 644 graphics/icon.png $(DESTDIR)$(PREFIX)/share/foo-yc20/graphics
+	install -Dm 755 foo-yc20 $(DESTDIR)$(BINDIR)/foo-yc20
+	install -Dm 755 foo-yc20-cli $(DESTDIR)$(BINDIR)/foo-yc20-cli
+	install -d $(DESTDIR)$(DATADIR)/foo-yc20/graphics
+	install -m 644 graphics/icon.png $(DESTDIR)$(DATADIR)/foo-yc20/graphics
 	cat foo-yc20.desktop.in | sed 's!%PREFIX%!$(PREFIX)!' > foo-yc20.desktop
-	install -Dm 644 foo-yc20.desktop $(DESTDIR)$(PREFIX)/share/applications/foo-yc20.desktop
+	install -Dm 644 foo-yc20.desktop $(DESTDIR)$(DESKTOPDIR)/foo-yc20.desktop
 	rm foo-yc20.desktop
-	install -d $(DESTDIR)$(PREFIX)/lib/lv2/foo-yc20.lv2
-	install -m 755 src/foo-yc20.lv2/*.so $(DESTDIR)$(PREFIX)/lib/lv2/foo-yc20.lv2
-	install -m 644 src/foo-yc20.lv2/*.ttl $(DESTDIR)$(PREFIX)/lib/lv2/foo-yc20.lv2
+	install -d $(DESTDIR)$(LV2_PATH)/foo-yc20.lv2
+	install -m 755 src/foo-yc20.lv2/*.so $(DESTDIR)$(LV2_PATH)/foo-yc20.lv2
+	install -m 644 src/foo-yc20.lv2/*.ttl $(DESTDIR)$(LV2_PATH)/foo-yc20.lv2
 
 
 uninstall:
-	rm $(DESTDIR)$(PREFIX)/bin/foo-yc20
-	rm $(DESTDIR)$(PREFIX)/bin/foo-yc20-cli
-	rm $(DESTDIR)$(PREFIX)/share/applications/foo-yc20.desktop
-	rm -r $(DESTDIR)$(PREFIX)/share/foo-yc20
-	rm -r $(DESTDIR)$(PREFIX)/lib/lv2/foo-yc20.lv2
+	rm $(DESTDIR)$(BINDIR)/foo-yc20
+	rm $(DESTDIR)$(BINDIR)/foo-yc20-cli
+	rm $(DESTDIR)$(DESKTOPDIR)/foo-yc20.desktop
+	rm -r $(DESTDIR)$(DATADIR)/foo-yc20
+	rm -r $(DESTDIR)$(LV2_PATH)/foo-yc20.lv2
 
 
 ## Targets only for those with Faust installed
