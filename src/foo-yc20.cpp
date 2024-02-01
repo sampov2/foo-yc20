@@ -103,7 +103,7 @@ YC20Processor::YC20Processor()
 	: processor(0)
 	, ui(0)
 {
-	controlPerLabel["pitch"]       = new Control(5, -1.0, 1.0);
+	controlPerLabel["pitch"]       = new Control(50, -1.0, 1.0);
 	controlPerLabel["volume"]      = new Control(7);
 	controlPerLabel["bass volume"] = new Control(51);
 	
