@@ -99,6 +99,14 @@ YC20Processor::addHorizontalSlider(const char* label, FAUSTFLOAT* zone, FAUSTFLO
 	addVerticalSlider(label, zone, init, min, max, step);
 }
 
+void
+YC20Processor::addSoundfile(const char* label, const char* filename, Soundfile** sf_zone) {
+	// NOP
+	std::cerr << "YC20Procssor::addSoundFile() called, dunno what to do about it" << std::endl;
+}
+
+
+
 YC20Processor::YC20Processor()
 	: processor(0)
 	, ui(0)
