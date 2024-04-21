@@ -55,12 +55,6 @@ void exit_cli(int sig)
 
 std::string get_version() {
 	std::string version(VERSION_STR);
-	std::string svn_revision("$Revision: 106 $");
-
-	if (version == "") {
-		version = svn_revision.substr(11, svn_revision.find(" $", 11));
-		version = "svn-" + version;
-	}
 
 	return version;
 }
@@ -72,8 +66,6 @@ void print_usage() {
 	L	"Run foo-yc20 combo-organ emulator in headless mode. The following options are accepted:"
 	L ""
 	L	"   -c      Enable console"
-	L	"   -f      Force regeneration of oscillator data cache"
-	L	"   -g      Generate oscillators data cache and exit"
 	L	"   -h      Display this help and exit"
 	L	"   -l      Display license info and exit"
 	L "" << std::endl;
@@ -160,7 +152,7 @@ void process_command(YC20Jack &processor, char *command) {
 int main(int argc, char **argv)
 {
 	//CLI message: program name and version
-	std::cerr << "Foo-YC20 (CLI) " << get_version() << " (c)Sampo Savolainen 2010" << std::endl << std::endl;
+	std::cerr << "Foo-YC20 (CLI) " << get_version() << " (c)Sampo Savolainen 2024" << std::endl << std::endl;
 
 	//Process command line options
 	int enable_console=0;

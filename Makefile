@@ -4,7 +4,7 @@ BINDIR=$(PREFIX)/bin
 DATADIR=$(PREFIX)/share
 LV2_PATH=$(LIBDIR)/lv2
 DESKTOPDIR=$(DATADIR)/applications
-VERSION=
+VERSION=1.4.0-ALPHA
 FAUST=faust
 PKG_CONFIG=pkg-config
 OS=$(shell uname)
@@ -29,12 +29,7 @@ ifeq ($(CFLAGS),)
 ifeq ($(OS), Darwin)
 CFLAGS=-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -arch x86_64
 else
-#CFLAGS=-O3 -march=nocona -mfpmath=sse -ffast-math -ftree-vectorize
-#CFLAGS=-O3 -mfpmath=sse -ffast-math -ftree-vectorize
-#CFLAGS=-O3 -march=native -mtune=native -mfpmath=sse -ffast-math -ftree-vectorize
-#CFLAGS=-O2
 CFLAGS=-O2 -mfpmath=sse -ffast-math -ftree-vectorize
-
 endif
 endif
 
