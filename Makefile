@@ -13,7 +13,7 @@ JACKSDK=./jack-1.9.6
 
 CXX11 = $(CXX) -std=c++11
 
-OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/graphics.o src/yc20-precalc.o
+OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/graphics.o
 OBJS_JACK=src/yc20-jack.o src/main-cli.o
 OBJS_GTKJACK=src/main-gui.o src/foo-yc20-ui.o
 OBJS_GTK=src/foo-yc20-ui2.o src/lv2-ui.o
@@ -62,19 +62,19 @@ all: foo-yc20 foo-yc20-cli lv2
 lv2: $(LV2_PLUGIN) $(LV2_UI)
 
 ## GUI version
-OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o src/yc20-base-ui.o src/graphics.o src/yc20-precalc.o $(WIN32_RC)
+OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o src/yc20-base-ui.o src/graphics.o $(WIN32_RC)
 
 foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE)
 	$(CXX11) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `$(PKG_CONFIG) --libs gtk+-2.0` `$(PKG_CONFIG) --libs jack` $(LDFLAGS_YC20) -o foo-yc20
 
 ## CLI version
-OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o src/yc20-precalc.o
+OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o
 
 foo-yc20-cli: $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE)
 	$(CXX11) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE) $(LDFLAGS_YC20_CLI) `$(PKG_CONFIG) --libs jack` -o foo-yc20-cli
 
 ## LV2 version
-OBJS_LV2=src/lv2.o src/foo-yc20.o src/yc20-precalc.o
+OBJS_LV2=src/lv2.o src/foo-yc20.o 
 
 $(LV2_PLUGIN): $(OBJS_LV2) $(OBJS_DSP_PLUGIN)
 	$(CXX11) $(OBJS_LV2) $(OBJS_DSP_PLUGIN) -fPIC -shared -o $(LV2_PLUGIN) $(LDFLAGS_YC20_LV2)
@@ -88,8 +88,8 @@ $(LV2_UI): $(OBJS_LV2_UI)
 ## VSTi - only compiles for windows with MinGW32. 
 ##        Note: Jack is used in compile flags to provide access to the ringbuffer.h. there
 ##              is no runtime dependency or even a library as we use the separately compiled ringbuffer.o
-OBJS_VSTI_LINUX=src/vsti.o src/vstplugmain.o src/foo-yc20.o src/yc20-precalc.o src/yc20-base-ui.o src/graphics.o src/jackringbuffer.o
-OBJS_VSTI=src/vsti.o src/vstplugmain.o src/foo-yc20.o src/yc20-precalc.o src/yc20-base-ui.o src/graphics.o src/jackringbuffer.o $(WIN32_RC)
+OBJS_VSTI_LINUX=src/vsti.o src/vstplugmain.o src/foo-yc20.o src/yc20-base-ui.o src/graphics.o src/jackringbuffer.o
+OBJS_VSTI=src/vsti.o src/vstplugmain.o src/foo-yc20.o src/yc20-base-ui.o src/graphics.o src/jackringbuffer.o $(WIN32_RC)
 
 $(WIN32_RC): src/win32.rc
 	$(WINDRES) src/win32.rc -o src/win32.o
@@ -195,15 +195,6 @@ generate-source-vec:
 basic-test:
 	$(FAUST) -a jack-console.cpp faust/yc20.dsp > gen/basic.cpp
 	$(CXX11) $(CFLAGS) -Isrc/ gen/basic.cpp -o basic `$(PKG_CONFIG) --cflags --libs jack`
-
-## test compilation
-# For semi-automated testing, this line is handy:
-# make testit && ./testit in.wav out.wav && mhwaveedit out.wav
-
-testit: faust/test.dsp faust/oscillator.dsp src/polyblep.cpp Makefile
-	rm -rf faust/test-svg/
-	$(FAUST) -svg -a sndfile.cpp faust/test.dsp > gen/test.cpp
-	$(CXX11) $(CFLAGS) -Isrc/ gen/test.cpp `$(PKG_CONFIG) --cflags --libs sndfile` -o testit
 
 $(OBJS_NODEPS) $(OBJS_JACK) $(OBJS_GTKJACK) $(OBJS_LV2) $(OBJS_CAIRO): include/*.h
 src/graphics.o: include/graphics-png.h

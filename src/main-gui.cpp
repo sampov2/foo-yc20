@@ -31,7 +31,6 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 #include <yc20-jack.h>
 #include <foo-yc20-ui.h>
 #include <foo-yc20-os.h>
-#include <yc20-precalc.h>
 
 #ifdef __APPLE__
 #include <gdk/gdkkeysyms.h>
@@ -109,8 +108,6 @@ int main(int argc, char **argv)
 	std::cerr << "Foo-YC20 (GUI) " << get_version() << " (c)Sampo Savolainen 2010" << std::endl << std::endl;
 
 	//Process command line options
-	int force_precalc_osc=0;
-	int exit_after_precalc_osc=0;
 	std::string config_fpath;
 	if (argc > 1) {
 		std::string arg1(argv[1]);
@@ -120,11 +117,6 @@ int main(int argc, char **argv)
 		} else if (arg1=="-l") {
 			print_license();
 			return 0;
-		} else if (arg1=="-f") {
-			force_precalc_osc=1;
-		} else if (arg1=="-g") {
-			force_precalc_osc=1;
-			exit_after_precalc_osc=1;
 		} else {
 			config_fpath=arg1;
 		}
@@ -157,23 +149,6 @@ int main(int argc, char **argv)
 
 	// Create DSP (& retrieve samplerate)
 	dsp *yc20 = createDSP();
-
-	yc20_precalc_osc *osc=NULL;
-	//Try loading oscillator data from cache file... 
-	std::string fpath=DEFAULT_CONFIG_DIR + "/.precalc_osc.dat";
-	if (!force_precalc_osc) {
-		osc=yc20_load_precalc_osc(processor.getSamplerate(),fpath.c_str());
-	}
-	//If not, precalculate and save to cache ...
-	if (!osc) {
-		osc = yc20_precalc_oscillators(processor.getSamplerate());
-		yc20_save_precalc_osc(osc,fpath.c_str());
-	}
-	//If only cache regeneration option => exit
-	if (exit_after_precalc_osc) {
-		yc20_destroy_oscillators(osc);
-		return 0;
-	}
 
 	yc20->init(processor.getSamplerate());
 
@@ -209,8 +184,6 @@ int main(int argc, char **argv)
 	gtk_main();
 
 	processor.deactivate();
-
-	yc20_destroy_oscillators(osc);
 
 	// Cleanup
 	processor.saveConfiguration();
