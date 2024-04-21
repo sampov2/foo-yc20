@@ -20,7 +20,7 @@
 declare name      "Foo YC-20 simulation";
 declare author    "Sampo Savolainen";
 declare license   "GPLv3";
-declare copyright "(c)Sampo Savolainen 2009";
+declare copyright "(c)Sampo Savolainen 2009-2024";
 
 
 import ("music.lib");
@@ -29,8 +29,8 @@ import ("rc_filter.dsp");
 import ("biquad.dsp");
 
 import ("vibrato.dsp");
-import ("precalc_oscillator.dsp");
-import ("precalc_divider.dsp");
+import ("oscillator.dsp");
+import ("divider.dsp");
 import ("wave_transformer.dsp");
 import ("keyboard.dsp");
 import ("mixer.dsp");

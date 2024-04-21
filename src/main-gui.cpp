@@ -179,7 +179,6 @@ int main(int argc, char **argv)
 
 	// Connect DSP & processor
 	processor.setDSP(yc20);
-	getUserData(yc20)->osc = osc;
 
 	// Create UI
 	yc20ui = new YC20UI(&processor);

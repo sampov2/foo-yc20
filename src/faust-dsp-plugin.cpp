@@ -45,28 +45,14 @@ inline float min(float x, float y)
 #include "faust/gui/meta.h"
 #include "../gen/yc20-dsp-plugin.cpp"
 
-class mydsp_ex : public mydsp
-{
-public:
-	mydsp_ex()
-		{ data.osc = NULL; }
-
-	mydsp_user_data data;
-};
-
 dsp *createDSP()
 {
-	mydsp *ret = new mydsp_ex();
+	mydsp *ret = new mydsp();
 
 	return ret;
 }
 
 void deleteDSP(dsp *x)
 {
-	delete static_cast<mydsp_ex *>(x);
-}
-
-mydsp_user_data *getUserData(dsp *x)
-{
-	return &static_cast<mydsp_ex *>(x)->data;
+	delete static_cast<mydsp *>(x);
 }

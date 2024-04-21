@@ -216,7 +216,6 @@ int main(int argc, char **argv)
 	yc20->init(processor.getSamplerate());
 
 	processor.setDSP(yc20);
-	getUserData(yc20)->osc = osc;
 
 	// Load configuration
 	if (!config_fpath.empty()) {
