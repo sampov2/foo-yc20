@@ -41,7 +41,6 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <foo-yc20.h>
 #include <foo-yc20-os.h>
-#include <yc20-precalc.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -83,16 +82,6 @@ static LV2_Handle instantiate_FooYC20 (
 	
 	handle->yc20 = new YC20Processor();
 	handle->yc20->setDSP(tmp);
-
-	//Try loading oscillator data from cache file... 
-	std::string fpath=DEFAULT_CONFIG_DIR + "/.precalc_osc.dat";
-	getUserData(tmp)->osc=yc20_load_precalc_osc(sample_rate,fpath.c_str());
-
-	//If not, precalculate and save to cache ...
-	if (!getUserData(tmp)->osc) {
-		getUserData(tmp)->osc = yc20_precalc_oscillators(sample_rate);
-		yc20_save_precalc_osc(getUserData(tmp)->osc,fpath.c_str());
-	}
 
 	return (LV2_Handle)handle;
 }
@@ -216,12 +205,9 @@ static void deactivate_FooYC20 (LV2_Handle instance)
 static void cleanup_FooYC20 (LV2_Handle instance)
 {
 	struct YC20_Handle_t *handle = (struct YC20_Handle_t *)instance;
-	yc20_precalc_osc *osc = getUserData(handle->yc20->getDSP())->osc;
 
 	// TODO: delete the Processor and within it, the DSP unit and UI (if one has been created)
 	delete(handle->yc20);
-
-	yc20_destroy_oscillators(osc);
 
 	delete handle;
 }
