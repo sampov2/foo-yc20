@@ -13,6 +13,12 @@ RUN if [ "${REINSTALL_CMAKE_VERSION_FROM_SOURCE}" != "none" ]; then \
 COPY ./install-faust.sh /tmp/
 RUN bash /tmp/install-faust.sh
 
+# Install NVM + NodeJS
+
+USER vscode
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+RUN bash -c "source /home/vscode/.nvm/nvm.sh && nvm install 20"
+
 # [Optional] Uncomment this section to install additional vcpkg ports.
 # RUN su vscode -c "${VCPKG_ROOT}/vcpkg install <your-port-name-here>"
 
