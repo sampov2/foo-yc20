@@ -186,11 +186,18 @@ uninstall:
 generate-source:
 	$(FAUST) faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
 	$(FAUST) faust/plugin.dsp     > gen/yc20-dsp-plugin.cpp
+#	$(FAUST) faust/web.dsp        > gen/yc20-dsp-web.cpp
 
 generate-source-vec:
-	$(FAUST) -vec faust/standalone.dsp > gen/yc20-dsp-standalone.cpp
-	$(FAUST) -vec faust/plugin.dsp	  > gen/yc20-dsp-plugin.cpp
+	$(FAUST) -vec faust/standalone.dsp	> gen/yc20-dsp-standalone.cpp
+	$(FAUST) -vec faust/plugin.dsp		> gen/yc20-dsp-plugin.cpp
+#	$(FAUST) -vec faust/web.dsp			> gen/yc20-dsp-web.cpp
 
+generate-svg:
+	mkdir -p temp/
+	$(FAUST) -svg -O temp/ faust/standalone.dsp	> /dev/null
+	$(FAUST) -svg -O temp/ faust/plugin.dsp		> /dev/null
+#	$(FAUST) -svg -O temp/ faust/web.dsp		> /dev/null
 
 basic-test:
 	$(FAUST) -a jack-console.cpp faust/yc20.dsp > gen/basic.cpp
