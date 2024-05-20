@@ -8,3 +8,4 @@ web/target
 foo-yc20
 foo-yc20-cli
 src/foo-yc20.lv2/
+temp/
