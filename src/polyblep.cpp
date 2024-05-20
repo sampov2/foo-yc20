@@ -49,6 +49,7 @@ inline float calculate_polyblep_valimaki_huovilainen(float t)
 #define polyblep_it(x) calculate_polyblep_valimaki_huovilainen((x))
 
 
+// keep
 inline float saw_polyblep_fast(float ph, float ph_, float ph__, float q)
 {
 	float mod = 0.0f;
@@ -65,32 +66,35 @@ inline float saw_polyblep_fast(float ph, float ph_, float ph__, float q)
 	return mod * 2.0f;
 }
 
-inline float square_polyblep_fast(float ph, float ph_, float ph__, float q)
-{
-	float mod = 0.0f;
 
-	// ** start-of-phase discontinuity
-	// the sample before the discontinuity
-	if (ph_ > ph) {
-		mod = polyblep_it( (ph_ - 1.0f) / q );
-	} else
-	// the sample after the discontinuity
-	if (ph__ > ph_) {
-		mod = polyblep_it( ph_ / q );
-	} else
-	// ** mid-phase discontinuity
-	// the sample before the discontinuity
-	if (ph_ < 0.5f && 0.5f <= ph) {
-		mod = -polyblep_it( (ph_ - 0.5f) / q );
-	} else
-	// the sample after the discontinuity
-	if (ph__ < 0.5f && 0.5f <= ph_) {
-		mod = -polyblep_it( (ph_ - 0.5f) / q );
-	}
+// inline float square_polyblep_fast(float ph, float ph_, float ph__, float q)
+// {
+// 	float mod = 0.0f;
 
-	return mod * 2.0f;
-}
+// 	// ** start-of-phase discontinuity
+// 	// the sample before the discontinuity
+// 	if (ph_ > ph) {
+// 		mod = polyblep_it( (ph_ - 1.0f) / q );
+// 	} else
+// 	// the sample after the discontinuity
+// 	if (ph__ > ph_) {
+// 		mod = polyblep_it( ph_ / q );
+// 	} else
+// 	// ** mid-phase discontinuity
+// 	// the sample before the discontinuity
+// 	if (ph_ < 0.5f && 0.5f <= ph) {
+// 		mod = -polyblep_it( (ph_ - 0.5f) / q );
+// 	} else
+// 	// the sample after the discontinuity
+// 	if (ph__ < 0.5f && 0.5f <= ph_) {
+// 		mod = -polyblep_it( (ph_ - 0.5f) / q );
+// 	}
 
+// 	return mod * 2.0f;
+// }
+
+
+// keep
 inline float square_polyblep_precalc(float ph, float ph_, float ph__, float precalc)
 {
 	if (precalc == 0.0f) {
