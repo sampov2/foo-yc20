@@ -18,6 +18,7 @@
 */
 
 import ("yc20.dsp");
+import ("osc_cpp.dsp");
 
 process = basic_process : plugin_mixer;
 
