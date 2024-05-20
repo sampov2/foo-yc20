@@ -13055,17 +13055,17 @@ class mydsp : public dsp {
 			/* Vectorizable loop 841 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec314[i] = fRec204[i] * fZec113[i];
+				fZec315[i] = fRec205[i] * fZec115[i];
 			}
 			/* Vectorizable loop 842 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec316[i] = fRec206[i] * fZec117[i];
+				fZec314[i] = fRec204[i] * fZec113[i];
 			}
 			/* Vectorizable loop 843 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec315[i] = fRec205[i] * fZec115[i];
+				fZec316[i] = fRec206[i] * fZec117[i];
 			}
 			/* Vectorizable loop 844 */
 			/* Compute code */
@@ -13090,17 +13090,17 @@ class mydsp : public dsp {
 			/* Vectorizable loop 848 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec321[i] = fRec128[i] * fZec127[i];
+				fZec322[i] = fRec130[i] * fZec129[i];
 			}
 			/* Vectorizable loop 849 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec323[i] = fRec132[i] * fZec131[i];
+				fZec321[i] = fRec128[i] * fZec127[i];
 			}
 			/* Vectorizable loop 850 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec322[i] = fRec130[i] * fZec129[i];
+				fZec323[i] = fRec132[i] * fZec131[i];
 			}
 			/* Vectorizable loop 851 */
 			/* Compute code */
@@ -13641,12 +13641,12 @@ class mydsp : public dsp {
 			/* Vectorizable loop 923 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec372[i] = fZec139[i] + fZec115[i];
+				fZec372[i] = fZec137[i] + fZec113[i];
 			}
 			/* Vectorizable loop 924 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec373[i] = fZec137[i] + fZec113[i];
+				fZec373[i] = fZec139[i] + fZec115[i];
 			}
 			/* Vectorizable loop 925 */
 			/* Compute code */
@@ -13817,7 +13817,7 @@ class mydsp : public dsp {
 			/* Vectorizable loop 939 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec376[i] = 0.25f * (fRec123[i] * (fZec214[i] + fZec155[i] + fZec131[i]) + fRec197[i] * fZec375[i] + fRec198[i] * fZec374[i] + fRec199[i] * fZec373[i] + fRec200[i] * fZec372[i] + fRec201[i] * (fZec141[i] + fZec117[i]) + fRec202[i] * (fZec143[i] + fZec119[i]) + fRec203[i] * (fZec145[i] + fZec121[i]) + fRec204[i] * (fZec147[i] + fZec123[i]) + fRec205[i] * (fZec149[i] + fZec125[i]) + fRec206[i] * (fZec151[i] + fZec127[i]) + fZec281[i] + fRec207[i] * (fZec153[i] + fZec129[i]));
+				fZec376[i] = 0.25f * (fRec123[i] * (fZec214[i] + fZec155[i] + fZec131[i]) + fRec197[i] * fZec375[i] + fRec198[i] * fZec374[i] + fRec200[i] * fZec373[i] + fRec201[i] * (fZec141[i] + fZec117[i]) + fRec199[i] * fZec372[i] + fRec202[i] * (fZec143[i] + fZec119[i]) + fRec203[i] * (fZec145[i] + fZec121[i]) + fRec204[i] * (fZec147[i] + fZec123[i]) + fRec205[i] * (fZec149[i] + fZec125[i]) + fRec206[i] * (fZec151[i] + fZec127[i]) + fZec281[i] + fRec207[i] * (fZec153[i] + fZec129[i]));
 			}
 			/* Vectorizable loop 940 */
 			/* Pre code */
@@ -13845,7 +13845,7 @@ class mydsp : public dsp {
 			/* Vectorizable loop 943 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec379[i] = (0.05f * fRec0[i] + 0.001f) * (fSlow120 * (fSlow119 * (fZec368[i] + 0.25f * (fZec110[i] + fZec112[i] + fZec114[i] + fZec116[i] + fZec118[i] + fZec120[i] + fZec122[i] + fZec124[i] + fZec126[i] + fZec128[i] + fZec130[i] + fZec132[i] + fZec134[i] + fZec136[i] + fZec138[i] + fZec140[i] + fZec142[i] + fZec144[i] + fZec146[i] + fZec148[i] + fZec150[i] + fZec152[i] + fZec154[i] + fZec156[i] + fZec158[i] + fZec160[i] + fZec162[i] + fZec164[i] + fZec166[i] + fZec168[i] + fZec170[i] + fZec172[i] + fZec174[i] + fZec176[i] + fZec178[i] + fZec180[i] + fZec182[i] + fZec184[i] + fZec186[i] + fZec188[i] + fZec190[i] + fZec192[i] + fZec194[i] + fZec215[i] + fZec213[i])) + fSlow117 * (fZec366[i] + 0.25f * (fRec123[i] * fZec378[i] + fZec224[i] + fZec225[i] + fZec226[i] + fZec227[i] + fZec228[i] + fZec229[i] + fZec230[i] + fZec231[i] + fZec232[i] + fZec233[i] + fZec234[i] + fZec235[i] + fZec236[i] + fZec237[i] + fZec238[i] + fZec239[i] + fZec240[i] + fZec241[i] + fZec242[i] + fZec243[i] + fZec244[i] + fZec245[i] + fZec246[i] + fZec247[i] + fZec248[i] + fZec249[i] + fZec250[i] + fZec251[i] + fZec252[i] + fZec253[i] + fZec254[i] + fZec255[i] + fZec267[i] + fZec266[i] + fZec265[i] + fZec264[i] + fZec263[i] + fZec262[i] + fZec261[i] + fZec260[i] + fZec259[i] + fZec257[i] + fZec258[i])) + fSlow115 * (0.002f * fSlow81 * fRec208[i] + 0.25f * (fRec204[i] * fZec378[i] + fRec205[i] * fZec375[i] + fRec206[i] * fZec374[i] + fRec207[i] * fZec373[i] + fRec123[i] * fZec372[i] + fZec270[i] + fZec271[i] + fZec272[i] + fZec273[i] + fZec274[i] + fZec275[i] + fZec277[i] + fZec276[i])) + fSlow113 * (fZec362[i] + fZec376[i]) + fSlow111 * fZec371[i] + fSlow109 * (fZec356[i] + fZec377[i]) + fSlow107 * fZec370[i]) + fSlow105 * std::max<float>(fSlow104, 0.25f * (fYec208[i] + fYec208[i - 2] + fYec208[i - 3] + fYec208[i - 4])) * (fZec377[i] + 0.5f * fZec371[i] + 0.25f * (fZec376[i] + fZec311[i] + fZec312[i] + fZec313[i] + fZec314[i] + fZec315[i] + fZec316[i] + fZec317[i] + fZec318[i] + fZec319[i] + fZec320[i] + fZec321[i] + fZec322[i] + fZec323[i] + fZec324[i] + fZec325[i] + fZec326[i] + fZec327[i] + fZec328[i] + fZec329[i] + fZec330[i] + fZec331[i] + fZec332[i] + fZec333[i] + fZec334[i] + fZec335[i] + fZec336[i] + fZec337[i] + fZec338[i] + fZec339[i] + fZec340[i] + fZec341[i] + fZec342[i] + fZec343[i] + fZec344[i] + fZec345[i] + fZec346[i] + fZec347[i] + fZec348[i] + fZec349[i] + fZec350[i] + fZec351[i] + fZec352[i] + fZec353[i] + fZec354[i] + fZec362[i] + fZec355[i])) + fSlow103 * (fSlow101 * (fRec291[i] + fRec293[i] + fRec295[i] + fRec297[i]) + fSlow100 * (fRec299[i] + fRec301[i] + fRec303[i] + fRec305[i])) + fRec307[i] * (4.5f * fRec308[i] + 0.5f));
+				fZec379[i] = (0.05f * fRec0[i] + 0.001f) * (fSlow120 * (fSlow119 * (fZec368[i] + 0.25f * (fZec110[i] + fZec112[i] + fZec114[i] + fZec116[i] + fZec118[i] + fZec120[i] + fZec122[i] + fZec124[i] + fZec126[i] + fZec128[i] + fZec130[i] + fZec132[i] + fZec134[i] + fZec136[i] + fZec138[i] + fZec140[i] + fZec142[i] + fZec144[i] + fZec146[i] + fZec148[i] + fZec150[i] + fZec152[i] + fZec154[i] + fZec156[i] + fZec158[i] + fZec160[i] + fZec162[i] + fZec164[i] + fZec166[i] + fZec168[i] + fZec170[i] + fZec172[i] + fZec174[i] + fZec176[i] + fZec178[i] + fZec180[i] + fZec182[i] + fZec184[i] + fZec186[i] + fZec188[i] + fZec190[i] + fZec192[i] + fZec194[i] + fZec215[i] + fZec213[i])) + fSlow117 * (fZec366[i] + 0.25f * (fRec123[i] * fZec378[i] + fZec224[i] + fZec225[i] + fZec226[i] + fZec227[i] + fZec228[i] + fZec229[i] + fZec230[i] + fZec231[i] + fZec232[i] + fZec233[i] + fZec234[i] + fZec235[i] + fZec236[i] + fZec237[i] + fZec238[i] + fZec239[i] + fZec240[i] + fZec241[i] + fZec242[i] + fZec243[i] + fZec244[i] + fZec245[i] + fZec246[i] + fZec247[i] + fZec248[i] + fZec249[i] + fZec250[i] + fZec251[i] + fZec252[i] + fZec253[i] + fZec254[i] + fZec255[i] + fZec267[i] + fZec266[i] + fZec265[i] + fZec264[i] + fZec263[i] + fZec262[i] + fZec261[i] + fZec260[i] + fZec259[i] + fZec257[i] + fZec258[i])) + fSlow115 * (0.002f * fSlow81 * fRec208[i] + 0.25f * (fRec204[i] * fZec378[i] + fRec205[i] * fZec375[i] + fRec206[i] * fZec374[i] + fRec207[i] * fZec372[i] + fRec123[i] * fZec373[i] + fZec270[i] + fZec271[i] + fZec272[i] + fZec273[i] + fZec274[i] + fZec275[i] + fZec277[i] + fZec276[i])) + fSlow113 * (fZec362[i] + fZec376[i]) + fSlow111 * fZec371[i] + fSlow109 * (fZec356[i] + fZec377[i]) + fSlow107 * fZec370[i]) + fSlow105 * std::max<float>(fSlow104, 0.25f * (fYec208[i] + fYec208[i - 2] + fYec208[i - 3] + fYec208[i - 4])) * (fZec377[i] + 0.5f * fZec371[i] + 0.25f * (fZec376[i] + fZec311[i] + fZec312[i] + fZec313[i] + fZec314[i] + fZec315[i] + fZec316[i] + fZec317[i] + fZec318[i] + fZec319[i] + fZec320[i] + fZec321[i] + fZec322[i] + fZec323[i] + fZec324[i] + fZec325[i] + fZec326[i] + fZec327[i] + fZec328[i] + fZec329[i] + fZec330[i] + fZec331[i] + fZec332[i] + fZec333[i] + fZec334[i] + fZec335[i] + fZec336[i] + fZec337[i] + fZec338[i] + fZec339[i] + fZec340[i] + fZec341[i] + fZec342[i] + fZec343[i] + fZec344[i] + fZec345[i] + fZec346[i] + fZec347[i] + fZec348[i] + fZec349[i] + fZec350[i] + fZec351[i] + fZec352[i] + fZec353[i] + fZec354[i] + fZec362[i] + fZec355[i])) + fSlow103 * (fSlow101 * (fRec291[i] + fRec293[i] + fRec295[i] + fRec297[i]) + fSlow100 * (fRec299[i] + fRec301[i] + fRec303[i] + fRec305[i])) + fRec307[i] * (4.5f * fRec308[i] + 0.5f));
 			}
 			/* Vectorizable loop 944 */
 			/* Compute code */
@@ -22434,17 +22434,17 @@ class mydsp : public dsp {
 			/* Vectorizable loop 841 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec314[i] = fRec204[i] * fZec113[i];
+				fZec315[i] = fRec205[i] * fZec115[i];
 			}
 			/* Vectorizable loop 842 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec316[i] = fRec206[i] * fZec117[i];
+				fZec314[i] = fRec204[i] * fZec113[i];
 			}
 			/* Vectorizable loop 843 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec315[i] = fRec205[i] * fZec115[i];
+				fZec316[i] = fRec206[i] * fZec117[i];
 			}
 			/* Vectorizable loop 844 */
 			/* Compute code */
@@ -22469,17 +22469,17 @@ class mydsp : public dsp {
 			/* Vectorizable loop 848 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec321[i] = fRec128[i] * fZec127[i];
+				fZec322[i] = fRec130[i] * fZec129[i];
 			}
 			/* Vectorizable loop 849 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec323[i] = fRec132[i] * fZec131[i];
+				fZec321[i] = fRec128[i] * fZec127[i];
 			}
 			/* Vectorizable loop 850 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec322[i] = fRec130[i] * fZec129[i];
+				fZec323[i] = fRec132[i] * fZec131[i];
 			}
 			/* Vectorizable loop 851 */
 			/* Compute code */
@@ -23020,12 +23020,12 @@ class mydsp : public dsp {
 			/* Vectorizable loop 923 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec372[i] = fZec139[i] + fZec115[i];
+				fZec372[i] = fZec137[i] + fZec113[i];
 			}
 			/* Vectorizable loop 924 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec373[i] = fZec137[i] + fZec113[i];
+				fZec373[i] = fZec139[i] + fZec115[i];
 			}
 			/* Vectorizable loop 925 */
 			/* Compute code */
@@ -23196,7 +23196,7 @@ class mydsp : public dsp {
 			/* Vectorizable loop 939 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec376[i] = 0.25f * (fRec123[i] * (fZec214[i] + fZec155[i] + fZec131[i]) + fRec197[i] * fZec375[i] + fRec198[i] * fZec374[i] + fRec199[i] * fZec373[i] + fRec200[i] * fZec372[i] + fRec201[i] * (fZec141[i] + fZec117[i]) + fRec202[i] * (fZec143[i] + fZec119[i]) + fRec203[i] * (fZec145[i] + fZec121[i]) + fRec204[i] * (fZec147[i] + fZec123[i]) + fRec205[i] * (fZec149[i] + fZec125[i]) + fRec206[i] * (fZec151[i] + fZec127[i]) + fZec281[i] + fRec207[i] * (fZec153[i] + fZec129[i]));
+				fZec376[i] = 0.25f * (fRec123[i] * (fZec214[i] + fZec155[i] + fZec131[i]) + fRec197[i] * fZec375[i] + fRec198[i] * fZec374[i] + fRec200[i] * fZec373[i] + fRec201[i] * (fZec141[i] + fZec117[i]) + fRec199[i] * fZec372[i] + fRec202[i] * (fZec143[i] + fZec119[i]) + fRec203[i] * (fZec145[i] + fZec121[i]) + fRec204[i] * (fZec147[i] + fZec123[i]) + fRec205[i] * (fZec149[i] + fZec125[i]) + fRec206[i] * (fZec151[i] + fZec127[i]) + fZec281[i] + fRec207[i] * (fZec153[i] + fZec129[i]));
 			}
 			/* Vectorizable loop 940 */
 			/* Pre code */
@@ -23224,7 +23224,7 @@ class mydsp : public dsp {
 			/* Vectorizable loop 943 */
 			/* Compute code */
 			for (int i = 0; i < vsize; i = i + 1) {
-				fZec379[i] = (0.05f * fRec0[i] + 0.001f) * (fSlow120 * (fSlow119 * (fZec368[i] + 0.25f * (fZec110[i] + fZec112[i] + fZec114[i] + fZec116[i] + fZec118[i] + fZec120[i] + fZec122[i] + fZec124[i] + fZec126[i] + fZec128[i] + fZec130[i] + fZec132[i] + fZec134[i] + fZec136[i] + fZec138[i] + fZec140[i] + fZec142[i] + fZec144[i] + fZec146[i] + fZec148[i] + fZec150[i] + fZec152[i] + fZec154[i] + fZec156[i] + fZec158[i] + fZec160[i] + fZec162[i] + fZec164[i] + fZec166[i] + fZec168[i] + fZec170[i] + fZec172[i] + fZec174[i] + fZec176[i] + fZec178[i] + fZec180[i] + fZec182[i] + fZec184[i] + fZec186[i] + fZec188[i] + fZec190[i] + fZec192[i] + fZec194[i] + fZec215[i] + fZec213[i])) + fSlow117 * (fZec366[i] + 0.25f * (fRec123[i] * fZec378[i] + fZec224[i] + fZec225[i] + fZec226[i] + fZec227[i] + fZec228[i] + fZec229[i] + fZec230[i] + fZec231[i] + fZec232[i] + fZec233[i] + fZec234[i] + fZec235[i] + fZec236[i] + fZec237[i] + fZec238[i] + fZec239[i] + fZec240[i] + fZec241[i] + fZec242[i] + fZec243[i] + fZec244[i] + fZec245[i] + fZec246[i] + fZec247[i] + fZec248[i] + fZec249[i] + fZec250[i] + fZec251[i] + fZec252[i] + fZec253[i] + fZec254[i] + fZec255[i] + fZec267[i] + fZec266[i] + fZec265[i] + fZec264[i] + fZec263[i] + fZec262[i] + fZec261[i] + fZec260[i] + fZec259[i] + fZec257[i] + fZec258[i])) + fSlow115 * (0.002f * fSlow81 * fRec208[i] + 0.25f * (fRec204[i] * fZec378[i] + fRec205[i] * fZec375[i] + fRec206[i] * fZec374[i] + fRec207[i] * fZec373[i] + fRec123[i] * fZec372[i] + fZec270[i] + fZec271[i] + fZec272[i] + fZec273[i] + fZec274[i] + fZec275[i] + fZec277[i] + fZec276[i])) + fSlow113 * (fZec362[i] + fZec376[i]) + fSlow111 * fZec371[i] + fSlow109 * (fZec356[i] + fZec377[i]) + fSlow107 * fZec370[i]) + fSlow105 * std::max<float>(fSlow104, 0.25f * (fYec208[i] + fYec208[i - 2] + fYec208[i - 3] + fYec208[i - 4])) * (fZec377[i] + 0.5f * fZec371[i] + 0.25f * (fZec376[i] + fZec311[i] + fZec312[i] + fZec313[i] + fZec314[i] + fZec315[i] + fZec316[i] + fZec317[i] + fZec318[i] + fZec319[i] + fZec320[i] + fZec321[i] + fZec322[i] + fZec323[i] + fZec324[i] + fZec325[i] + fZec326[i] + fZec327[i] + fZec328[i] + fZec329[i] + fZec330[i] + fZec331[i] + fZec332[i] + fZec333[i] + fZec334[i] + fZec335[i] + fZec336[i] + fZec337[i] + fZec338[i] + fZec339[i] + fZec340[i] + fZec341[i] + fZec342[i] + fZec343[i] + fZec344[i] + fZec345[i] + fZec346[i] + fZec347[i] + fZec348[i] + fZec349[i] + fZec350[i] + fZec351[i] + fZec352[i] + fZec353[i] + fZec354[i] + fZec362[i] + fZec355[i])) + fSlow103 * (fSlow101 * (fRec291[i] + fRec293[i] + fRec295[i] + fRec297[i]) + fSlow100 * (fRec299[i] + fRec301[i] + fRec303[i] + fRec305[i])) + fRec307[i] * (4.5f * fRec308[i] + 0.5f));
+				fZec379[i] = (0.05f * fRec0[i] + 0.001f) * (fSlow120 * (fSlow119 * (fZec368[i] + 0.25f * (fZec110[i] + fZec112[i] + fZec114[i] + fZec116[i] + fZec118[i] + fZec120[i] + fZec122[i] + fZec124[i] + fZec126[i] + fZec128[i] + fZec130[i] + fZec132[i] + fZec134[i] + fZec136[i] + fZec138[i] + fZec140[i] + fZec142[i] + fZec144[i] + fZec146[i] + fZec148[i] + fZec150[i] + fZec152[i] + fZec154[i] + fZec156[i] + fZec158[i] + fZec160[i] + fZec162[i] + fZec164[i] + fZec166[i] + fZec168[i] + fZec170[i] + fZec172[i] + fZec174[i] + fZec176[i] + fZec178[i] + fZec180[i] + fZec182[i] + fZec184[i] + fZec186[i] + fZec188[i] + fZec190[i] + fZec192[i] + fZec194[i] + fZec215[i] + fZec213[i])) + fSlow117 * (fZec366[i] + 0.25f * (fRec123[i] * fZec378[i] + fZec224[i] + fZec225[i] + fZec226[i] + fZec227[i] + fZec228[i] + fZec229[i] + fZec230[i] + fZec231[i] + fZec232[i] + fZec233[i] + fZec234[i] + fZec235[i] + fZec236[i] + fZec237[i] + fZec238[i] + fZec239[i] + fZec240[i] + fZec241[i] + fZec242[i] + fZec243[i] + fZec244[i] + fZec245[i] + fZec246[i] + fZec247[i] + fZec248[i] + fZec249[i] + fZec250[i] + fZec251[i] + fZec252[i] + fZec253[i] + fZec254[i] + fZec255[i] + fZec267[i] + fZec266[i] + fZec265[i] + fZec264[i] + fZec263[i] + fZec262[i] + fZec261[i] + fZec260[i] + fZec259[i] + fZec257[i] + fZec258[i])) + fSlow115 * (0.002f * fSlow81 * fRec208[i] + 0.25f * (fRec204[i] * fZec378[i] + fRec205[i] * fZec375[i] + fRec206[i] * fZec374[i] + fRec207[i] * fZec372[i] + fRec123[i] * fZec373[i] + fZec270[i] + fZec271[i] + fZec272[i] + fZec273[i] + fZec274[i] + fZec275[i] + fZec277[i] + fZec276[i])) + fSlow113 * (fZec362[i] + fZec376[i]) + fSlow111 * fZec371[i] + fSlow109 * (fZec356[i] + fZec377[i]) + fSlow107 * fZec370[i]) + fSlow105 * std::max<float>(fSlow104, 0.25f * (fYec208[i] + fYec208[i - 2] + fYec208[i - 3] + fYec208[i - 4])) * (fZec377[i] + 0.5f * fZec371[i] + 0.25f * (fZec376[i] + fZec311[i] + fZec312[i] + fZec313[i] + fZec314[i] + fZec315[i] + fZec316[i] + fZec317[i] + fZec318[i] + fZec319[i] + fZec320[i] + fZec321[i] + fZec322[i] + fZec323[i] + fZec324[i] + fZec325[i] + fZec326[i] + fZec327[i] + fZec328[i] + fZec329[i] + fZec330[i] + fZec331[i] + fZec332[i] + fZec333[i] + fZec334[i] + fZec335[i] + fZec336[i] + fZec337[i] + fZec338[i] + fZec339[i] + fZec340[i] + fZec341[i] + fZec342[i] + fZec343[i] + fZec344[i] + fZec345[i] + fZec346[i] + fZec347[i] + fZec348[i] + fZec349[i] + fZec350[i] + fZec351[i] + fZec352[i] + fZec353[i] + fZec354[i] + fZec362[i] + fZec355[i])) + fSlow103 * (fSlow101 * (fRec291[i] + fRec293[i] + fRec295[i] + fRec297[i]) + fSlow100 * (fRec299[i] + fRec301[i] + fRec303[i] + fRec305[i])) + fRec307[i] * (4.5f * fRec308[i] + 0.5f));
 			}
 			/* Vectorizable loop 944 */
 			/* Compute code */
