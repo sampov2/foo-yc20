@@ -37,13 +37,22 @@ ADVISEDOF THE POSSIBILITY OF SUCH DAMAGE.
 extern "C" {
 #endif
 
+inline float reversesignf(float t) {
+    int *sign = (int *)&t;
+    int s = (*sign) & (1 << 31);
+    return -(s >> 31) * 2 - 1;
+}
+
 inline float calculate_polyblep_valimaki_huovilainen(float t)
 {
-	if (t>0) {
-		return (t - (t*t)/2.0f - 0.5f);
-	} else {
-		return ((t*t)/2.0f + t + 0.5f);
-	}
+	int *sign = (int *)&t;
+
+	// reversesignf seems to be faster than branching and copysignf
+	//return (t + ((t*t)/2.0f + 0.5f) * reversesignf(t));
+	// branching
+	return (t + ((t*t)/2.0f + 0.5f) * (t > 0.0f ? -1.0f : 1.0f));
+	// copysignf
+	//return (t + ((t*t)/2.0f + 0.5f) * copysignf(1, t) * -1.0f);
 }
 
 #define polyblep_it(x) calculate_polyblep_valimaki_huovilainen((x))
