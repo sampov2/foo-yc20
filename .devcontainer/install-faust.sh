@@ -10,14 +10,14 @@ wget -O faust.tar.gz https://github.com/grame-cncm/faust/releases/download/$FAUS
 
 tar xf faust.tar.gz
 
-cd faust-$FAUST_VERSION/
+#cd faust-$FAUST_VERSION/
 
-apt-get -y update
-apt-get install -y build-essential llvm libncurses5-dev libncurses5 libmicrohttpd-dev git cmake pkg-config 
+#apt-get -y update
+#apt-get install -y build-essential llvm libncurses5-dev libncurses5 libmicrohttpd-dev git cmake pkg-config 
 
 # Stuff that foo-yc20 needs
-apt-get install -y libjack-dev libgtk2.0-dev lv2-dev
+#apt-get install -y libjack-dev libgtk2.0-dev lv2-dev
 
-make
+#make
 
-make install
+#make install

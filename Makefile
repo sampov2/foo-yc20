@@ -11,6 +11,8 @@ OS=$(shell uname)
 VSTSDK=./vstsdk2.4
 JACKSDK=./jack-1.9.6
 
+#CC=arm-linux-gnueabihf-gcc-12
+#CXX=arm-linux-gnueabihf-g++-12
 CXX11 = $(CXX) -std=c++11
 
 OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/graphics.o
@@ -29,7 +31,8 @@ ifeq ($(CFLAGS),)
 ifeq ($(OS), Darwin)
 CFLAGS=-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -arch x86_64
 else
-CFLAGS=-O2 -mfpmath=sse -ffast-math -ftree-vectorize
+CFLAGS=-O2 -ffast-math -ftree-vectorize -I/tmp/faust-2.72.14/architecture/ -I/opt/jack/include/
+# -I/usr/local/include/
 endif
 endif
 
@@ -71,7 +74,7 @@ foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE)
 OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o
 
 foo-yc20-cli: $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE)
-	$(CXX11) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE) $(LDFLAGS_YC20_CLI) `$(PKG_CONFIG) --libs jack` -o foo-yc20-cli
+	$(CXX11) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE) $(LDFLAGS_YC20_CLI) -ljack -L/opt/jack/lib -o foo-yc20-cli
 
 ## LV2 version
 OBJS_LV2=src/lv2.o src/foo-yc20.o 
