@@ -11,7 +11,10 @@ OS=$(shell uname)
 VSTSDK=./vstsdk2.4
 JACKSDK=./jack-1.9.6
 
+CC=arm-linux-gnueabihf-gcc
+CXX=arm-linux-gnueabihf-g++
 CXX11 = $(CXX) -std=c++11
+PKG_CONFIG_PATH=/usr/lib/arm-linux-gnueabihf/pkgconfig
 
 OBJS_NODEPS=src/lv2.o src/foo-yc20.o src/configuration.o src/graphics.o
 OBJS_JACK=src/yc20-jack.o src/main-cli.o
@@ -29,7 +32,7 @@ ifeq ($(CFLAGS),)
 ifeq ($(OS), Darwin)
 CFLAGS=-O3 -ffast-math -ftree-vectorize -arch ppc -arch i386 -arch x86_64
 else
-CFLAGS=-O2 -mfpmath=sse -ffast-math -ftree-vectorize
+CFLAGS=-O2 -ffast-math -ftree-vectorize
 endif
 endif
 
@@ -64,24 +67,28 @@ lv2: $(LV2_PLUGIN) $(LV2_UI)
 ## GUI version
 OBJS_FOO_YC20=src/foo-yc20.o src/configuration.o src/yc20-jack.o src/main-gui.o src/foo-yc20-ui.o src/yc20-base-ui.o src/graphics.o $(WIN32_RC)
 
+foo-yc20: export PKG_CONFIG_PATH = $(PKG_CONFIG_PATH)
 foo-yc20: $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE)
 	$(CXX11) $(OBJS_FOO_YC20) $(OBJS_DSP_STANDALONE) `$(PKG_CONFIG) --libs gtk+-2.0` `$(PKG_CONFIG) --libs jack` $(LDFLAGS_YC20) -o foo-yc20
 
 ## CLI version
 OBJS_FOO_YC20_CLI=src/foo-yc20.o src/configuration.o src/main-cli.o src/yc20-jack.o
 
+foo-yc20-cli: export PKG_CONFIG_PATH = $(PKG_CONFIG_PATH)
 foo-yc20-cli: $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE)
 	$(CXX11) $(OBJS_FOO_YC20_CLI) $(OBJS_DSP_STANDALONE) $(LDFLAGS_YC20_CLI) `$(PKG_CONFIG) --libs jack` -o foo-yc20-cli
 
 ## LV2 version
 OBJS_LV2=src/lv2.o src/foo-yc20.o 
 
+$(LV2_PLUGIN): export PKG_CONFIG_PATH = $(PKG_CONFIG_PATH)
 $(LV2_PLUGIN): $(OBJS_LV2) $(OBJS_DSP_PLUGIN)
 	$(CXX11) $(OBJS_LV2) $(OBJS_DSP_PLUGIN) -fPIC -shared -o $(LV2_PLUGIN) $(LDFLAGS_YC20_LV2)
 
 ## LV2 UI
 OBJS_LV2_UI=src/lv2-ui.o src/foo-yc20-ui2.o src/yc20-base-ui.o src/graphics.o
 
+$(LV2_UI): export PKG_CONFIG_PATH = $(PKG_CONFIG_PATH)
 $(LV2_UI): $(OBJS_LV2_UI)
 	$(CXX11) $(OBJS_LV2_UI) -fPIC -shared `$(PKG_CONFIG) --libs gtk+-2.0` -o $(LV2_UI) $(LDFLAGS_YC20_LV2)
 
